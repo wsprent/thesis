@@ -1,0 +1,12 @@
+* Solving the Prize-Collecting Steiner Tree Problem to Optimality :pcst:exact:algorithm:cplex:baseline:
+:PROPERTIES:
+:bibtex: ljubic2005solving
+:END:
+- Transform into Steiner Arborescence Problem (directed graph)
+- Add root node
+- Two arcs for each edge
+- Algorithm in short:
+  1. Solve LP-relaxtion.
+  2. Cut away solutions by iteratively adding constraints based on max flow. 
+     (Polynomial time; Goldberg)
+- Tested on OR-Library and GIS-DATA
