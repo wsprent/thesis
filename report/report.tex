@@ -1,0 +1,94 @@
+\documentclass[usenames, 12pt, a4paper]{report}
+
+%\nonstopmode
+
+\input{prelude.tex}
+
+\usepackage[titelside, en, nat]{ku-forside}
+
+% \usepackage{algorithm}
+% \usepackage{algcompatible}
+% \usepackage{bm}
+% \usepackage{bbm}
+% \usepackage{algpseudocode}
+% \usepackage{arydshln}
+% \usepackage[utf8]{inputenc} % æøå
+% \usepackage[T1]{fontenc} % mere æøå
+% \usepackage{verbatim} % så man kan skrive ren tekst
+
+% \usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+% \usepackage{graphicx}              % to include figures
+% \usepackage{amsfonts}              % for blackboard bold, etc
+% \usepackage{amsthm}                % better theorem environments
+% \usepackage{bm}
+% \usepackage{pgf}
+% \usepackage{fancyhdr}
+% \usepackage{hyperref}
+% \usepackage{stmaryrd}
+% \usepackage{mathtools}
+% \usepackage{multirow}
+% \usepackage{listings}
+% \usepackage{subcaption}
+\usepackage[inline]{enumitem}
+\usepackage[round]{natbib}
+% \usepackage{breqn}
+% \usepackage{tikz}
+
+% \usetikzlibrar{arrows,automata,fit,positioning, shapes, calc, fadings}
+
+% various theorems, numbered by section
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+\newcommand{\nn}{\mathcal{N}}
+\newcommand{\uu}{\mathcal{U}}
+\newcommand{\bb}{\mathcal{B}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\rd}[1]{\mathrm{#1}}
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\PP}{\mathbb{P}}      % for Prob
+\newcommand{\EE}{\mathbb{E}}      % for Expectation
+\newcommand{\II}{\mathbbm{1}}      % for Indicator fun
+\newcommand{\NN}{\mathbb{N}}      % for Prob
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[theorem]
+\newtheorem{Lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+
+
+\renewcommand{\thesubsubsection}{\thesection.\alph{subsubsection}}
+
+\titel{Prize-Collecting Steiner Trees}
+\forfatter{William Sprent -- \texttt{bsprent@gmail.com}}
+\opgave{Master's Thesis} % Findes kun under 'titelside'
+\undertitel{}
+\dato{Aug 2018}
+\vejleder{Supervisors: Pawel Winter}
+
+\begin{document}
+\maketitle
+~
+\begin{abstract}
+  \input{abstract.tex}
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\input{introduction.tex}
+
+\input{steiner-trees.tex}
+
+\end{document}
