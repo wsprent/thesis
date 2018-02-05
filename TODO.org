@@ -1,0 +1,15 @@
+* Main
+
+** TODO Organise reading material.
+
+* Thesis
+
+** TODO Make Skeleton
+** TODO Add section on Discrete Optimisation
+** TODO Add section on Steiner Trees
+** TODO Add section on Prize Collecting Steiner Trees
+
+* Miscellanious
+
+** TODO Initial Meeting With Pawel
+ 
