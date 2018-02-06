@@ -1,7 +1,35 @@
+#+STARTUP: latexpreview
 * Solving the Prize-Collecting Steiner Tree Problem to Optimality :pcst:exact:algorithm:cplex:baseline:
 :PROPERTIES:
 :bibtex: ljubic2005solving
 :END:
+** Short Summary
+Ljubic et. al. present an exact algorithm for solving PCSTP instances. This is done via running a Branch and Cut algorithm
+ on a reduction of the orginal problem into a Steiner aborescence problem (directed graph).
+
+ At each B&C node, the ILP formulation is relaxed by removing the integer constraints and removing the exponentially many 
+"cut constraints". The relaxation is solved with CPLEX and cuts are made by readding violated "cut constraints" (found in
+ poly time with max-flow). They don't describe how they find feasible solutions.
+ 
+** ILP Formulation
+Objective (Steiner Tree):
+$$\text{minimize} \quad c(T) = \sum_{v \not\in V_T} p(v) + \sum_{e \in E_T} c(e)$$
+Objective (Steiner Aborenscence):
+$$minimize \quad c(SA) =  \sum_{i,j \in A_{SA}} c'_{ij} x_{ij} + \sum_{v \in V_{SA}} p(v)$$
+Constraints:
+- Exactly one arc points to each chosen vertice and zero to a not chosen vertice:
+$$\sum_{ij \in A_{SA}}x_{ij} = y_i \qquad \forall i \in V_{SA} \setminus \{r\}$$
+- Each subset of vertices which contains a selected vertice has in-degree larger than one (connected solution):
+$$x(\delta^{-}(S)) \geq y_k \qquad \forall S \subset V_{SA};
+ r \not\in S, k \in S $$
+- Exactly one arc from the dummy root to the rest of the graph is selected:
+$$\sum_{ri \in A_{SA}} x_{ri} = 1$$
+- Integer Constraint:
+$$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$$
+- Assymmetry constraint for unrooted PCSTP (always select root arc with lowest index -- to ensure bijection):
+ $$x_{rj} \leq 1 - {y_j} \quad \forall i < j, i \in R$$
+
+** Points
 - Transform into Steiner Arborescence Problem (directed graph)
 - Add root node
 - Two arcs for each edge
