@@ -3,14 +3,24 @@
 ** TODO Organise reading material.
 
 * TODO Research
+** DONE Solving the prize-collecting Steiner tree problem to optimality cite:ljubic2005solving
+   CLOSED: [2018-02-06 Tue 13:53]
 ** TODO Node Weighted Steiner Tree Problem
    1987, Segev
-** TODO D. Bienstock, M. X. Goemans, D. Simchi-Levi, and D. Williamson. A note on the prize-collecting traveling salesman problem. Mathematical Programming, 59:413– 420, 1993
-** TODO S. Chopra and M. R. Rao. The Steiner tree problem I: Formulations, compositions and extension of facets. Mathematical Programming, 64:209–229, 1994.
 
+/PDF is difficult to find/access -- Wiley doesn't work/
+** TODO D. Bienstock, M. X. Goemans, D. Simchi-Levi, and D. Williamson. A note on the prize-collecting traveling salesman problem. Mathematical Programming, 59:413– 420, 1993
+
+** TODO S. Chopra and M. R. Rao. The Steiner tree problem I: Formulations, compositions and extension of facets. Mathematical Programming, 64:209–229, 1994.
+** TODO D. S. Johnson, M. Minkoff, and S. Phillips. The prize collecting Steiner tree problem: theory and practice. In D. B. Shmoys, editor, Symposium on Discrete Algorithms, pages 760–769. ACM/SIAM, 2000. ISBN 0-89871-453-2.
+Keywords: strong pruning
+** TODO G. Gamrath, T. Koch, S. J. Maher, D. Rehfeldt, and Y. Shinano. SCIP-Jack – a solver for STP and variants with parallelization extensions. 2015.
+** TODO Look at the original Balas paper
+** TODO PDFS on Dropbox
 * Thesis
 
-** TODO Make Skeleton
+** DONE Make Skeleton
+   CLOSED: [2018-02-06 Tue 10:43]
 ** TODO Add section on Discrete Optimisation
 ** TODO Add section on Steiner Trees
 ** TODO Add section on Prize Collecting Steiner Trees
@@ -18,4 +28,16 @@
 * Miscellanious
 
 ** TODO Initial Meeting With Pawel
+
+
+----
+
+* Some Notes
+
+** Solvers
+*** Ljubic
+    https://github.com/mluipersbeck/dapcstp
+    http://homepage.univie.ac.at/ivana.ljubic/research/pcstp/
  
+** Instances
+- DIMACS Challenge on Steiner Trees

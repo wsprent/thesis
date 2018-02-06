@@ -1,7 +1,7 @@
 #+STARTUP: latexpreview
-* Solving the Prize-Collecting Steiner Tree Problem to Optimality :pcst:exact:algorithm:cplex:baseline:
+* Solving the Prize-Collecting Steiner Tree Problem to Optimality :pcst:exact:algorithm:cplex:baseline:aborescence:
 :PROPERTIES:
-:bibtex: ljubic2005solving
+:bibtex: cite:ljubic2005solving
 :END:
 ** Short Summary
 Ljubic et. al. present an exact algorithm for solving PCSTP instances. This is done via running a Branch and Cut algorithm
@@ -12,6 +12,8 @@ Ljubic et. al. present an exact algorithm for solving PCSTP instances. This is d
  poly time with max-flow). They don't describe how they find feasible solutions.
  
 ** ILP Formulation
+Cut based.
+
 Objective (Steiner Tree):
 $$\text{minimize} \quad c(T) = \sum_{v \not\in V_T} p(v) + \sum_{e \in E_T} c(e)$$
 Objective (Steiner Aborenscence):
@@ -38,3 +40,34 @@ $$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$
   2. Cut away solutions by iteratively adding constraints based on max flow. 
      (Polynomial time; Goldberg)
 - Tested on OR-Library and GIS-DATA
+
+* A dual-ascent-based branch-and-bound framework for the prize-collecting Steiner tree and related problems :psct:aborescence:algorithm:exact:
+:PROPERTIES:
+:bibtex: cite:leitner2016dual
+:END:
+** Short Summary
+Leitner et. al. present an exact algorithm for solving a variety of STP-related instances (including PCSTP). Problem instances are
+ reduced to Steiner Aborescence instances. Then a branch and bound scheme is used. On each node, the LP-Dual is solved using Dual-Ascent.
+
+A primal heuristics is used to find good incumbents {shortest path heuristic (SPH) (see Takahashi and Matsuyama 1980, Poggi de Arag ̃ao and Werneck 2002)}.
+ This is used alongside unioning exact solutions to subgraphs.
+
+The Steiner Aborescence here contains fixed-terminals. Implementation of this algorithm is available [[https://github.com/mluipersbeck/dapcstp][here]].
+** ILP Formulation
+
+** Points
+- Fully implemented exact solution with accessible source code (c++).
+- Reduction to Steiner Aborescence
+- Branch and Bound
+  + Dual Ascent for LB.
+  + Primal heuristics for incumbent.
+  + Split on "fixed" terminals (analogous to actual STP terminals).
+** Further Work Needed
+
+*** TODO Fully understand the Dual
+The dual formulation is a bit exotic, but probably important to understand.
+- Look in Goemans/Williamson for intuition for "node potential"
+- Apparently a generalisation of a dual scheme in Wong.
+- Implementation based on (T. Pajor, E. Uchoa, and R. F. Werneck. A robust and scalable algorithm for the Steiner problem in graphs. 2014. 11th DIMACS challenge workshop.)
+
+* cite:Bienstock1993
