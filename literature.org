@@ -62,6 +62,7 @@ The Steiner Aborescence here contains fixed-terminals. Implementation of this al
   + Dual Ascent for LB.
   + Primal heuristics for incumbent.
   + Split on "fixed" terminals (analogous to actual STP terminals).
+- DIMACS Challenge
 ** Further Work Needed
 
 *** TODO Fully understand the Dual
@@ -70,4 +71,15 @@ The dual formulation is a bit exotic, but probably important to understand.
 - Apparently a generalisation of a dual scheme in Wong.
 - Implementation based on (T. Pajor, E. Uchoa, and R. F. Werneck. A robust and scalable algorithm for the Steiner problem in graphs. 2014. 11th DIMACS challenge workshop.)
 
-* cite:Bienstock1993
+* The Prize Collecting Steiner Tree Problem: Theory and Practice :psct:approximation:algorithm:
+:PROPERTIES:
+:bibtex: cite:Johnson:2000:PCS:338219.338637
+:END:
+** Short Summary
+Johnson et. al. present modifications to the Goemans Williamson algorithm (2-approximation). Their main contribution
+ is the replacement of the pruning phase of the algorithm with "strong pruning". They experimentally claim to see a
+ 5% optimality gap from their algorithm.
+
+** Further Work
+- Think about whether or not approximation algorithms are intresting.
+- Take a look at the original GW algorithm.
