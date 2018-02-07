@@ -83,3 +83,9 @@ Johnson et. al. present modifications to the Goemans Williamson algorithm (2-app
 ** Further Work
 - Think about whether or not approximation algorithms are intresting.
 - Take a look at the original GW algorithm.
+
+* The Steiner tree problem I: Formulations, compositions and extension of facets :st:aborescence:
+** Short Summary
+Chopra studies polyhedra related to IP formulation of the STP. Claims that the directed version is nicer.
+
+Contains some definitions for Steiner cuts, clutters.
