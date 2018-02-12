@@ -1,5 +1,5 @@
 #+STARTUP: latexpreview
-* Solving the Prize-Collecting Steiner Tree Problem to Optimality :pcst:exact:algorithm:cplex:baseline:aborescence:
+* Solving the Prize-Collecting Steiner Tree Problem to Optimality :pcst:exact:algorithm:cplex:baseline:sap:
 :PROPERTIES:
 :bibtex: cite:ljubic2005solving
 :END:
@@ -41,7 +41,7 @@ $$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$
      (Polynomial time; Goldberg)
 - Tested on OR-Library and GIS-DATA
 
-* A dual-ascent-based branch-and-bound framework for the prize-collecting Steiner tree and related problems :psct:aborescence:algorithm:exact:
+* A dual-ascent-based branch-and-bound framework for the prize-collecting Steiner tree and related problems :psct:sap:algorithm:exact:
 :PROPERTIES:
 :bibtex: cite:leitner2016dual
 :END:
@@ -65,7 +65,7 @@ The Steiner Aborescence here contains fixed-terminals. Implementation of this al
 - DIMACS Challenge
 ** Further Work Needed
 
-*** TODO Fully understand the Dual
+*** TODO Fully understand the dual formulation
 The dual formulation is a bit exotic, but probably important to understand.
 - Look in Goemans/Williamson for intuition for "node potential"
 - Apparently a generalisation of a dual scheme in Wong.
@@ -84,8 +84,34 @@ Johnson et. al. present modifications to the Goemans Williamson algorithm (2-app
 - Think about whether or not approximation algorithms are intresting.
 - Take a look at the original GW algorithm.
 
-* The Steiner tree problem I: Formulations, compositions and extension of facets :st:aborescence:
+* The Steiner tree problem I: Formulations, compositions and extension of facets :st:sap:
 ** Short Summary
+:PROPERTIES:
+:bibtex: cite:Chopra:1994
+:END:
 Chopra studies polyhedra related to IP formulation of the STP. Claims that the directed version is nicer.
 
 Contains some definitions for Steiner cuts, clutters.
+
+* SCIP-Jack – A solver for STP and variants with parallelization extensions :sap:pcst:algorithm:implementation:exact:
+:PROPERTIES:
+:bibtex: cite:gamrath2017scip
+:END:
+** Short Summary
+Gamrath et. al. have designed and implemented an SAP solver using the [[http://scip.zib.de/][SCIP]] framework which includes transformations from various STP variants 
+-- herein the PCSTP. They are based on the MIP solver SCIP using Branch-and-Bound, and complement it with separation procedures, heuristics,
+ reductions etc. The solver is based on an older Jack-III.
+
+The bulk of the article touches upon (a) Dual Ascent, Improvement Heuristics, Reduction-Based Pruning, and a new Recombination Heuristics;
+ and (b) the reductions from related STP problems.
+
+The methodologies are very similar to citep:leitner2016dual and citep:ljubic2005solving.
+
+** ILP Formulation
+The ILP formulation used is the /flow-balanced directed cut/ formulation from cite:koch1998solving.
+** Points
+- Repetetive Shortest Path
+- Dual Ascent
+- Pruning
+- Specific PCSTP results section.
+  + Cannot solve some of the harder instances from DIMACS.

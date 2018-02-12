@@ -11,12 +11,19 @@
 /PDF is difficult to find/access -- Wiley doesn't work/
 ** TODO D. Bienstock, M. X. Goemans, D. Simchi-Levi, and D. Williamson. A note on the prize-collecting traveling salesman problem. Mathematical Programming, 59:413– 420, 1993
 
-** TODO S. Chopra and M. R. Rao. The Steiner tree problem I: Formulations, compositions and extension of facets. Mathematical Programming, 64:209–229, 1994.
+** DONE S. Chopra and M. R. Rao. The Steiner tree problem I: Formulations, compositions and extension of facets. Mathematical Programming, 64:209–229, 1994.
+   CLOSED: [2018-02-07 Wed 16:13]
+May be interesting to revisit, but currently doesn't seem like the most relevant.
 ** DONE D. S. Johnson, M. Minkoff, and S. Phillips.  The prize collecting Steiner tree problem: theory and practice. In D. B. Shmoys, editor, Symposium on Discrete Algorithms, pages 760–769. ACM/SIAM, 2000. ISBN 0-89871-453-2.
    CLOSED: [2018-02-07 Wed 12:46]
 Keywords: strong pruning
-** TODO G. Gamrath, T. Koch, S. J. Maher, D. Rehfeldt, and Y. Shinano. SCIP-Jack – a solver for STP and variants with parallelization extensions. 2015.
+** DONE G. Gamrath, T. Koch, S. J. Maher, D. Rehfeldt, and Y. Shinano. SCIP-Jack – a solver for STP and variants with parallelization extensions. 2015.
+   CLOSED: [2018-02-12 Mon 12:36]
+** TODO Rehfeldt, D.: A generic approach to solving the Steiner tree problem and variants. Master’s thesis, Technische Universit ̈at Berlin (2015)
+** TODO Koch, T., Martin, A.: Solving Steiner tree problems in graphs to optimality. Networks 32 (1998) 207–232
 ** TODO M. Fischetti, M. Leitner, I. Ljubi ́c, M. Luipersbeck, M. Monaci, M. Resch, D. Salvagnin, and M. Sinnl. Thinning out Steiner trees: a node-based model for uniform edge costs.
+** TODO Polzin, T.: Algorithms for the Steiner problem in networks. PhD thesis, Saarland University (2004)
+** TODO Uchoa, E., Werneck, R.F.F.: Fast local search for Steiner trees in graphs. In Blelloch, G.E., Halperin, D., eds.: ALENEX, SIAM (2010) 1–10
 ** TODO Look at the original Balas paper
 ** TODO PDFS on Dropbox
 * Thesis
