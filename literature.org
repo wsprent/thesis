@@ -19,7 +19,7 @@ $$\text{minimize} \quad c(T) = \sum_{v \not\in V_T} p(v) + \sum_{e \in E_T} c(e)
 Objective (Steiner Aborenscence):
 $$minimize \quad c(SA) =  \sum_{i,j \in A_{SA}} c'_{ij} x_{ij} + \sum_{v \in V_{SA}} p(v)$$
 Constraints:
-- Exactly one arc points to each chosen vertice and zero to a not chosen vertice:
+- Exactly one arc bullets to each chosen vertice and zero to a not chosen vertice:
 $$\sum_{ij \in A_{SA}}x_{ij} = y_i \qquad \forall i \in V_{SA} \setminus \{r\}$$
 - Each subset of vertices which contains a selected vertice has in-degree larger than one (connected solution):
 $$x(\delta^{-}(S)) \geq y_k \qquad \forall S \subset V_{SA};
@@ -31,7 +31,7 @@ $$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$
 - Assymmetry constraint for unrooted PCSTP (always select root arc with lowest index -- to ensure bijection):
  $$x_{rj} \leq 1 - {y_j} \quad \forall i < j, i \in R$$
 
-** Points
+** Bullets
 - Transform into Steiner Arborescence Problem (directed graph)
 - Add root node
 - Two arcs for each edge
@@ -55,7 +55,7 @@ A primal heuristics is used to find good incumbents {shortest path heuristic (SP
 The Steiner Aborescence here contains fixed-terminals. Implementation of this algorithm is available [[https://github.com/mluipersbeck/dapcstp][here]].
 ** ILP Formulation
 
-** Points
+** Bullets
 - Fully implemented exact solution with accessible source code (c++).
 - Reduction to Steiner Aborescence
 - Branch and Bound
@@ -100,7 +100,7 @@ Contains some definitions for Steiner cuts, clutters.
 ** Short Summary
 Gamrath et. al. have designed and implemented an SAP solver using the [[http://scip.zib.de/][SCIP]] framework which includes transformations from various STP variants 
 -- herein the PCSTP. They are based on the MIP solver SCIP using Branch-and-Bound, and complement it with separation procedures, heuristics,
- reductions etc. The solver is based on an older Jack-III.
+ reductions etc. The SAP "plugin" is base on an older solver, Jack-III.
 
 The bulk of the article touches upon (a) Dual Ascent, Improvement Heuristics, Reduction-Based Pruning, and a new Recombination Heuristics;
  and (b) the reductions from related STP problems.
@@ -109,9 +109,39 @@ The methodologies are very similar to citep:leitner2016dual and citep:ljubic2005
 
 ** ILP Formulation
 The ILP formulation used is the /flow-balanced directed cut/ formulation from cite:koch1998solving.
-** Points
+** Bullets
 - Repetetive Shortest Path
 - Dual Ascent
 - Pruning
 - Specific PCSTP results section.
   + Cannot solve some of the harder instances from DIMACS.
+
+* Solving Steiner tree problems in graphs to optimality, Koch :sap:stp:cplex:algorithm:
+** Short Summary
+Koch presents an algorithm for solving the STP to optimality by solving the corresponding SAP to optimality.
+ He uses a lot of the same methodlogies that we have seen in the other papers, but gives some good summaries of
+ particularly preprocessing.
+** Bullets
+- Good summary of papers.
+- Looks at both the STP and SAP (not PCST).
+- Underlines preprocessing
+- Supplies instances (/SteinLib/).
+*** Preprocessing
+
+**** Degree Test
+1. A non-terminal of degree one can be removed
+2. A non-terminal of degree two can be removed by joining its edges.
+3. If there exists a terminal with degree 1, its edge is in the solution.
+4. If an edge $e$ between two terminal nodes is of minimal cost amongs edges incident to terminals
+   then $e$ can always be chosen.
+**** Special Distance Test
+C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs. Oper. Res. Lett. 8 (1989) 79–83.
+
+**** Bottleneck Degree m Test
+C. Duin and A. Volgenant, Reduction tests for the Steiner problem in graphs. Networks 19 ( 1989 ) 549 – 567.
+
+*** The Algorithm
+
+- Strong Branching
+- Primal Heuristics: H. Takahashi and A. Matsuyama, An approximate solu- tion for the Steiner problem in graphs. Math. Jpn. 24 (1980) 573–577.
+- Section on different kinds of separation methods.

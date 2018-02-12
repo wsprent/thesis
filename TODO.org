@@ -24,6 +24,8 @@ Keywords: strong pruning
 ** TODO M. Fischetti, M. Leitner, I. Ljubi ́c, M. Luipersbeck, M. Monaci, M. Resch, D. Salvagnin, and M. Sinnl. Thinning out Steiner trees: a node-based model for uniform edge costs.
 ** TODO Polzin, T.: Algorithms for the Steiner problem in networks. PhD thesis, Saarland University (2004)
 ** TODO Uchoa, E., Werneck, R.F.F.: Fast local search for Steiner trees in graphs. In Blelloch, G.E., Halperin, D., eds.: ALENEX, SIAM (2010) 1–10
+** TODO P. Winter, Steiner problems in networks: A survey. Net- works 17
+** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
 ** TODO Look at the original Balas paper
 ** TODO PDFS on Dropbox
 * Thesis
