@@ -1,31 +1,3 @@
-@inproceedings{ljubic2005solving,
-  title={Solving the prize-collecting Steiner tree problem to optimality},
-  author={Ljubic, Ivana and Weiskircher, Ren{\'e} and Pferschy, Ulrich and Klau, Gunnar W and Mutzel, Petra and Fischetti, Matteo},
-  booktitle={ALENEX/ANALCO},
-  pages={68--76},
-  year={2005},
-  pdf={PCST/Bienstock1993.pdf}
-}
-
-@article{Segev:1987:NST:34241.34242,
- author = {Segev, A.},
- title = {The Node-weighted Steiner Tree Problem},
- journal = {Netw.},
- issue_date = {Spring 1987},
- volume = {17},
- number = {1},
- month = feb,
- year = {1987},
- issn = {0028-3045},
- pages = {1--17},
- numpages = {17},
- url = {http://dx.doi.org/10.1002/net.3230170102},
- doi = {10.1002/net.3230170102},
- acmid = {34242},
- publisher = {Wiley-Interscience},
- address = {New York, NY, USA},
-}
-
 @Article{Bienstock1993,
 author="Bienstock, Daniel
 and Goemans, Michel X.
@@ -42,8 +14,40 @@ pages="413--420",
 abstract="We study the version of the prize collecting traveling salesman problem, where the objective is to find a tour that visits a subset of vertices such that the length of the tour plus the sum of penalties associated with vertices not in the tour is as small as possible. We present an approximation algorithm with constant bound. The algorithm is based on Christofides' algorithm for the traveling salesman problem as well as a method to round fractional solutions of a linear programming relaxation to integers, feasible for the original problem.",
 issn="1436-4646",
 doi="10.1007/BF01581256",
-url="https://doi.org/10.1007/BF01581256"
+url="https://doi.org/10.1007/BF01581256",
 pdf={PCST/Bienstock1993.pdf}
+}
+
+@article{Chopra:1994,
+title = "The Steiner tree problem I: Formulations, compositions and extension of facets",
+abstract = "In this paper we give some integer programming formulations for the Steiner tree problem on undirected and directed graphs and study the associated polyhedra. We give some families of facets for the undirected case along with some compositions and extensions. We also give a projection that relates the Steiner tree polyhedron on an undirected graph to the polyhedron for the corresponding directed graph. This is used to show that the LP-relaxation of the directed formulation is superior to the LP-relaxation of the undirected one.",
+keywords = "Facets, Polyhedron, Projection, Steiner tree",
+author = "Sunil Chopra and Rao, {M. R.}",
+year = "1994",
+month = "3",
+doi = "10.1007/BF01582573",
+volume = "64",
+pages = "209--229",
+journal = "Mathematical Programming",
+issn = "0025-5610",
+publisher = "Springer-Verlag GmbH and Co. KG",
+number = "1-3",
+}
+
+@inproceedings{Johnson:2000:PCS:338219.338637,
+ author = {Johnson, David S. and Minkoff, Maria and Phillips, Steven},
+ title = {The Prize Collecting Steiner Tree Problem: Theory and Practice},
+ booktitle = {Proceedings of the Eleventh Annual ACM-SIAM Symposium on Discrete Algorithms},
+ series = {SODA '00},
+ year = {2000},
+ isbn = {0-89871-453-2},
+ location = {San Francisco, California, USA},
+ pages = {760--769},
+ numpages = {10},
+ url = {http://dl.acm.org/citation.cfm?id=338219.338637},
+ acmid = {338637},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
 }
 
 @InProceedings{Ljubic:2004:memetic,
@@ -66,65 +70,23 @@ abstract="The prize-collecting Steiner tree problem on a graph with edge costs a
 isbn="978-3-540-24854-5"
 }
 
-@incollection{leitner2016dual,
-  title={A dual-ascent-based branch-and-bound framework for the prize-collecting Steiner tree and related problems},
-  author={Leitner, Markus and Ljubic, Ivana and Luipersbeck, Martin and Sinnl, Markus},
-  booktitle={Technical Report},
-  year={2016},
-  publisher={University of Vienna}
-}
-
-@inproceedings{Johnson:2000:PCS:338219.338637,
- author = {Johnson, David S. and Minkoff, Maria and Phillips, Steven},
- title = {The Prize Collecting Steiner Tree Problem: Theory and Practice},
- booktitle = {Proceedings of the Eleventh Annual ACM-SIAM Symposium on Discrete Algorithms},
- series = {SODA '00},
- year = {2000},
- isbn = {0-89871-453-2},
- location = {San Francisco, California, USA},
- pages = {760--769},
- numpages = {10},
- url = {http://dl.acm.org/citation.cfm?id=338219.338637},
- acmid = {338637},
- publisher = {Society for Industrial and Applied Mathematics},
- address = {Philadelphia, PA, USA},
-}
-
-@article{Chopra:1994,
-title = "The Steiner tree problem I: Formulations, compositions and extension of facets",
-abstract = "In this paper we give some integer programming formulations for the Steiner tree problem on undirected and directed graphs and study the associated polyhedra. We give some families of facets for the undirected case along with some compositions and extensions. We also give a projection that relates the Steiner tree polyhedron on an undirected graph to the polyhedron for the corresponding directed graph. This is used to show that the LP-relaxation of the directed formulation is superior to the LP-relaxation of the undirected one.",
-keywords = "Facets, Polyhedron, Projection, Steiner tree",
-author = "Sunil Chopra and Rao, {M. R.}",
-year = "1994",
-month = "3",
-doi = "10.1007/BF01582573",
-volume = "64",
-pages = "209--229",
-journal = "Mathematical Programming",
-issn = "0025-5610",
-publisher = "Springer-Verlag GmbH and Co. KG",
-number = "1-3",
-}
-
-@article{gamrath2017scip,
-  title={SCIP-Jack—a solver for STP and variants with parallelization extensions},
-  author={Gamrath, Gerald and Koch, Thorsten and Maher, Stephen J and Rehfeldt, Daniel and Shinano, Yuji},
-  journal={Mathematical Programming Computation},
-  volume={9},
-  number={2},
-  pages={231--296},
-  year={2017},
-  publisher={Springer}
-}
-
-@article{koch1998solving,
-  title={Solving Steiner tree problems in graphs to optimality},
-  author={Koch, Thorsten and Martin, Alexander},
-  journal={Networks},
-  volume={32},
-  number={3},
-  pages={207--232},
-  year={1998}
+@article{Segev:1987:NST:34241.34242,
+ author = {Segev, A.},
+ title = {The Node-weighted Steiner Tree Problem},
+ journal = {Netw.},
+ issue_date = {Spring 1987},
+ volume = {17},
+ number = {1},
+ month = feb,
+ year = {1987},
+ issn = {0028-3045},
+ pages = {1--17},
+ numpages = {17},
+ url = {http://dx.doi.org/10.1002/net.3230170102},
+ doi = {10.1002/net.3230170102},
+ acmid = {34242},
+ publisher = {Wiley-Interscience},
+ address = {New York, NY, USA},
 }
 
 @article{Winter:1987:SPN:34233.34235,
@@ -144,4 +106,51 @@ number = "1-3",
  acmid = {34235},
  publisher = {Wiley-Interscience},
  address = {New York, NY, USA},
-} 
+}
+
+@article{gamrath2017scip,
+  title={SCIP-Jack—a solver for STP and variants with parallelization extensions},
+  author={Gamrath, Gerald and Koch, Thorsten and Maher, Stephen J and Rehfeldt, Daniel and Shinano, Yuji},
+  journal={Mathematical Programming Computation},
+  volume={9},
+  number={2},
+  pages={231--296},
+  year={2017},
+  publisher={Springer}
+}
+
+@incollection{karp1972reducibility,
+  title={Reducibility among combinatorial problems},
+  author={Karp, Richard M},
+  booktitle={Complexity of computer computations},
+  pages={85--103},
+  year={1972},
+  publisher={Springer}
+}
+
+@article{koch1998solving,
+  title={Solving Steiner tree problems in graphs to optimality},
+  author={Koch, Thorsten and Martin, Alexander},
+  journal={Networks},
+  volume={32},
+  number={3},
+  pages={207--232},
+  year={1998}
+}
+
+@incollection{leitner2016dual,
+  title={A dual-ascent-based branch-and-bound framework for the prize-collecting Steiner tree and related problems},
+  author={Leitner, Markus and Ljubic, Ivana and Luipersbeck, Martin and Sinnl, Markus},
+  booktitle={Technical Report},
+  year={2016},
+  publisher={University of Vienna}
+}
+
+@inproceedings{ljubic2005solving,
+  title={Solving the prize-collecting Steiner tree problem to optimality},
+  author={Ljubic, Ivana and Weiskircher, Ren{\'e} and Pferschy, Ulrich and Klau, Gunnar W and Mutzel, Petra and Fischetti, Matteo},
+  booktitle={ALENEX/ANALCO},
+  pages={68--76},
+  year={2005},
+  pdf={PCST/Bienstock1993.pdf}
+}

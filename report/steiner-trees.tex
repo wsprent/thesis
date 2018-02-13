@@ -1,5 +1,154 @@
-
-\chapter{Steiner Trees}
+\chapter{Steiner Trees in Graphs}
 \label{chap:steiner-trees}
+\tikzset{font=\tiny}
+\tikzset{terminal/.style={circle, draw=black, fill=black, text=white}}
+\tikzset{steiner/.style={circle, draw=black, fill=white}}
+\tikzset{selected/.style={draw=red, ultra thick}}
 
-bla
+\section{The Steiner Tree Problem}
+The Steiner Tree Problem (STP) is defined as follows.
+Given a graph $G = (V, N, E, c)$ with vertices $V$, terminal set $N \subseteq V$, edges $E$, and edge weights $c: E \to \RR$,
+a Steiner Tree is a tree, $T \in E$, which spans $N$ with minimal cost. We denote vertices which must be part of a feasible solution
+-- that is $v \in N$ -- as \textit{terminals}, and vertice which are not required to be part of a solution
+-- $v \in V \setminus N$ -- as \textit{Steiner points}.
+
+When $N = V$, the STP is equivalent to the Minimum Spanning Tree Problen, and when $|N| = 2$ the STP is equivalent to finding the
+shortest path between two vertices. However, while these problems both have polynomial-time solutions, the STP is an NP-Hard problem,
+ the decision variant being part of Edmund Karp's original 21 NP-Complete problems \citep{karp1972reducibility}.
+
+\begin{figure}[h]\centering
+\begin{tikzpicture}[auto, node distance=1.5 cm]
+  %Nodes
+  \node[terminal] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal] (g) [above right=0.75 and 1.3 of c] {f};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge node[below]{4} (b);
+    \draw (b) edge node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+\end{tikzpicture}
+\caption{Instance of the Steiner Tree Problem. Terminals are coloured black and Steiner Points coloured white.}
+\label{fig:stp:01}
+\end{figure}
+
+Figure \ref{fig:stp:01} shows an instance of the STP with three terminals and four Steiner points. Since vertices
+A, C, and D are terminals, they must be spanned by any feasible solution. Figure \ref{fig:stp:01:feasible} shows
+a feasible solution
+$$T = \{(a,b), (b,d), (d,g)\}$$
+with cost
+$$c(T) = 4 + 5 + 10 = 19\mathnormal{.}$$
+However, $T$ is not a Steiner tree as there exists at least one feasible solution with lower cost, i.e. the solution
+$$T' = \{(a,b), (b,d), (d,c), (c,g)\}$$
+in Figure \ref{fig:stp:01:min} which has cost
+$$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
+\begin{figure}[h]\centering
+  \begin{subfigure}{0.47\linewidth}
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[steiner] (b) [right=of a] {b};
+      \node[steiner] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[steiner] (e) [left=of d] {e};
+      \node[steiner] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.75 and 1.3 of c] {g};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick}]
+        \draw (a) edge[selected] node[below]{4} (b);
+        \draw (b) edge[selected] node[near start]{5} (d);
+        \draw (b) edge node[below]{8} (c);
+        \draw (c) edge node{3} (d);
+        \draw (c) edge node{2} (g);
+        \draw (c) edge node[near start]{5} (e);
+        \draw (d) edge node{6} (e);
+        \draw (d) edge[selected] node{10} (g);
+        \draw (e) edge node{1} (f);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Feasible but not optimal.}
+    \label{fig:stp:01:feasible}
+  \end{subfigure}
+  \quad
+  \begin{subfigure}{0.47\linewidth}
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[steiner] (b) [right=of a] {b};
+      \node[steiner] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[steiner] (e) [left=of d] {e};
+      \node[steiner] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.75 and 1.3 of c] {g};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick}]
+        \draw (a) edge[selected] node[below]{4} (b);
+        \draw (b) edge node[below]{8} (c);
+        \draw (b) edge[selected] node[near start]{5} (d);
+        \draw (c) edge[selected] node{3} (d);
+        \draw (c) edge[selected] node{2} (g);
+        \draw (c) edge node[near start]{5} (e);
+        \draw (d) edge node{6} (e);
+        \draw (d) edge node{10} (g);
+        \draw (e) edge node{1} (f);
+      \end{scope}
+    \end{tikzpicture}
+
+    \caption{Minimal weight, optimal.}
+    \label{fig:stp:01:min}
+  \end{subfigure}
+  \caption{Solutions to the STP in \ref{fig:stp:01}. Red edges are part of the solution.}
+\end{figure}
+\subsection{ILP Formulations}
+
+\paragraph{Cut Formulation} Let $x$ be a decision vector of length $|E|$ where
+$x_{ij} = 1$ implies that $(i,j) \in T$ and $x_{ij} = 0$ implies that $(i,j) \not\in T$,
+ and let $c$ be a vector of node-weight s.t. $c_{ij} = c((i,j))$.
+Then define the function $x : E \to \ZZ$ as
+$$x(E') = \sum_{i,j \in E'} x_{ij}$$
+that is, $x(E)$ is equal to the number of selected edges in $E$.
+Finally let,
+$$\delta(S) = \{(i, j) \mid i \in S \wedge j \in (E \setminus S)\}$$
+be all edges which span the cut defined by $S$. Then we can formulate
+ the STP as in ILP in terms of cuts (see Formulation \ref{form:stp:cut}).
+ \begin{formulation}[h!]
+   \begin{subequations}
+     \begin{alignat}{3} %TODO: Find reference for this formulation
+       &\underset{x}{\text{minimize}}
+       & & c^T x & \\
+       & \text{subject to}\quad
+       & & x(\delta(S)) \geq 1 \qquad&& \forall S \subset V \\
+       &&&&& S \cap N \neq \emptyset \nonumber\\
+       &&&&& S \cap (V \setminus N) \neq \emptyset \nonumber\\
+       &&& x \in \BB. &&
+     \end{alignat}\label{form:stp:cut}
+   \end{subequations}
+   \caption{The \textit{Cut Formulation} of the STP.}
+ \end{formulation}
+
+\section{Prize-Collecting Steiner Tree Problem}
+
+\section{Steiner Aborescence Problem}
+
+\section{Methods}
+
+\subsection{Preprocessing}
+
+\subsection{Primal Heuristics}
+
+\subsection{Exact Frameworks}
+%%% Local Variables:
+%%% TeX-master: "report"
+%%% reftex-default-bibliography: ("lit.bib")
+%%% End:

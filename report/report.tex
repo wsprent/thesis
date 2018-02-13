@@ -1,7 +1,5 @@
 \documentclass[usenames, 12pt, a4paper]{report}
-
 %\nonstopmode
-
 \input{prelude.tex}
 
 \usepackage[titelside, en, nat]{ku-forside}
@@ -16,7 +14,6 @@
 % \usepackage[T1]{fontenc} % mere æøå
 % \usepackage{verbatim} % så man kan skrive ren tekst
 
-% \usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
 % \usepackage{graphicx}              % to include figures
 % \usepackage{amsfonts}              % for blackboard bold, etc
 % \usepackage{amsthm}                % better theorem environments
@@ -28,13 +25,7 @@
 % \usepackage{mathtools}
 % \usepackage{multirow}
 % \usepackage{listings}
-% \usepackage{subcaption}
-\usepackage[inline]{enumitem}
-\usepackage[round]{natbib}
-% \usepackage{breqn}
-% \usepackage{tikz}
 
-% \usetikzlibrar{arrows,automata,fit,positioning, shapes, calc, fadings}
 
 % various theorems, numbered by section
 
@@ -56,6 +47,7 @@
 \newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
 \newcommand{\RR}{\mathbb{R}}      % for Real numbers
 \newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\BB}{\mathbb{B}}      % for Booleans
 \newcommand{\PP}{\mathbb{P}}      % for Prob
 \newcommand{\EE}{\mathbb{E}}      % for Expectation
 \newcommand{\II}{\mathbbm{1}}      % for Indicator fun
@@ -91,4 +83,6 @@
 \input{background.tex}
 \input{steiner-trees.tex}
 
+\bibliographystyle{plainnat}
+\bibliography{lit.bib}
 \end{document}
