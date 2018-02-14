@@ -1,0 +1,18 @@
+sudo: required
+dist: trusty
+before_install:
+- sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-fonts-recommended
+  texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended pgf
+script:
+- cd report
+- pdflatex -interaction=nonstopmode -halt-on-error report.tex
+- bibtex report.aux
+- pdflatex -interaction=nonstopmode -halt-on-error report.tex
+- cd ..
+deploy:
+  provider: releases
+  api_key:
+    secure: M1ALlbRzcjMxmoFil0Es+dW5qb7nD7LRmn2VDSOP5AWXfA+mj7EQnHjrqj3Bl8qgA8Ly6/AfFgCz/7XT5SN/34cV4vNSL3P8vfXBn09WAyWUg5wXlCLC73/7W/gsC6FEtVz71coXu9Orw/nLU6qzS0PUhai0Q0/zdbdZmWOyiwKSw9KFVr4XN2aufPCnd1vhEXnjeJgyiyQ+qnG9265pLsNA2eUGOs1nmLK+1ZFvdpyNzpzoHGjAsSrsIk0YMm0MdTtJjoHy2pd4i+I36n91VkvlVbeB5ZnBykEfFPFJCSuVmh9ZxVAbRSzWrWCZp/Luyge8I8zW2C4aHbdMaZWWLlsY75i4MelyRANMvYnci5LL1DbdWEEGn7suwmDIe+XRi0zlbApi/iOVFDVXWw/AfZFBRs5nsLljBBnrH2DYUiEw89mPOYf/ZDZdhQVWn7MXTiI499y632LA+khrHs1eB7/cloE4Jb0uMrVq61nDY4jELWbst3E7YPHFFykXhGQFMbMt+f2Ctflr21xSevqC8jaVzyNOJv8zYg01Pv4XunJWBWQt0cy0gEt6aJpRcEmXhPnKPa1yisnEkAdTMwtcfv2t4gADQ2dBWVp82Vuu0VhdYfGFl7qEO5IppX4Z/LzYDR3fdi95Yx78KJDrDw7QtPXrz6N4sid6pbjzk4XvKjk=
+  file: report/report.pdf
+  on:
+    repo: wsprent/thesis

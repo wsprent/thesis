@@ -20,10 +20,13 @@ Keywords: strong pruning
 ** DONE G. Gamrath, T. Koch, S. J. Maher, D. Rehfeldt, and Y. Shinano. SCIP-Jack – a solver for STP and variants with parallelization extensions. 2015.
    CLOSED: [2018-02-12 Mon 12:36]
 ** TODO Rehfeldt, D.: A generic approach to solving the Steiner tree problem and variants. Master’s thesis, Technische Universit ̈at Berlin (2015)
-** TODO Koch, T., Martin, A.: Solving Steiner tree problems in graphs to optimality. Networks 32 (1998) 207–232
+** DONE Koch, T., Martin, A.: Solving Steiner tree problems in graphs to optimality. Networks 32 (1998) 207–232
+   CLOSED: [2018-02-14 Wed 11:31]
 ** TODO M. Fischetti, M. Leitner, I. Ljubi ́c, M. Luipersbeck, M. Monaci, M. Resch, D. Salvagnin, and M. Sinnl. Thinning out Steiner trees: a node-based model for uniform edge costs.
 ** TODO Polzin, T.: Algorithms for the Steiner problem in networks. PhD thesis, Saarland University (2004)
+** TODO T. Polzin and S. V. Daneshmand. Improved algorithms for the Steiner problem in networks.
 ** TODO Uchoa, E., Werneck, R.F.F.: Fast local search for Steiner trees in graphs. In Blelloch, G.E., Halperin, D., eds.: ALENEX, SIAM (2010) 1–10
+** TODO T. Pajor, E. Uchoa, and R. F. Werneck. A robust and scalable algorithm for the Steiner problem in graphs. 2014. 11th DIMACS challenge workshop.
 ** TODO P. Winter, Steiner problems in networks: A survey. Net- works 17
 ** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
 ** TODO Look at the original Balas paper
