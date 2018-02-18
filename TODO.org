@@ -9,8 +9,6 @@
    1987, Segev
 
 /PDF is difficult to find/access -- Wiley doesn't work/
-** TODO D. Bienstock, M. X. Goemans, D. Simchi-Levi, and D. Williamson. A note on the prize-collecting traveling salesman problem. Mathematical Programming, 59:413– 420, 1993
-
 ** DONE S. Chopra and M. R. Rao. The Steiner tree problem I: Formulations, compositions and extension of facets. Mathematical Programming, 64:209–229, 1994.
    CLOSED: [2018-02-07 Wed 16:13]
 May be interesting to revisit, but currently doesn't seem like the most relevant.
@@ -29,6 +27,9 @@ Keywords: strong pruning
 ** TODO T. Pajor, E. Uchoa, and R. F. Werneck. A robust and scalable algorithm for the Steiner problem in graphs. 2014. 11th DIMACS challenge workshop.
 ** TODO P. Winter, Steiner problems in networks: A survey. Net- works 17
 ** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
+** TODO Research on TSP/PCTSP
+*** TODO D. Bienstock, M. X. Goemans, D. Simchi-Levi, and D. Williamson. A note on the prize-collecting traveling salesman problem. Mathematical Programming, 59:413– 420, 1993
+
 ** TODO Look at the original Balas paper
 ** TODO PDFS on Dropbox
 * Thesis
@@ -37,14 +38,19 @@ Keywords: strong pruning
    CLOSED: [2018-02-06 Tue 10:43]
 ** TODO Add section on Discrete Optimisation
 ** TODO Add section on Steiner Trees
-** TODO Add section on Prize Collecting Steiner Trees
-
+*** TODO Steiner Aborescence Problem
+**** TODO Figures
+**** TODO Intro
+**** TODO First ILP
+**** TODO Reductions
+*** TODO Prize Collecting Steiner Trees
+ 
+*** TODO Steiner Tree Methods
+**** TODO Reductions 
 * Miscellanious
 
 ** TODO Initial Meeting With Pawel
-
-
-----
+Last week of february
 
 * Some Notes
 
