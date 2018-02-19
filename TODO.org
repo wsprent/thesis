@@ -5,8 +5,6 @@
 * TODO Research
 ** DONE Solving the prize-collecting Steiner tree problem to optimality cite:ljubic2005solving
    CLOSED: [2018-02-06 Tue 13:53]
-** TODO Node Weighted Steiner Tree Problem
-   1987, Segev
 
 /PDF is difficult to find/access -- Wiley doesn't work/
 ** DONE S. Chopra and M. R. Rao. The Steiner tree problem I: Formulations, compositions and extension of facets. Mathematical Programming, 64:209–229, 1994.
@@ -17,17 +15,37 @@ May be interesting to revisit, but currently doesn't seem like the most relevant
 Keywords: strong pruning
 ** DONE G. Gamrath, T. Koch, S. J. Maher, D. Rehfeldt, and Y. Shinano. SCIP-Jack – a solver for STP and variants with parallelization extensions. 2015.
    CLOSED: [2018-02-12 Mon 12:36]
+** DONE Strong lower bounds for the prize collecting Steiner problem in graphs, Lucena
+   CLOSED: [2018-02-19 Mon 11:16]
+** DONE S.A. Canuto, M.G.C. Resende, and C.C. Ribeiro. Local search with perturbations for the prize collecting Steiner tree problem in graphs. Networks, 38:50–58, 2001.
+   CLOSED: [2018-02-19 Mon 14:18]
+
+** TODO Knowledge-guided local search for the prize-collecting Steiner tree problem in graphs
+** TODO Knowledge Guided Tabu Search for the Prize Collecting Steiner Tree Problem in Graphs
+look in paper notes
+** TODO A divide and conquer matheuristic algorithm for the Prize-collecting Steiner Tree Problem
+** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
+
+ordered
 ** TODO Rehfeldt, D.: A generic approach to solving the Steiner tree problem and variants. Master’s thesis, Technische Universit ̈at Berlin (2015)
 ** DONE Koch, T., Martin, A.: Solving Steiner tree problems in graphs to optimality. Networks 32 (1998) 207–232
    CLOSED: [2018-02-14 Wed 11:31]
+** TODO G.Klau,I.Ljubi ́c,A.Moser,P.Mutzel,P.Neuner,U.Pferschy,andR.Weiskircher. A new lower bounding procedure for the prize-collecting Steiner tree problem.
+Can't find
+** DONE Combining a Memetic Algorithm with Integer Programming to Solve the Prize-Collecting Steiner Tree Problem
+   CLOSED: [2018-02-19 Mon 12:11]
 ** TODO M. Fischetti, M. Leitner, I. Ljubi ́c, M. Luipersbeck, M. Monaci, M. Resch, D. Salvagnin, and M. Sinnl. Thinning out Steiner trees: a node-based model for uniform edge costs.
 ** TODO Polzin, T.: Algorithms for the Steiner problem in networks. PhD thesis, Saarland University (2004)
 ** TODO T. Polzin and S. V. Daneshmand. Improved algorithms for the Steiner problem in networks.
 ** TODO Uchoa, E., Werneck, R.F.F.: Fast local search for Steiner trees in graphs. In Blelloch, G.E., Halperin, D., eds.: ALENEX, SIAM (2010) 1–10
 ** TODO T. Pajor, E. Uchoa, and R. F. Werneck. A robust and scalable algorithm for the Steiner problem in graphs. 2014. 11th DIMACS challenge workshop.
 ** TODO P. Winter, Steiner problems in networks: A survey. Net- works 17
-** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
+** TODO K. Mehlhorn. A faster approximation for the Steiner problem in graphs. Informa- tion Processing Letters, 27:125–128, 1988.
+Distance Network Heuristics
+** TODO A. Lucena. Tight bounds for the Steiner problem in graphs, 1991.
 ** TODO Research on TSP/PCTSP
+** TODO Node Weighted Steiner Tree Problem, 1987, Segev
+
 *** TODO D. Bienstock, M. X. Goemans, D. Simchi-Levi, and D. Williamson. A note on the prize-collecting traveling salesman problem. Mathematical Programming, 59:413– 420, 1993
 
 ** TODO Look at the original Balas paper

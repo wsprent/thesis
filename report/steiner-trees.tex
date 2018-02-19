@@ -142,11 +142,9 @@ be all edges which span the cut defined by $S$. Then we can formulate
    \caption{The \textit{Cut Formulation} of the STP \citep{koch1998solving}.}
  \end{formulation}
 
- Constraint (\ref{form:stp:cut:cut}) ensures that any feasible solution, $T$,  must span all terminals in $G$, by
+ Constraints (\ref{form:stp:cut:cut}) ensures that any feasible solution, $T$,  must span all terminals in $G$, by
  requiring that every Steiner cut in $G$ must be crossed by an edge in $T$. This, combined with objective function
   ensures that any optimal solution to (\ref{form:stp:cut}) must be a Steiner tree in $G$ and vice versa.
-
-\section{Prize-Collecting Steiner Tree Problem}
 
 \section{Steiner Aborescence Problem}
 The Steiner Aborescence Problem (SAP) is the directed version of the Steiner Tree Problem.
@@ -188,7 +186,7 @@ As with the STP, we denote vertices in $N$ as \textit{terminals}, and any non-te
 \end{figure}
 
 Figure (\ref{fig:sap:01}) shows an instance of the SAP with four terminals. Figure (\ref{fig:sap:01:opt}) shows a Steiner Aborescence in (\ref{fig:sap:01})
-with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away from the root in an aborescence that while the path $c, b, r$  has
+with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away from the root in an aborescence, while the path $c, b, r$  has
  lower cost than the arc $(r, c)$, it cannot be part of a solution. Similarly, solutions to the SAP in the same graph but with root $c$ have lower cost.
 
 \begin{figure}[h]\centering
@@ -220,6 +218,11 @@ with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away 
 \caption{Steiner Aborescence in (\ref{fig:sap:01}) with cost $13.5$.}
 \label{fig:sap:01:opt}
 \end{figure}
+
+The SAP is relevant mainly due to a tendency of reformulating the undirected STP into the SAP \citep{koch1998solving}, as well as reformulating
+the PCSTP into the SAP \citep{gamrath2017scip, Ljubic:2004:memetic} and
+prize-collecting variants of the SAP \citep{leitner2016dual, ljubic2005solving} before stating them as integer programs. This is due to results which show that LP relaxations of
+ directed Steiner Tree Problem variants behave better than undirected variants \citep{Chopra:1994}.
 
 \subsection{Reduction from Other Variants}
 
@@ -282,8 +285,10 @@ with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away 
 \subsubsection{Prize-Collecting Steiner Tree Problem}
 
 \subsection{ILP Formulations}
+\section{Prize-Collecting Steiner Tree Problem}
 
-\section{Methods}
+
+\section{Current Methods For Solving the PCSTP}
 
 \subsection{Preprocessing}
 

@@ -5,12 +5,12 @@
 :END:
 ** Short Summary
 Ljubic et. al. present an exact algorithm for solving PCSTP instances. This is done via running a Branch and Cut algorithm
- on a reduction of the orginal problem into a Steiner aborescence problem (directed graph).
+ on a reduction of the orginal problem into a Prize Collecting variant of the Steiner aborescence problem (directed graph).
 
- At each B&C node, the ILP formulation is relaxed by removing the integer constraints and removing the exponentially many 
+ At each B&C node, the ILP formulation is relaxed by removing the integer constraints and removing the exponentially many
 "cut constraints". The relaxation is solved with CPLEX and cuts are made by readding violated "cut constraints" (found in
  poly time with max-flow). They don't describe how they find feasible solutions.
- 
+
 ** ILP Formulation
 Cut based.
 
@@ -37,7 +37,7 @@ $$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$
 - Two arcs for each edge
 - Algorithm in short:
   1. Solve LP-relaxtion.
-  2. Cut away solutions by iteratively adding constraints based on max flow. 
+  2. Cut away solutions by iteratively adding constraints based on max flow.
      (Polynomial time; Goldberg)
 - Tested on OR-Library and GIS-DATA
 
@@ -47,7 +47,8 @@ $$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$
 :END:
 ** Short Summary
 Leitner et. al. present an exact algorithm for solving a variety of STP-related instances (including PCSTP). Problem instances are
- reduced to Steiner Aborescence instances. Then a branch and bound scheme is used. On each node, the LP-Dual is solved using Dual-Ascent.
+ reduced to a Prize Collecting variant of the Steiner Aborescence Problem.
+ Then a branch and bound scheme is used. On each node, the LP-Dual is solved using Dual-Ascent.
 
 A primal heuristics is used to find good incumbents {shortest path heuristic (SPH) (see Takahashi and Matsuyama 1980, Poggi de Arag ̃ao and Werneck 2002)}.
  This is used alongside unioning exact solutions to subgraphs.
@@ -98,7 +99,7 @@ Contains some definitions for Steiner cuts, clutters.
 :bibtex: cite:gamrath2017scip
 :END:
 ** Short Summary
-Gamrath et. al. have designed and implemented an SAP solver using the [[http://scip.zib.de/][SCIP]] framework which includes transformations from various STP variants 
+Gamrath et. al. have designed and implemented an SAP solver using the [[http://scip.zib.de/][SCIP]] framework which includes transformations from various STP variants
 -- herein the PCSTP. They are based on the MIP solver SCIP using Branch-and-Bound, and complement it with separation procedures, heuristics,
  reductions etc. The SAP "plugin" is base on an older solver, Jack-III.
 
@@ -145,3 +146,70 @@ C. Duin and A. Volgenant, Reduction tests for the Steiner problem in graphs. Net
 - Strong Branching
 - Primal Heuristics: H. Takahashi and A. Matsuyama, An approximate solu- tion for the Steiner problem in graphs. Math. Jpn. 24 (1980) 573–577.
 - Section on different kinds of separation methods.
+
+* Strong lower bounds for the prize collecting Steiner problem in graphs, Lucena :pcst:algorithm:bound:
+:PROPERTIES:
+:bibtex: cite:lucena2005strong
+:END:
+** Short Summary
+Lucena et al. show a method for gneerating good lower bounds on the PCST problem using a primal LP relaxation
+ on a General Subtour Elimination Contraint formulation of the PCSTP alongside a max-flow separation procedure.
+
+** Bullets
+- Give good description of the max-flow sepration procedure.
+- Computational results.
+- Inspired by PCTSP.
+- Summary of history of the problem.
+
+* Combining a Memetic Algorithm with Integer Programming to Solve the Prize-Collecting Steiner Tree Problem, Ljubic :heuristic:pcst:
+:PROPERTIES:
+:bibtex: cite:Ljubic:2004:memetic
+:END:
+
+** Short Summary
+Ljubic et al. present an evolutionary algorithm for finding good solutions for the PCSTP. The algorithm is combined
+ with a pre-processing (standard reductions) step and a post-processing (solving an LP relaxation) step.
+
+They solve many of the instances availabe at the time to optimality.
+
+** Bullets
+- Reduction steps.
+- ILP based on SAP.
+- Primal Heuristics.
+
+* Local search with perturbations for the prize collecting Steiner tree problem in graphs. :pcst:heuristic:
+:PROPERTIES:
+:bibtex: canuto2001local
+:END:
+
+** Short Summary
+Canuto et al. present a multi step heuristic for the PCSTP based mainly on local search. In short it does the
+ following:
+- Get initial solution with GW algorithm (approx)
+- Perform local search in N1 neighbourhood defined by removing/adding veritice (and finding MST)
+- Perform a "peeling" method to remove surplus vertices.
+- Perform relinking with a solution from a pool of "elite solutions"
+- Pertubate prizes based on persistant nodes.
+
+** Bullets
+- Local search.
+- No Hill Climbing, but randomized restarting.
+- Some evolutionary attributes with relinking.
+- Post processing with variable neighbourhood search.
+
+* Reduction tests for the prize-collecting Steiner problem, Uchoa :pcst:reduction:
+:PROPERTIES:
+:bibtex: uchoa2006reduction
+:END:
+** Short Summary
+Uchoa observes that recent algoritms on the PCSTP use weakened "special distance" reduction tests as they
+ are adapted from the STP. Uchoa defines a native SD test - which is NP-Hard - to use natively on PCST.
+
+The justification of using an NP hard red. test is that the STP tests are usually doe heuristically anyway
+ as the O(n^3) cost are too high.
+
+The Uchoa paper notes that a bunch of the algorithms above uses the weakened versions.
+
+** Bullets
+
+- Good source for reduction tests.
