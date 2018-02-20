@@ -1,0 +1,196 @@
+\chapter{Solving the Prize-Collecting Steiner Tree Problem}
+\label{chap:solving}
+\section{Preprocessing}
+Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven succesful in many cases both for instances of the STP
+\citep{koch1998solving}
+and instances of the PCSTP
+\citep{ljubic2005solving, gamrath2017scip}. %TODO: MORE
+These routines make use of proven invariants to remove and contract edges as well as choose edges before applying the any main procedure.
+A set of common preprocessing routines are applied in different manners in literature, mainly differentiated by:
+\begin{enumerate}[label=\alph*)]
+\item which routines to apply,
+\item in which order, and
+\item when to recursively apply routines and how many times.
+\end{enumerate}
+Preprocessing routines can be very effective. For example, the preprocesing routine presented by \cite{koch1998solving} for the STP removes
+up to 98\% of edges in some instances. In this section, we will give an overview of the preprocessing methods applied in
+ recent literature.
+\subsection{Simple Reduction Tests}
+When an edge or vertex is provably part of an optimal solution, we say that the edge/vertex is \textit{choosable}, and similarly when
+ an edge or vertex is provably not-part of an optimal solution, we say that the edge/vertex is \textit{redundant}.
+
+\subsubsection{Non-Terminals of Degree 1}
+\label{sec:red:test:deg1}
+Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal with degree 1, then
+ clearly -- since edges have positive weights -- $v$ can not be part of an optimal solution. Thus $v$ is redundant. In other words,
+ all vertices in the set
+ $$\{v \mid v \in V \setminus N \wedge |\delta(v)| = 1\}$$
+ are redundant and can be removed from the graph along with their adjacent edges.
+
+\begin{figure}[h]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}[shift={(-0.5,0)}]
+        \node[terminal] (a) at (0, 0) {a};
+        \node[steiner] (b) [left=of a] {v};
+        \node (sg) [above right = 1.3 and 0.1 of a] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw (a) edge node {$k$} (b);
+        \draw[dashed] (a) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (1.0,0) -- (3,0);
+      % Post      
+      \begin{scope}[shift={(4cm, 0)}]
+
+        \node[terminal] (a) at (0, 0) {a};
+        \node (sg) [above right = 1.3 and 0.1 of a] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw[dashed] (a) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+  \end{tikzpicture}
+  \caption{Removing a non-terminal with degree 1.}
+  \label{fig:red:test:deg1}
+\end{figure}
+
+ While this reduction test is originally stated for the STP \citep{hwang1992steiner}, it is also applicable to the PCSTP. Figure (\ref{fig:red:test:deg1})
+  shows an example of removing a degree 1 non-terminal.
+
+  \subsubsection{Non-Terminals of Degree 2}
+    \label{fig:red:test2}
+
+    Similarly, let $G = (V,E,c,p)$ be an instance of the PCSTP, let $v \in G$ be a non-terminal with degree $|\delta(v)| = 2$, and let
+    $u$ and $w$ be the two vertices adjacent to $v$. Then we can obtain a reduced, equivalent graph,
+    $$G' = (V', E', c', p)$$
+    where
+    $$V' = V - v \mathnormal{,}$$
+    $$E' = (E \setminus \{(u,v),(w,v)\}) \cup \{(u,w)\}\mathnormal{,}$$
+    and
+    $$c_{uw} =
+    \begin{cases}
+      \min(c_{uw}, c_{uv} + c_{vw}) & (u,w) \in E\mathnormal{,} \\
+      c_{uv} + c_{wv} & \mathnormal{otherwise.}
+    \end{cases}$$
+
+    In other words, if $c_{uv} + c_{vw} <  c_{uw}$ then $(u,w)$ is redundant, can be removed, and $v$ and its edges
+    can be contracted to a single edge.
+    Otherwise $v$ and its edges are redundant and can be removed. Figure (\ref{fig:red:test:deg2})
+    shows an example this reduction test.
+
+\begin{figure}[h]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}
+        \node[terminal] (a) at (0, -0.65) {u};
+        \node[terminal] (b) [above=of a] {w};
+        \node[steiner] (c) [above left= 0.65 and 1.3 of a] {v};
+        \node (sg) [above right = 1.3 and 0.1 of b] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw (a) edge node {$k$} (b);
+        \draw (a) edge node {$c_1$} (c);
+        \draw (b) edge node[swap] {$c_2$} (c);
+        \draw[dashed] (b) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (1,0) -- (3.25,0);
+      % Post      
+      \begin{scope}[shift={(4.5cm, 0)}]
+        \node[terminal] (a) at (0, -0.65) {u};
+        \node[terminal] (b) [above=of a] {w};
+        \node (sg) [above right = 1.3 and 0.1 of b] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw (a) edge node[swap] {$\min(k, c_1 + c_2)$} (b);
+        \draw[dashed] (b) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+  \end{tikzpicture}
+  \caption{Removing a non-terminal with degree 2.}
+  \label{fig:red:test:deg2}
+\end{figure}
+
+This test is another example of a reduction test for the STP which can by directly applied to
+ the PCSTP.
+\subsubsection{Terminals of Degree 1}
+\label{sec:red:test:tdeg1}
+
+\begin{figure}[h]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}[shift={(-0.5,0)}]
+        \node[terminal, label={$p_a$}] (a) at (0, 0) {a};
+        \node[terminal, label={$p_v$}] (b) [left=of a] {v};
+        \node (sg) [above right = 1.3 and 0.1 of a] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw (a) edge node {$k$} (b);
+        \draw[dashed] (a) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (1.0,1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k\geq p_v$}
+      (3,2);
+      % Post      
+      \begin{scope}[shift={(4cm, 3cm)}]
+
+        \node[terminal, label=right:{$p_a$}] (a) at (0, 0) {a};
+        \node (sg) [above right = 1.3 and 0.1 of a] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw[dashed] (a) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (1.0,-1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k < p_v$}
+      (3,-2);
+
+      % Post2      
+      \begin{scope}[shift={(4cm, -3cm)}]
+
+        \node[terminal, label=right:{$p_a + (p_v - k)$}] (a) at (0, 0) {a};
+        \node (sg) [above right = 1.3 and 0.1 of a] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw[dashed] (a) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+  \end{tikzpicture}
+  \caption{Removing a non-terminal with degree 1.}
+  \label{fig:red:test:deg1}
+\end{figure}
+
+\subsubsection{Terminals of Degree 2}
+\subsection{Special Distance Reduction Tests}
+
+
+\section{Primal Heuristics}
+
+\section{Exact Algorithms}
+%%% Local Variables:
+%%% TeX-master: "report"
+%%% reftex-default-bibliography: ("lit.bib")
+%%% End:

@@ -179,7 +179,7 @@ They solve many of the instances availabe at the time to optimality.
 
 * Local search with perturbations for the prize collecting Steiner tree problem in graphs. :pcst:heuristic:
 :PROPERTIES:
-:bibtex: canuto2001local
+:bibtex: cite:canuto2001local
 :END:
 
 ** Short Summary
@@ -199,7 +199,7 @@ Canuto et al. present a multi step heuristic for the PCSTP based mainly on local
 
 * Reduction tests for the prize-collecting Steiner problem, Uchoa :pcst:reduction:
 :PROPERTIES:
-:bibtex: uchoa2006reduction
+:bibtex: cite:uchoa2006reduction
 :END:
 ** Short Summary
 Uchoa observes that recent algoritms on the PCSTP use weakened "special distance" reduction tests as they
@@ -213,3 +213,15 @@ The Uchoa paper notes that a bunch of the algorithms above uses the weakened ver
 ** Bullets
 
 - Good source for reduction tests.
+
+* Knowledge Guided Tabu Search for the Prize Collecting Steiner Tree Problem in Graphs :pcst:heuristic:
+:PROPERTIES:
+:bibtex: cite:fu2014knowledge
+:END:
+
+** Short Summary
+Fu and Hao present a tabu search heuristic. I find the paper a find difficult to grok, but main points are:
+- 4 move operators + 1 "vertex swap" operation.
+- Split instances by three types: small, big, special?
+- Pertubation strategy for new initial results
+- DIMACS participant

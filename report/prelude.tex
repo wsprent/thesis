@@ -28,7 +28,20 @@
 
 % TikZ
 \usepackage{tikz}
-\usetikzlibrary{arrows,fit, positioning, shapes, calc, fadings}
+\usetikzlibrary{arrows,fit, positioning, shapes, calc, fadings, decorations.pathmorphing}
 
+\tikzset{font=\tiny}
+\tikzset{terminal/.style={circle, draw=black, fill=black, text=white}}
+\tikzset{steiner/.style={circle, draw=black, fill=white}}
+\tikzset{selected/.style={draw=red, ultra thick}}
+\tikzset{root/.style={draw=cyan, ultra thick}}
+
+
+% Caption types
 
 \DeclareCaptionType{formulation}[Formulation][List of formulations]
+
+%%% Local Variables:
+%%% TeX-master: "report"
+%%% reftex-default-bibliography: ("lit.bib")
+%%% End:

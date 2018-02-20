@@ -1,18 +1,17 @@
 \chapter{Steiner Trees in Graphs}
 \label{chap:steiner-trees}
-\tikzset{font=\tiny}
-\tikzset{terminal/.style={circle, draw=black, fill=black, text=white}}
-\tikzset{steiner/.style={circle, draw=black, fill=white}}
-\tikzset{selected/.style={draw=red, ultra thick}}
-\tikzset{root/.style={draw=cyan, ultra thick}}
-\section{The Steiner Tree Problem}
-The Steiner Tree Problem (STP) is defined as follows.
-Given an undirected graph $G = (V, E, c)$ with vertices $V$, terminal set $N \subseteq V$, edges $E$, and edge weights $c: E \to \RR$,
-a Steiner Tree is a tree, $T \in E$, which spans $N$ with minimal cost. We denote vertices which must be part of a feasible solution,
-that is $v \in N$, as \textit{terminals}, and vertice which are not required to be part of a solution but are so anyway, that is
-$v \in T \cap (V \setminus N)$, as \textit{Steiner points} or \textit{Steiner vertices}.
 
-Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \emptyset$ and $(V \setminus S) \cap \emptyset)$ then we
+\section{Steiner Tree Problem}
+The Steiner Tree Problem (STP) is defined as follows.
+Given an undirected graph
+$$G = (V, E, c)$$
+ where $c: E \to \RR^+$ defines edge weights, and additionally a set of terminals $N \subseteq V$ then
+a Steiner Tree is a tree, $T = (V_T, E_T, c) \subseteq G$, which spans $N$ with minimal cost. We denote vertices which must be part of a feasible solution,
+that is $v \in N$, as \textit{terminals}, vertices which are not terminals as \textit{non-terminals},
+and vertices which are not required to be part of a solution but are so anyway, that is
+$v \in E_T \cap (V \setminus N)$, as \textit{Steiner vertices}.
+
+Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \emptyset$ and $(V \setminus S) \cap \emptyset$ then we
  call $S$ a \textit{Steiner cut}.
 
 When $N = V$, the STP is equivalent to the Minimum Spanning Tree Problen, and when $|N| = 2$ the STP is equivalent to finding the
@@ -42,18 +41,18 @@ shortest path between two vertices. However, while these problems both have poly
     \draw (e) edge node{1} (f);
   \end{scope}
 \end{tikzpicture}
-\caption{Instance of the Steiner Tree Problem. Terminals are coloured black and Steiner Points coloured white.}
+\caption{Instance of the Steiner Tree Problem. Terminals are coloured black and non-terminals coloured white.}
 \label{fig:stp:01}
 \end{figure}
 
 Figure (\ref{fig:stp:01}) shows an instance of the STP with three terminals and four Steiner points. Since vertices
 A, C, and D are terminals, they must be spanned by any feasible solution. Figure (\ref{fig:stp:01:feasible}) shows
-a feasible solution
-$$T = \{(a,b), (b,d), (d,g)\}$$
+a feasible solution (which we here denote as a set of edges)
+$$E_T = \{(a,b), (b,d), (d,g)\}$$
 with cost
 $$c(T) = 4 + 5 + 10 = 19\mathnormal{.}$$
 However, $T$ is not a Steiner tree as there exists at least one feasible solution with lower cost, i.e. the solution
-$$T' = \{(a,b), (b,d), (d,c), (c,g)\}$$
+$$E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}$$
 in Figure (\ref{fig:stp:01:min}) which has cost
 $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
 % Suboptimal and Optimal STP solutions 
@@ -148,8 +147,10 @@ be all edges which span the cut defined by $S$. Then we can formulate
 
 \section{Steiner Aborescence Problem}
 The Steiner Aborescence Problem (SAP) is the directed version of the Steiner Tree Problem.
-Given a \textit{directed} graph, $G = (V, A, c)$, with vertices $V$, arcs $A$, a non-empty terminal set $N \subseteq V$,
-a root terminal $r \in N$, and arc-weights $c : A \to \RR$, then a Steiner Aborescence, $T \subseteq A$, is an aborescence
+Given a \textit{directed} graph,
+$$G = (V, A, c)$$
+a non-empty terminal set $N \subseteq V$, a root terminal $r \in N$, and arc-weights $c : A \to \RR^+$,
+then a Steiner Aborescence, $T \subseteq A$, is an aborescence
 in $G$, rooted in $r$, which spans $N$ and has minimal cost.
 
 As with the STP, we denote vertices in $N$ as \textit{terminals}, and any non-terminals spanned by a Steiner Aborescence as
@@ -180,7 +181,7 @@ As with the STP, we denote vertices in $N$ as \textit{terminals}, and any non-te
     \draw[->] (f) edge node{2} (g);
   \end{scope}
 \end{tikzpicture}
-\caption{Instance of the Steiner Aborescence Problem. Terminals are coloured black, Steiner Points are coloured white, and the root terminal
+\caption{Instance of the Steiner Aborescence Problem. Terminals are coloured black, non-terminals are coloured white, and the root terminal
   has a blue outline.}
 \label{fig:sap:01}
 \end{figure}
@@ -286,15 +287,95 @@ prize-collecting variants of the SAP \citep{leitner2016dual, ljubic2005solving} 
 
 \subsection{ILP Formulations}
 \section{Prize-Collecting Steiner Tree Problem}
+Given an undirected graph
+$$G = (V, E, c, p)$$
+where $c: E \to \RR^+$ defines edge weights,
+and $p: V \to \RR^+$ defines vertex \textit{prizes}, then the solution to the \textit{Prize-Collecting
+  Steiner Tree Problem} (PCSTP) is a tree
+$$T = (V_T, E_T, c, p) \subseteq G$$
+which minimizes
+$$GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V_T \setminus V)} p_v$$
+which is also known as the {\textit{Goemans-Williamson Minimization Problem}}.
 
+The PCSTP can equilvalently be stated as the {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637},
+$$NW(T) = \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij} \mathnormal{.}$$
+In the context of the PCSTP, We denote vertices with nonzero prize as \textit{terminals}, giving the terminal set
+$$N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}$$
 
-\section{Current Methods For Solving the PCSTP}
+\begin{figure}[h]\centering
+\begin{tikzpicture}[auto, node distance=1.5 cm]
+  %Nodes
+  \node[terminal, label={12}] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal, label={10}] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal, label={3}] (g) [above right=0.75 and 1.3 of c] {f};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge node[below]{4} (b);
+    \draw (b) edge node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+\end{tikzpicture}
+\caption{Instance of the Prize-Collecting Steiner Tree Problem. Terminals are coloured black and non-terminals coloured white.}
+\label{fig:pcstp:01}
+\end{figure}
 
-\subsection{Preprocessing}
+Figure (\ref{fig:pcstp:01}) shows an instance, $G$, of the PCSTP created by assigning prizes to the terminals of the STP instance, $G_{STP}$, in Figure (\ref{fig:stp:01}).
+Figure (\ref{fig:pcstp:01})
+shows an optimal solution, $T = (V_T, E_T)$, to $G$. An interesting observation is that
+$T$ is a sub-graph of the solution in Figure (\ref{fig:stp:01:min}) to $G_{STP}$.
+In fact, if we were to modify $G_{STP}$ by setting its terminal set to the vertices spanned
+by $T$, that is we define $G'_{STP} =  G_{STP}$ where  $N_{G'_{STP}} = V_T$, then $T$ is a Steiner
+tree in $G'_{STP}$. In other words, we can describe the search space of the PCSTP
+ as the set of all Steiner trees in a graph $G$.
 
-\subsection{Primal Heuristics}
+\begin{figure}[h]\centering
+\begin{tikzpicture}[auto, node distance=1.5 cm]
+  %Nodes
+  \node[terminal, label={12}] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal, label={10}] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal, label={3}] (g) [above right=0.75 and 1.3 of c] {f};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge[selected] node[below]{4} (b);
+    \draw (b) edge[selected] node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+\end{tikzpicture}
+\caption{Optimal solution to (\ref{fig:pcstp:01})\textnormal{.}}
+\label{fig:pcstp:01:opt}
+\end{figure}
 
-\subsection{Exact Algorithms}
+Unsurprisingly, the PCSTP is an NP-Hard problem. It is a generalisation of the STP. Any instance of
+the STP with graph $G = (V, E, c)$ and terminal set $N$ can be reduced to an instance of the PCSTP
+with graph $G' = (V, E, c, p)$ where
+where
+$$p_v =
+\begin{cases}
+  \infty & v \in N\mathnormal{,} \\
+  0 & \mathnormal{otherwise.}
+\end{cases}$$
+Any optimal solution to $G'$ is then a Steiner tree in $G$ and vice versa.
+\subsection{ILP Formulations}
 %%% Local Variables:
 %%% TeX-master: "report"
 %%% reftex-default-bibliography: ("lit.bib")
