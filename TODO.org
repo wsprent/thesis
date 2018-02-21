@@ -73,6 +73,11 @@ Distance Network Heuristics
  
 *** TODO Steiner Tree Methods
 **** TODO Reductions 
+** Methods
+*** TODO Uchoa red tests
+*** TODO Find more reduction tests
+*** TODO Primal Heuristics
+*** TODO Exact solutions
 * Miscellanious
 
 ** TODO Initial Meeting With Pawel
