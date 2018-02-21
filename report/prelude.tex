@@ -7,9 +7,12 @@
 
 \usepackage{graphicx}
 
+% TOC
+\setcounter{tocdepth}{4}
+%\setcounter{secnumdepth}{4}
 
 % Margins
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=1.2in]{geometry}
 
 %%% MATH
 \usepackage{amsmath}
@@ -35,12 +38,19 @@
 \tikzset{steiner/.style={circle, draw=black, fill=white}}
 \tikzset{selected/.style={draw=red, ultra thick}}
 \tikzset{root/.style={draw=cyan, ultra thick}}
-
-
+\tikzset{subgraph/.style={font=\large, text=gray}}
+\tikzset{snake it/.style={-stealth,
+    decoration={snake, 
+      amplitude = .2mm,
+    segment length = 2mm,
+    post length=0.9mm},decorate}}
 % Caption types
 
 \DeclareCaptionType{formulation}[Formulation][List of formulations]
 
+% TODO
+\usepackage{todonotes}
+\presetkeys{todonotes}{size=\tiny}{}
 %%% Local Variables:
 %%% TeX-master: "report"
 %%% reftex-default-bibliography: ("lit.bib")

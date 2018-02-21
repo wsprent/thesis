@@ -67,7 +67,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
 
   \subsubsection{Non-Terminals of Degree 2}
     \label{fig:red:test2}
-
+\todo{These two sections probably use too different methods in defining their reductions}
     Similarly, let $G = (V,E,c,p)$ be an instance of the PCSTP, let $v \in G$ be a non-terminal with degree $|\delta(v)| = 2$, and let
     $u$ and $w$ be the two vertices adjacent to $v$. Then we can obtain a reduced, equivalent graph,
     $$G' = (V', E', c', p)$$
@@ -78,7 +78,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
     $$c_{uw} =
     \begin{cases}
       \min(c_{uw}, c_{uv} + c_{vw}) & (u,w) \in E\mathnormal{,} \\
-      c_{uv} + c_{wv} & \mathnormal{otherwise.}
+      c_{uv} + c_{vw} & \text{otherwise.}
     \end{cases}$$
 
     In other words, if $c_{uv} + c_{vw} <  c_{uw}$ then $(u,w)$ is redundant, can be removed, and $v$ and its edges
@@ -130,7 +130,7 @@ This test is another example of a reduction test for the STP which can by direct
 \subsubsection{Terminals of Degree 1}
 \label{sec:red:test:tdeg1}
 
-\begin{figure}[h]\centering
+\begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
       % Pre
       \begin{scope}[shift={(-0.5,0)}]
@@ -183,9 +183,122 @@ This test is another example of a reduction test for the STP which can by direct
   \label{fig:red:test:deg1}
 \end{figure}
 
-\subsubsection{Terminals of Degree 2}
-\subsection{Special Distance Reduction Tests}
+\subsection{Steiner Distance Reduction Tests}
+% $$d(u,v) = \min \{ c(P) \mid P \in \mathcal{P}_{uv}\}$$
+More complex tests can be described in terms
+of Steiner distances and Bottleneck distances. There were originally stated for
+the STP in, amongst others, \cite{duin1989edge,duin1989reduction} and later
+adapted for the PCSTP in \cite{uchoa2006reduction}.
 
+First we must make some definitions.
+If $P = (..., u, ..., w, ...)$ is a simple path in $G$, then $P_{uw}$ is
+the subpath in $P$ starting at vertex $u$ and ending in vertex $w$,
+\todo{Some of this should probably go in a notations section}
+that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
+ $P_{uw}$ as,
+
+ $$sd(P_{uw}) = \sum_{(i,j) \in E(P_{u,w})} c_{i,j} -
+ \sum_{v \in V(P) \setminus \{u,w\}} p_{v}\mathnormal{.}$$
+ We then denote the Steiner distance of a simple path, $P$, as the maximal Steiner
+ distance found among subpaths of $P$,
+ $$sd(P) = \max_{u,w \in P} sd(P_{uw})\mathnormal{.}$$
+ Let $\mathcal{P}_{uw}$ be the set of all simple paths
+ connecting vertices $u$ and $w$ in
+ $G$, then we denote the \textit{bottleneck distance} between $u$ and $w$ as minimal Steiner
+  distance among paths in $\mathcal{P}_{uw}$,
+  $$B(u,w) = \min_{P \in  \mathcal{P}_{uw}} sd(P)\mathnormal{.}$$
+  The bottleneck distance is a measure of the worst case \textit{additional cost}
+  \todo{Make decision on whether I should replicated proofs for claims like this.}
+ of connecting
+ two disjoint subgraphs in $G$.
+
+
+  Finally, we denote the bottleneck distance between vertices $u$ and $w$ \textit{excluding}
+  the edge $e$ as, \missingfigure{Some visual intuition on the bottleneck distance}
+  $$B(u,w)^{-e} = \min_{P \in  \mathcal{P}_{uw}, e \not \in P} sd(P)\mathnormal{.}$$
+
+
+ \cite{uchoa2006reduction} shows that calculating the bottleneck distance
+ is an NP hard problem by reduction from the Hamiltonian Path problem. Hence,
+ exactly calculating the bottleneck distance is infeasible. However, \cite{uchoa2006reduction}
+ also claims that existing heuristics are fast and give strong upper bounds.
+ \subsubsection{Special Distance Test}
+ \label{sec:red:test:sd}
+ \begin{theorem}
+ Consider any edge $(u,v) \in E$. If we have
+ $$B(u,v)^{-(u,v)} \leq c_{uv}$$
+ then $(u,v)$ is redundant.
+\end{theorem}
+ \begin{proof}
+   Let $T  \subseteq G$ be an optimal solution to the PCSTP in graph $G$
+   where we have
+   $$B(u,v)^{-(u,v)} \leq c_{uv}$$
+   for some edge $(u,v) \in E_T$, and let $(T_1, T_2)$ be the cut bridged
+   by $(u,v)$.
+
+   Consider then the simple path $P \in \mathcal{P}_{uv}$ from $u$ to $v$ which doesn't
+    contain $(u,v)$ and has
+   $$sd(P) = B(u,v)^{-(u,v)}\mathnormal{.}$$
+
+   Since $T$ is a tree, and $P$ by definition doesn't contain the edge $(u,v)$
+   then we must have that $P$ consists of a subpath contained in $T_1$, followed by
+   a subpath not contained in $T$, followed by a subpath contained in $T_2$.
+   In other words, we have,
+   $$P = (u, P_1, w, P_2, z, P_3, v)$$
+   as shown in Figure \ref{fig:red:test:sd:thm}.
+
+   Then by definition we have,
+   $$sd(P_2) \leq sd(P) = B(u,v)^{-(u,v)} \leq c_{uv}$$
+   and we construct another solution $T'$ by replacing $(u,v)$ with the
+   vertices and edges in $P_2$ which has cost
+   $$c(T') = c(T) - c_{uv} + sd(P_2) \leq c(T)\mathnormal{.}$$
+   Hence $T'$ also optimal in $G$ and $(u,v)$ is by definition redundant.
+\end{proof}
+\begin{figure}[h!]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}[shift={(-0.5,0)}]
+        \node[terminal] (u) at (0, 0) {u};
+        \node[subgraph, above left= 0.05cm and 1.4cm of u] {$T_1$};
+        \node[steiner, densely dashed] (w1) [above=of u] {w};
+        
+        \node[terminal] (v) [right= of u] {v};
+        \node[subgraph,above right= 0.05 and 1.4cm  of v] {$T_2$};
+        \node[steiner, densely dashed] (w2) [above=of v] {z};
+        \node (sga) [left= of u] {};
+        \node (sga2) [below left= 1.3 and 0.1 of u] {};
+
+        \node (sgb) [right=  of v] {};
+        \node (sgb2) [below right= 1.3 and 0.1 of v] {};
+
+        
+        
+        %Edges
+        \draw[selected] (u) edge node {$k$} (v);
+        \draw[dashed, selected] (u) to (sga);
+        \draw[dashed, selected] (u) to (sga2);
+
+        \draw[dashed, selected] (v) to (sgb);
+        \draw[dashed, selected] (v) to (sgb2);
+
+        \draw (u) edge[snake it, red, bend left] node[text=black] {$P_1$} (w1);
+        \draw (w1) edge[snake it] node {$P_2$} (w2);
+        \draw (w2) edge[snake it, red, bend left] node[text=black] {$P_3$} (v);
+      \end{scope}
+
+      % \draw [->,decorate, thick,
+      % decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      % (4,0) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {}
+      % (6,0);
+      % Post      
+
+  \end{tikzpicture}
+  \caption{Edge in an optimal solution with $c(u,v) \geq B(u,v)^{-(u,v)}$.}
+  \label{fig:red:test:sd:thm}
+\end{figure}
+
+\subsubsection{Non-terminals of degree 3}
+\label{sec:red:test:deg3}
 
 \section{Primal Heuristics}
 

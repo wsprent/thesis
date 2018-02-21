@@ -21,8 +21,10 @@ Keywords: strong pruning
    CLOSED: [2018-02-19 Mon 14:18]
 
 ** TODO Knowledge-guided local search for the prize-collecting Steiner tree problem in graphs
-** TODO Knowledge Guided Tabu Search for the Prize Collecting Steiner Tree Problem in Graphs
+** DONE Knowledge Guided Tabu Search for the Prize Collecting Steiner Tree Problem in Graphs
+   CLOSED: [2018-02-20 Tue 10:34]
 look in paper notes
+** TODO Salles da Cunha, A., Lucena, A., Maculan, N., Resende, M. G. C. 2009. A relax- and-cut algorithm for the prize-collecting Steiner problem in graphs
 ** TODO A divide and conquer matheuristic algorithm for the Prize-collecting Steiner Tree Problem
 ** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
 
@@ -54,12 +56,18 @@ Distance Network Heuristics
 
 ** DONE Make Skeleton
    CLOSED: [2018-02-06 Tue 10:43]
+** Notation
+*** TODO Path notation
 ** TODO Add section on Discrete Optimisation
 ** TODO Add section on Steiner Trees
-*** TODO Steiner Aborescence Problem
-**** TODO Figures
-**** TODO Intro
-**** TODO First ILP
+*** DONE Steiner Aborescence Problem
+    CLOSED: [2018-02-21 Wed 15:12]
+**** DONE Figures
+     CLOSED: [2018-02-21 Wed 15:12]
+**** DONE Intro
+     CLOSED: [2018-02-21 Wed 15:12]
+**** DONE First ILP
+     CLOSED: [2018-02-21 Wed 15:12]
 **** TODO Reductions
 *** TODO Prize Collecting Steiner Trees
  
