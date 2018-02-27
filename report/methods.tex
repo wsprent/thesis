@@ -13,19 +13,29 @@ A set of common preprocessing routines are applied in different manners in liter
 \item when to recursively apply routines and how many times.
 \end{enumerate}
 Preprocessing routines can be very effective. For example, the preprocesing routine presented by \cite{koch1998solving} for the STP removes
-up to 98\% of edges in some instances. In this section, we will give an overview of the preprocessing methods applied in
- recent literature.
-\subsection{Simple Reduction Tests}
-When an edge or vertex is provably part of an optimal solution, we say that the edge/vertex is \textit{choosable}, and similarly when
- an edge or vertex is provably not-part of an optimal solution, we say that the edge/vertex is \textit{redundant}.
+up to 98\% of edges in some instances. In this section, we will first give a full overview of existing preprocessing methods for the PCSTP,
+ including proofs of validity,
+ and then summarize their usage in recent literature.
 
+ In the following, we will denote any edge or vertex (or part of a graph) as \textit{redundant} if there exists an optimal solution
+  which does not contain it, and we say that a 
+  transformation to a problem instance is \textit{valid} when produces an equivalent problem, that is a problem which has the same optimal
+  value and in which solutions map back to the original problem.
+
+ \subsection{Local Reduction Tests}
+ The first type of reductions we will look at, we will named \textit{local} reduction tests. These are tests which only require knowledge
+ of the neighbourhood of a couple of vertexes in the graph, and perhaps simple global information such as maximum prize. As such, the tests
+ presented in this section are generally of low computational cost, allowing for testing a full graph in linear time.
+
+ Note that the first tests presented (NTD1, NTD2, TD1, TD2) are known collectively
+ in recent literature as \textit{Degree Tests}, for example in \cite{rehfeldt2016reduction}.
 \subsubsection{Non-Terminals of Degree 1}
 \label{sec:red:test:deg1}
 Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal with degree 1, then
  clearly -- since edges have positive weights -- $v$ can not be part of an optimal solution. Thus $v$ is redundant. In other words,
  all vertices in the set
  $$\{v \mid v \in V \setminus N \wedge |\delta(v)| = 1\}$$
- are redundant and can be removed from the graph along with their adjacent edges.
+ are redundant and it is valid to remove them from $G$ along with their adjacent edges.
 
 \begin{figure}[h]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
@@ -86,7 +96,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
     Otherwise $v$ and its edges are redundant and can be removed. Figure (\ref{fig:red:test:deg2})
     shows an example this reduction test.
 
-\begin{figure}[h]\centering
+\begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
       % Pre
       \begin{scope}
@@ -129,7 +139,7 @@ This test is another example of a reduction test for the STP which can by direct
  the PCSTP.
 \subsubsection{Terminals of Degree 1}
 \label{sec:red:test:tdeg1}
-
+\todo[inline]{Write this section. It's very clear.}
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
       % Pre
@@ -150,9 +160,11 @@ This test is another example of a reduction test for the STP which can by direct
       (1.0,1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k\geq p_v$}
       (3,2);
       % Post      
-      \begin{scope}[shift={(4cm, 3cm)}]
+      \begin{scope}[shift={(6cm, 3cm)}]
 
         \node[terminal, label=right:{$p_a$}] (a) at (0, 0) {a};
+        \node[terminal, label={$p_v$}] (b) [left=of a] {v};
+        
         \node (sg) [above right = 1.3 and 0.1 of a] {};
         \node (sg2) [below right= 1.3 and 0.1 of a] {};
 
@@ -167,9 +179,10 @@ This test is another example of a reduction test for the STP which can by direct
       (3,-2);
 
       % Post2      
-      \begin{scope}[shift={(4cm, -3cm)}]
-
+      \begin{scope}[shift={(6cm, -3cm)}]
         \node[terminal, label=right:{$p_a + (p_v - k)$}] (a) at (0, 0) {a};
+        \node[terminal, label={$p_v$}] (b) [left=of a] {v};
+
         \node (sg) [above right = 1.3 and 0.1 of a] {};
         \node (sg2) [below right= 1.3 and 0.1 of a] {};
 
@@ -179,14 +192,92 @@ This test is another example of a reduction test for the STP which can by direct
       \end{scope}
 
   \end{tikzpicture}
-  \caption{Removing a non-terminal with degree 1.}
+  \caption{Removing the edge connected a terminal of degree 1.}
   \label{fig:red:test:deg1}
 \end{figure}
+
+\subsubsection{Terminals of Degree 2}
+
+
+\subsubsection{Minimum Adjacency}
+Again defined in \cite{duin1989reduction} for the STP, the \textit{minimum adjacency test}
+(also known as the \textit{$V \setminus K$ test}) is a reduction test which contracts adjacent
+terminals as shown in Figure (\ref{fig:red:test:ma}).
+ 
+\begin{figure}[h!]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}[shift={(-0.5,0)}]
+        \node[terminal, label={$p_u$}] (u) at (0, 0) {u};
+        \node[terminal, label={$p_v$}] (v) [left=of u] {v};
+        \node (sgu) [above right = 1.3 and 0.1 of u] {};
+        \node (sgu2) [below right= 1.3 and 0.1 of u] {};
+
+        \node (sgv) [above left = 1.3 and 0.1 of v] {};
+        \node (sgv2) [below left= 1.3 and 0.1 of v] {};
+
+        %Edges
+        \draw (u) edge node {$k$} (v);
+        \draw[dashed] (u) to (sgu);
+        \draw[dashed] (u) to (sgu2);
+        \draw[dashed] (v) to (sgv);
+        \draw[dashed] (v) to (sgv2);
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (1.0,0) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$\min(p_v, p_u) \leq k$}
+      (3,0);
+      % Post      
+      \begin{scope}[shift={(6cm, 0cm)}]
+        \node[terminal, label={$p_u + p_v - k$}] (u) at (0, 0) {uv};
+        \node (sgu) [above right = 1. and 2.0 of u] {};
+        \node (sgu2) [below right= 1. and 2.0 of u] {};
+        \node (sgv) [above left = 1. and 2.0 of u] {};
+        \node (sgv2) [below left= 1. and 2.0 of u] {};
+
+        %Edges
+        \draw[dashed] (u) to (sgu);
+        \draw[dashed] (u) to (sgu2);
+        \draw[dashed] (u) to (sgv);
+        \draw[dashed] (u) to (sgv2);
+      \end{scope}
+
+  \end{tikzpicture}
+  \caption{Minimum adjacency test.}
+  \label{fig:red:test:ma}
+\end{figure}
+
+\begin{theorem}[Minimum Adjacency]
+  Let $u$ and $v$ be adjacent terminals in $G$. If we have
+  $$\min(p_u, p_v) \geq c_{uv}$$
+  and
+  $$c_{uv} = \min_{(u, w) \in E}c_{uw}$$
+  then it is valid to contract $u$ and $v$.
+\end{theorem}
+\begin{proof}
+  It can be shown that any solution $T$ for the PCSTP problem defined by a graph $G$
+  which contains $u$ but not $(u,v)$ can
+  be transformed into a solution $T'$ which contains $(u,v)$ where $c(T') \leq c(T)$.
+
+  \paragraph{Case 1: $v \in V_T$}
+  Let $(u, w) \in E_T$ be the first edge in the simple path from $u$ to $v$. By assumption, we
+  have that $c_{uv} \leq c_{uw}$, and the tree $T'$ constructed by removing $(u,w)$ from $T$ and
+  adding $(u,v)$ has cost
+  $$c(T') = c(T) - c_{uw} + c_{uv} \leq T\mathnormal{.}$$
+  \paragraph{Case 2: $v  \not\in V_T$}
+  Let $T'$ be the tree obtained by adding $(u,v)$ to $T$. As per the assumption that $\min(p_u, p_v) \geq c_{uv}$,
+  we have that $T'$ has cost,
+  $$c(T') = c(T) + c_{uv} - p_{uv} \leq c(T)\mathnormal{.}$$
+\end{proof}
+
+\subsubsection{Unconnected Dominated Vertex}
+
 
 \subsection{Steiner Distance Reduction Tests}
 % $$d(u,v) = \min \{ c(P) \mid P \in \mathcal{P}_{uv}\}$$
 More complex tests can be described in terms
-of Steiner distances and Bottleneck distances. There were originally stated for
+of the concepts Steiner distance and Bottleneck distance. These were originally stated for
 the STP in, amongst others, \cite{duin1989edge,duin1989reduction} and later
 adapted for the PCSTP in \cite{uchoa2006reduction}.
 
@@ -210,11 +301,12 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
   The bottleneck distance is a measure of the worst case \textit{additional cost}
   \todo{Make decision on whether I should replicated proofs for claims like this.}
  of connecting
- two disjoint subgraphs in $G$.
+ two disjoint subgraphs containing vertices $u$ and $v$ respectively in $G$.
 
+  \missingfigure{Some visual intuition on the bottleneck distance}
 
   Finally, we denote the bottleneck distance between vertices $u$ and $w$ \textit{excluding}
-  the edge $e$ as, \missingfigure{Some visual intuition on the bottleneck distance}
+  the edge $e$ as,
   $$B(u,w)^{-e} = \min_{P \in  \mathcal{P}_{uw}, e \not \in P} sd(P)\mathnormal{.}$$
 
 
@@ -222,9 +314,11 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
  is an NP hard problem by reduction from the Hamiltonian Path problem. Hence,
  exactly calculating the bottleneck distance is infeasible. However, \cite{uchoa2006reduction}
  also claims that existing heuristics are fast and give strong upper bounds.
- \subsubsection{Special Distance Test}
+ \subsubsection{Special Distance}
  \label{sec:red:test:sd}
- \begin{theorem}
+ Using the PCSTP version of the Steiner and bottleneck distances, \cite{uchoa2006reduction} proves
+  the validity of the more general \textit{special distance test}.
+ \begin{theorem}[Special Distance Test]
  Consider any edge $(u,v) \in E$. If we have
  $$B(u,v)^{-(u,v)} \leq c_{uv}$$
  then $(u,v)$ is redundant.
@@ -257,8 +351,13 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
       % Pre
-      \begin{scope}[shift={(-0.5,0)}]
-        \node[terminal] (u) at (0, 0) {u};
+      \begin{scope}[]
+        \path[fill=black!5,use Hobby shortcut,closed=true]
+        (-2.5, -2) .. (0.3,-1) .. (.5,1) .. (.5,2)  .. (-2.5,3.5);
+        \path[fill=black!5,use Hobby shortcut,closed=true]
+        (2.5, -2) .. (1.3,-1) .. (1.5,1) .. (1.5,2)  .. (2.5,3.5);
+
+        \node[terminal] (u) at(0, 0) {u};
         \node[subgraph, above left= 0.05cm and 1.4cm of u] {$T_1$};
         \node[steiner, densely dashed] (w1) [above=of u] {w};
         
@@ -293,12 +392,102 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
       % Post      
 
   \end{tikzpicture}
-  \caption{Edge in an optimal solution with $c(u,v) \geq B(u,v)^{-(u,v)}$.}
+  \caption{The optimal solution, $T = T_1 \cup T_2$ connected by $(u,v)$.
+    Since $c(u,v) \geq B(u,v)^{-(u,v)}$,
+  the simple path $P_2$ has cost no larger than $(u,v)$ and can replace it in $T$.}
   \label{fig:red:test:sd:thm}
 \end{figure}
 
-\subsubsection{Non-terminals of degree 3}
+\subsubsection{Non-Terminals of Degree 3}
 \label{sec:red:test:deg3}
+Another bottleneck distance based test,
+also proved valid for the PCSTP in \cite{uchoa2006reduction},
+is the \textit{non-terminals of degree 3 test}.
+\begin{theorem}[Non-Terminals of Degree 3 Test]\label{thm:ntd3}
+  Let $u$ be a vertex with degree 3 in $G = (V, E, c, p)$,
+  and let $v$, $w$, and $z$ be its adjacent
+  vertices. If we have
+  $$\min\left(B(v,w) + B(v,z), B(w,v) + B(w,z),  B(z, v)+ B(z, w)\right) \leq
+  c_{uv} + c_{uw} + c_{uz}$$
+  then there exists an optimal solution to $G$ where $u$ has degree of
+  \textit{at most} 2, that is $|\delta(u)| \leq 2$. Thus $u$ and its three edges, can be replaced by
+  the edges $\{(v, w), (w,z), (z,v)\}$ with costs
+  $$c_{vw} = c_{vu} + c_{uw},\quad c_{wz} = c_{wu} + c_{uz},\quad c_{zv} = c_{zu} + c_{uv}\mathnormal{.}$$
+\end{theorem}
+\begin{proof}   
+  W.l.o.g. consider the case where $B(v,w) + B(v,z) \leq c_{uv} + c_{uw} + c_{uz}$,
+  and let $T$ be an optimal solution which contains $(u,v)$, $(u,w)$, and $(u,z)$.
+
+  Let $P_1 = (v, ..., w)$ be the simple path with Steiner distance
+  $$sd(P_1) = B(v,w)$$
+  and similarly let $P_2 = (v, ..., z)$ be the simple path with Steiner distance
+  $$sd(P_2) = B(v,z)\mathnormal{.}$$
+  This gives us the situation in Figure (\ref{fig:red:test:ntd3:thm}). Note that $u$ may be a part of either paths.
+
+  Let $T_v$, $T_w$, and $T_z$ be the subtrees of $T$ obtained by
+  removing the edges adjacent to $u$ from $T$, and construct a new solution with
+   total cost no-larger than $T$ as,
+   $$T' = T_v \cup T_w \cup T_z \cup P_1 \cup P_2\mathnormal{.}$$
+   We must have $|\delta_{T'}(u)| \leq 2$. If we had $|\delta_{T'}| = 3$ then
+   we would have
+   $$P_1 = \left[v, (v,u), u, (u,w), w \right]$$
+   and
+   $$P_2 = \left[v, (v,u), u, (u,z) z \right]$$
+   giving us
+   $$B(v,w) + B(v, z) = sd(P_1) + sd(P_2) = 2 c_{vu} + c_{uw} + c_{uz} > c_{vu} + c_{uw} + c_{uz}$$
+   which is a contradiction to our original assumption that
+   $$B(v,w) + B(v,z) \leq c_{uv} + c_{uw} + c_{uz}\mathnormal{.}$$
+   Thus $T'$ is an optimal solution to $G$ with $|\delta_{T'}(u)| \leq 2$.
+\end{proof}
+\begin{figure}[h!]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}[]
+        \path[fill=black!5,use Hobby shortcut,closed=true]
+        (-0.5, 1) .. (-4, 3) .. (-0.5,3);
+        \path[fill=black!5,use Hobby shortcut,closed=true]
+        (.5, 1) .. (4,3) .. (.5,3);
+        \path[fill=black!5,use Hobby shortcut,closed=true]
+        (0, -.5) .. (-2,-3) .. (2,-3);
+
+        \node[steiner] (u) at(0, 0) {u};
+        \node[terminal] (w) [above left=1.3 and 1.3 of u] {w};
+        \node[terminal] (v) [below= of u] {v};
+        \node[terminal] (z) [above right= 1.3 and 1.3 of u] {z};
+
+        \node[subgraph, above left= 0.05cm and 1 cm of w] {$T_w$};
+        \node[subgraph,above right= 0.05cm and 1 cm of z] {$T_z$};
+        \node[subgraph, below right= 0.05cm and 1 cm of v] {$T_v$};
+        
+        \node (sgw) [above left= 0.7 of w] {};
+        \node (sgv) [below= 0.7 of v] {};
+        \node (sgz) [above right = 0.7 of z] {};
+        
+        %Edges
+        \draw[selected] (u) edge node {$c_{uv}$} (v);
+        \draw[selected] (u) edge node {$c_{uw}$} (w);
+        \draw[selected] (u) edge node[swap] {$c_{uz}$} (z);
+        \draw[dashed, selected] (v) to (sgv);
+        \draw[dashed, selected] (w) to (sgw);
+        \draw[dashed, selected] (z) to (sgz);
+
+        \draw (v) edge[snake it, bend left] node[text=black] {$P_1$} (w);
+        \draw (v) edge[snake it, bend right] node[swap,text=black] {$P_2$} (z);
+      \end{scope}
+
+      % \draw [->,decorate, thick,
+      % decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      % (4,0) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {}
+      % (6,0);
+      % Post      
+
+  \end{tikzpicture}
+  \caption{Non-Terminal of $|\delta(u)| = 3$ which connects the subtrees $T_v$, $T_w$, and $T_z$. The simple paths $P_1$ and $P_2$ provide an
+     alternate way of reconnecting $T$ with at least as good cost.}
+  \label{fig:red:test:ntd3:thm}
+\end{figure}
+
+\subsection{Summary of Usage}
 
 \section{Primal Heuristics}
 

@@ -8,16 +8,17 @@
 \usepackage{graphicx}
 
 % TOC
-\setcounter{tocdepth}{4}
+\setcounter{tocdepth}{3}
 %\setcounter{secnumdepth}{4}
 
 % Margins
-\usepackage[margin=1.2in]{geometry}
+\usepackage[hmargin={55pt, 55pt}, vmargin={2.8cm, 2.8cm}]{geometry}
 
 %%% MATH
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsbsy}
+\usepackage{amsthm}                % better theorem environments
 
 % Captions
 \usepackage[margin=1cm, labelfont=bf]{caption}
@@ -31,7 +32,8 @@
 
 % TikZ
 \usepackage{tikz}
-\usetikzlibrary{arrows,fit, positioning, shapes, calc, fadings, decorations.pathmorphing}
+\usetikzlibrary{arrows,fit, positioning, shapes,
+  calc, fadings, decorations.pathmorphing, hobby}
 
 \tikzset{font=\tiny}
 \tikzset{terminal/.style={circle, draw=black, fill=black, text=white}}
