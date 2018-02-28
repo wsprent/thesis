@@ -24,12 +24,13 @@ up to 98\% of edges in some instances. In this section, we will first give a ful
 
  \subsection{Local Reduction Tests}
  The first type of reductions we will look at, we will named \textit{local} reduction tests. These are tests which only require knowledge
- of the neighbourhood of a couple of vertexes in the graph, and perhaps simple global information such as maximum prize. As such, the tests
+ of the neighbourhood of a couple of vertexes in the graph, and potentially static global information
+ such as maximum prize. As such, the tests
  presented in this section are generally of low computational cost, allowing for testing a full graph in linear time.
 
  Note that the first tests presented (NTD1, NTD2, TD1, TD2) are known collectively
  in recent literature as \textit{Degree Tests}, for example in \cite{rehfeldt2016reduction}.
-\subsubsection{Non-Terminals of Degree 1}
+\subsubsection{Non-Terminals of Degree 1 (NTD1)}
 \label{sec:red:test:deg1}
 Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal with degree 1, then
  clearly -- since edges have positive weights -- $v$ can not be part of an optimal solution. Thus $v$ is redundant. In other words,
@@ -75,7 +76,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
  While this reduction test is originally stated for the STP \citep{hwang1992steiner}, it is also applicable to the PCSTP. Figure (\ref{fig:red:test:deg1})
   shows an example of removing a degree 1 non-terminal.
 
-  \subsubsection{Non-Terminals of Degree 2}
+  \subsubsection{Non-Terminals of Degree 2 (NTD2)}
     \label{fig:red:test2}
 \todo{These two sections probably use too different methods in defining their reductions}
     Similarly, let $G = (V,E,c,p)$ be an instance of the PCSTP, let $v \in G$ be a non-terminal with degree $|\delta(v)| = 2$, and let
@@ -93,7 +94,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
 
     In other words, if $c_{uv} + c_{vw} <  c_{uw}$ then $(u,w)$ is redundant, can be removed, and $v$ and its edges
     can be contracted to a single edge.
-    Otherwise $v$ and its edges are redundant and can be removed. Figure (\ref{fig:red:test:deg2})
+    Otherwise $v$ and its edges are redundant and can be removed. Figure (\ref{fig:pre:ntd2})
     shows an example this reduction test.
 
 \begin{figure}[h!]\centering
@@ -132,20 +133,36 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
 
   \end{tikzpicture}
   \caption{Removing a non-terminal with degree 2.}
-  \label{fig:red:test:deg2}
+  \label{fig:pre:ntd2}
 \end{figure}
 
 This test is another example of a reduction test for the STP which can by directly applied to
  the PCSTP.
-\subsubsection{Terminals of Degree 1}
-\label{sec:red:test:tdeg1}
-\todo[inline]{Write this section. It's very clear.}
+ \subsubsection{Terminals of Degree 1 (TD1)}\label{sec:pre:td1}
+ When we have a terminal, $u$, of degree one, we can make the following two observations:
+ \begin{enumerate}
+ \item If the cost of the edge adjacent to $u$ is higher than $p_u$, then that edge is redundant, and
+ \item additionally, if there exists a vertex with at least as high prize as $u$, then $u$ is redundant.
+ \end{enumerate}
+ These observations were stated first in \cite{uchoa2006reduction} -- however without the second condition,
+ making the redundancy of $u$ potentially invalid -- and later corrected in \cite{rehfeldt2016reduction} as a combined test.
+
+ We state here only the first part here as the TD1 test to allow for the disconnection of vertices with maximal prize.
+ \begin{theorem}[Terminals of Degree 1 Test]
+   Let $u$ be a terminal in $G$ with degree of 1 with adjacent edge $(u, v)$. If
+   $p_u < c_{uv}$ then $(u,v)$ is redundant.
+ \end{theorem}
+
+ Applying this definition of TD1 in conjection with the UDV test (defined in Section \ref{sec:pre:udv})
+ allows for the potential removal of terminals of degree one (see Figure \ref{fig:red:test:deg1}), giving the
+  test defined in \cite{uchoa2006reduction} and \cite{rehfeldt2016reduction}.
+
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
       % Pre
-      \begin{scope}[shift={(-0.5,0)}]
-        \node[terminal, label={$p_a$}] (a) at (0, 0) {a};
-        \node[terminal, label={$p_v$}] (b) [left=of a] {v};
+      \begin{scope}[shift={(-4,0)}]
+        \node[terminal, label={$p_a$}] (a) at (0, 0) {v};
+        \node[terminal, label={$p_v$}] (b) [left=of a] {u};
         \node (sg) [above right = 1.3 and 0.1 of a] {};
         \node (sg2) [below right= 1.3 and 0.1 of a] {};
 
@@ -157,52 +174,183 @@ This test is another example of a reduction test for the STP which can by direct
 
       \draw [->,decorate, thick,
       decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
-      (1.0,1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k\geq p_v$}
-      (3,2);
-      % Post      
-      \begin{scope}[shift={(6cm, 3cm)}]
+      (-3,1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k\geq p_v$}
+      (-1,2.3);
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (-3,-1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k < p_v$}
+      (-1,-2.3);
 
-        \node[terminal, label=right:{$p_a$}] (a) at (0, 0) {a};
-        \node[terminal, label={$p_v$}] (b) [left=of a] {v};
+      % Post      
+
+      \begin{scope}[shift={(1.5cm, 0)}]
+
+        \begin{scope}[shift={(0, 3cm)}]
+          
+          \node[terminal, label=right:{$p_a$}] (a) at (0, 0) {v};
+          \node[terminal, label={$p_v$}] (b) [left=of a] {u};
         
-        \node (sg) [above right = 1.3 and 0.1 of a] {};
+          \node (sg) [above right = 1.3 and 0.1 of a] {};
+          \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+          % Edges
+          \draw[dashed] (a) to (sg);
+          \draw[dashed] (a) to (sg2);
+        \end{scope}
+
+
+        % Post2      
+        \begin{scope}[shift={(0, -3cm)}]
+          \node[terminal, label=right:{$p_a + (p_v - k)$}] (a) at (0, 0) {v};
+          \node[terminal, label={$p_v$}] (b) [left=of a] {u};
+          
+          \node (sg) [above right = 1.3 and 0.1 of a] {};
+          \node (sg2) [below right= 1.3 and 0.1 of a] {};
+          
+          % Edges
+          \draw[dashed] (a) to (sg);
+          \draw[dashed] (a) to (sg2);
+        \end{scope}
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (4,3) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$\exists p_u \geq p_v$}
+      (5,3);
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (4,-3) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$\exists p_u \geq p_v$}
+      (5,-3);
+
+      \begin{scope}[shift={(6.5cm, 0)}]
+
+        \begin{scope}[shift={(0, 3cm)}]
+          
+          \node[terminal, label=right:{$p_a$}] (a) at (0, 0) {v};
+        
+          \node (sg) [above right = 1.3 and 0.1 of a] {};
+          \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+          % Edges
+          \draw[dashed] (a) to (sg);
+          \draw[dashed] (a) to (sg2);
+        \end{scope}
+
+
+        % Post3      
+        \begin{scope}[shift={(0, -3cm)}]
+          \node[terminal, label=right:{$p_a + (p_v - k)$}] (a) at (0, 0) {v};
+          
+          \node (sg) [above right = 1.3 and 0.1 of a] {};
+          \node (sg2) [below right= 1.3 and 0.1 of a] {};
+          
+          % Edges
+          \draw[dashed] (a) to (sg);
+          \draw[dashed] (a) to (sg2);
+        \end{scope}
+    \end{scope}
+
+  \end{tikzpicture}
+  
+  \caption{Removing a terminal of degree 1 (TD1 + UDV).}
+  \label{fig:red:test:deg1}
+\end{figure}
+
+\subsubsection{Terminals of Degree 2 (TD2)} 
+Similarly to TD1, we can disconnect terminals with degree 2 where both edges have costs higher than the prize
+ of the terminal. Formally we state this as,
+ \begin{theorem}[Terminals of Degree 2 Test]
+   Let $u$ be a vertex with degree 2, such that vertices $v$ and $w$ are adjacent to $u$. Suppose that
+   $$p_u \leq \min(c_{uv}, c_{uw})$$
+   then any optimal solution must \textit{either} contain both edges or neither.
+   Thus it is valid to replace the edges $(u,v)$ and $(u,w)$ with a single edge $(w,v)$ with cost
+   $$c_{wv} = c_{uv} + c_{uw} - p_u\mathnormal{.}$$
+ \end{theorem}
+
+\begin{figure}[h!]\centering
+    \begin{tikzpicture}[auto, node distance=1.3 cm]
+      % Pre
+      \begin{scope}
+        \node[terminal] (a) at (0, -0.65) {v};
+        \node[terminal] (b) [above=of a] {w};
+        \node[terminal] (c) [above left= 0.65 and 1.3 of a] {u};
+        \node (sg) [above right = 1.3 and 0.1 of b] {};
         \node (sg2) [below right= 1.3 and 0.1 of a] {};
 
         %Edges
-        \draw[dashed] (a) to (sg);
+        \draw (a) edge node {$k$} (b);
+        \draw (a) edge node {$c_1$} (c);
+        \draw (b) edge node[swap] {$c_2$} (c);
+        \draw[dashed] (b) to (sg);
         \draw[dashed] (a) to (sg2);
       \end{scope}
 
       \draw [->,decorate, thick,
       decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
-      (1.0,-1) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k < p_v$}
-      (3,-2);
-
-      % Post2      
-      \begin{scope}[shift={(6cm, -3cm)}]
-        \node[terminal, label=right:{$p_a + (p_v - k)$}] (a) at (0, 0) {a};
-        \node[terminal, label={$p_v$}] (b) [left=of a] {v};
-
-        \node (sg) [above right = 1.3 and 0.1 of a] {};
+      (1,0) -- node {$p_u \leq \min(c_1, c_2)$}
+      (3.25,0);
+      % Post      
+      \begin{scope}[shift={(6.25cm, 0)}]
+        \node[terminal] (a) at (0, -0.65) {v};
+        \node[terminal] (b) [above=of a] {w};
+        \node[terminal] (c) [above left= 0.65 and 1.3 of a] {u};
+        \node (sg) [above right = 1.3 and 0.1 of b] {};
         \node (sg2) [below right= 1.3 and 0.1 of a] {};
 
         %Edges
-        \draw[dashed] (a) to (sg);
+        \draw (a) edge node[swap] {$\min(k, c_1 + c_2 - p_u)$} (b);
+        \draw[dashed] (b) to (sg);
+        \draw[dashed] (a) to (sg2);
+      \end{scope}
+
+      \draw [->,decorate, thick,
+      decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+      (9,0) -- node {$\exists p_v \geq p_u$}
+      (10,0);
+
+      \begin{scope}[shift={(11cm, 0)}]
+        \node[terminal] (a) at (0, -0.65) {v};
+        \node[terminal] (b) [above=of a] {w};
+        \node (sg) [above right = 1.3 and 0.1 of b] {};
+        \node (sg2) [below right= 1.3 and 0.1 of a] {};
+
+        %Edges
+        \draw (a) edge node[swap] {$\min(k, c_1 + c_2 - p_u)$} (b);
+        \draw[dashed] (b) to (sg);
         \draw[dashed] (a) to (sg2);
       \end{scope}
 
   \end{tikzpicture}
-  \caption{Removing the edge connected a terminal of degree 1.}
-  \label{fig:red:test:deg1}
+  \caption{Removing a terminal with degree 2 (TD2 + UDV).}
+  \label{fig:red:td2}
 \end{figure}
 
-\subsubsection{Terminals of Degree 2}
+\subsubsection{Unconnected Dominated Vertex (UDV)}\label{sec:pre:udv}
+Proposed in \cite{rehfeldt2016reduction}, the \textit{unconnected dominated vertex test} reduces the
+graph by removing any subgraph which contains at most one terminal which has less than maximum prize.
+Stated formally as in the following theorem, which we will not prove.
+\begin{theorem}[Unconnected Dominated Vertex Test]
+  Consider a connected subgraph $S = (V_S, E_S, c, p)$ of $G$. Let $N_S = \{v \in V_s \mid p_v > 0\}$
+  be the set of terminals in $S$. Then $S$ is redundant and removing it is valid if either
+  \begin{enumerate}
+  \item $N = \emptyset$, or
+  \item $N = \{u\}$ and $p_u \leq \max_{v \in V \setminus \{u\}} p_v$.
+  \end{enumerate}
+\end{theorem}.
 
 
-\subsubsection{Minimum Adjacency}
-Again defined in \cite{duin1989reduction} for the STP, the \textit{minimum adjacency test}
-(also known as the \textit{$V \setminus K$ test}) is a reduction test which contracts adjacent
-terminals as shown in Figure (\ref{fig:red:test:ma}).
+Specialising this test to singleton subgraphs, makes it ideal to perform in conjuction with other tests.
+ Figure (\ref{fig:red:test:deg1}) shows the application
+ of TD1 followed directly by UDV.
+
+\subsubsection{Minimum Adjacency (MA)}
+Again defined in \cite{duin1989reduction} for the STP but also applicable for the PCSTP,
+the \textit{minimum adjacency test}
+(also known as the \textit{$V \setminus K$ test}) 
+is a reduction test which contracts any adjacent
+terminals which are connected by an edge with lower cost than either of their prizes.
+ This is shown in Figure (\ref{fig:red:test:ma}).
  
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
@@ -226,7 +374,7 @@ terminals as shown in Figure (\ref{fig:red:test:ma}).
 
       \draw [->,decorate, thick,
       decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
-      (1.0,0) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$\min(p_v, p_u) \leq k$}
+      (1.0,0) -- node [above=1mm,midway,text width=3cm, sloped, align=center] {$k \leq \min(p_v, p_u)$}
       (3,0);
       % Post      
       \begin{scope}[shift={(6cm, 0cm)}]
@@ -250,7 +398,7 @@ terminals as shown in Figure (\ref{fig:red:test:ma}).
 
 \begin{theorem}[Minimum Adjacency]
   Let $u$ and $v$ be adjacent terminals in $G$. If we have
-  $$\min(p_u, p_v) \geq c_{uv}$$
+  $$c_{uv} \leq \min(p_u, p_v)$$
   and
   $$c_{uv} = \min_{(u, w) \in E}c_{uw}$$
   then it is valid to contract $u$ and $v$.
@@ -260,21 +408,19 @@ terminals as shown in Figure (\ref{fig:red:test:ma}).
   which contains $u$ but not $(u,v)$ can
   be transformed into a solution $T'$ which contains $(u,v)$ where $c(T') \leq c(T)$.
 
-  \paragraph{Case 1: $v \in V_T$}
+  \paragraph{Case 1: ($v \in V_T$)}
   Let $(u, w) \in E_T$ be the first edge in the simple path from $u$ to $v$. By assumption, we
   have that $c_{uv} \leq c_{uw}$, and the tree $T'$ constructed by removing $(u,w)$ from $T$ and
   adding $(u,v)$ has cost
   $$c(T') = c(T) - c_{uw} + c_{uv} \leq T\mathnormal{.}$$
-  \paragraph{Case 2: $v  \not\in V_T$}
+  \paragraph{Case 2: ($v  \not\in V_T$)}
   Let $T'$ be the tree obtained by adding $(u,v)$ to $T$. As per the assumption that $\min(p_u, p_v) \geq c_{uv}$,
   we have that $T'$ has cost,
   $$c(T') = c(T) + c_{uv} - p_{uv} \leq c(T)\mathnormal{.}$$
 \end{proof}
 
-\subsubsection{Unconnected Dominated Vertex}
 
-
-\subsection{Steiner Distance Reduction Tests}
+\subsection{Steiner Distance Reduction Tests}\label{sec:sd-red-test}
 % $$d(u,v) = \min \{ c(P) \mid P \in \mathcal{P}_{uv}\}$$
 More complex tests can be described in terms
 of the concepts Steiner distance and Bottleneck distance. These were originally stated for
@@ -295,11 +441,11 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
  $$sd(P) = \max_{u,w \in P} sd(P_{uw})\mathnormal{.}$$
  Let $\mathcal{P}_{uw}$ be the set of all simple paths
  connecting vertices $u$ and $w$ in
- $G$, then we denote the \textit{bottleneck distance} between $u$ and $w$ as minimal Steiner
+ $G$, then we denote the \textit{bottleneck distance} between $u$ and $w$ as the minimal Steiner
   distance among paths in $\mathcal{P}_{uw}$,
   $$B(u,w) = \min_{P \in  \mathcal{P}_{uw}} sd(P)\mathnormal{.}$$
   The bottleneck distance is a measure of the worst case \textit{additional cost}
-  \todo{Make decision on whether I should replicated proofs for claims like this.}
+  \todo{Proof? Maybe.}
  of connecting
  two disjoint subgraphs containing vertices $u$ and $v$ respectively in $G$.
 
@@ -314,7 +460,25 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
  is an NP hard problem by reduction from the Hamiltonian Path problem. Hence,
  exactly calculating the bottleneck distance is infeasible. However, \cite{uchoa2006reduction}
  also claims that existing heuristics are fast and give strong upper bounds.
- \subsubsection{Special Distance}
+
+It is worth noting that due to
+\begin{enumerate*}[label={\alph*)}]
+\item the relatively new proposal of the Steiner/bottleneck distances in \cite{uchoa2006reduction} for the PCSTP, and
+\item their computational complexities,
+\end{enumerate*}
+the reduction tests stated in this section have been applied in literature
+using ordinary distance (i.e. ignoring prizes) and shortests paths
+instead of the Steiner and bottleneck distances. This corresponds to the direct application of
+reduction tests
+proposed for the STP in \cite{duin1989edge,duin1989reduction}. Since this results in
+upper bounds on the bottleneck distance, the original
+tests are still valid for the PCSTP,
+but are weaker than the natively tests proposed in \cite{uchoa2006reduction}.
+
+When we talk
+ about \textit{shortest path relaxations} of the following tests, this is what we are referring to.
+
+ \subsubsection{Special Distance (SD)}
  \label{sec:red:test:sd}
  Using the PCSTP version of the Steiner and bottleneck distances, \cite{uchoa2006reduction} proves
   the validity of the more general \textit{special distance test}.
@@ -398,7 +562,7 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
   \label{fig:red:test:sd:thm}
 \end{figure}
 
-\subsubsection{Non-Terminals of Degree 3}
+\subsubsection{Non-Terminals of Degree 3 (NTD3)}
 \label{sec:red:test:deg3}
 Another bottleneck distance based test,
 also proved valid for the PCSTP in \cite{uchoa2006reduction},
@@ -487,8 +651,43 @@ is the \textit{non-terminals of degree 3 test}.
   \label{fig:red:test:ntd3:thm}
 \end{figure}
 
-\subsection{Summary of Usage}
+\subsubsection{Non-Terminals of Degree k (NTDk)}
+\todo[inline]{This is stated somewhat in the Uchoa paper and weirdly in the Rehfeldt paper. The latter claims that the former proves it, but there is no such proof. Shouldn't be too difficult}
 
+\subsection{Summary of Usage}\label{sec:pre:summary-usage}
+There's a general consensus in literature that preprocessing is an important part of producing solutions
+for the PCSTP. Preprocessing described in this section is applied natively to the PCSTP
+in all of
+\cite{lucena2004strong, Ljubic:2004:memetic, ljubic2005solving,akhmedov2016divide,gamrath2017scip}.
+Additionally, preprocessing is applied to the SAP in \cite{leitner2016dual}, and proposed
+as further improvements in \cite{fu2014knowledge}.
+
+\paragraph{Combinations of Tests}
+
+In \cite{lucena2004strong} all four of the degree tests (NTD1, NTD2, TD1+UDV, TD2+UDV) are
+applied alongside shortest path relaxations of SD and NTDk (for ``small'' numbers of $k$)
+tests. They do not
+present in which order tests are applied or how often they are repeated, but they
+do present the graph sizes of their benchmark cases before and after applying preprocessing.
+
+\cite{Ljubic:2004:memetic} and \cite{ljubic2005solving} share a preprocessing routine
+ which applies in order:
+\begin{enumerate}
+\item degree one tests: NTD1+TD1+UDV,
+\item degree two tests: NTD2+TD2.
+\item shortest path relaxation of the special distance test (here called the least cost test),
+\item shortest path relaxation of NTDk for $k = 3,...,8$, and
+\item the minimum adjacency test.
+\end{enumerate}
+until a fixpoint is reached. They present both numbers on graph reduction and preprocessing
+time. Across all problem instances, they report on average
+a 45\% reduction in graph size.
+
+\cite{akhmedov2016divide} applies the four degree tests until a fixpoint is reached. They
+report reduction in graph sizes for their test cases as well as pre-processing time and
+total computation time with/without preprocessing.
+
+\todo[inline]{Maybe insert a comparison of graph reduction across the articles}
 \section{Primal Heuristics}
 
 \section{Exact Algorithms}
