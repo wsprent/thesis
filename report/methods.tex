@@ -1,10 +1,77 @@
 \chapter{Solving the Prize-Collecting Steiner Tree Problem}
 \label{chap:solving}
-\section{Preprocessing}
+
+In this chapter, we will present a survey of methods used to solve the Prize-Collecting Steiner Tree Problem. Due to the nature of solving
+NP-hard combinatorial optimisation problems, this involves the the mixing and matching of methods within larger frameworks.
+ After a rundown of the history of solving the PCSTP in section \ref{sec:solving:history}, we will present the following:
+\begin{itemize}
+\item Section \ref{sec:solving:pre} presents preprocessing algorithms used to reduce instance sizes.
+\item Section \ref{sec:solving:primal} presents heuristics for solving the PCSTP.
+\item Section \ref{sec:solving:approx} presents approximations for solving the PCSTP.
+\item Section \ref{sec:solving:lower} presents methods used for generating lower bounds.
+\item Section \ref{sec:solving:exact} presents frameworks and combinations of the above used find exact solutions
+   to the PCSTP.
+\end{itemize}
+
+\section{History}
+\label{sec:solving:history}
+
+Solutions to the PCSTP were first explored by \cite{Bienstock1993} which proposed a 3-approximation algorithm based on Christophides algorithm for the TSP.
+This was later improved to a primal-dual 2-approximation algorithm by \cite{goemans1997primal}, which was refined and implemented
+for faster runtimes and typically better
+bounds by \cite{Johnson:2000:PCS:338219.338637}.
+
+\cite{canuto2001local} presented a primal heuristic based on multi-start local search with pertubations and path relinking.
+
+An ILP formulation based on the General Subtour Elimination Constraint (GSEC) formulation of the Travelling Salesman Problem was
+stated by \cite{lucena2004strong}, who presented an algorithm for solving the LP relaxation of the GSEC formulation using
+a separation procedure as a method for generating a strong lower bound for the PCSTP. Similarly, \cite{Ljubic:2004:memetic}
+presented a memetic algorithm using tournament selection and mutation. They additionally presented an ILP formulation of the Steiner
+ Aborescence Problem, based on cuts, the LP-relaxation of which was solved on a subgraph extracted from the memetic algorithm to
+ improve the solutions as a postprocessing step.
+
+ \cite{ljubic2005solving} proposed the first full framework for solving the PCSTP to optimality. This was done by solving
+ equivalent SAP instances through branch-and-cut where the LP-relaxation of a cut-formulation of the SAP is solved to generate
+  a lower bound and a separation procedure is used to tighten this bound.   
+  Furthermore, they presented a set of real-world problem instances for the PCSTP based on network layout in Berlin.
+
+  While \cite{lucena2004strong}, \cite{Ljubic:2004:memetic}, and \cite{ljubic2005solving} applied preprocessing routines
+  -- known as reduction tests --
+  which were originally generalised for
+  the Steiner Tree Problem by \cite{duin1989edge,duin1989reduction} for reducing graph sizes,
+  these tests weren't stated and
+  proved natively for the PCSTP until \citeauthor{uchoa2006reduction} did so in \citeyear{uchoa2006reduction}.
+  \citeauthor{uchoa2006reduction} both restated and proved the validity of reduction tests which were direct restatements of tests defined for the STP,
+  and also introduced a new
+  novel way of determining distances between nodes, allowing for stronger reduction tests.
+
+  The 11th DIMACS challenge on Steiner tree problems\footnote{\url{http://dimacs11.zib.de/}} brought not only a new set of instances for the PCSTP, but
+  also a new wave of algorithms.
+
+  Solving the PCSTP by transforming instances to directed variants was revisited by \cite{leitner2016dual} and \cite{gamrath2017scip}.
+  \cite{leitner2016dual} transformed instances into the Asymmetric Prize-Collecting Steiner Tree Problem (APCSTP) and employed a
+  branch-and-bound framework using a dual ascent method originally presented by \cite{wong1984dual} -- for the SAP -- for lower bounds and
+  a shortest-path primal heuristics was used for finding good incumbents.
+  \cite{gamrath2017scip} presented SCIP Jack -- an exact solver for STP variants based on the solver (of the STP, by way of SAP) presented by
+  \cite{koch1998solving} and the MIP solver, SCIP \footnote{\url{http://scip.zib.de/}}.
+  This applied preprocessing routines natively to the PCSTP instances before transforming them into SAP instances. The SAP was formulated as an
+  ILP in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch-and-bound procedures of the SCIP optimization suite were
+  then employed together with a contraint separation procedure defined in \cite{koch1998solving}.
+
+  Developments were also made in field of heuristics for the PCSTP. \cite{fu2014knowledge} presented a tabu search and a neighbourhood definition
+  using a new \textit{vertex swap} operation.
+  \cite{akhmedov2016divide} presented a clustering heuristics for dividing PCSTP into subproblems,
+  and additionally a
+  reimplementation of the solver by \cite{ljubic2005solving} which was used to solve problems defined by the subgraphs. Additionally, they presented
+  applications for the PCSTP within biology.
+  \cite{biazzo2012performance} explored the performance of the cavity method on the PCSTP.
+  
+ \section{Preprocessing}
+ \label{sec:solving:pre}
 Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven succesful in many cases both for instances of the STP
 \citep{koch1998solving}
 and instances of the PCSTP
-\citep{ljubic2005solving, gamrath2017scip}. %TODO: MORE
+\citep{lucena2004strong,canuto2001local,ljubic2005solving, gamrath2017scip}. %TODO: MORE
 These routines make use of proven invariants to remove and contract edges as well as choose edges before applying the any main procedure.
 A set of common preprocessing routines are applied in different manners in literature, mainly differentiated by:
 \begin{enumerate}[label=\alph*)]
@@ -337,10 +404,11 @@ Stated formally as in the following theorem, which we will not prove.
   \item $N = \emptyset$, or
   \item $N = \{u\}$ and $p_u \leq \max_{v \in V \setminus \{u\}} p_v$.
   \end{enumerate}
-\end{theorem}.
+\end{theorem}
 
 
-Specialising this test to singleton subgraphs, makes it ideal to perform in conjuction with other tests.
+This test can easily be applied as a special case for subgraphs consisting of a single,
+ unconnected vertex.
  Figure (\ref{fig:red:test:deg1}) shows the application
  of TD1 followed directly by UDV.
 
@@ -688,9 +756,13 @@ report reduction in graph sizes for their test cases as well as pre-processing t
 total computation time with/without preprocessing.
 
 \todo[inline]{Maybe insert a comparison of graph reduction across the articles}
-\section{Primal Heuristics}
+\section{Primal Heuristics}\label{sec:solving:primal}
+\section{Approximation Algorithms}\label{sec:solving:approx}
 
-\section{Exact Algorithms}
+\section{Lower Bounding Procedures}
+\label{sec:solving:lower}
+
+\section{Exact Algorithms}\label{sec:solving:exact}
 %%% Local Variables:
 %%% TeX-master: "report"
 %%% reftex-default-bibliography: ("lit.bib")

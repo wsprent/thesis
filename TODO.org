@@ -21,6 +21,8 @@ Keywords: strong pruning
    CLOSED: [2018-02-19 Mon 14:18]
 
 ** TODO Knowledge-guided local search for the prize-collecting Steiner tree problem in graphs
+** TODO Algorithms for the Maximum Weight Connected Subgraph and Prize-collecting Steiner Tree Problems
+** TODO A Fast, Adaptive Variant of the Goemans-Williamson Scheme for the Prize-Collecting Steiner Tree Problem
 ** TODO Reduction Techniques for the Prize-Collecting Steiner Tree Problem and the Maximum-Weight Connected Subgraph Problem
 ** DONE Knowledge Guided Tabu Search for the Prize Collecting Steiner Tree Problem in Graphs
    CLOSED: [2018-02-20 Tue 10:34]
@@ -54,6 +56,11 @@ Distance Network Heuristics
 
 ** TODO Look at the original Balas paper
 ** TODO PDFS on Dropbox
+* Research PCTSP
+** TODO A note on the prize collecting traveling salesman problem
+** TODO the prize collecting traveling salesman problem and its applications
+** TODO Traveling Salesman Problems with Profits
+** TODO An Hybrid GRASP ..
 * Thesis
 
 ** DONE Make Skeleton
