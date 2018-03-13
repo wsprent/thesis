@@ -1,0 +1,236 @@
+\clearpage
+\section{Approximation Algorithms}\label{sec:solving:approx}
+
+\subsection{The Goemans-Williamson Algorithm}\label{sec:solving:approx}
+\cite*{goemans1995general} presented a primal-dual 2-approximation algorithm for the rooted variant of the
+PCSTP, based on an algorithm for solving the general \textit{constrained forest problem}.
+
+\todo[inline]{Quick summary of usage. It is popular.}
+
+\paragraph{Definitions}
+\citeauthor{goemans1995general} stated the ILP (GW-ILP) in Formulation \ref{form:approx:gw} for the rooted PCSTP.
+
+ \begin{formulation}[h!]
+   \begin{subequations}
+     \begin{alignat}{3} 
+       &\underset{x}{\text{minimize}}
+       & & \sum_{e \in E} c_e x_e + \sum_{X \subset V; r \not\in X} z_X \left( \sum_{v \in X} p_v \right) & \\
+       & \text{subject to}\quad
+       & & x(\delta(S)) + \sum_{X \supseteq S}z_X \geq 1 \qquad&& \forall S \subset V; r \not\in S \\
+       &&& \sum_{S \subset V; r \not\in S} z_X \leq 1 &&\nonumber\\
+       &&& x_e \in \BB  && \forall e \in E \\
+       &&& z_X \in \BB  && \forall S \subset V; r \not\in S
+     \end{alignat}\label{form:approx:gw}
+   \end{subequations}
+   \caption{(GW-IP) formulation of the PCSTP.}
+ \end{formulation}
+
+ GW-IP has two decision vectors. The decision vector $x$ denotes which edges are contained in the solution, $z_X$ is
+ $1$ when all $v \in X$ are not part of a solution. Clearly, any optimal solution will have $z_X = 1$ for just a single
+ $X \subset V$.
+
+ \begin{formulation}[h!]
+   \begin{subequations}
+     \begin{alignat}{3} 
+       &\underset{x}{\text{maximize}}
+       & & \sum_{S \subset V; r \not\in S} y_S & \\
+       & \text{subject to}\quad
+       & & \sum_{S: e \in \delta(S)} y_S \leq c_e \qquad&& \forall e \in E \label{form:gw:pe}\\
+       &&& \sum_{S \subseteq X} y_S \leq \sum_{v \in X} p_v  && \forall X \subset V; r \not\in X \label{form:gw:pv} \\
+       &&& y_S \geq 0  && \forall S \subset V; r \not\in S
+     \end{alignat}\label{form:approx:gw:dual}
+   \end{subequations}
+   \caption{(GW-D): Dual of the LP relaxation of (GW-ILP) from Formulation \ref{form:approx:gw}.}
+ \end{formulation}
+ 
+
+ The dual to the LP relaxation of GW-IP is the linear program in \ref{form:approx:gw:dual}. We make note of the
+ \textit{packing} constraints \ref{form:gw:pe} and \ref{form:gw:pv}, and note that by \textit{complementary slackness}
+ of the primal LP, we have for optimal primal solutions to the LP, $(x^*, z^*)$,
+ $$x^*_e > 0 \Rightarrow \sum_{S: e \in \delta(S)} y_S = c_e$$
+ and
+ $$z^*_X > 0 \Rightarrow \sum_{S \subseteq X} y_S = \sum_{v \in X} p_v\mathnormal{.}$$
+ 
+
+ 
+ \paragraph{The Algorithm} The GW-Algorithm consists of a growing phase and a pruning phase. The growing phase
+ builds a feasible solution $T$ by maintaining a set of active and deactive components \textit{components}
+ (initially singleton sets which are active if they do not contain the root vertex), and simultaneously increasing
+  the dual variable value for all active components until one of the following happen:
+ \begin{enumerate}[label=\alph*)]
+ \item If a packing constraint (\ref{form:gw:pe}) becomes binding for some edge $e = (i,j) \in E$, then $e$ is added
+   to $T$, and the components bridged by $e$ are merged into a component with combined cost.
+   The new component is considered active iff. the root vertex is not contained in it.
+ \item If a packing constraint (\ref{form:gw:pv}) becomes binding for some subset $X  \subset V$ (i.e. component), then $X$ is deactivated
+    and all vertices it contains are marked with $X$.
+ \end{enumerate}
+ This continues until there are no active components left, at which point $T$ is a feasible solution to the IP (GW-IP).
+
+ 
+ \begin{algorithm}[h!]
+   \begin{algorithmic}[1]
+     \Input{Graph $G = (V, E, c, p)$ and root vertex $r \in V$.}
+     \Output{Tree $T' \subseteq E$, and the set of vertices not spanned by $T'$, $X$.}
+     \Procedure{GW-Algorithm}{}
+     \State $T \gets \emptyset$ \label{gw:init-start}
+     \State $\mathcal{C} \gets \{\{v\} : v \in V\}$
+     \For {$v \in V$}
+       \State $d(v) \gets 0$
+       \State $w(\{v\}) \gets 0$
+       \State Unmark $v$.
+       \If {$v = r$}
+         \State $\lambda(\{r\}) \gets 0$
+       \Else
+         \State $\lambda(\{v\}) \gets 1$
+       \EndIf
+     \EndFor \label{gw:init-end}
+     \While{$\{ C \in \mathcal{C} \mid \lambda(C) = 1\} \neq \emptyset$}
+     \State $\epsilon_1 \gets \min_{i,j} \frac{c_{ij} - d(i) - d(j)}{\lambda (C_i) + \lambda(C_j)},
+     \qquad i \in C_i, j \in C_j, C_i \neq C_j$ \label{gw:select-start}
+     \State $\epsilon_2 \gets \min_{w} \sum_{v \in C_w} p_v - w(C_w), \qquad C_w \in \mathcal{C}$
+     \State $\epsilon \gets \min(\epsilon_1, \epsilon_2)$ 
+     \State $w(C) \gets w(C) + \lambda(C) \epsilon$ for all $C \in \mathcal{C}$ \label{gw:add-component}
+     \State $d(v) \gets d(v) + \lambda(C) \epsilon$ for all $v \in C \in \mathcal{C}$ \label{gw:add-vertex}
+     \If{$\epsilon = \epsilon_1$}
+     \State Add $(i,j)$ to $T$: $T \gets T \cup \{(i,j)\}$
+     \State Merge $C_i$ and $C_j$ to $C_{ij}$,
+     $\mathcal{C} \gets \mathcal{C} \cup \{C_{ij}\} \setminus \{C_i, C_j\}$
+     \State If $r \in C_{ij}$ then $\lambda(C_{ij}) \gets 0$ else $\lambda(C_{ij}) \gets 1$
+     \State $w(C_{ij}) \gets w(C_i) + w(C_j)$
+     \Else
+     \State Deactivate $C_w$, $\lambda(C_w) \gets 0$
+     \State Mark all $v \in C_w$ with the label $C_w$
+     \EndIf
+     \EndWhile
+     \State $T' \gets \Call{Prune}{T, Labels}$ 
+   \EndProcedure
+ \end{algorithmic}
+ \caption{The GW-Algorithm}\label{approx:gw:alg}
+ \end{algorithm}
+
+ The growing phase of the GW-Algorithm is shown in Algorithm \ref{approx:gw:alg}. Lines \ref{gw:init-start}-\ref{gw:init-end}
+ initialise the set of components as described above. Only the component containing the root vertex is set as inactive.
+ The lines \ref{gw:select-start}-\ref{gw:add-vertex} then determine the amount, $\epsilon$, which the value of the dual decision vector
+ can be increased for active components
+ until a packing constraint becomes binding. Since this behaviour is not directly clear for the definition of the algorithm,
+  we attempt to give some intuition in the following.
+
+ At the beginning of each iteration we have,
+ $$d(v) = \sum_{S: v \in S} y_S, \forall v \in V \mathnormal{.}$$
+ This follows directly from line \ref{gw:add-vertex}. Suppose that the corresponding
+ packing constraint for the edge $e = (i,j)$ is
+  the tightest ``active'' constraint. Notice that we can reformulate the left side of the constraint as follows,
+ $$\sum_{S: (i,j) \in \delta(S)} y_S = \sum_{S : i \in S} y_S + \sum_{S : j \in S} y_S - \sum_{S : i,j \in S} y_S\mathnormal{.}$$
+ Since that we are only considering edges which bridge components, we clearly must have $\sum_{S : i,j \in S} y_S = 0$
+ and thus,
+ $$\sum_{S: (i,j) \in \delta(S)} y_S = d(i) + d(j)\mathnormal{.}$$
+ Suppose, w.l.o.g., that both $i$ and $j$ belong to active components.
+ When the iteration is over, we will have increased $d(i)$ and $d(j)$ by $\epsilon = \frac{c_{ij} - d(i) - d(j)}{2}$.
+ The packing constraint for $e = (i,j)$ is then binding,
+ $$\sum_{S: (i,j) \in \delta(S)} y_S = d(i) + \left( \frac{c_{ij} - d(i) - d(j)}{2} \right) + d(j) +
+ \left( \frac{c_{ij} - d(i) - d(j)}{2} \right)   = c_{ij}\mathnormal{.}$$
+ The case where a packing constraint (\ref{form:gw:pv}) is the tightest is similar, and follows directly from the loop
+ invariant
+ $$w(C) = \sum_{S \subset C} y_S, \forall C \in \mathcal{C}\mathnormal{.}$$
+
+ \cite{goemans1995general} describe the pruning procedure loosely as a procedure which removes as many
+ edges from $T$ while upholding that:
+ \begin{enumerate}
+ \item any unlabeled vertex is connected to the root vertex, $r$, and
+ \item if a vertex with label $C$ is connected to $r$ then any vertex with
+   label $C' \supset C$ must also be connected $r$.
+ \end{enumerate}
+ The pruning procedure was improved upon by the ``strong pruning'' procedure introduced by \cite{Johnson:2000:PCS:338219.338637},
+  which we will detail in Section \ref{sec:approx:strongpruning}.
+ \paragraph{Analysis}
+ The GW-Algorithm is proven to produce a result which is less than twice as bad as an optimal solution to (GW-IP), $Z^*_{\text{GW-IP}}$, and thus
+ is a 2-approximation algorithm. This follows from the following inequality,
+ $$\sum_{e \in T'}c_e + \sum_{v \in X} p_v \overset{\text{(I)}}{=}   \sum_{e \in T'} \sum_{S: e \in \delta(S)} y_S  + \sum_{j} \sum_{S \subseteq C_j} y_S
+ \overset{\text{(II)}}{\leq} (2 - \frac{1}{n-1}) \sum_{S \subset V} y_S \overset{\text{(III)}}{\leq} (2 - \frac{1}{n-1}) Z^*_{\text{GW-IP}}\mathnormal{.}$$
+ The reader is encouraged to read \cite{goemans1997primal} for the full proof, but it roughly goes as follows:
+ \begin{itemize}
+ \item (I) holds from primal complimentary slackness. An edge is only added to $T$ if its corresponding packing constraint is binding,
+   and for any vertex to not be spanned by $T$, it must have been deactivated (and thus the corresponding packing constraint must have
+    been binding).
+  \item (II) holds from induction an induction proof on main loop of the procedure, and
+  \item (III) holds from the feasibility of the $y$ vector implicitly procduced by the procedure and weak duality.
+ \end{itemize}
+ Furthermore, the GW-Algorithm is proven to run in $O(n^2 \log n)$.
+ \subsection{Modifications to the GW-Algorithm}\label{sec:approx:strongpruning}
+ \cite{Johnson:2000:PCS:338219.338637} investigated three main modifications for the GW-Algorithm:
+ \begin{enumerate}
+ \item an improved pruning procedure called strong pruning,
+ \item an unrooted version of the algorithm, and
+ \item prize pertubation.
+ \end{enumerate}
+ 
+ \paragraph{Strong Pruning} The Strong Pruning procedure
+ (as shown in Algorithm \ref{alg:approx:gwsp})
+ is a simple recursive procedure which walks the tree in post-order calculating the net-worths
+ of all subtrees. If --along the way-- a subtree is encountered which is connected with an
+  edge with higher cost than the net-worth of the subtree, then the subtree is discarded.
+ \begin{algorithm}[h!]
+   \begin{algorithmic}[1]
+     \Input{Feasible solution to (GW-IP), $T$ rooted in vertex $r$ to $G = (V, E, c, p)$} 
+     \Output{A tree $T' \subseteq E$.}
+     \State $T' \gets T$
+     \Procedure{StrongPrune}{r}
+     \State $nw(r) \gets p_r$
+     \For{$v \in \Call{Children}{r}$}
+     \State \Call{StrongPrune}{v}
+     \If{$nw(v) \leq c_{rv}$}
+     \State $T' \gets T' \setminus \{(r,v)\}$
+     \Else
+     \State $nw(r) \gets nw(r) + nw(v) - c_{rv}$
+     \EndIf
+     \EndFor
+   \EndProcedure
+ \end{algorithmic}
+ \caption{Strong pruning for the GW Algorithm.}\label{alg:approx:gwsp}
+\end{algorithm}
+
+The Strong Pruning procedure clearly runs in $O(n)$, which is an improvement on the $O(n^2)$
+guarantee for the pruning procedure presented by \cite{goemans1995general}. Additionally,
+Strong Pruning does not require any additional information about the candidate solution, $T$,
+which is in contrast with the labels required by the GW Pruning procedure.
+
+However, computational experiments performed by \cite{Johnson:2000:PCS:338219.338637}
+do not report any significant speedup gained by replacing Strong Pruning in the GW-Algorithm
+as the algorithm is dominated by its $O(n^2 \log n)$ growing phase.
+
+However, they do report
+improvements in objective value. On 12 instances based on street maps,
+the vanilla GW Algorithm producing objective values which are in the range of $2-9\%$
+than those produced by the GW Algorithm modified with Strong Pruning. On randomly
+ generated instances, this different is reported to be up to $20\%$.
+\paragraph{GW for the unrooted PCSTP}
+The GW Algorithm is stated and its approximation ration proved
+for the rooted variant of the PCSTP. While these apply directly to unrooted variants
+when run for all possible roots, this comes with
+a worse $O(n^3 \log n)$ runtime.
+
+\cite{Johnson:2000:PCS:338219.338637} verify that if the growth phase of the GW Algorithm
+is replaced with a procedure which does not treat the root vertex as special, both the
+approximation ratio and asymptotic runtime are still valid.
+
+Computationally, however, they report $1.5-2.0$ slowdown for a unrooted GW Algorithm. They also
+report that running the rooted GW Algorithm repeatedly with randomly selected roots give slightly
+better objective value (less than $1\%$ difference) than the unrooted variant, although at a starkly
+higher cost.
+\paragraph{Prize Pertubation} The third thing investigated by \cite{Johnson:2000:PCS:338219.338637} was
+the effect of petubing vertex prizes by some constant $\alpha$, that is setting
+$$p_v \gets \alpha p_v$$
+for all $v \in V$. This ``tricks'' the GW Algorithm into over/undervaluing the importance of gathering prizes,
+ leading to altered behaviour.
+
+ Experiments performed by \citeauthor{Johnson:2000:PCS:338219.338637} resulted in $\alpha \approx 0.85$ giving a $\sim 2\%$
+ lower objective values compared to $\alpha = 1$ for the GW Algorithm with Strong Pruning on random instances.
+  This kind of prize pertubation is explored further by \cite{canuto2001local} -- see Section x \todo{Cross-Reference missing}.
+ 
+
+
+
+%%% Local Variables:
+%%% TeX-master: "report"
+%%% reftex-default-bibliography: ("lit.bib")
+%%% End:

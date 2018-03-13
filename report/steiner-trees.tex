@@ -290,11 +290,11 @@ prize-collecting variants of the SAP \citep{leitner2016dual, ljubic2005solving} 
 Given an undirected graph
 $$G = (V, E, c, p)$$
 where $c: E \to \RR^+$ defines edge weights,
-and $p: V \to \RR^+$ defines vertex \textit{prizes}, then the solution to the \textit{Prize-Collecting
+and $p: V \to \RR_0^+$ defines vertex \textit{prizes}, then the solution to the \textit{Prize-Collecting
   Steiner Tree Problem} (PCSTP) is a tree
 $$T = (V_T, E_T, c, p) \subseteq G$$
 which minimizes
-$$GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V_T \setminus V)} p_v$$
+$$c(T) = GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V_T \setminus V)} p_v$$
 which is also known as the {\textit{Goemans-Williamson Minimization Problem}}.
 
 The PCSTP can equilvalently be stated as the {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637},

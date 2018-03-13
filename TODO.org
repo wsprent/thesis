@@ -28,6 +28,8 @@ Keywords: strong pruning
    CLOSED: [2018-02-20 Tue 10:34]
 look in paper notes
 ** TODO Salles da Cunha, A., Lucena, A., Maculan, N., Resende, M. G. C. 2009. A relax- and-cut algorithm for the prize-collecting Steiner problem in graphs
+** TODO Improved Approximation Algorithms for Prize-Colecting Steiner Tree and TSP∗
+
 ** TODO A divide and conquer matheuristic algorithm for the Prize-collecting Steiner Tree Problem
 ** TODO C. Duin and A. Volgenant, An edge elimination test for the Steiner problem in graphs.
 

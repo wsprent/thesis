@@ -8,8 +8,11 @@
 \usepackage{graphicx}
 
 % TOC
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+
+
 \setcounter{tocdepth}{3}
-%\setcounter{secnumdepth}{4}
+\setcounter{secnumdepth}{3}
 
 % Margins
 \usepackage[hmargin={55pt, 55pt}, vmargin={2.8cm, 2.8cm}]{geometry}
@@ -19,6 +22,13 @@
 \usepackage{amssymb}
 \usepackage{amsbsy}
 \usepackage{amsthm}                % better theorem environments
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
 
 % Captions
 \usepackage[margin=1cm, labelfont=bf]{caption}
