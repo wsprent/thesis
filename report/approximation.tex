@@ -1,7 +1,7 @@
 \clearpage
 \section{Approximation Algorithms}\label{sec:solving:approx}
 
-\subsection{The Goemans-Williamson Algorithm}\label{sec:solving:approx}
+\subsection{The Goemans-Williamson Algorithm}\label{sec:solving:approx:gw}
 \cite*{goemans1995general} presented a primal-dual 2-approximation algorithm for the rooted variant of the
 PCSTP, based on an algorithm for solving the general \textit{constrained forest problem}.
 
@@ -204,7 +204,7 @@ the vanilla GW Algorithm producing objective values which are in the range of $2
 than those produced by the GW Algorithm modified with Strong Pruning. On randomly
  generated instances, this different is reported to be up to $20\%$.
 \paragraph{GW for the unrooted PCSTP}
-The GW Algorithm is stated and its approximation ration proved
+The GW Algorithm is stated and its approximation ratio proved
 for the rooted variant of the PCSTP. While these apply directly to unrooted variants
 when run for all possible roots, this comes with
 a worse $O(n^3 \log n)$ runtime.
@@ -223,9 +223,9 @@ $$p_v \gets \alpha p_v$$
 for all $v \in V$. This ``tricks'' the GW Algorithm into over/undervaluing the importance of gathering prizes,
  leading to altered behaviour.
 
- Experiments performed by \citeauthor{Johnson:2000:PCS:338219.338637} resulted in $\alpha \approx 0.85$ giving a $\sim 2\%$
+ Experiments performed by \citeauthor{Johnson:2000:PCS:338219.338637} resulted in $\alpha \approx 0.85$ giving a $\sim2\%$
  lower objective values compared to $\alpha = 1$ for the GW Algorithm with Strong Pruning on random instances.
-  This kind of prize pertubation is explored further by \cite{canuto2001local} -- see Section x \todo{Cross-Reference missing}.
+  This kind of prize pertubation is explored further by \cite{canuto2001local} -- see Section \ref{sec:canuto-search}.
  
 
 
