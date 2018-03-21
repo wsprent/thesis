@@ -55,11 +55,11 @@ trees on all graphs induced by a subset of vertices
 $$\mathcal{S_G} = \{MST(G[S]) : S \subseteq V \}\mathnormal{.}$$
 A neighbour to a given MST is then any MST of a subgraph induced by a subset which differs from $S$
  by exactly one vertex, that is,
-$$\mathcal{N}(S) = \{MST(G[S']) : S' \subseteq V \mid |S' \triangle S| = 1 \}\mathnormal{.}$$ 
+$$\mathcal{N}(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = 1 \Big\}\mathnormal{.}$$ 
 Clearly this neighbourhood structure means that all feasible solutions are reachable
 given any initial subset as starting point. Additionally, they define the
 $k$'th order neighbourhood as,
-$$\mathcal{N}^k(S) = \{MST(G[S']) : S' \subseteq V \mid |S' \triangle S| = k \}\mathnormal{.}$$ 
+$$\mathcal{N}^k(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = k \Big\}\mathnormal{.}$$ 
 
 To reduce clutter we will denote the cost
 of a given subset, $S \subseteq V$, of vertices as the cost
