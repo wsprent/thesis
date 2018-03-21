@@ -89,6 +89,94 @@ presented a memetic algorithm using tournament selection and mutation. They addi
 \section{Lower Bounding Procedures}
 \label{sec:solving:lower}
 
+\subsection{Generalised Subtour Elimination Constraints}
+\label{sec:lower:gsec}
+\cite{lucena2004strong} introduced a method for producing lower bounds for the PCSTP based on solving
+the LP relaxations of the PCSTP using a constraint separation procedure.
+
+Their main contributions
+are the stating of a \textit{generalised subtour elimination constraint} ILP (see Formulation \ref{form:lower:gsec}) formulation
+for the PCSTP, the separation procedure for solving the LP-relaxation, and strengthening of the formulation by considering
+single vertex solution seperately.
+
+Define the function
+$$E(S) = \{(i,j) \in E \mid i \in S \wedge j \in S\}$$
+then Formulation (\ref{form:lower:gsec}) is a ILP formulation of the PCSTP. Constraints (\ref{form:lower:gsec:gsec}) are
+referred to as generalised subtour elimination constraints, and together with constraint (\ref{form:lower:gsec:sum})
+ensure that the solution defined by $(x, y)$ is a tree which spans the vertices $y_v = 1$.
+
+ \begin{formulation}[h!]
+   \begin{subequations}
+     \begin{alignat}{3} 
+       &\underset{x,y}{\text{minimize}}
+       & & \sum_{e \in E} c_e x_e +  \sum_{v \in V} p_v (1 - y_v)  & \\
+       & \text{subject to}\quad
+       & & x(E) \leq y(V) - 1 &&  \label{form:lower:gsec:sum}\\
+       &&& x(E(S)) \leq y(S \setminus \{s\}) && \forall s \in S, S \subseteq V \label{form:lower:gsec:gsec}\\
+       \intertext{ILP:}
+       &&& x_e \in \BB  && \forall e \in E \\
+       &&& y_v \in \BB  && \forall v \in V \\
+       \intertext{LP:}
+       &&& 0 \leq x_e \leq 1  && \forall e \in E \\
+       &&& 0 \leq y_v \leq 1  && \forall v \in V \\
+       \intertext{To exclude single vertex solutions:}
+       &&& \sum_{i \in \delta(v)} x_{vi} \geq
+       \begin{cases}
+         y_v & p_v > 0 \\
+         2y_v & p_v = 0
+       \end{cases} \qquad && \forall v \in V \label{form:lower:gsec:single}
+     \end{alignat}\label{form:lower:gsec}
+   \end{subequations}
+   \caption{(GSEC-IP) GSEC formulation of the PCSTP.}
+ \end{formulation}
+
+ Expanding the formulation with constraint (\ref{form:lower:gsec:single}), excludes single vertex solutions.
+ \cite{lucena2004strong} found that adding these constraints and
+ considering single vertex solutions in a separate routine results faster runtimes.
+
+ \paragraph{Separation of GSECs} Each subset $S \in V$ produces $|S|$ GSECs. To reduce the size of the LP relaxation,
+ \cite{lucena2004strong} suggest relaxing these constraints and readding them in a separation procedure.
+ This separation procedure can be stated a max-flow problem as follows:
+
+ Let $(\bar{x}, \bar{y})$ be a solution to the relaxed LP. Consider the support graph induced by vertices and edges with nonzero decision veriables,
+  and vertex $l$ with decision variable $\bar y_l > 0$
+  then iff
+  $$\max_{S_l \subseteq V} \left\{ \bar x (E(S_l)) - (\bar y (V) - \bar y_l) \right\} > 0$$
+  there is a violated GSEC for a subset containing $l$, and constraint corresponding to $S_l^{max}$ is the most violated constraint.
+
+  We can model finding this subset for a given $l$ as follows. Let $\bar{N} = (\bar{V}, \bar{A})$ be a flow-network
+  for the support graph, with vertices
+  $$\bar V = \{s, t\} \cup \{v \in V \mid \bar y_v > 0 \}$$
+  and arcs
+  $$\bar A = \{(i, j) \in E \mid \bar x_{ij} > 0 \} \cup \{(j, i) \in E \mid \bar x_{ij} > 0\} \cup \{(s, v) \mid v \in \bar V\} \cup \{(v, t) \mid v \in \bar V\}\mathnormal{.}$$
+  Additionally we have capacities original edges,
+  $$\xi_{ij} = \xi_{ji} = \frac{\bar x_{ij}}{2} \qquad \forall (i,j) \in \bar A$$
+  and if we let $\delta (v)$ be all vertices adjacent to $v$ in the support graph then node capacities are
+  $$\xi_v = \sum_{u \in \delta(v)} \xi_{vu}\mathnormal{,}$$
+  and finally
+  for arcs from and to the source and the sink, we have
+  $$\xi_{sv} =
+  \begin{cases}
+    \infty & v = l \\
+    \max(\xi_v - \bar y_v, 0) & \text{otherwise}
+  \end{cases}$$
+  and
+  $$\xi_{vt} = \max(\bar y - \xi_v, 0)\mathnormal{.}$$
+  Then the minimum $(S,T)$ cut on the flow network will minimise
+  $$\sum_{v \in S} \max \left\{\bar y_v - \xi_v, 0\right\} + \sum_{i \in S, j \in T} \bar x_{ij} + \sum_{v \in T} \max\left\{\bar \xi_v - y_v, 0\right\}\mathnormal{.}$$
+  In effect, we have added the negative part of $\bar y_v - \xi_v$ to all subsets, $S$, which don't contain $v$. This makes the above equivalent to
+   minimising
+  $$\sum_{v \in S} (\bar y_v - \xi_v) + \sum_{i \in S, j \in T} \bar x_{ij} = \sum_{v \in S} \bar y - \sum_{e \in E(S)} \bar x$$
+  which in turn maximises
+  $$\sum_{e \in E(S)} \bar x - \sum_{v \in S} \bar y + \bar y_l \mathnormal{.}$$
+  Hence any set of vertices $S' = S \setminus \{s\}$ where $S$ induces a minimal $S,T$ cut in the flow network will correspond to
+  a most violated GSEC for the solution $(\bar x, \bar y)$ to the relaxed LP.
+
+  Finding violated GSECs then reduces to solving $|V|$ maximum flow problems, which can be done in polynomial time. However, there is guarantee that
+  that the $|V|$ will result in different violated constraints. To avoid this, \cite{lucena2004strong} suggest that whenever a max-flow problem has been
+  solved for some $l = v \in V$, then we can set $\xi_{vt} = \infty$ to avoid $v$ being on the source-side of any subsequent min-cuts.
+  \todo[inline]{Wolsey (I think) suggests deleting edges/vertices from the support graph, maybe mention that}
+  
 \section{Exact Algorithms}\label{sec:solving:exact}
 %%% Local Variables:
 %%% TeX-master: "report"

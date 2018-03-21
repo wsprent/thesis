@@ -103,3 +103,5 @@ Last week of february
  
 ** Instances
 - DIMACS Challenge on Steiner Trees
+* Read
+** TODO J.C. Picard and H.D. Ratliff. A graph theoretic equivalence for integer programs. Operations Research, 2:261–269, 1973.
