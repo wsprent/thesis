@@ -1,0 +1,211 @@
+\clearpage
+\section{Exact Algorithms}\label{sec:solving:exact}
+
+\subsection{DHEA Solver}
+\label{sec:exact:dhea}
+The DHEA solver, defined and implemented
+by \citet{ljubic2005solving}
+(more concisely described in \citet{ljubic2006algorithmic}) finds exact solutions to the PCSTP
+by first applying
+reduction tests to the input graph (See Section \ref{sec:solving:pre}) and
+then transforming the resulting problem into related problem of finding a minimum
+aborescence in a directed graph. It is the first example of a procedure designed for
+finding provably optimal solutions for the PCSTP.
+
+The resulting SAP is then solved by branch-and-cut using a separation procedure
+similar to the one defined in \citet{lucena2004strong}
+(Section \ref{sec:lower:gsec}) and a new primal heuristics for
+finding good incumbents at every node.
+
+The solver has as a dependency one of the MIP solvers CPLEX or LEDA.
+ \paragraph{Reducing the PCSTP to PCSAP}
+ Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input PCSTP instance
+ into a related problem in a directed graph which essentially is a constrained version
+ of a Prize-Collecting Steiner Aborescence Problem (PCSAP).
+
+ Given an instance of the PCSTP, with graph $G = (V, E, c, p)$ and terminals $N \subset V$,
+ we define an instance
+ of the PCSAP with directed graph, $G_A = (V_A, A, c')$, where $c'$ define the arc costs,
+ by first adding an
+ artificial root vector, $r$, to $V$
+ $$V_A = \{r\} \cup V\mathnormal{.}$$
+ Then we define the arc set by adding bi-directional arcs for each edge in $E$ and
+ adding an arc from $r$ to each terminal,
+ $$A = \{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \cup \{(r, i) \mid i \in N\}\mathnormal{.}$$
+ We define arc-costs by subtracting the prize of the arc's endpoint from the original cost of the
+ corresponding edge in $G$. Arcs from the root have cost equal to the negative prize of the endpoint vertex. This gives us,
+ $$c'_{ij} =
+ \begin{cases}
+   -p_j & i = r \\
+   c_{ij} - p_j & \text{otherwise.}
+ \end{cases}
+ $$
+Figure (\ref{fig:pcstptosap}) shows an example of this kind of reduction.
+ \begin{figure}[h]\centering
+  \begin{subfigure}[t]{0.47\linewidth}
+    
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      %Nodes
+  \node[terminal, label={12}] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal, label={10}] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal, label={3}] (g) [above right=0.75 and 1.3 of c] {g};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge node[below]{4} (b);
+    \draw (b) edge node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+    \end{tikzpicture}
+    \caption{PCSTP Instance (\ref{fig:pcstp:01})}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.47\linewidth}
+    \begin{tikzpicture}[auto, node distance=1.7 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[steiner] (b) [right=of a] {b};
+      \node[steiner] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[steiner] (e) [left=of d] {e};
+      \node[steiner] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.85 and 1.3 of c] {g};
+      \node[terminal, root] (r) [below= of g] {r};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick},
+        every node/.style={circle, inner sep=.7}]
+        \draw[->] (a) edge[bend right=10] node[below]{4} (b);
+        \draw[<-] (a) edge[bend left=10] node{-8} (b);
+        \draw[->] (b) edge[bend right=10] node[near start,swap] {-5} (d);
+        \draw[<-] (b) edge[bend left=10] node[near start] {5} (d);
+        \draw[<->] (b) edge node[below]{8} (c);
+        \draw[->] (c) edge[bend right=10] node[swap]{-7} (d);
+        \draw[<-] (c) edge[bend left=10] node{3} (d);
+        \draw[<-] (c) edge[bend left=10] node{2} (g);
+        \draw[->] (c) edge[bend right=10] node[swap]{-1} (g);
+        \draw[<->] (c) edge node[near end]{5} (e);
+        \draw[->] (d) edge[bend right=10, swap] node{6} (e);
+        \draw[<-] (d) edge[bend left=10] node{-4} (e);
+        \draw[->] (d) edge[bend right=10] node[swap]{7} (g);
+        \draw[<-] (d) edge[bend left=10] node{0} (g);
+        \draw[<->] (e) edge node{1} (f);
+        \draw[->] (r) edge[bend right=90, looseness=2] node{-10} (d);
+        \draw[->] (r) edge node{-3} (g);
+        \draw[->] (r) edge[bend left=40] node{-12} (a);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Instance (\ref{fig:pcstp:01}) as a PCSAP instance. Root node is coloured blue.}
+  \end{subfigure}
+  \caption{Reduction from PCSTP to SAP.}
+  \label{fig:pcstptosap}
+\end{figure}
+
+Clearly, if we
+limit the out-degree of the root vector, $r$, to $\delta^+(r) \leq 1$ in any feasible
+aborescence $SA$, then finding the aborescence in $G_A$ which minimises the function
+$$c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v$$
+is equivalent to finding a minimal prize-collecting Steiner tree in $G$.
+
+\paragraph{ILP Formulation}
+
+Finding such a minimum ``prize-collecting'' aborescence is modelled by \citet{ljubic2005solving}
+as the ILP in Fomulation (\ref{form:exact:cut}).
+
+ \begin{formulation}[h!]
+   \begin{subequations}
+     \begin{alignat}{3} 
+       &\underset{x,y}{\text{minimize}}
+       & & \sum_{ij \in A} c'_{ij} x_{ij} +  \sum_{v \in V} p_v  & \\
+       & \text{subject to}\quad
+       & & \sum_{j \in A} x_{rj} = 1 &&  \label{form:exact:pcsap:root}\\
+       &&& \sum_{ji \in A} x_{ji} = y_i  && \forall i \in V_A \label{form:exact:pcsap:prize}\\
+       &&& x(\delta^-(S)) \geq y_k && \forall k \in S, S \subseteq V_A \setminus \{r\}
+       \label{form:exact:pcsap:conn}\\
+       \intertext{ILP:}
+       &&& x_e \in \BB  && \forall e \in E \\
+       &&& y_v \in \BB  && \forall v \in V \\
+       \intertext{LP:}
+       &&& 0 \leq x_e \leq 1  && \forall e \in E \\
+       &&& 0 \leq y_v \leq 1  && \forall v \in V \\
+       \intertext{To ensure bijection:}
+       &&& x_{rj} \leq 1 - y_i && \forall i,j \in V_A \setminus \{r\}; i < j
+       \label{form:exact:bijection}\\
+       \intertext{Nonterminal Degree:}
+       &&& \sum_{j \in A}x_{ij} \leq \sum_{j \in A}x_{ji}
+       && \forall i \in V_A \setminus (N \cup \{r\})
+       \label{form:exact:strength}\\
+       \intertext{Single Orientation:}
+       &&& x_{ij} + x_{ji} \leq y_i  && \forall i \in V_A \setminus \{r\}; \forall (i,j) \in A
+       \label{form:exact:orientation}
+     \end{alignat}\label{form:exact:cut}
+   \end{subequations}
+   \caption{(CUT-IP) GSEC formulation of the constrained PCSAP.}
+ \end{formulation}
+
+ As usual, the ILP formulation has two decision vectors, $x$ and $y$, where the former denotes arcs
+ in the solution arborescence and the latter which vertices are in the arborescence. Constraints-wise,
+ we have
+ constraint (\ref{form:exact:pcsap:root}), which ensures that exactly one arc begins in the artificial
+ root in any feasible aborescence. Constraint (\ref{form:exact:pcsap:prize}) ensures
+ that a vertex can be selected iff it has an incoming arc.
+ Constraints (\ref{form:exact:pcsap:conn}), called \textit{connectivity constraints},
+ ensures the connectivity of feasible aborescences by requiring that
+ each vertex subset containing a selected vertex must have an incoming arc.
+ Together, these constraints ensure that any feasible solution is an aborescence rooted
+ in $r$ with $\delta^+(r) = 1$.
+
+ It is worth noting that for a given subset $S \subseteq V$, adding constraints of type
+ (\ref{form:exact:pcsap:prize}) for each $v \in S$ to a corresponding connectivity constraint
+  gives us generalised subtour elimination constraints:
+ \begin{align*}
+   -x(\delta^-(S)) &\leq -y_k \\
+   \sum_{i \in S} \sum_{ji \in A} x_{ji} - x (\delta^-(S)) &\leq \sum_{v \in S} - y_k \\
+   \sum_{i \in S} \sum_{j \in S} x_{ij} &\leq \sum_{v \in S} - y_k \mathnormal{.}
+ \end{align*}
+
+ Adding only constraints (\ref{form:exact:pcsap:root})-(\ref{form:exact:pcsap:conn})
+ has the unfortunate consequence of having multiple 
+ PCSAP solutions
+ correspond
+ to a single PCSTP solution. To achieve a bijection between the PCSAP solutions and the
+ PCSTP solutions, constraint (\ref{form:exact:bijection}) allows only the chosen vertex
+ with the lowest index to be adjacent to the root vertex.
+ 
+ Additionally, \citet{ljubic2005solving} observe that each nonterminal in an optimal solution
+ \textit{must not} be a leaf in the arborescence. Hence, they add constraint
+ (\ref{form:exact:strength}) to strengthen the formulation. And finally, they
+ also capture the fact that there cannot be anti-parallel in a feasible aborescence in
+ constraint (\ref{form:exact:orientation}). While this constraint is captured implicitly
+ in the previous constraints and adding them increases the size of the formulation,
+ \citet{ljubic2005solving} report improved running times for adding them as it avoids
+ having to implicitly separate the in the separation procedure.
+ 
+\paragraph{Branch \& Bound}
+
+For finding lower bounds, the LP relaxation of (\ref{form:exact:cut}) is solved at each node.
+Constraints of type (\ref{form:exact:pcsap:conn}) are separated through solving the max flow (min cut)
+problem on a support graph (similar to the procedure in Section \ref{sec:lower:gsec}). 
+The max flow problem is solved for every terminal $v \in N$ and returns both the minimum cut closest to
+the root, and the minimum cut $(S,T)$ ``closest'' to the sink with $v \in T$.
+Violated constraints are iteratively found by increasing the
+capacity of all edges crossing a min cut to $1$ and rerunning the max flow procedure.
+
+Primal heuristics based on the solution of LP relaxations are used at each node in the branch and bound
+tree to discover improved incumbents.
+
+The rest of the branch and bound procedure is handled by an underlying MIP solver (CPLEX or LEDA).
+\subsection{SCIP-Jack Solver}
+\label{sec:exact:scipj}
+
+%%% Local Variables:
+%%% TeX-master: "report"
+%%% reftex-default-bibliography: ("lit.bib")
+%%% End:

@@ -16,34 +16,34 @@ NP-hard combinatorial optimisation problems, this involves the the mixing and ma
 \section{History}
 \label{sec:solving:history}
 
-Solutions to the PCSTP were first explored by \cite{Bienstock1993} who
+Solutions to the PCSTP were first explored by \citet{Bienstock1993} who
 proposed a 3-approximation algorithm based on Christophides algorithm for the TSP.
 This was later improved to 2-approximation algorithm by
-\cite{goemans1997primal} using a primal-dual method,
+\citet{goemans1997primal} using a primal-dual method,
 which was refined and implemented
 for faster runtimes and typically better
-bounds by \cite{Johnson:2000:PCS:338219.338637}.
+bounds by \citet{Johnson:2000:PCS:338219.338637}.
 
-\cite{canuto2001local} presented a primal heuristic based on multi-start
+\citet{canuto2001local} presented a primal heuristic based on multi-start
 local search with pertubations and path relinking.
 
 An ILP formulation based on the General Subtour Elimination Constraint (GSEC) formulation of the Travelling Salesman Problem was
-stated by \cite{lucena2004strong}, who presented an algorithm for solving the LP relaxation of the GSEC formulation using
-a separation procedure as a method for generating a strong lower bound for the PCSTP. Similarly, \cite{Ljubic:2004:memetic}
+stated by \citet{lucena2004strong}, who presented an algorithm for solving the LP relaxation of the GSEC formulation using
+a separation procedure as a method for generating a strong lower bound for the PCSTP. Similarly, \citet{Ljubic:2004:memetic}
 presented a memetic algorithm using tournament selection and mutation. They additionally presented an ILP formulation of the Steiner
  Aborescence Problem, based on cuts, the LP-relaxation of which was solved on a subgraph extracted from the memetic algorithm to
  improve the solutions as a postprocessing step.
 
- \cite{ljubic2005solving} proposed the first full framework for solving the PCSTP to optimality.
+ \citet{ljubic2005solving} proposed the first full framework for solving the PCSTP to optimality.
  This was done by solving
  equivalent SAP instances through branch-and-cut. Solving the LP-relaxation of a cut-formulation of the SAP with a
  a separation procedure was used to generate lower bounds.
   Furthermore, they presented a set of real-world problem instances for the PCSTP based on network layout in Berlin.
 
-  \cite{lucena2004strong}, \cite{Ljubic:2004:memetic}, and \cite{ljubic2005solving} all applied preprocessing routines
+  \citet{lucena2004strong}, \citet{Ljubic:2004:memetic}, and \citet{ljubic2005solving} all applied preprocessing routines
   -- known as reduction tests -- to their input graphs to reduce the size of instances.
   These were originally gathered for
-  the Steiner Tree Problem by \cite{duin1989edge,duin1989reduction},
+  the Steiner Tree Problem by \citet{duin1989edge,duin1989reduction},
   but no reduction tests had been stated and proven for the PCSTP
   until \citeauthor{uchoa2006reduction} did so in \citeyear{uchoa2006reduction}.
   \citeauthor{uchoa2006reduction} revisited
@@ -57,27 +57,27 @@ presented a memetic algorithm using tournament selection and mutation. They addi
   also a new wave of contributions.
 
   Solving the PCSTP by transforming instances into equivalent problems in directed graphs
-  was revisited by \cite{leitner2016dual} and \cite{gamrath2017scip}.
-  \cite{leitner2016dual} transformed instances into the Asymmetric Prize-Collecting Steiner Tree Problem (APCSTP)
+  was revisited by \citet{leitner2016dual} and \citet{gamrath2017scip}.
+  \citet{leitner2016dual} transformed instances into the Asymmetric Prize-Collecting Steiner Tree Problem (APCSTP)
   and employed a
-  branch-and-bound framework generating lower bounds with a dual ascent method which was originally presented by \cite{wong1984dual} for the SAP, and
+  branch-and-bound framework generating lower bounds with a dual ascent method which was originally presented by \citet{wong1984dual} for the SAP, and
   generating incumbents with
   a shortest-path primal heuristics.
-  \cite{gamrath2017scip} presented SCIP Jack -- an exact solver for STP variants based on the solver (of the STP, by way of SAP) presented by
-  \cite{koch1998solving} and the MIP solver, SCIP \footnote{\url{http://scip.zib.de/}}.
+  \citet{gamrath2017scip} presented SCIP Jack -- an exact solver for STP variants based on the solver (of the STP, by way of SAP) presented by
+  \citet{koch1998solving} and the MIP solver, SCIP \footnote{\url{http://scip.zib.de/}}.
   Preprocessing routines were natively applied to PCSTP instances before transforming them into SAP instances.
   The SAP was formulated as an
   ILP in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch-and-bound
   procedures of the SCIP optimization suite were
-  then employed together with a contraint separation procedure defined in \cite{koch1998solving}.
+  then employed together with a contraint separation procedure defined in \citet{koch1998solving}.
 
-  Developments were also made in field of heuristics for the PCSTP. \cite{fu2014knowledge} presented a tabu search and a neighbourhood definition
+  Developments were also made in field of heuristics for the PCSTP. \citet{fu2014knowledge} presented a tabu search and a neighbourhood definition
   using a new \textit{vertex swap} operation.
-  \cite{akhmedov2016divide} presented a clustering heuristics for dividing PCSTP into subproblems,
+  \citet{akhmedov2016divide} presented a clustering heuristics for dividing PCSTP into subproblems,
   and additionally a
-  reimplementation of the solver by \cite{ljubic2005solving} which was used to solve problems defined by the subgraphs. Additionally, they presented
+  reimplementation of the solver by \citet{ljubic2005solving} which was used to solve problems defined by the subgraphs. Additionally, they presented
   applications for the PCSTP within biology.
-  \cite{biazzo2012performance} explored the performance of the cavity method on the PCSTP.
+  \citet{biazzo2012performance} explored the performance of the cavity method on the PCSTP.
   
 \input{preprocessing.tex}
 
@@ -91,7 +91,7 @@ presented a memetic algorithm using tournament selection and mutation. They addi
 
 \subsection{Generalised Subtour Elimination Constraints}
 \label{sec:lower:gsec}
-\cite{lucena2004strong} introduced a method for producing lower bounds for the PCSTP based on solving
+\citet{lucena2004strong} introduced a method for producing lower bounds for the PCSTP based on solving
 the LP relaxations of the PCSTP using a constraint separation procedure.
 
 Their main contributions
@@ -131,11 +131,11 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
  \end{formulation}
 
  Expanding the formulation with constraint (\ref{form:lower:gsec:single}), excludes single vertex solutions.
- \cite{lucena2004strong} found that adding these constraints and
+ \citet{lucena2004strong} found that adding these constraints and
  considering single vertex solutions in a separate routine results faster runtimes.
 
  \paragraph{Separation of GSECs} Each subset $S \in V$ produces $|S|$ GSECs. To reduce the size of the LP relaxation,
- \cite{lucena2004strong} suggest relaxing these constraints and readding them in a separation procedure.
+ \citet{lucena2004strong} suggest relaxing these constraints and readding them in a separation procedure.
  This separation procedure can be stated a max-flow problem as follows:
 
  Let $(\bar{x}, \bar{y})$ be a solution to the relaxed LP. Consider the support graph induced by vertices and edges with nonzero decision veriables,
@@ -162,28 +162,44 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
   \end{cases}$$
   and
   $$\xi_{vt} = \max(\bar y - \xi_v, 0)\mathnormal{.}$$
-  Then the minimum $(S,T)$ cut on the flow network will minimise
-  $$\sum_{v \in S} \max \left\{\bar y_v - \xi_v, 0\right\} + \sum_{i \in S, j \in T} \bar x_{ij} + \sum_{v \in T} \max\left\{\bar \xi_v - y_v, 0\right\}\mathnormal{.}$$
-  In effect, we have added the negative part of $\bar y_v - \xi_v$ to all subsets, $S$, which don't contain $v$. This makes the above equivalent to
-   minimising
-  $$\sum_{v \in S} (\bar y_v - \xi_v) + \sum_{i \in S, j \in T} \bar x_{ij} = \sum_{v \in S} \bar y - \sum_{e \in E(S)} \bar x$$
-  which in turn maximises
-  $$\sum_{e \in E(S)} \bar x - \sum_{v \in S} \bar y + \bar y_l \mathnormal{.}$$
+  Then, similarly to \citet{padberg1983trees}, we can see that
+  the minimum $(S,T)$ cut on the flow network will minimise
+  \begin{align*}
+    c(S,T) = &\sum_{v \in S} \max \left\{\bar y_v - \xi_v, 0\right\} +
+               \sum_{i \in S, j \in T} \xi_{ij} +
+               \sum_{v \in T} \max\left\{\xi_v - y_v, 0\right\} \\
+    =&\sum_{v \in S} \left( \max \left\{\bar y_v - \xi_v, 0\right\} - \sum_{v \in S} \max\left\{\xi_v - y_v, 0\right\} \right) +
+       \sum_{i \in S, j \in T}  \xi_{ij} +
+       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+    =&\sum_{v \in S} \bar y_v - \xi_v +
+       \sum_{i \in S, j \in T} \xi_{ij} +
+       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+    =&\sum_{v \in S} \bar y_v -
+       \sum_{v \in S} \sum_{u \in \delta(v)} \frac{\bar x_{vu}}{2} +
+       \sum_{i \in S, j \in T} \frac{\bar x_{ij}}{2} +
+       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+    =&\sum_{v \in S} \bar y_v -
+       \left(\sum_{i \in S} \sum_{j \in S \setminus \{i\}} \frac{\bar x_{ij}}{2} +
+       \sum_{i \in S, j \in T} \frac{\bar x_{ij}}{2}\right) +
+       \sum_{i \in S, j \in T} \frac{\bar x_{ij}}{2} +
+       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+    =&\sum_{v \in S} \bar y_v -
+       \bar x (E(S)) +
+       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\}\mathnormal{.}
+  \end{align*}
+  Since $\sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\}$ is independent of
+  a the cut, and
+  $l$ \textit{must} be in $S$ due to $\xi_{sy} = \infty$, any minimum cut, $(S,T)$, will maximise
+  $$\bar x (E(S_l)) - (\bar y (V) - \bar y_l)\mathnormal{.}$$
   Hence any set of vertices $S' = S \setminus \{s\}$ where $S$ induces a minimal $S,T$ cut in the flow network will correspond to
   a most violated GSEC for the solution $(\bar x, \bar y)$ to the relaxed LP.
 
   Finding violated GSECs then reduces to solving $|V|$ maximum flow problems, which can be done in polynomial time. However, there is guarantee that
-  that the $|V|$ will result in different violated constraints. To avoid this, \cite{lucena2004strong} suggest that whenever a max-flow problem has been
+  that the $|V|$ will result in different violated constraints. To avoid this, \citet{lucena2004strong} suggest that whenever a max flow problem has been
   solved for some $l = v \in V$, then we can set $\xi_{vt} = \infty$ to avoid $v$ being on the source-side of any subsequent min-cuts.
   \todo[inline]{Wolsey (I think) suggests deleting edges/vertices from the support graph, maybe mention that}
-  
-\section{Exact Algorithms}\label{sec:solving:exact}
 
-\subsection{DHEA Solver}
-\label{sec:exact:dhea}
-
-\subsection{SCIP-Jack Solver}
-\label{sec:exact:scipj}
+\input{exact.tex}
 
 %%% Local Variables:
 %%% TeX-master: "report"
