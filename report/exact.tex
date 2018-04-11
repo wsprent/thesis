@@ -130,11 +130,11 @@ as the ILP in Fomulation (\ref{form:exact:cut}).
        &&& x(\delta^-(S)) \geq y_k && \forall k \in S, S \subseteq V_A \setminus \{r\}
        \label{form:exact:pcsap:conn}\\
        \intertext{ILP:}
-       &&& x_e \in \BB  && \forall e \in E \\
-       &&& y_v \in \BB  && \forall v \in V \\
+       &&& x_a \in \BB  && \forall a \in A \\
+       &&& y_v \in \BB  && \forall v \in V_A \\
        \intertext{LP:}
-       &&& 0 \leq x_e \leq 1  && \forall e \in E \\
-       &&& 0 \leq y_v \leq 1  && \forall v \in V \\
+       &&& 0 \leq x_a \leq 1  && \forall a \in A \\
+       &&& 0 \leq y_v \leq 1  && \forall v \in V_A \\
        \intertext{To ensure bijection:}
        &&& x_{rj} \leq 1 - y_i && \forall i,j \in V_A \setminus \{r\}; i < j
        \label{form:exact:bijection}\\
@@ -204,6 +204,138 @@ tree to discover improved incumbents.
 The rest of the branch and bound procedure is handled by an underlying MIP solver (CPLEX or LEDA).
 \subsection{SCIP-Jack Solver}
 \label{sec:exact:scipj}
+The SCIP-Jack solver is a set of plugins for the SCIP general purpose optimisation suite capable
+of generating exact solutions to a variety of STP variants in graphs \cite{gamrath2017scip}.
+
+As with the DHEA solver (Section \ref{sec:exact:dhea}), SCIP-Jack solves the PCSTP by first applying
+reduction tests (Section \ref{sec:solving:pre}) to the input graph before transforming problem
+instances to a constrained version of the SAP and solving it with branch and cut.
+The main difference here is in that the DHEA solver works with a prize-collecting variant
+ of the SAP problem whereas SCIP-Jack works with the regular version of the SAP.
+
+\subsubsection{Reduction to SAP}
+
+$$N_A = \{v' \mid v \in N\}$$
+$$V_A = V \cup \{r\} \cup N_A$$
+$$c`_{ij} =
+\begin{cases}
+  c_{ij} & (i,j) \in E \\
+  p_v & i = r, j \in N_A , j = v' \\
+  0 & i = r, j \in N \\
+  0 & i \in N, j \in N_A
+\end{cases}\textnormal{.}$$
+\begin{align*}
+A = &\{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \:\cup \\
+&\{(r, i) \mid i \in N\} \cup \{(r,i) \mid i \in N_A\} \cup \{(i,j) \mid i \in N, j \in N_A\}\mathnormal{.}
+\end{align*}
+
+\begin{figure}[h]\centering
+  \begin{subfigure}[t]{0.47\linewidth}
+    
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      %Nodes
+  \node[terminal, label={12}] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal, label={10}] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal, label={3}] (g) [above right=0.75 and 1.3 of c] {g};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge node[below]{4} (b);
+    \draw (b) edge node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+    \end{tikzpicture}
+    \caption{PCSTP Instance (\ref{fig:pcstp:01})}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.47\linewidth}
+    \begin{tikzpicture}[auto, node distance=1.7 cm]
+      % Nodes
+      \node[steiner] (a) {a};
+      \node[terminal] (aa) [below=1cm of a] {a'};
+      \node[steiner] (b) [right=of a] {b};
+      \node[steiner] (c) [right=of b] {c};
+      \node[steiner] (d) [above =of c] {d};
+      \node[terminal] (dd) [above= 0.8cm of d] {d'};
+      \node[steiner] (e) [left=of d] {e};
+      \node[steiner] (f) [left=of e] {f};
+      \node[steiner] (g) [above right=0.85 and 1.3 of c] {g};
+      \node[terminal] (gg) [below= 0.8cm of g] {g'};
+      \node[terminal, root] (r) [right= of g] {r};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick},
+        every node/.style={circle, inner sep=.7}]
+        \draw[<->] (a) edge node[below]{4} (b);
+        \draw[->] (a) edge node {0} (aa);
+        \draw[<->] (b) edge node[near start] {5} (d);
+        \draw[<->] (b) edge node[below]{8} (c);
+        \draw[<->] (c) edge node{3} (d);
+        \draw[<->] (c) edge node{2} (g);
+        \draw[<->] (c) edge node[near end]{5} (e);
+        \draw[->] (d) edge node {0} (dd);
+        \draw[<->] (d) edge node{6} (e);
+        \draw[<->] (d) edge node[swap]{7} (g);
+        \draw[<->] (e) edge node{1} (f);
+        \draw[->] (g) edge node{0} (gg);
+        \draw[->] (r) edge[bend right=40] node{0} (d);
+        \draw[->] (r) edge[bend right=40] node{10} (dd);
+        \draw[->] (r) edge node{0} (g);
+        \draw[->] (r) edge node{3} (gg);
+        \draw[->] (r) edge[bend left=45, looseness=1.0] node{0} (a);
+        \draw[->] (r) edge[bend left=50, looseness=0.7] node{12} (aa);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Instance (\ref{fig:pcstp:01}) as a SAP instance. Root node is coloured blue.}
+  \end{subfigure}
+  \caption{Reduction from PCSTP to SAP.}
+  \label{fig:pcstptosap}
+\end{figure}
+
+
+ \subsubsection{ILP Formulation}
+
+ \begin{formulation}[h!]
+   \begin{subequations}
+     \begin{alignat}{3} 
+       &\underset{x}{\text{minimize}}
+       & & \sum_{ij \in A} c'_{ij} x_{ij} & \\
+       & \text{subject to}\quad
+       && \sum_{v \in \delta^+(r), c_{rv} = 0} y_{rv} && 
+       \label{form:sap:root}\\
+       &&& x(\delta^+(S)) \geq 1 && \forall S \subset V, r \in S, N \not\subset S
+       \label{form:exact:sap:cut}\\
+       &&& x(\delta^-(v))
+       \begin{cases}
+         = 0 & v = r \\
+         = 1 & v \in N \\
+         \leq 1 & v \in V_A \setminus (N \cup \{r\})
+       \end{cases}
+       && \forall v \in V_A \label{form:exact:sap:indeg}\\
+       &&& x(\delta^-(v)) \leq x(\delta^+(v)) && \forall v \in V \setminus N
+       \label{form:exact:sap:deg}\\
+       &&& x(\delta^-(v)) \geq x_{vu} && \forall v \in V \setminus N, \forall u \in \delta^+(v)
+       \label{form:exact:sap:conn}\\
+       \intertext{ILP:}
+       &&& x_a \in \BB  && \forall a \in A \\
+       \intertext{LP:}
+       &&& 0 \leq x_a \leq 1  && \forall a \in A \\
+       \intertext{To ensure bijection:}
+       &&& \sum_{i \in \delta^-(j)} x_{ij} + x_{rv}
+       && \forall v = 1,...,|V_A|, j = 1,...,i-1
+       \label{form:sap:bijection}
+     \end{alignat}\label{form:sap:flow}
+   \end{subequations}
+   \caption{(FLW-IP) Flow-balance directed cut formulation of the constrained SAP.}
+ \end{formulation}
+
 
 %%% Local Variables:
 %%% TeX-master: "report"
