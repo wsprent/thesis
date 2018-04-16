@@ -213,21 +213,41 @@ instances to a constrained version of the SAP and solving it with branch and cut
 The main difference here is in that the DHEA solver works with a prize-collecting variant
  of the SAP problem whereas SCIP-Jack works with the regular version of the SAP.
 
-\subsubsection{Reduction to SAP}
+\paragraph{Reduction to SAP}
+As with the DHEA solver, SCIP-Jack internally works on the SAP instead of the solving native
+versions of the STP variants. Different from the DHEA solver, SCIP-Jack, however, does not
+transform the PCSTP into a prize-collecting SAP. This means that the reduction is slightly
+different, as the prize-collecting aspect of the PCSTP has to be described in an alternative
+way in the SAP.
 
+Given an instance of the PCSTP with graph $G = (V,E,c,p)$ and terminal set $N$, we wish to define
+ a directed graph $G_A = (V_A, A, c')$ with a terminal set $N_A$. The first
+ step of this reduction is to split terminals into two vertices.
+ To do this, we define a
+set of auxiliary terminals as
 $$N_A = \{v' \mid v \in N\}$$
-$$V_A = V \cup \{r\} \cup N_A$$
-$$c`_{ij} =
+which are the terminal set for our SAP.
+The original set of vertices $V$ is combined with this set and an
+artificial root vector to define the vertex-set in the directed graph
+$$V_A = V \cup \{r\} \cup N_A\mathnormal{.}$$
+We then add antiparallel arcs for each edge in $E$ as well as edges from the artifical root vertex, $r$,
+to each original terminal and auxiliary terminal and arcs from the original terminals to the auxiliary
+terminals,
+\begin{align*}
+A = &\{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \:\cup \\
+&\{(r, i) \mid i \in N\} \cup \{(r,i) \mid i \in N_A\} \cup \{(i,j) \mid i \in N, j \in N_A\}\mathnormal{.}
+\end{align*}
+Finally, the arc-costs in the directed graphs are defined as follows,
+$$c'_{ij} =
 \begin{cases}
   c_{ij} & (i,j) \in E \\
   p_v & i = r, j \in N_A , j = v' \\
   0 & i = r, j \in N \\
   0 & i \in N, j \in N_A
 \end{cases}\textnormal{.}$$
-\begin{align*}
-A = &\{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \:\cup \\
-&\{(r, i) \mid i \in N\} \cup \{(r,i) \mid i \in N_A\} \cup \{(i,j) \mid i \in N, j \in N_A\}\mathnormal{.}
-\end{align*}
+Arcs corresponding to edges in the original graph have the same costs in $G_A$, arcs from the root
+to vertices in $N_A$ cost the prize of the vertex, arcs from the root to the original terminals
+have no cost and the same goes for arcs from the original terminals to the auxiliary terminals.
 
 \begin{figure}[h]\centering
   \begin{subfigure}[t]{0.47\linewidth}
@@ -296,19 +316,35 @@ A = &\{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \:\cup \\
     \caption{Instance (\ref{fig:pcstp:01}) as a SAP instance. Root node is coloured blue.}
   \end{subfigure}
   \caption{Reduction from PCSTP to SAP.}
-  \label{fig:pcstptosap}
+  \label{fig:scip:pcstptosap}
 \end{figure}
 
+Figure \ref{fig:scip:pcstptosap} shows this transfomation. Intuitively, we see that
+picking an arc which goes from the root to a vertex in $N_A$ corresponds to not picking
+that vertex in the original graph. However, it is also clear that if the out-degree of
+the root is not constrained, then there is no correspondance between solutions in $G$
+ and $G_A$.
 
- \subsubsection{ILP Formulation}
+ \paragraph{ILP Formulation}
+ \cite{gamrath2017scip} define the ILP formulation of the constrained SAP in Formulation (\ref{form:sap:flow})
+ named \textit{flow-balance directed cut formulation}. Constraint (\ref{form:exact:sap:cut}) ensures that there exists a
+  path from the root to any terminal by ensuring that any
+ cut in the graph which does not contain all terminals must have outgoing arcs. Constraint (\ref{form:exact:sap:cut})
+ ensures that all terminals have exactly one incoming arc, nonterminals have at most one incoming arc and the root has
+ no incoming arcs. Constraint (\ref{form:exact:sap:indeg}) ensures that nonterminals cannot be leafs in a solution.
+ Constraint (\ref{form:exact:sap:deg}) ensures that the solution is connected by ensuring that an arc can only be selected
+ if its starting point is pointed to by a selected arc.
 
+ Finally, as with the DHEA solver constraint (\ref{form:sap:root})
+ ensures that exact one ``free'' arc from the root can be selected, and (\ref{form:sap:bijection}) creates a bijection
+  between solutions in the SAP and PCSTP.
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
        &\underset{x}{\text{minimize}}
        & & \sum_{ij \in A} c'_{ij} x_{ij} & \\
        & \text{subject to}\quad
-       && \sum_{v \in \delta^+(r), c_{rv} = 0} y_{rv} && 
+       && \sum_{v \in \delta^+(r), c_{rv} = 0} x_{rv} = 1 && 
        \label{form:sap:root}\\
        &&& x(\delta^+(S)) \geq 1 && \forall S \subset V, r \in S, N \not\subset S
        \label{form:exact:sap:cut}\\
@@ -335,6 +371,21 @@ A = &\{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \:\cup \\
    \end{subequations}
    \caption{(FLW-IP) Flow-balance directed cut formulation of the constrained SAP.}
  \end{formulation}
+
+ Given a solution to the an instance of the constrained SAP as defined here, a solution to the PCSTP can then
+ be obtained by taking an edge for all arcs in the solution for which both endpoints are vertices
+ in the original graph. The tree induced by this set of edges then is the corresponding solution in the original
+ PCSTP instance.
+ 
+  \paragraph{Branch \& Bound}
+  While node selection is left to the underlying MIP solver, SCIP-Jack branches on vertices in the following way. For each node in the
+  b\&b tree with optimal solution $x^*$ to the LP relaxation, the nonterminal, $v \in V_A \setminus N_A$, which minimises
+  $$v_b = \argmin_{v \in V_A \setminus N_A} \left| \sum_{u \in \delta^-(v)} x^*_{uv} - 0.5 \right|$$
+  is added to the set of terminals in one child of the b\&b node and excluded completely in the other.
+  \cite{gamrath2017scip} claim that this gives stronger performance than
+  to branching on single arcs.
+
+  Futhermore, SCIP-Jack contains an array of heuristics for the SAP which we will not delve further into.
 
 
 %%% Local Variables:
