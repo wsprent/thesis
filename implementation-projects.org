@@ -1,0 +1,12 @@
+
+1. Preprocessing comparison
+
+2. SCIP-Jack vs. Cplex/Gurobi Implementation
+
+3. Something with the GW algorithm
+
+4. Exact solution to Quota/Budget problems
+
+5. Cplex/Gurobi NW vs. GW optimisation problem
+
+6. Exact solution to the Profitable Tour Problem
