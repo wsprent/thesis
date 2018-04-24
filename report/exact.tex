@@ -157,10 +157,10 @@ in the original problem. Enforcing that any solution to the transformed problem 
       % Edges
       \begin{scope}[every edge/.style={draw=black, thick},
         every node/.style={circle, inner sep=.7}]
-        \draw[->] (a) edge[bend right=10] node[below]{4} (b);
-        \draw[<-] (a) edge[bend left=10, selected] node{-8} (b);
-        \draw[->] (b) edge[bend right=10] node[near start,swap] {-5} (d);
-        \draw[<-] (b) edge[bend left=10, selected] node[near start] {5} (d);
+        \draw[->] (a) edge[bend right=10, selected] node[below]{4} (b);
+        \draw[<-] (a) edge[bend left=10] node{-8} (b);
+        \draw[->] (b) edge[bend right=10, selected] node[near start,swap] {-5} (d);
+        \draw[<-] (b) edge[bend left=10] node[near start] {5} (d);
         \draw[<->] (b) edge node[below]{8} (c);
         \draw[->] (c) edge[bend right=10] node[swap]{-7} (d);
         \draw[<-] (c) edge[bend left=10] node{3} (d);
@@ -172,19 +172,27 @@ in the original problem. Enforcing that any solution to the transformed problem 
         \draw[->] (d) edge[bend right=10] node[swap]{7} (g);
         \draw[<-] (d) edge[bend left=10] node{0} (g);
         \draw[<->] (e) edge node{1} (f);
-        \draw[->] (r) edge[bend right=90, looseness=2, selected] node{-10} (d);
+        \draw[->] (r) edge[bend right=90, looseness=2] node{-10} (d);
         \draw[->] (r) edge node{-3} (g);
-        \draw[->] (r) edge[bend left=40] node{-12} (a);
+        \draw[->] (r) edge[bend left=40, selected] node{-12} (a);
       \end{scope}
     \end{tikzpicture}
     \caption{Solution to the transformed instance corresponding to the solution in Figure (\ref{fig:pcstp:01:opt}).}
+    \label{fig:exact:sap:opt}
   \end{figure}
 
+  With these extra constraints in places, any feasible solution in the transformed, directed graph $G_{A}$ will correspond
+  to a feasible solution in the original graph $G$ with the same cost. In other words there exists a bijection between feasible
+  solutions to corresponding instances of the constrained SAP and the PCSTP. Figure \ref{fig:exact:sap:opt} shows this for our
+   original PCSTP (see Figure \ref{fig:pcstp:01:opt}). This optimal solution has cost
+   $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} pv = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
+   which is the same as the corresponding problem to the PCSTP. Note that solution starting with $(r,d)$ would have the same cost,
+   $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
+   but is disallowed due to $d > a$.
   \paragraph{ILP Formulation}
 
 Finding such a minimum ``prize-collecting'' aborescence is formalised by \citet{ljubic2005solving}
-as the ILP in Fomulation (\ref{form:exact:cut}).
-
+as the ILP in Fomulation (\ref{form:exact:cut}). 
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
