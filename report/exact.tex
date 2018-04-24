@@ -108,15 +108,81 @@ Figure (\ref{fig:pcstptosap}) shows an example of this kind of reduction.
   \label{fig:pcstptosap}
 \end{figure}
 
-Clearly, if we
-limit the out-degree of the root vector, $r$, to $\delta^+(r) \leq 1$ in any feasible
-aborescence $SA$, then finding the aborescence in $G_A$ which minimises the function
+Then given a solution, $SA = (V_{SA}, A_{SA}, c')$,
+to the transformed problem, we can generate a solution, $T$, to the
+original problem by simply taking
+the edges in $G$ which correspond to arcs in $SA$; the selected terminals are the all terminals
+ which have in-degree higher than zero in $SA$.
+However, it doesn't take much
+investigation to see that if we simply find the connected subgraph in $G_A$ which minimises
 $$c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v$$
-is equivalent to finding a minimal prize-collecting Steiner tree in $G$.
+we won't necessarily get an aborescence which will directly
+correspond to a single, optimal prize collecting steiner tree in the original problem.
 
-\paragraph{ILP Formulation}
+Firstly, if the out-degree of the root vertex isn't constrained, then all arcs orgininating in the root are
+trivially part of any optimal solution, which will result in disconnected solutions in $G$.
+Secondly, by representing vertex prizes within the cost of arcs,
+ $G_A$  may contain arcs with negative costs. This may result in an
+optimal subgraph which is \textit{not} an aborescence as it may contain cycles.
 
-Finding such a minimum ``prize-collecting'' aborescence is modelled by \citet{ljubic2005solving}
+\citet{ljubic2005solving} solve this by adding extra constraints to the problem. Firstly, the
+out-degree of the root vector is limited to a single arc, that is $\delta^+(r) = 1$. With this,
+we can intepret the selection of an arc in the adjacency of $r$ as an ``initial'' selection,
+ of a terminal, or a root,
+in the original problem. Enforcing that any solution to the transformed problem must be an aborescence
+ is done by constraining the in-degree of any ``selected'' in a feasible solution terminal to one.
+
+ Single arc solutions in $G_A$ will then correspond 1-to-1 with singleton solutions in $G$.
+ Connected
+ solutions in $G_A$ containing the arc $(r,v)$ will then correspond to a tree in $G$ ``rooted'' in $v$.
+ It is worth noting that for such a solution, the arc $(r, v)$ can be replaced with any other arc
+ $(r, u), u \in N \cap V_{SA}$ where;
+ hence there exists a many-to-one
+ relationship between solutions in $G_A$ and solutions in $G$, that is one of each choice of $(r, v)$.
+ To ensure that exists a one-to-one relationship between solutions in $G_{SA}$ and $G$, only the selected 
+ terminal
+ with the lowest index in a given solution can be connected to the root.
+ \begin{figure}[h!]
+   \centering
+    \begin{tikzpicture}[auto, node distance=1.7 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[steiner] (b) [right=of a] {b};
+      \node[steiner] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[steiner] (e) [left=of d] {e};
+      \node[steiner] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.85 and 1.3 of c] {g};
+      \node[terminal, root] (r) [below= of g] {r};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick},
+        every node/.style={circle, inner sep=.7}]
+        \draw[->] (a) edge[bend right=10] node[below]{4} (b);
+        \draw[<-] (a) edge[bend left=10, selected] node{-8} (b);
+        \draw[->] (b) edge[bend right=10] node[near start,swap] {-5} (d);
+        \draw[<-] (b) edge[bend left=10, selected] node[near start] {5} (d);
+        \draw[<->] (b) edge node[below]{8} (c);
+        \draw[->] (c) edge[bend right=10] node[swap]{-7} (d);
+        \draw[<-] (c) edge[bend left=10] node{3} (d);
+        \draw[<-] (c) edge[bend left=10] node{2} (g);
+        \draw[->] (c) edge[bend right=10] node[swap]{-1} (g);
+        \draw[<->] (c) edge node[near end]{5} (e);
+        \draw[->] (d) edge[bend right=10, swap] node{6} (e);
+        \draw[<-] (d) edge[bend left=10] node{-4} (e);
+        \draw[->] (d) edge[bend right=10] node[swap]{7} (g);
+        \draw[<-] (d) edge[bend left=10] node{0} (g);
+        \draw[<->] (e) edge node{1} (f);
+        \draw[->] (r) edge[bend right=90, looseness=2, selected] node{-10} (d);
+        \draw[->] (r) edge node{-3} (g);
+        \draw[->] (r) edge[bend left=40] node{-12} (a);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Solution to the transformed instance corresponding to the solution in Figure (\ref{fig:pcstp:01:opt}).}
+  \end{figure}
+
+  \paragraph{ILP Formulation}
+
+Finding such a minimum ``prize-collecting'' aborescence is formalised by \citet{ljubic2005solving}
 as the ILP in Fomulation (\ref{form:exact:cut}).
 
  \begin{formulation}[h!]
