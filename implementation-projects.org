@@ -1,3 +1,16 @@
+Incumbent
+==================
+Use Gurobi's Python API to determine whether state of the art general MIP solvers can compete with custom,
+problem specific methods.
+
+Try:
+1. Solve the PCSTP with just Lazy Constraints. Separate integer GSECs by DFS to find cycles.
+2. Add LP relaxation cuts to the above using max flow.
+3. Either piggyback on the preprocessing routines of SCIP-Jack or DIY.
+
+
+Quick List
+==================
 
 1. Preprocessing comparison
 

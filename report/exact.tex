@@ -188,7 +188,7 @@ in the original problem. Enforcing that any solution to the transformed problem 
    $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} pv = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
    which is the same as the corresponding problem to the PCSTP. Note that solution starting with $(r,d)$ would have the same cost,
    $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
-   but is disallowed due to $d > a$.
+   but is infeasible due to $d > a$.
   \paragraph{ILP Formulation}
 
 Finding such a minimum ``prize-collecting'' aborescence is formalised by \citet{ljubic2005solving}
@@ -394,10 +394,11 @@ have no cost and the same goes for arcs from the original terminals to the auxil
 \end{figure}
 
 Figure \ref{fig:scip:pcstptosap} shows this transfomation. Intuitively, we see that
-picking an arc which goes from the root to a vertex in $N_A$ corresponds to not picking
-that vertex in the original graph. However, it is also clear that if the out-degree of
-the root is not constrained, then there is no correspondance between solutions in $G$
- and $G_A$.
+picking an arc which goes from the root to a vertex in $v' \in N_A$ incurs the penalty for not
+corresponds to not picking the terminal $v$ in the original graph. Selecting an arc from the root
+to some vertex $v \in N$ (and the arc $(v, v')$)then corresponds to selecting $v$
+in the original graph.. Selecting any arcs between two vertices which are found in $G$ corresponds
+directly to selecting the corresponding edge in $G$.
 
  \paragraph{ILP Formulation}
  \cite{gamrath2017scip} define the ILP formulation of the constrained SAP in Formulation (\ref{form:sap:flow})
