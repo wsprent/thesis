@@ -11,12 +11,8 @@ that is $v \in N$, as \textit{terminals}, vertices which are not terminals as \t
 and vertices which are not required to be part of a solution but are so anyway, that is
 $v \in E_T \cap (V \setminus N)$, as \textit{Steiner vertices}.
 
-Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \emptyset$ and $(V \setminus S) \cap \emptyset$ then we
+Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \emptyset$ and $(V \setminus S) \neq \emptyset$ then we
  call $S$ a \textit{Steiner cut}.
-
-When $N = V$, the STP is equivalent to the Minimum Spanning Tree Problen, and when $|N| = 2$ the STP is equivalent to finding the
-shortest path between two vertices. However, while these problems both have polynomial-time solutions, the STP is an NP-Hard problem,
- the decision variant being part of Edmund Karp's original 21 NP-Complete problems \citep{karp1972reducibility}.
 
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -45,13 +41,13 @@ shortest path between two vertices. However, while these problems both have poly
 \label{fig:stp:01}
 \end{figure}
 
-Figure (\ref{fig:stp:01}) shows an instance of the STP with three terminals and four Steiner points. Since vertices
-A, C, and D are terminals, they must be spanned by any feasible solution. Figure (\ref{fig:stp:01:feasible}) shows
+Figure (\ref{fig:stp:01}) shows an instance of the STP with three terminals and four Steiner vertices. Since vertices
+A, D, and G are terminals, they must be spanned by any feasible solution. Figure (\ref{fig:stp:01:feasible}) shows
 a feasible solution (which we here denote as a set of edges)
 $$E_T = \{(a,b), (b,d), (d,g)\}$$
 with cost
 $$c(T) = 4 + 5 + 10 = 19\mathnormal{.}$$
-However, $T$ is not a Steiner tree as there exists at least one feasible solution with lower cost, i.e. the solution
+However, $T$ is not a minimal tree as there exists at least one feasible solution with lower cost, i.e. the solution
 $$E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}$$
 in Figure (\ref{fig:stp:01:min}) which has cost
 $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
@@ -113,6 +109,10 @@ $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
   \end{subfigure}
   \caption{Solutions to the STP in (\ref{fig:stp:01}). Red edges are part of the solution.}
 \end{figure} 
+
+When $N = V$, the STP is equivalent to the Minimum Spanning Tree Problem, and when $|N| = 2$ the STP is equivalent to finding the
+shortest path between two vertices. However, while these problems both have polynomial-time solutions, the STP is an NP-Hard problem,
+ the decision variant being one of Edmund Karp's original 21 NP-Complete problems \citep{karp1972reducibility}.
 
 \subsection{ILP Formulations}
 

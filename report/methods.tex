@@ -141,7 +141,7 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
  Let $(\bar{x}, \bar{y})$ be a solution to the relaxed LP. Consider the support graph induced by vertices and edges with nonzero decision veriables,
   and vertex $l$ with decision variable $\bar y_l > 0$
   then iff
-  $$\max_{S_l \subseteq V} \left\{ \bar x (E(S_l)) - (\bar y (V) - \bar y_l) \right\} > 0$$
+  $$\max_{S_l \subseteq V} \left\{ \bar x (E(S_l)) - (\bar y (S_l) - \bar y_l) \right\} > 0$$
   there is a violated GSEC for a subset containing $l$, and constraint corresponding to $S_l^{max}$ is the most violated constraint.
 
   We can model finding this subset for a given $l$ as follows. Let $\bar{N} = (\bar{V}, \bar{A})$ be a flow-network
@@ -167,30 +167,30 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
   \begin{align*}
     c(S,T) = &\sum_{v \in S} \max \left\{\bar y_v - \xi_v, 0\right\} +
                \sum_{i \in S, j \in T} \xi_{ij} +
-               \sum_{v \in T} \max\left\{\xi_v - y_v, 0\right\} \\
-    =&\sum_{v \in S} \left( \max \left\{\bar y_v - \xi_v, 0\right\} - \sum_{v \in S} \max\left\{\xi_v - y_v, 0\right\} \right) +
+               \sum_{v \in T} \max\left\{\xi_v - \bar y_v, 0\right\} \\
+    =&\left(\sum_{v \in S} \max \left\{\bar y_v - \xi_v, 0\right\} - \sum_{v \in S} \max\left\{\xi_v - \bar y_v, 0\right\} \right) +
        \sum_{i \in S, j \in T}  \xi_{ij} +
-       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+       \sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\} \\
     =&\sum_{v \in S} \bar y_v - \xi_v +
        \sum_{i \in S, j \in T} \xi_{ij} +
-       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+       \sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\} \\
     =&\sum_{v \in S} \bar y_v -
        \sum_{v \in S} \sum_{u \in \delta(v)} \frac{\bar x_{vu}}{2} +
        \sum_{i \in S, j \in T} \frac{\bar x_{ij}}{2} +
-       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+       \sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\} \\
     =&\sum_{v \in S} \bar y_v -
        \left(\sum_{i \in S} \sum_{j \in S \setminus \{i\}} \frac{\bar x_{ij}}{2} +
        \sum_{i \in S, j \in T} \frac{\bar x_{ij}}{2}\right) +
        \sum_{i \in S, j \in T} \frac{\bar x_{ij}}{2} +
-       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\} \\
+       \sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\} \\
     =&\sum_{v \in S} \bar y_v -
        \bar x (E(S)) +
-       \sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\}\mathnormal{.}
+       \sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\}\mathnormal{.}
   \end{align*}
-  Since $\sum_{v \in V} \max\left\{\xi_v - y_v, 0\right\}$ is independent of
+  Since $\sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\}$ is independent of
   any cuts, and
   $l$ \textit{must} be in $S$ due to $\xi_{sy} = \infty$, any minimum cut, $(S,T)$, will maximise
-  $$\bar x (E(S_l)) - (\bar y (V) - \bar y_l)\mathnormal{.}$$
+  $$\bar x (E(S_l)) - (\bar y (S_l) - \bar y_l)\mathnormal{.}$$
   Hence any set of vertices $S' = S \setminus \{s\}$ where $S$ induces a minimal $S,T$ cut in the flow network will correspond to
   a most violated GSEC for the solution $(\bar x, \bar y)$ to the relaxed LP.
 

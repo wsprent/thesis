@@ -17,7 +17,7 @@ similar to the one defined in \citet{lucena2004strong}
 (Section \ref{sec:lower:gsec}) and a new primal heuristics for
 finding good incumbents at every node.
 
-The solver has as a dependency one of the MIP solvers CPLEX or LEDA.
+The solver has as a dependency on of the MIP solvers CPLEX or LEDA.
  \paragraph{Reducing the PCSTP to PCSAP}
  Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input PCSTP instance
  into a related problem in a directed graph which essentially is a constrained version
@@ -108,24 +108,25 @@ Figure (\ref{fig:pcstptosap}) shows an example of this kind of reduction.
   \label{fig:pcstptosap}
 \end{figure}
 
-Then given a solution, $SA = (V_{SA}, A_{SA}, c')$,
-to the transformed problem, we can generate a solution, $T$, to the
-original problem by simply taking
-the edges in $G$ which correspond to arcs in $SA$; the selected terminals are the all terminals
- which have in-degree higher than zero in $SA$.
-However, it doesn't take much
-investigation to see that if we simply find the connected subgraph in $G_A$ which minimises
-$$c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v$$
-we won't necessarily get an aborescence which will directly
-correspond to a single, optimal prize collecting steiner tree in the original problem.
+Given a solution, $SA = (V_{SA}, A_{SA}, c')$,
+to the transformed problem, we can generate a solution, $T = (V_T, E_T, c)$, to the
+original problem as follows.
+Take all edges in $G$ which correspond to arcs in $SA$ -- that is, if either of the arcs
+$(i, j) \in A$ or $(j, i) \in A$ are members of the solution $A_{SA}$ then we select the edge $(i,j) \in E$.
+We select vertices by taking any vertex $v \in V_{SA} \cap V$ which has an in-degree higher than 0 in
+$SA$.
 
-Firstly, if the out-degree of the root vertex isn't constrained, then all arcs orgininating in the root are
-trivially part of any optimal solution, which will result in disconnected solutions in $G$.
-Secondly, by representing vertex prizes within the cost of arcs,
- $G_A$  may contain arcs with negative costs. This may result in an
+However, to ensure that $T$ is indeed a feasible solution to the original problem we
+cannot simply find the connected subgraph in $G_A$ which minimises
+$$c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v\mathnormal{.}$$
+Firstly, since all the arcs from the root have negative costs they are trivially part of any minimal arborescence.
+As a result, whenever $G$ has more than one terminal, this may result in a disconnected -- hence infeasible --
+solution in the original graph.
+Furthermore, by representing vertex prizes within the cost of arcs,
+ $G_A$  may contain addtional arcs with negative costs. This may result in an
 optimal subgraph which is \textit{not} an aborescence as it may contain cycles.
 
-\citet{ljubic2005solving} solve this by adding extra constraints to the problem. Firstly, the
+\citet{ljubic2005solving} solve these two issues by adding extra constraints to the problem. Firstly, the
 out-degree of the root vector is limited to a single arc, that is $\delta^+(r) = 1$. With this,
 we can intepret the selection of an arc in the adjacency of $r$ as an ``initial'' selection,
  of a terminal, or a root,
@@ -139,7 +140,7 @@ in the original problem. Enforcing that any solution to the transformed problem 
  $(r, u), u \in N \cap V_{SA}$ where;
  hence there exists a many-to-one
  relationship between solutions in $G_A$ and solutions in $G$, that is one of each choice of $(r, v)$.
- To ensure that exists a one-to-one relationship between solutions in $G_{SA}$ and $G$, only the selected 
+ To ensure that there exists a one-to-one relationship between solutions in $G_{SA}$ and $G$, only the selected 
  terminal
  with the lowest index in a given solution can be connected to the root.
  \begin{figure}[h!]
@@ -181,11 +182,11 @@ in the original problem. Enforcing that any solution to the transformed problem 
     \label{fig:exact:sap:opt}
   \end{figure}
 
-  With these extra constraints in places, any feasible solution in the transformed, directed graph $G_{A}$ will correspond
+  With these extra constraints in place, any feasible solution in the transformed, directed graph $G_{A}$ will correspond
   to a feasible solution in the original graph $G$ with the same cost. In other words there exists a bijection between feasible
   solutions to corresponding instances of the constrained SAP and the PCSTP. Figure \ref{fig:exact:sap:opt} shows this for our
    original PCSTP (see Figure \ref{fig:pcstp:01:opt}). This optimal solution has cost
-   $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} pv = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
+   $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} p_v = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
    which is the same as the corresponding problem to the PCSTP. Note that solution starting with $(r,d)$ would have the same cost,
    $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
    but is infeasible due to $d > a$.
@@ -256,7 +257,7 @@ as the ILP in Fomulation (\ref{form:exact:cut}).
  Additionally, \citet{ljubic2005solving} observe that each nonterminal in an optimal solution
  \textit{must not} be a leaf in the arborescence. Hence, they add constraint
  (\ref{form:exact:strength}) to strengthen the formulation. And finally, they
- also capture the fact that there cannot be anti-parallel in a feasible aborescence in
+ also capture the fact that there cannot be anti-parallel arcs in a feasible aborescence in
  constraint (\ref{form:exact:orientation}). While this constraint is captured implicitly
  in the previous constraints and adding them increases the size of the formulation,
  \citet{ljubic2005solving} report improved running times for adding them as it avoids
@@ -282,7 +283,7 @@ The SCIP-Jack solver is a set of plugins for the SCIP general purpose optimisati
 of generating exact solutions to a variety of STP variants in graphs \cite{gamrath2017scip}.
 
 As with the DHEA solver (Section \ref{sec:exact:dhea}), SCIP-Jack solves the PCSTP by first applying
-reduction tests (Section \ref{sec:solving:pre}) to the input graph before transforming problem
+reduction tests (See section \ref{sec:solving:pre} for details) to the input graph before transforming problem
 instances to a constrained version of the SAP and solving it with branch and cut.
 The main difference here is in that the DHEA solver works with a prize-collecting variant
  of the SAP problem whereas SCIP-Jack works with the regular version of the SAP.
@@ -296,7 +297,7 @@ way in the SAP.
 
 Given an instance of the PCSTP with graph $G = (V,E,c,p)$ and terminal set $N$, we wish to define
  a directed graph $G_A = (V_A, A, c')$ with a terminal set $N_A$. The first
- step of this reduction is to split terminals into two vertices.
+ step of this reduction is to add a copy of each terminal to the vertex set, $V_A$.
  To do this, we define a
 set of auxiliary terminals as
 $$N_A = \{v' \mid v \in N\}$$
@@ -304,7 +305,7 @@ which are the terminal set for our SAP.
 The original set of vertices $V$ is combined with this set and an
 artificial root vector to define the vertex-set in the directed graph
 $$V_A = V \cup \{r\} \cup N_A\mathnormal{.}$$
-We then add antiparallel arcs for each edge in $E$ as well as edges from the artifical root vertex, $r$,
+We then add antiparallel arcs for each edge in $E$ as well as arcs from the artifical root vertex, $r$,
 to each original terminal and auxiliary terminal and arcs from the original terminals to the auxiliary
 terminals,
 \begin{align*}
@@ -394,9 +395,9 @@ have no cost and the same goes for arcs from the original terminals to the auxil
 \end{figure}
 
 Figure \ref{fig:scip:pcstptosap} shows this transfomation. Intuitively, we see that
-picking an arc which goes from the root to a vertex in $v' \in N_A$ incurs the penalty for not
+picking an arc which goes from the root to a vertex in $v' \in N_A$
 corresponds to not picking the terminal $v$ in the original graph. Selecting an arc from the root
-to some vertex $v \in N$ (and the arc $(v, v')$)then corresponds to selecting $v$
+to some vertex $v \in N$ (and the arc $(v, v')$) then corresponds to selecting $v$
 in the original graph.. Selecting any arcs between two vertices which are found in $G$ corresponds
 directly to selecting the corresponding edge in $G$.
 
