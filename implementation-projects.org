@@ -1,5 +1,5 @@
-Incumbent
-==================
+* Done
+
 Use Gurobi's Python API to determine whether state of the art general MIP solvers can compete with custom,
 problem specific methods.
 
@@ -9,8 +9,24 @@ Try:
 3. Either piggyback on the preprocessing routines of SCIP-Jack or DIY.
 
 
-Quick List
-==================
+* Proposal: Small experiments
+
+Validate some of the small factoids which are presented in the various articles.
+
+I could perform some selection of the following computational experiments.
+
+** Directed reformulations of the PCSTP give better performance than undirected
+Both of the well known exact solvers for the PCSTP transform the input problem to an equivalent directed
+version of it. Perform a test comparing the runtimes for solving PCSTP with and without transformations.
+
+** Which combination of preprocessing routines gives the best outcome
+Preprocessing routines are commonly used in research papers. However the ordering and selection of graph
+reductions have yet to be stringently compared.
+
+Some subset of the Cartesian product of graph reductions could be compared.
+
+
+* Quick List
 
 1. Preprocessing comparison
 

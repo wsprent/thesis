@@ -689,11 +689,13 @@ total computation time with/without preprocessing.
 
 \todo[inline]{Maybe insert a comparison of computational experiences (table)}
 
-\paragraph{Example} Finally, we'll give an example of the power of
+\begin{example}
+Finally, we'll give an example of the power of
 these preprocessing methods. Figure \ref{fig:pre:ex} shows how just
 the local tests defined in Section \ref{sec:pre:local} are enough
 to solve the -- admittedly simplistic -- instance of the PCSTP
 from Figure \ref{fig:pcstp:01}.
+
 
 \begin{figure}[h!]\centering
   \begin{tikzpicture}[auto,
@@ -848,18 +850,28 @@ minimum height=2.5cm] (7) at (0, -12) {
 % edge node [above=1mm,midway,text width=3cm, sloped, align=center] {hej}
 % (2);
 
-\draw (1) edge[snake it] node[snake node] {$NTD_1$} (2);
-\draw (2) edge[snake it] node[snake node] {$TD_1$} (3);
-\draw (3) edge[snake it] node[snake node] {$MA$} (4);
-\draw (4) edge[snake it] node[snake node] {$UV$} (5);
-\draw (5) edge[snake it] node[snake node] {$NTD_2$} (6);
-\draw (6) edge[snake it] node[snake node] {$NTD_2$} (7);
-\draw (7) edge[snake it] node[snake node] {$TD_2 + UV$} (8);
+\draw (1) edge[snake it] node[snake node] {1: $NTD_1$} (2);
+\draw (2) edge[snake it] node[snake node] {2: $TD_1$} (3);
+\draw (3) edge[snake it] node[snake node] {3: $MA$} (4);
+\draw (4) edge[snake it] node[snake node] {4: $UV$} (5);
+\draw (5) edge[snake it] node[snake node] {5: $NTD_2$} (6);
+\draw (6) edge[snake it] node[snake node] {6: $NTD_2$} (7);
+\draw (7) edge[snake it] node[snake node] {7: $TD_2 + UV$} (8);
 \end{tikzpicture}
 \caption{Graph reduction on the PCSTP instance in Figure \ref{fig:pcstp:01}. In the final graph,
  the node $d$ represents nodes $\{a,b,d\}$.}
 \label{fig:pre:ex}
 \end{figure}
+
+This example shows how successive application of preprocessing routines can be at
+reducing the size of an input graph. These routines have a cascading effect as one
+graph reduction makes another one legal. In Figure (\ref{fig:pre:ex}) this comes to
+pass when the third reduction -- the \textit{Minimum Adjacency} test -- contracts
+the edge between nodes $b$ and $d$, causing the degree of nodes $c$ and $e$ to
+ drop to 2, which allows for the fifth and sixth reductions.
+\end{example}
+ Obviously, this leads to the question of which selection of graph reduction tests are
+ most efficient, and likewise with the ordering of graph reductions.
 %%% Local Variables:
 %%% TeX-master: "report"
 %%% reftex-default-bibliography: ("lit.bib")
