@@ -434,7 +434,7 @@ Similarly, the Budget problem involves collecting as much prize as possible with
 
  \begin{figure}[h!]\centering
 \begin{tikzpicture}[auto]
-  \node[steiner, label={[inner sep=0.5]75:{$0$}}] (mid) {$0$};
+  \node[steiner] (mid) {$0$};
   \node[terminal, label={$v_1$}] (v1) [above=of mid] {$1$};
   \node[terminal, label={$v_2$}] (v2) [right=of mid]{$2$};
   \node[terminal, label=left:{$v_3$}] (v3) [below=of mid]{$3$};
