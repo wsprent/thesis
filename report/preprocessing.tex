@@ -654,6 +654,35 @@ is the \textit{non-terminals of degree 3 test}.
 \subsubsection{Non-Terminals of Degree k (NTDk)}
 \todo[inline]{This is stated somewhat in the Uchoa paper and weirdly in the Rehfeldt paper. The latter claims that the former proves it, but there is no such proof. Shouldn't be too difficult}
 
+\subsection{Voronoi Reductions}
+
+Reduction test based on a Voronoi decomposition of the input graph was introduced for the PCSTP by \cite{rehfeldt2016reduction}. These reduction tests broadly
+involve using the Voronoi decomposition to generate conditional lower bounds based on vertex inclusion/exclusion. Given a strong upper bound, these can be used
+to reduce the graph.
+
+\paragraph{Voronoi Decomposition of a PCSTP Graph}
+
+Given an instance of the PCSTP with the undirected graph $G = (V, E, c, p)$ and terminal set
+$N \subseteq V$, we define a Voronoi region for a given terminal, $i \in N$, as the set of nonterminals
+which are closer to $i$ than any other terminal in terms of simple shortests paths -- that is,
+$$R_i = \left\{v \in V \setminus N \mid i = \argmin_{u \in N} d_{vu}\right\}$$
+where $R_i$ is the Voronoi region covered by the terminal $i$ and $d_{vu}$ is the shortest path between vertices
+$v$ and $u$.
+
+We then define the \textit{radius} of the $i$th Voronoi region as the shortest path from its centre (the $i$ith terminal)
+to any vertex not in the region,
+$$\radius(i) = \min_{v \not\in R_i} d_{iv}\mathnormal{.}$$
+From this we define a \textit{prize-collecting radius} of a region as,
+$$\pcradius(i) = \min(\radius(i), p_i)\mathnormal{.}$$
+We note that we can intuitively see the \textit{pc radius} of a region as a kind of lower bound
+on the cost contribution
+ of that region to any
+ \textit{connected}, multi-vertex solution. Either the prize for the respective terminal must be paid as a penalty
+ \textit{or} the terminal must be connected to the rest of the tree by a path which must have some cost \textit{higher}
+  than the \textit{radius} of the region.
+\paragraph{Lower Bound Reductions}
+
+
 \subsection{Summary of Usage}\label{sec:pre:summary-usage}
 There's a general consensus in literature that preprocessing is an important part of producing solutions
 for the PCSTP. Preprocessing described in this section is applied natively to the PCSTP
@@ -870,7 +899,8 @@ pass when the third reduction -- the \textit{Minimum Adjacency} test -- contract
 the edge between nodes $b$ and $d$, causing the degree of nodes $c$ and $e$ to
  drop to 2, which allows for the fifth and sixth reductions.
 \end{example}
- Obviously, this leads to the question of which selection of graph reduction tests are
+
+It is an open question which selection of graph reduction tests are
  most efficient, and likewise with the ordering of graph reductions.
 %%% Local Variables:
 %%% TeX-master: "report"
