@@ -679,8 +679,124 @@ on the cost contribution
  of that region to any
  \textit{connected}, multi-vertex solution. Either the prize for the respective terminal must be paid as a penalty
  \textit{or} the terminal must be connected to the rest of the tree by a path which must have some cost \textit{higher}
-  than the \textit{radius} of the region.
+ than the \textit{radius} of the region.
+
+ Finally, let
+ $$z_1, z_2, ..., z_{|N|}$$
+ be a monotonically increasing ordering of terminals such that
+$$\pcradius(z_1) \leq \pcradius(z_2) \leq ... \leq \pcradius(z_{|N|})\mathnormal{.}$$
+
 \paragraph{Lower Bound Reductions}
+
+The first reduction we can present based on Voronoi regions is based on a lower bound given that some nonterminal is
+part of a solution. This was first introduced for the STP by \citet{polzin2001improved} and later adapted by
+\citet{rehfeldt2016reduction} for the PCSTP.
+
+\begin{theorem}
+  Let $T = (V_T, E_T, c, p)$ be a solution to the PCSTP in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
+  $v_k \in V_T$ for some $v_k \in V \setminus N$. Finally, let $v_a \in N$ and $v_b \in N$ be the two terminals \textit{closest}
+  to $v_k$, then we have
+  $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}$$
+\end{theorem}
+\begin{proof}
+  Consider a solution $T$ as described above containing some nonterminal $u \in V_T$.
+  For all $j \in (N \cap V_T)$ let $P_i$ be the
+  path from $v_i$ to $u$ in $T$ (this must be well defined as $T$ is a tree). Furthermore,
+  let $P_i'$ be the subpath of $P_i$ which starts in $v_i$ and ends in the first vertex along
+  $P_i$ not in $R_i$, and
+  let $\Delta(P_i)$ be the number of times a Voronoi border is crossed by the path $P_i$ and
+  let $\Delta(P_i) = \infty$ if $v_i \not\in V_T$.
+
+  Let $v_m$ and $v_l$ be two terminals such that $\Delta(P_m) + \Delta(P_l)$ is minimal among
+  all pairs of terminals where $P_m$ and $P_l$ are disjoint paths. Since $T$ is a tree and
+  $v_i$ must have degree of at least $2$ (See Section \ref{sec:red:test:deg1}) there must
+  be at least one such pair.
+
+  Consider the set of paths
+  $$\mathcal{P} = \{P_i' \mid i \in (V_T \cap N) \setminus \{v_m, v_l\} \}
+  \mathnormal{.}$$
+  These paths must be disjoint as $T$ contains no cycles. The paths in $\mathcal{P}$
+  alongside $P_m$ and $P_l$ are then all pairwise disjoint paths which cover a subset of the
+  edges
+  in $E_T$. An example of this partition of $T$ is shown in Figure (\todo[inline]{reference}).
+  Clearly, the total edge costs of these paths cannot be greater than the edge cost of $T$,
+  that is, we have
+  \begin{equation}
+    c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P)) \leq c(E_T)\mathnormal{.}\label{eq:vor:one}
+  \end{equation}
+
+  
+  Additionally, by definition
+  we must have that $P_i' \leq \pcradius(i)$, $d(v_m, v_i) \leq c(E(P_m))$, and
+  $d(v_l, v_i) \leq c(E(P_l))$. This gives us
+
+  \begin{equation}
+d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P))\label{eq:vor:two}
+\end{equation}
+
+
+  Finally, for the set of terminals not covered by $T$, we must have
+  \begin{equation}
+  \sum_{i \in N \setminus V_T} \pcradius(i) \leq \sum_{i \in N \setminus V_T} p_i \mathnormal{.}\label{eq:vor:three}
+  \end{equation}
+
+  By combining the equations (\ref{eq:vor:one}), (\ref{eq:vor:two}), and (\ref{eq:vor:three}), and
+   by the definition of vertices $v_a$ and $v_b$ being the terminals closest to $v_i$ we have,
+   $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}$$
+  \begin{tikzpicture}[auto, node distance=1.3cm]
+    \node[steiner] (vi) {$v_i$};
+    \node[steiner] (vib) [below= of vi] {$\phantom{v_i}$};
+
+    \node[terminal] (vj) [right= of vi] {$v_m$};
+    \node[terminal] (vl) [left= of vib] {$v_l$};
+
+    \node[steiner]  (vlal) [above left= 1.2 and 1 of vl] {$\phantom{v_i}$};
+    \node[terminal]  (vlala) [above= of vlal] {$\phantom{v_i}$};
+
+    \node[steiner] (vll) [below left=  of vl] {$\phantom{v_i}$};
+    \node[terminal] (vlll) [below left=  of vll] {$\phantom{v_i}$};
+
+    \node[terminal] (vibr) [below right= 0.5 and 1.3 of vib] {$\phantom{v_i}$};
+
+    \begin{scope}
+      % VORONOI :(
+            \draw[dashed] let \p1=(vll),\p2=(vlll) in 
+            ({(\x1+\x2)/2-1cm},{(\y1+\y2)/2+1cm}) coordinate(A)
+            --
+            ({(\x1+\x2)/2+1cm},{(\y1+\y2)/2-1cm}) coordinate(AA);
+            \draw[dashed] let \p1=(vl),\p2=(vlal) in 
+            ({(\x1+\x2)/2+1cm},{(\y1+\y2)/2+1cm}) coordinate(B)
+            --
+            (A);
+
+            \draw[dashed] let \p1=(vib),\p2=(vibr) in 
+            ({(\x1+\x2)/2+1cm},{(\y1+\y2)/2+1cm}) coordinate(C)
+            --
+            (AA);
+
+            \draw[dashed] (B) -- (C);
+            \draw[dashed] (C) -- ([xshift=2cm]C);
+            \draw[dashed] (B) -- ([yshift=2cm]B);
+            \draw[dashed] (AA) -- ([yshift=-2cm]AA);
+            \draw[dashed] (A) -- ([xshift=-2cm]A);
+   \end{scope}
+   \begin{scope}
+     % Edges
+     \draw[selected, blue] (vlala) edge (vlal);
+     \draw[selected, blue] (vlal) edge (vl);
+
+     \draw[selected, green] (vlll) edge (vll);
+     \draw[selected, yellow] (vibr) edge (vib);
+
+     \draw[selected, black] (vll) edge (vl);
+     
+     \draw[selected] (vj) edge (vi);
+
+     \draw[selected, orange] (vl) edge (vib);
+     \draw[selected, orange] (vib) edge (vi);
+   \end{scope}
+  \end{tikzpicture}
+\end{proof}
 
 
 \subsection{Summary of Usage}\label{sec:pre:summary-usage}
