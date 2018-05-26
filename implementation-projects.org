@@ -1,13 +1,10 @@
-* Done
+* Current State
 
-Use Gurobi's Python API to determine whether state of the art general MIP solvers can compete with custom,
-problem specific methods.
+I have used Gurobi's Python API to construct a simple PCSTP solver which using
 
-Try:
-1. Solve the PCSTP with just Lazy Constraints. Separate integer GSECs by DFS to find cycles.
-2. Add LP relaxation cuts to the above using max flow.
-3. Either piggyback on the preprocessing routines of SCIP-Jack or DIY.
-
+- Lazy constraints for GSECs
+- Branch and Cut using max flow to identify violated GSECs
+- A fast version of the GW Algorithm for heuristics.
 
 * Proposal: Small experiments
 
@@ -25,17 +22,7 @@ reductions have yet to be stringently compared.
 
 Some subset of the Cartesian product of graph reductions could be compared.
 
+** Use what we have learnt from the PCSTP to solve the PCTSP
 
-* Quick List
+The PCTSP is not well-explored, I could see if the methods used in the PCSTP can be transferred to the PCTSP.
 
-1. Preprocessing comparison
-
-2. SCIP-Jack vs. Cplex/Gurobi Implementation
-
-3. Something with the GW algorithm
-
-4. Exact solution to Quota/Budget problems
-
-5. Cplex/Gurobi NW vs. GW optimisation problem
-
-6. Exact solution to the Profitable Tour Problem
