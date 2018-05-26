@@ -692,7 +692,7 @@ The first reduction we can present based on Voronoi regions is based on a lower 
 part of a solution. This was first introduced for the STP by \citet{polzin2001improved} and later adapted by
 \citet{rehfeldt2016reduction} for the PCSTP.
 
-\begin{theorem}
+\begin{theorem}\label{thm:vor:1}
   Let $T = (V_T, E_T, c, p)$ be a solution to the PCSTP in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
   $v_k \in V_T$ for some $v_k \in V \setminus N$. Finally, let $v_a \in N$ and $v_b \in N$ be the two terminals \textit{closest}
   to $v_k$, then we have
@@ -718,40 +718,22 @@ part of a solution. This was first introduced for the STP by \citet{polzin2001im
   These paths must be disjoint as $T$ contains no cycles. The paths in $\mathcal{P}$
   alongside $P_m$ and $P_l$ are then all pairwise disjoint paths which cover a subset of the
   edges
-  in $E_T$. An example of this partition of $T$ is shown in Figure (\todo[inline]{reference}).
-  Clearly, the total edge costs of these paths cannot be greater than the edge cost of $T$,
-  that is, we have
-  \begin{equation}
-    c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P)) \leq c(E_T)\mathnormal{.}\label{eq:vor:one}
-  \end{equation}
+  in $E_T$.
 
-  
-  Additionally, by definition
-  we must have that $P_i' \leq \pcradius(i)$, $d(v_m, v_i) \leq c(E(P_m))$, and
-  $d(v_l, v_i) \leq c(E(P_l))$. This gives us
+ \begin{figure}[h!]
+     \centering
+     \begin{tikzpicture}[auto, node distance=1.3cm]
+       \node[steiner] (vi) {$v_i$};
+       \node[steiner] (vib) [below= of vi] {$\phantom{v_i}$};
 
-  \begin{equation}
-d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P))\label{eq:vor:two}
-\end{equation}
+       \node[terminal] (vj) [right= of vi] {$v_m$};
+       \node[terminal] (vl) [left= of vib] {$v_l$};
+       \node [above left= 0.2 of vib] {$P_l$};
 
-
-  Finally, for the set of terminals not covered by $T$, we must have
-  \begin{equation}
-  \sum_{i \in N \setminus V_T} \pcradius(i) \leq \sum_{i \in N \setminus V_T} p_i \mathnormal{.}\label{eq:vor:three}
-  \end{equation}
-
-  By combining the equations (\ref{eq:vor:one}), (\ref{eq:vor:two}), and (\ref{eq:vor:three}), and
-   by the definition of vertices $v_a$ and $v_b$ being the terminals closest to $v_i$ we have,
-   $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}$$
-  \begin{tikzpicture}[auto, node distance=1.3cm]
-    \node[steiner] (vi) {$v_i$};
-    \node[steiner] (vib) [below= of vi] {$\phantom{v_i}$};
-
-    \node[terminal] (vj) [right= of vi] {$v_m$};
-    \node[terminal] (vl) [left= of vib] {$v_l$};
-
-    \node[steiner]  (vlal) [above left= 1.2 and 1 of vl] {$\phantom{v_i}$};
-    \node[terminal]  (vlala) [above= of vlal] {$\phantom{v_i}$};
+       
+       \node[steiner]  (vlal) [above left= 1.2 and 1 of vl] {$\phantom{v_i}$};
+       \node [above right= 0.05 and 0.1 of vlal] {$P_{i_3}$};
+       \node[terminal]  (vlala) [above= of vlal] {$\phantom{v_i}$};
 
     \node[steiner] (vll) [below left=  of vl] {$\phantom{v_i}$};
     \node[terminal] (vlll) [below left=  of vll] {$\phantom{v_i}$};
@@ -785,19 +767,59 @@ d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m
      \draw[selected, blue] (vlala) edge (vlal);
      \draw[selected, blue] (vlal) edge (vl);
 
-     \draw[selected, green] (vlll) edge (vll);
-     \draw[selected, yellow] (vibr) edge (vib);
+     \draw[selected, green] (vlll) edge node[black] {$P_{i_2}$} (vll);
+     \draw[selected, yellow] (vibr) edge node[black] {$P_{i_1}$} (vib);
 
      \draw[selected, black] (vll) edge (vl);
      
-     \draw[selected] (vj) edge (vi);
+     \draw[selected] (vj) edge node[above] {$P_m$} (vi);
 
      \draw[selected, orange] (vl) edge (vib);
      \draw[selected, orange] (vib) edge (vi);
    \end{scope}
   \end{tikzpicture}
-\end{proof}
+  
+  \caption{PCSTP split into paths.}
+  \label{fig:pre:vor:pro}
+\end{figure}
+  
 
+An example of this partition of $T$ is shown in Figure (\ref{fig:pre:vor:pro}). The two ``closest''
+terminals $v_l$ and $v_m$ have disjoint paths $P_l$ and $P_m$ to the interesting nonterminal $v_i$.
+The rest of the solution is partitioned by $P_i'$ paths, these paths run from a terminal towards $v_i$
+until -- and inclusive -- the first edge which crosses a Voronoi boundary. No two paths in such a decomposition
+can share an edge. This follows directly from the facts that each Voronoi region contains
+\textit{only} a single terminal, and that there can be only a single path from vertex to $v_i$ (no cycles).
+Hence a border edge can only be crossed in one ``direction'' this way.
+
+With this, clearly the total edge costs of these paths cannot be greater than the edge cost of $T$. We select only
+ in this way a subset of the edges of $T$, and never select an edge twice. In other words, we have
+  \begin{equation}
+    c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P)) \leq c(E_T)\mathnormal{.}\label{eq:vor:one}
+  \end{equation}
+
+  
+  Additionally, by definition
+  we must have that $P_i' \leq \pcradius(i)$, $d(v_m, v_i) \leq c(E(P_m))$, and
+  $d(v_l, v_i) \leq c(E(P_l))$. This gives us
+
+  \begin{equation}
+d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P))\label{eq:vor:two}
+\end{equation}
+
+
+  Finally, for the set of terminals not covered by $T$, we must -- again by the definition of $\pcradius$ -- have
+  \begin{equation}
+  \sum_{i \in N \setminus V_T} \pcradius(i) \leq \sum_{i \in N \setminus V_T} p_i \mathnormal{.}\label{eq:vor:three}
+  \end{equation}
+
+  By combining the equations (\ref{eq:vor:one}), (\ref{eq:vor:two}), and (\ref{eq:vor:three}), and
+   by the definition of vertices $v_a$ and $v_b$ being the terminals closest to $v_i$ we have,
+   $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)$$
+   and we are done.
+ \end{proof}
+ If a nonterminal is found such that the bound in Theorem \ref{thm:vor:1} is larger than the objective value of
+ any found feasible solution, then that nonterminal is redundant and it is valid to remove it and its edges.
 
 \subsection{Summary of Usage}\label{sec:pre:summary-usage}
 There's a general consensus in literature that preprocessing is an important part of producing solutions
