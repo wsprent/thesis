@@ -779,7 +779,7 @@ part of a solution. This was first introduced for the STP by \citet{polzin2001im
    \end{scope}
   \end{tikzpicture}
   
-  \caption{PCSTP split into paths.}
+  \caption{Example solution of the PCSTP split into paths.}
   \label{fig:pre:vor:pro}
 \end{figure}
   
@@ -821,7 +821,20 @@ d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m
  If a nonterminal is found such that the bound in Theorem \ref{thm:vor:1} is larger than the objective value of
  any found feasible solution, then that nonterminal is redundant and it is valid to remove it and its edges.
 
-\subsection{Summary of Usage}\label{sec:pre:summary-usage}
+ Similar 
+\begin{theorem}\label{thm:vor:2}
+  Let $T = (V_T, E_T, c, p)$ be a solution to the PCSTP in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
+  $v_k \in V_T$ for some $v_k \in N$ and $V_T \neq \{v_k\}$. Finally, let $v_b \in N$ be the terminal \textit{closest}
+  to $v_k$, and let $z'_1, ..., z_{|N|-1}$ be an ordering of the set $N \setminus \{v_k\}$ such that
+  $$\pcradius(z_1) \leq ... \leq \pcradius(i) \leq ... \leq \pcradius(z'_{|N|-1})$$
+  then we have
+  $$d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z'_i) \leq c(T)\mathnormal{.}$$
+\end{theorem}
+The proof of Theorem \ref{thm:vor:2} is symmetric to the proof of Theorem \ref{thm:vor:1}. If a terminal is found such that
+the respective lower bound is higher than the objective value of a given incumbent, then the terminal is redundant and it is
+ valid to remove it from $G$ along with its adjacent edges.
+
+ \subsection{Summary of Usage}\label{sec:pre:summary-usage}
 There's a general consensus in literature that preprocessing is an important part of producing solutions
 for the PCSTP. Preprocessing described in this section is applied natively to the PCSTP
 in all of
