@@ -113,18 +113,48 @@ Last week of february
 
 ** Report
 *** TODO Introduction
+Skelton suggestion:
+
+- Optimisation problems
+- Prize Collecting - Relaxation
+- Related problems -> big array
+
 *** TODO Background/Notation Section
+Mostly on the graph notation used in the thesis
 *** TODO Solving Section
+Mainly writing the exact solution summary
 *** TODO Related Problems Section
+Write --succinctly-- about some problems related to the PCSTP.
+
+Relate the structure of the problems to the PCSTP as well as the findings made on
+ them.
 **** TODO Steiner Tree Problem - Short history
+Very much the history which is relevant --directly-- to the PCSTP
 **** TODO Prize Collecting Travelling Salesman Problem
+Introduce the variants, quick summary of the survey.
 **** TODO Median Subgraph Problems
+Common intro to the Median problems. Focus on the "nature" of the problem.
+
+- p-median problem
+- subtree variants
 ***** TODO Median Cycle
+Highlight the connection to the PCTSP.
 ***** TODO Median Subtree
 
-** Product
+***** TODO Find the articles in the old Networks
+Vol. 23 (6) and Vol. 20 (4).
+** Product - Median Steiner Tree Problem (?)
 
-*** TODO Decide on product
-Either directed / undirected problem or median problem.
+- Write introductionary section.
+- Write MIP formulation.
+- Write example.
+- Relate it to the PCSTP.
+- Relate it to the other Median problems.
+
+*** DONE DONE:Decide on product
+    CLOSED: [2018-06-04 Mon 17:31]
++Either directed / undirected problem or median problem.+
+
+Median Problems
 
 
