@@ -10,7 +10,7 @@ Ljubic et. al. present an exact algorithm for solving PCSTP instances. This is d
  At each B&C node, the ILP formulation is relaxed by removing the integer constraints and removing the exponentially many
 "cut constraints". The relaxation is solved with CPLEX and cuts are made by readding violated "cut constraints" (found in
  poly time with max-flow). They don't describe how they find feasible solutions.
-
+ 
 ** ILP Formulation
 Cut based.
 
@@ -225,3 +225,54 @@ Fu and Hao present a tabu search heuristic. I find the paper a find difficult to
 - Split instances by three types: small, big, special?
 - Pertubation strategy for new initial results
 - DIMACS participant
+* Median Problems
+The family of median problems are somewhat related to the facility assignment problem, and also the the prize collecting
+ problems.
+- If we consider the former, the facility is a movable, connected subgraph (perhaps a tour), which must positioned such that its
+ cost in minimized along with the assignment cost of vertices to the "facility".
+
+- If we consider the latter, we are looking at a generalisation of the prize collecting problems. Instead of fixed vertex prizes we
+ are talking about variable prize/penalties which are dependent on a vertex basis dependent on which subgraph is "selected.
+
+These problems can be seen as modeling the problem of creating a supply network of sorts. For example -- returning to the facility
+ assignment problem -- placing a selection of warehouses which will supply the nearest "customers" with goods. Alternatively, the 
+ facility can be a mainline sewerage/waterline/cabelling and the assignment costs of connecting nodes to the mainline. 
+
+
+** Locating a Median Subtree on a Network, Kim
+Considers the problem of finding a "median" subtree in a graph. Median is used in the common way to describe
+ a subgraph (typically called a "facility")
+ which minimizes the cost of the subgraph along with the sum of the distances from all vertices to the subgraph.
+
+In this variant of the problem, the subgraph is a tree. Furthermore, the problem is solved on a euclidian embedding of
+ the graph (an undirected graph with no parallel edges). Hence, the  auxilliary 
+distances are not from an unselected vertex to a closest selected vertex, but rather a closest point on the
+ tree itself.
+
+Two more quirks in this variant of the problem is,
+
+1. The total cost of the facility tree is multiplied by some constant $k$.
+2. Each vertex has a associated weight, used to factor its distance from the
+ facility in the objective.
+
+Hence the objective function is,
+$$k c(T) + \sum_{v_i \not \in V_T} w_i d(v, T)$$
+
+Kim et. al. consider special case graphs (tree and cactus graph) along side the general case which is NP-Hard.
+** The Median Cycle Problem, Laporte
+Median problem in a mixed graph -- a graph with both arcs and edges -- where the objective is to minimize the combined
+ cost of a cycle (in the edges) alongside the sum of distances of all vertices to the cycle (in the arcs). The latter is
+ commonly reffered to as "assignment costs". Additionally
+ the vertex set contains a depot.
+
+Two variants are considered which correspond to the PCST and Budget problems (the budget is on the assignment costs),
+ and the problem is considered a variant of the Facility Location problem.
+
+** Median Tour and Maximal Covering Tour Problems, Current
+This variant is similar to the one discussed by Laporte et. al. but has,
+- a bicriterion objective function,
+- a quota of vertices to visit on the tour,
+- vertex weights which modify the assignment cost, and
+- only a single arc set but still two cost functions.
+
+These factors makes the problem less related to the PCSTP than the two above.
