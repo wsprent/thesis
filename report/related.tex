@@ -1,10 +1,40 @@
 \chapter{Research in Related Problems}
 \label{chap:related}
+
+
 \section{The Steiner Tree Problem}
 
-\section{The Prize-Collecting Travelling Salesman Problem}
+\section{The Prize-Collecting Travelling Salesman Problem and Variants}
+First introduced by \citet*{balas1989prize}, the Prize-Collecting Travelling Salesman Problem
+(PCTSP) is a problem closely related to the
+PCSTP.
 
+The problem is formulated by \citeauthor{balas1989prize} as follows. Let
+$G = (V, A, c, p)$ be a directed
+graph with arc costs $c: A \to \RR_+$ and vertex prizes (or penalties) $p: V \to \RR_+$
+then find a cycle $C = (V_C, A_C)$ with $V_C \subseteq V$ and $A_C \subseteq A$ which
+minimises the function
+$$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
+such that
+$$\sum_{v_i \in V_C} p_i \geq B$$
+for some $B \in \RR_+$.
+
+If we recollect the definition of the PCSTP and its variants (Section \ref{sec:pcstp}) then
+we immediately see some similarities. The PCTSP involves optimising the
+\textit{Goemans-Williamson Minimization Problem} for the circuit $C$, however with the extra
+constraint of collecting at least $B$ prize on the tour. This extra constraint draws comparisons
+to the \textit{Quota Problem}.
+
+As the PCTSP is a natural member of the family of Vehicle Routing Problems, it is also sometimes
+stated with a \textit{depot} vertex \citep{feillet2005traveling} -- that is a vertex which
+must be part of the solution cycle, $C$. This corresponds to the \textit{Rooted}
+ Prize-Collecting Steiner Tree Problem.
 \section{The Median  Problems}
+
+\subsection{The Median Ciruit/Tour Problem}
+
+\subsection{The Median Subtree Problem}
+
 
 %%% Local Variables:
 %%% TeX-master: "report"
