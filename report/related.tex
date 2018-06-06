@@ -6,6 +6,7 @@
 \todo[inline]{This section should be a section which highlights the research history of the STP
  which has been ``replicated'' in the PCSTP}
 \section{The Prize-Collecting Travelling Salesman Problem and Variants}
+\todo{Think about whether there should be a super-section about all the variants}
 First introduced by \citet*{balas1989prize}, the Prize-Collecting Travelling Salesman Problem
 (PCTSP) is a problem closely related to the
 PCSTP.
@@ -29,7 +30,39 @@ to the \textit{Quota Problem}.
 As the PCTSP is a natural member of the family of Vehicle Routing Problems, it is also sometimes
 stated with a \textit{depot} vertex \citep{feillet2005traveling} -- that is a vertex which
 must be part of the solution cycle, $C$. This corresponds to the \textit{Rooted}
- Prize-Collecting Steiner Tree Problem.
+Prize-Collecting Steiner Tree Problem.
+
+\paragraph{The Orienteering Problem}
+The Orienteering Problem (OP) is very much the circuit version of the \textit{Budget Problem}.
+Given a graph $G  = (V, E, c, p)$, the OP inolves finding a circuit, $C = (V_C, E_C)$,
+which maximises
+$$\sum_{v \in V_C}  p_v \quad \text{s.t.} \quad \sum_{ij \in E_C} c_{ij} \leq B$$
+for some $B \in \RR_+$.
+\todo{Add something short on the history of the OP}
+\paragraph{The Profitable Tour Problem}
+A maybe more familiar problem in the realm of prize collecting tour problems, is the
+so-called Profitable Tour Problem (PTP). This variant -- which earlier shared name with
+the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a true
+ ``cousin'' of the PCSTP.
+
+ While similar in formulation to the PCSTP, according to a fairly recent survey by
+ \citet{archetti2014chapter}, the PTP has received very little attention -- 
+ especially when compared to the PCSTP.
+ In fact, to the best of our knowledge, no exact solution to the PTP
+ has been proposed outside the lower bounding procedure proposed by \citet{dell1995prize},
+  which is a big step in defining an exact algorithm.
+ 
+ However, there has been some research into approximation algorithms for the PTP.
+ In fact, an interesting symptom of exactly how related these two families of
+ prize collecting problems are
+is how the GW Algorithm (see Section \ref{sec:solving:approx:gw})
+can be used used to generate a 2-approximation algorithm for the PTP
+on graphs satisfying the triangle inequality in the same way as
+polynomial time MST algorithms can be used to generate 2-approximation algorithms
+for the TSP \citep{goemans1995general}.
+
+
+
  \section{The Median  Problems}
  *general idea*
  
