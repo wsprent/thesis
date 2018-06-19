@@ -1,6 +1,7 @@
 \chapter{Research in Related Problems}
 \label{chap:related}
-
+*some motivation*
+\todo[inline]{Do examples for this section. Show the problems.}
 
 \section{The Steiner Tree Problem}
 \todo[inline]{This section should be a section which highlights the research history of the STP
@@ -63,19 +64,72 @@ for the TSP \citep{goemans1995general}.
 
 
 
- \section{The Median  Problems}
- *general idea*
- 
- *k-median*
- 
- *median shortest path*
-\subsection{The Median Ciruit/Tour Problem}
-*short history*
+ \section{The Median Facility Problems}
+ A type of problems which are closesly related to the ``prize-collecting'' problems such as the PCSTP, are the so-called
+ ``median'' problems. These problems involve finding optimal location of a ``facility'' with regards to the sum
+ of distances from all vertices to the facility.
 
-*problem defintion*
+ For example, first introduced in \citeyear{hakimi1964optimum} by \citet{hakimi1964optimum} is a problem known as
+ the \textit{$p$-Median Problem}. Given a graph $G = (V, E, c)$, this involves selecting a subset $S \subseteq V$ with
+ cardinality $p$ such that $S$ minimises the sum of minimum distances from vertices in $V$ to vertices in $S$.
+ 
+ \citet{current1987median} adds structure to the selection of vertices by introducing the \textit{Median Shortest Path Problem (MSPP)}.
+ Here, given a graph $G = (V,E,c,d,p)$ -- where $c$ and $d$ are edge weight functions --
+ and source and sink vertices $s$ and $t$, one must find a facility
+  -- now a simple path $P$ --  in $G$
+ from $s$ to $t$ in s.t. the function
+ $$\sum_{i,j \in E(P)} c_{ij} + \sum_{i \in V} p_i D_{i, P}$$
+ where $p_i$ is the weight of vertex $v_i$ and
+ $D_{i, P}$ is the shortest path from vertex $v_i$ to any vertex in $P$ with regards to
+ weights $d$.
+ We commonly denote the first sum as the cost of the facility/subgraph and the second sum as the assignment cost.
 
-*MIP formulation*
-\subsection{The Median Subtree Problem}
+ Intuitively, the MSPP involves weighing a trade off between the cost of the facility
+ in $c$ and the assignment costs. 
+ This is analogous to the trade off between the cost of a subgraph and the cost of missed prize in the
+ family of prize-collecting problems. In the median problems, the fixed prize of a vertex is
+ replaced by the variable ``prize'' represented by the shortest path to the facility sometimes weighted
+ by a vertex prize.
+ \subsection{The Median Ciruit/Tour Problem}
+ The problem of finding a circuit shaped facility in a graph has also been studied.
+ \citet{labbe1999themedian} introduced the ``Median Cycle Problem'' which involves
+ minimising the cost of a cycle and assignment cost in a mixed graph (undirected for
+ the facility and directed for assignment) given a root vertex. Alongside this problem
+ -- which they denote (MCP1) -- they also introduced a budget version (MCP2) where the
+ assignment cost minimisation is replaced with a constraint, and branch-and-cut algorithm
+ were stated for them both.
+
+ Additional research has been performed into both MCP varients
+ in the form of new heuristics based on variable neighbourhood tabu search
+ (similar to the methods used for the PCSTP by \citet{canuto2001local} --
+ See Section \ref{sec:canuto-search}) by \citet{perez2003variable}, and both
+ greedy and evolutionary heuristics were proposed by \citet{renaud2004efficient}.
+ 
+ \citet{current1994median} introduced a similar problem named the ``Median Tour Problem''
+ which is defined on a directed graph which has two edge cost functions and vertex prizes
+ and involves optimising a bicriterion objective function
+ (facility cost and prize-weighted assignment cost)
+ when defining a cycle facility which spans a minimum number of vertices.
+
+ The Profitable Tour Problem turns out to be a special case of certain variants of Median
+ Tour Problems. Consider a variant defined as follows:
+
+ Let $G = (V, E, c, d)$ be a undirected graph with two edge cost functions
+ $c : E \to \RR$ and $d : E \to \RR$, then find a circuit $C = (V_C, E_C) \subseteq G$
+ which minimises
+ the function
+ $$c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} \mathnormal{.}$$
+ Given this definition and an instance of the PTP on a graph $G = (V, E, c, p)$
+ we can define an assignment cost function as
+ $$d_{ij} =
+ \begin{cases}
+   0 & i = j \\
+   p_i & i \neq j
+ \end{cases}\mathnormal{.}
+ $$
+ Thus the assignment cost of a vertex is 0 if it is part of the facility and its prize
+ if it is not.
+ \subsection{The Median Subtree Problem}
 *short history*
 
 *problem definition*
