@@ -1,7 +1,7 @@
 \chapter{Research in Related Problems}
 \label{chap:related}
 *some motivation*
-\todo[inline]{Do examples for this section. Show the problems.}
+\todo[inline]{Do examples for this section. Show the problems visually.}
 
 \section{The Steiner Tree Problem}
 \todo[inline]{This section should be a section which highlights the research history of the STP
@@ -62,8 +62,6 @@ on graphs satisfying the triangle inequality in the same way as
 polynomial time MST algorithms can be used to generate 2-approximation algorithms
 for the TSP \citep{goemans1995general}.
 
-
-
  \section{The Median Facility Problems}
  A type of problems which are closesly related to the ``prize-collecting'' problems such as the PCSTP, are the so-called
  ``median'' problems. These problems involve finding optimal location of a ``facility'' with regards to the sum
@@ -113,9 +111,10 @@ for the TSP \citep{goemans1995general}.
 
  The Profitable Tour Problem turns out to be a special case of certain variants of Median
  Tour Problems. Consider a variant defined as follows:
+ \todo{Consider whether we want ILP formulations here}
 
  Let $G = (V, E, c, d)$ be a undirected graph with two edge cost functions
- $c : E \to \RR$ and $d : E \to \RR$, then find a circuit $C = (V_C, E_C) \subseteq G$
+ $c : E \to \RR^+$ and $d : E \to \RR^+$, then find a circuit $C = (V_C, E_C) \subseteq G$
  which minimises
  the function
  $$c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} \mathnormal{.}$$
@@ -128,15 +127,32 @@ for the TSP \citep{goemans1995general}.
  \end{cases}\mathnormal{.}
  $$
  Thus the assignment cost of a vertex is 0 if it is part of the facility and its prize
- if it is not.
- \subsection{The Median Subtree Problem}
-*short history*
+ if it is not. Then the cost of a tour becomes the following,
+ $$c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} =
+ \sum_{ij \in E_C} c_{ij} + \sum_{i \not\in C} \min_{j \in C} d_{ij} + \sum_{i \in V_C} \min_{j \in V_C} d_{ij}
+ = \sum_{ij \in E_C} c_{ij} + \sum_{i \not\in V_C}  p_i$$
+ which corresponds to the cost of a tour in the PTP.
+ \subsection{Median Trees}
+ We then turn our focus to the problem of finding median \textit{trees} in graphs.
+  To the best of our knowledge, this problem has not recieved much attention.
 
-*problem definition*
+  \citet{minieka1985optimal} and \citet{george2003bi} consider the problem of finding
+  median subtrees of a tree graph.
+  A linear time solution to this was developed by
+  \citet{kim1991locating}, who also consider the problem in cactus graphs.
 
-*MIP Formulation*
+  Finding a median tree in a general graph is, to the best of our knowledge, not well researched.
+  \citet{kim1991locating} and \citet{aneja1992location} establishes the
+  problem as being NP-Hard, and shows that the problem can
+  decomposed into finding median trees on distinct ``blocks'' of a graph.
 
-*Maybe motivate a Median Steiner Problem*
+  *euclidean embedding*
+  
+  *trees in generic graphs - euclidean and with differing objectives*
+
+  
+*Maybe motivate a Median Steiner Problem -- no research has been done in the equivalent problem to
+ the median cycle/tour problems*
 
 %%% Local Variables:
 %%% TeX-master: "report"
