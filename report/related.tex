@@ -25,7 +25,7 @@ First introduced by \citet*{balas1989prize}, the Prize-Collecting Travelling Sal
 The problem is formulated by \citeauthor{balas1989prize} as follows. Let
 $G = (V, A, c, p)$ be a directed
 graph with arc costs $c: A \to \RR_+$ and vertex prizes (or penalties) $p: V \to \RR_+$
-then find a cycle $C = (V_C, A_C)$ with $V_C \subseteq V$ and $A_C \subseteq A$ which
+then find a circuit $C = (V_C, A_C)$ with $V_C \subseteq V$ and $A_C \subseteq A$ which
 minimises the function
 $$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
 such that
@@ -40,7 +40,7 @@ to the \textit{Quota Problem}.
 
 As the PCTSP is a natural member of the family of Vehicle Routing Problems, it is also sometimes
 stated with a \textit{depot} vertex \citep{feillet2005traveling} -- that is a vertex which
-must be part of the solution cycle, $C$. This corresponds to the \textit{Rooted}
+must be part of the solution circuit, $C$. This corresponds to the \textit{Rooted}
 Prize-Collecting Steiner Tree Problem.
 
 Intuitively, these kinds of problems seek to solve concrete problems with respect to transport routes.
@@ -66,7 +66,7 @@ so-called Profitable Tour Problem (PTP). This variant -- which earlier shared na
 the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a true
  ``cousin'' of the PCSTP.
 
- Specifically, the PTP involves finding a simple cycle,
+ Specifically, the PTP involves finding a circuit,
  $C = (V_C, E_C)$ in a graph which minimises
  $$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
  with no additional constraints.
@@ -91,22 +91,42 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  \todo[inline]{A branch-and-cut algorithm for the capacitated profitable tour problem}
  \paragraph{MIP Formulations}
 
+ As part of developing an exact solution to the PCTSP, \citet{fischetti1988additive} stated the problem
+ on a directed graph as
+ an integer linear program. This formulation is shown in Formulation (\ref{form:pctsp:cut}) for
+ a graph $G = (V, A, c, p)$.
+ We note the similarity between this and the cut-based ILP (CUT-IP) formulation used by
+ \citet{ljubic2005solving} for their variant of a Prize-Collecting Aborescence Problem
+ (Formulation \ref{form:exact:cut}).
+ 
  \begin{formulation}
    \begin{subequations}
      \begin{alignat}{3} %TODO: Find reference for this formulation
-       &\underset{x}{\text{minimize}}
-       & & \sum_{ij \in E} c_{ij} x_{ij} + \sum_{i \in V} p_iy_i  & \\
+       &\underset{\bd x, \bd y}{\text{minimize}}
+       & & \sum_{ij \in A} c_{ij} x_{ij} + \sum_{i \in V} (1 - p_iy_i)  & \\
        & \text{subject to}\quad
-       & & x(\delta(S)) \geq 1 \qquad&& \forall S \subset V \label{form:stp:cut:cut}\\
-       &&&&& S \cap N \neq \emptyset \nonumber\\
-       &&&&& S \cap (V \setminus N) \neq \emptyset \nonumber\\
-       &&& x \in \BB. &&
-     \end{alignat}\label{form:stp:cut}
+       & & \sum_{i \in V} p_i y_i \geq Q && \\ 
+       &&& y_i = x(\delta^-(i)) && \forall i \in V \label{form:pctsp:prize}\\
+       &&& x(\delta^-(i)) = x(\delta^+(i)) && \forall i \in V \label{form:pctsp:deg} \\
+       &&& x(\delta^+(S)) \geq y_k && \forall S \subset V. r \in S, k \in V \setminus S \label{form:pctsp:conn}\\
+       &&& \bd x \in \BB^{|A|} && \\
+       &&& \bd y \in \BB^{|V|}.
+     \end{alignat}\label{form:pctsp:cut}
    \end{subequations}
-   \caption{The \textit{Cut Formulation} of the STP \citep{koch1998solving}.}
-
+   \caption{ILP formulation of the PCTSP by \citet{fischetti1988additive}.}
  \end{formulation}
 
+ Constraints (\ref{form:pctsp:prize}) and (\ref{form:pctsp:conn}) correspond directly to constraints
+ (\ref{form:exact:pcsap:prize}) and (\ref{form:exact:pcsap:conn}) respectively in (CUT-IP).
+ The latter set of constraints, the so-called connectivity constraints, ensure that every feasible solution
+ is a single connected subgraph containing the root by enforcing the existence of at least a single edge crossing
+ every cut which separates the root from some selected vertex. Combined with the
+ additional constraint (\ref{form:pctsp:deg}), these ensure that any feasible solution is a single circuit.
+
+ The similarities of the two formulations reflect the similarities of the two problems, with the main difference being
+ the shape of the solution (circuit / arborescence).
+
+ \todo[inline]{Either change title of paragraph or find more examples}
  \section{The Median Facility Problems}
  A type of problems which are closesly related to the ``prize-collecting'' problems such as the PCSTP, are the so-called
  ``median'' problems. These problems involve finding optimal location of a ``facility'' with regards to the sum
