@@ -1,7 +1,18 @@
 \chapter{Research in Related Problems}
 \label{chap:related}
-*some motivation*
+The Prize-Collecting Steiner Tree Problem, while unique in formulation,
+is part of a family of problems which somehow deal with the trade-off of
+``paying'' for connecting vertices to gain their ``prize'', fulfill a quota
+or similar.
+
+In this chapter, we will look at a collection of similar problems, see how far research is
+on them, and discuss similarities with the PCSTP both with respect to the motivation and
+intutive understand of the problems, but also to how the problems are approached and
+how similar the solutions are.
+
 \todo[inline]{Do examples for this section. Show the problems visually.}
+\todo[inline]{Be clear about the intuitive differences between the PCSTP and these problems}
+
 
 \section{The Steiner Tree Problem}
 \todo[inline]{This section should be a section which highlights the research history of the STP
@@ -9,8 +20,7 @@
 \section{The Prize-Collecting Travelling Salesman Problem and Variants}
 \todo{Think about whether there should be a super-section about all the variants}
 First introduced by \citet*{balas1989prize}, the Prize-Collecting Travelling Salesman Problem
-(PCTSP) is a problem closely related to the
-PCSTP.
+(PCTSP) is a problem closely related to the PCSTP.
 
 The problem is formulated by \citeauthor{balas1989prize} as follows. Let
 $G = (V, A, c, p)$ be a directed
@@ -33,6 +43,15 @@ stated with a \textit{depot} vertex \citep{feillet2005traveling} -- that is a ve
 must be part of the solution cycle, $C$. This corresponds to the \textit{Rooted}
 Prize-Collecting Steiner Tree Problem.
 
+Intuitively, these kinds of problems seek to solve concrete problems with respect to transport routes.
+Where the Travelling Salesman Problem seeks to find the optimal ``route'' to visit all vertices in
+a graph, the PCTSP (and its variants) look to answer which routes/vertices are worth visiting and
+which are not. This is reminiscent of how the PCSTP is to the Steiner Tree Problem.
+
+By being routing problems, the PCTSP variants are more often than not defined on directed graphs in
+contrast to the PCSTP which is exclusively defined on a undirected graph (while the Steiner Aborescence
+ Problem is very much the directed variant).
+
 \paragraph{The Orienteering Problem}
 The Orienteering Problem (OP) is very much the circuit version of the \textit{Budget Problem}.
 Given a graph $G  = (V, E, c, p)$, the OP inolves finding a circuit, $C = (V_C, E_C)$,
@@ -40,27 +59,53 @@ which maximises
 $$\sum_{v \in V_C}  p_v \quad \text{s.t.} \quad \sum_{ij \in E_C} c_{ij} \leq B$$
 for some $B \in \RR_+$.
 \todo{Add something short on the history of the OP}
+
 \paragraph{The Profitable Tour Problem}
 A maybe more familiar problem in the realm of prize collecting tour problems, is the
 so-called Profitable Tour Problem (PTP). This variant -- which earlier shared name with
 the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a true
  ``cousin'' of the PCSTP.
 
+ Specifically, the PTP involves finding a simple cycle,
+ $C = (V_C, E_C)$ in a graph which minimises
+ $$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
+ with no additional constraints.
+ 
  While similar in formulation to the PCSTP, according to a fairly recent survey by
  \citet{archetti2014chapter}, the PTP has received very little attention -- 
  especially when compared to the PCSTP.
  In fact, to the best of our knowledge, no exact solution to the PTP
- has been proposed outside the lower bounding procedure proposed by \citet{dell1995prize},
-  which is a big step in defining an exact algorithm.
+ has been proposed.
+ However, \citet{dell1995prize} does define a lower bounding procedure for the problem
+ which is a big step in defining an exact algorithm.
  
- However, there has been some research into approximation algorithms for the PTP.
+ There has, however, been some research into approximation algorithms for the PTP.
  In fact, an interesting symptom of exactly how related these two families of
  prize collecting problems are
-is how the GW Algorithm (see Section \ref{sec:solving:approx:gw})
-can be used used to generate a 2-approximation algorithm for the PTP
-on graphs satisfying the triangle inequality in the same way as
-polynomial time MST algorithms can be used to generate 2-approximation algorithms
-for the TSP \citep{goemans1995general}.
+ is how the GW Algorithm (see Section \ref{sec:solving:approx:gw})
+ is used by \citeauthor{goemans1995general} to generate a 2-approximation algorithm for the PTP
+ on graphs satisfying the triangle inequality -- much in the same way that
+ polynomial time MST algorithms can be used to generate 2-approximation algorithms
+ for the Travelling Salesman Problem \citep{goemans1995general}.
+
+ \todo[inline]{A branch-and-cut algorithm for the capacitated profitable tour problem}
+ \paragraph{MIP Formulations}
+
+ \begin{formulation}
+   \begin{subequations}
+     \begin{alignat}{3} %TODO: Find reference for this formulation
+       &\underset{x}{\text{minimize}}
+       & & \sum_{ij \in E} c_{ij} x_{ij} + \sum_{i \in V} p_iy_i  & \\
+       & \text{subject to}\quad
+       & & x(\delta(S)) \geq 1 \qquad&& \forall S \subset V \label{form:stp:cut:cut}\\
+       &&&&& S \cap N \neq \emptyset \nonumber\\
+       &&&&& S \cap (V \setminus N) \neq \emptyset \nonumber\\
+       &&& x \in \BB. &&
+     \end{alignat}\label{form:stp:cut}
+   \end{subequations}
+   \caption{The \textit{Cut Formulation} of the STP \citep{koch1998solving}.}
+
+ \end{formulation}
 
  \section{The Median Facility Problems}
  A type of problems which are closesly related to the ``prize-collecting'' problems such as the PCSTP, are the so-called
@@ -142,17 +187,18 @@ for the TSP \citep{goemans1995general}.
   \citet{kim1991locating}, who also consider the problem in cactus graphs.
 
   Finding a median tree in a general graph is, to the best of our knowledge, not well researched.
-  \citet{kim1991locating} and \citet{aneja1992location} establishes the
-  problem as being NP-Hard, and shows that the problem can
+ \citet{aneja1992location} establishes the
+  problem as being NP-Hard -- by reduction from the Steiner Tree Problem, and shows that the problem can
   decomposed into finding median trees on distinct ``blocks'' of a graph.
 
-  *euclidean embedding*
+  \citet{kim1991locating} considers a variant of the problem where the graph is embedded in the plane
+  and assignment costs correspond to euclidean distances.
   
-  *trees in generic graphs - euclidean and with differing objectives*
+  However, we have found no MIP formulations of the problem nor any attempts to solve it to optimality
+  in the general case. Additionally, there seems to be no consensus of a ``most interesting'' variant
+  of the problem of finding median trees in graphs.
 
   
-*Maybe motivate a Median Steiner Problem -- no research has been done in the equivalent problem to
- the median cycle/tour problems*
 
 %%% Local Variables:
 %%% TeX-master: "report"
