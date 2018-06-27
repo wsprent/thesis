@@ -2,7 +2,20 @@
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
 
-\section{Problem Defintion}
+\section{Problem Definition}
+
+Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
+and $d : V \times V  \to \RR^+$ be an \textit{assignment cost} function where we have
+$$d_{ii} = 0 \mathnormal{.}$$
+Then the \textit{Median Tree Problem}
+is defined as finding a \textit{connected subgraph} $T = (V_T, E_T)$ of $G$
+where $V_T \subseteq V$ and
+$E_T \subseteq E$ which minimises the cost function,
+$$c(T) = \sum_{ij \in E_T} c_{ij} + \sum_{i \in V} \min_{j \in V_T} d_{ij}\mathnormal{.}$$
+We say that such a sub graph is a \textit{Median Tree} of $G$.
+
+
+\section{Applications}
 
 \section{Integer Programming Formulation}
 
