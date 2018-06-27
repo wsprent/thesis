@@ -2,13 +2,15 @@
 \label{chap:related}
 The Prize-Collecting Steiner Tree Problem, while unique in formulation,
 is part of a family of problems which somehow deal with the trade-off of
-``paying'' for connecting vertices to gain their ``prize'', fulfill a quota
-or similar.
+\textit{paying} for connecting vertices to gain their \textit{prize}.
 
 In this chapter, we will look at a collection of similar problems, see how far research is
 on them, and discuss similarities with the PCSTP both with respect to the motivation and
-intutive understand of the problems, but also to how the problems are approached and
+intutive understanding of the problems, but also to how the problems are approached and
 how similar the solutions are.
+
+By doing this, we aim to gain deeper insight into the structure of this collection of problems
+ and separate generalisable methods from problem-specific methods.
 
 \todo[inline]{Do examples for this section. Show the problems visually.}
 \todo[inline]{Be clear about the intuitive differences between the PCSTP and these problems}
@@ -125,6 +127,14 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
  The similarities of the two formulations reflect the similarities of the two problems, with the main difference being
  the shape of the solution (circuit / arborescence).
+ As a result there are also similarities in how these prize-collecting problems can be solved
+ -- e.g. the method of solving a max-flow problem on a support graph
+ to separate connectivity constraints or GSECs can be directly applied to PCTSP variants, and with the GW Algorithm being
+ directly applicable to the PTP, there is not much in the way from directly lifting a branch and cut routine from
+ one problem to another.
+
+ The main uniqueness of working with Steiner trees versus circuits in this case seems to be the possibilities of applying
+ preprocessing routines to the input graphs.
 
  \todo[inline]{Either change title of paragraph or find more examples}
  \section{The Median Facility Problems}
@@ -197,6 +207,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  \sum_{ij \in E_C} c_{ij} + \sum_{i \not\in C} \min_{j \in C} d_{ij} + \sum_{i \in V_C} \min_{j \in V_C} d_{ij}
  = \sum_{ij \in E_C} c_{ij} + \sum_{i \not\in V_C}  p_i$$
  which corresponds to the cost of a tour in the PTP.
+
  \subsection{Median Trees}
  We then turn our focus to the problem of finding median \textit{trees} in graphs.
   To the best of our knowledge, this problem has not recieved much attention.
