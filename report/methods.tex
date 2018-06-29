@@ -111,7 +111,7 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
        &\underset{x,y}{\text{minimize}}
        & & \sum_{e \in E} c_e x_e +  \sum_{v \in V} p_v (1 - y_v)  & \\
        & \text{subject to}\quad
-       & & x(E) \leq y(V) - 1 &&  \label{form:lower:gsec:sum}\\
+       & & x(E) = y(V) - 1 &&  \label{form:lower:gsec:sum}\\
        &&& x(E(S)) \leq y(S \setminus \{s\}) && \forall s \in S, S \subseteq V \label{form:lower:gsec:gsec}\\
        \intertext{ILP:}
        &&& x_e \in \BB  && \forall e \in E \\
