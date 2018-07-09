@@ -2,6 +2,7 @@
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
 
+
 \section{Problem Definition}
 
 Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
@@ -18,6 +19,24 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
 \section{Applications}
 
 \section{Integer Programming Formulation}
+
+Given an instance of the Median Tree Problem as defined above,
+Formulation (\ref{form:mtp:cut}) is an ILP formulation of the Median Tree Problem.
+It is loosely inspired by the one defined by \citet{lucena2004strong}
+(Formulation \ref{form:lower:gsec}, Section \ref{sec:lower:gsec}) for the Prize-Collecting
+Steiner Tree Problem.
+
+The variables $\bd x$ and $\bd y$ are boolean
+decision vectors which are interpreted as follows.
+As with the PCSTP formulation, when $x_{ij} = 1$,
+the edge between vertices $v_i$ and $v_j$ is part of the solution.
+Similarly, $\bd y$ describes the assignment relation of a solution. When
+$y_{ij} = 1$, vertex $v_i$ is \textit{assigned} to vertex $v_j$ and the corresponding
+assignment cost must be paid. 
+These relations are reflected in the objective function.
+When $y_{kk} = 1$, we consider that vertex assigned to
+itself, which implies that vertex $v_k$ is part of the facility.
+
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
@@ -25,18 +44,42 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
        & & \sum_{ij \in E} c_{ij} x_{ij} +  \sum_{i, j \in V} d_{ij}y_{ij}  & \\
        & \text{subject to}\quad
        & & \sum_{ij \in E} x_{ij} - 1 = \sum_{i \in V} y_{ii} &&  \label{form:mtp:tree}\\
-       &&& \sum_{j \in V} y_{kj} = 1 && \forall k \in V \\
-       &&& \sum_{i \in V} y_{ik} \leq \sum_{i \in \delta(k)} x_{ik}
-       && \forall k \in V \label{form:mtp:assignment}\\
-       &&& \text{GSEC} && \\
+       &&& x(E(S)) \leq y(S \setminus \{s\})
+       && \forall S \subseteq V, s \in S \label{form:mtp:gsec} \\
+       &&& \sum_{j \in V} y_{kj} = 1 && \forall k \in V \label{form:mtp:assignment}\\
+       &&& y_{ik} \leq  y_{kk}
+       && \forall i, k \in V \label{form:mtp:facility}\\
+       &&& y_{kk} \leq \sum_{i \in \delta(k)} x_{ik}
+       && \forall k \in V \label{form:mtp:legal} \\
        &&& \bd x \in \BB^{|E|} && \\
        &&& \bd y \in \BB^{|V \times V|}
-     \end{alignat}\label{form:exact:cut}
+     \end{alignat}\label{form:mtp:cut}
    \end{subequations}
    \caption{TBD}
  \end{formulation}
 
-\section{Implementation}
+ Since edges have nonnegative weights, we know that the shape of the facility must be a tree.
+ Constraint (\ref{form:mtp:tree}) ensures that any facility has exactly one less edge than
+ vertices, and constraints (\ref{form:mtp:gsec}) -- commonly known as Generalised Subtour
+ Elimination Contraints -- ensures that no subset of vertices in the facility can form
+ a cycle. Together, these ensure that any feasible
+ solution must be a single, connected subgraph of $G$
+ which is shaped as a tree.
+
+ The rest of the constraints are concerned with making sure that every vertex in $G$ is
+ assigned to a vertex in the facility in any feasible solution. Constraint
+ (\ref{form:mtp:assignment}) ensures that every vertex in $G$ is assigned to exactly one
+ vertex, and constraint (\ref{form:mtp:facility}) ensures that a vertex can only be assigned
+ to if it is part of the facility. This could alternatively be modelled as
+ $$\sum_{i \in V} y_{ik} \leq  M y_{kk}  \qquad \forall i \in V$$
+ for some very large $M$.
+
+ Finally, the constraints (\ref{form:mtp:legal}) ensure that no vertex can feasibly be part
+ of the facility unless an edge in its adjacency is selected -- that is, unless it is spanned
+ by the solution tree.
+
+ \todo[inline]{Perhaps strengthen the formulation.}
+\section{Algorithm and Implementation}
 
 \section{Computational Experience}
 
@@ -44,6 +87,7 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
 
 \subsection{Results}
 
+\section{Conclusion}
 
 %%% Local Variables:
 %%% TeX-master: "report"

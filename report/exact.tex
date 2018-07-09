@@ -222,7 +222,7 @@ as the ILP in Fomulation (\ref{form:exact:cut}).
        \label{form:exact:orientation}
      \end{alignat}\label{form:exact:cut}
    \end{subequations}
-   \caption{(CUT-IP) CUT formulation of the constrained PCSAP.}
+   \caption{(CUT-IP) CUT-based formulation of the constrained PCSAP.}
  \end{formulation}
 
  As usual, the ILP formulation has two decision vectors, $x$ and $y$, where the former denotes arcs
@@ -511,7 +511,8 @@ directly to selecting the corresponding edge in $G$.
   \cite{gamrath2017scip} claim that this gives stronger performance than
   to branching on single arcs.
 
-  Futhermore, SCIP-Jack contains an array of heuristics for the SAP which we will not delve further into.
+  Futhermore, SCIP-Jack contains an array of heuristics for the SAP which are not well described
+  by the author's and we will not delve further into.
 
 \subsection{Difference in Approach}
 
