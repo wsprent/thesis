@@ -194,9 +194,10 @@ v       \sum_{i \in S, j \in T}  \xi_{ij} +
   Hence any set of vertices $S' = S \setminus \{s\}$ where $S$ induces a minimal $S,T$ cut in the flow network will correspond to
   a most violated GSEC for the solution $(\bar x, \bar y)$ to the relaxed LP.
 
-  Finding violated GSECs then reduces to solving $|V|$ maximum flow problems, which can be done in polynomial time. However, there is guarantee that
-  that the $|V|$ will result in different violated constraints. To avoid this, \citet{lucena2004strong} suggest that whenever a max flow problem has been
-  solved for some $l = v \in V$, then we can set $\xi_{vt} = \infty$ to avoid $v$ being on the source-side of any subsequent min-cuts.
+  Finding violated GSECs then reduces to solving $|V|$ maximum flow problems, which can be done in polynomial time. However, there is guarantee
+  that the $|V|$ problems will result in different violated constraints.
+  To avoid adding finding the same constraints multiple times, \citet{lucena2004strong} suggest that whenever a max flow problem has been
+  solved for some $l = v \in V$, then we can set $\xi_{lt} = \infty$ to avoid $v$ being on the source-side of any subsequent min-cuts.
   \todo[inline]{Wolsey (I think) suggests deleting edges/vertices from the support graph, maybe mention that}
 
 \input{exact.tex}

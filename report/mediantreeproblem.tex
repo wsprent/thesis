@@ -43,7 +43,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
        &\underset{\bd x, \bd y}{\text{minimize}}
        & & \sum_{ij \in E} c_{ij} x_{ij} +  \sum_{i, j \in V} d_{ij}y_{ij}  & \\
        & \text{subject to}\quad
-       & & \sum_{ij \in E} x_{ij} - 1 = \sum_{i \in V} y_{ii} &&  \label{form:mtp:tree}\\
+       & & \sum_{ij \in E} x_{ij} = \sum_{i \in V} y_{ii} - 1 &&  \label{form:mtp:tree}\\
        &&& x(E(S)) \leq \sum_{i \in S \setminus \{s\}} y_{ii}
        && \forall S \subseteq V, s \in S \label{form:mtp:gsec} \\
        &&& \sum_{j \in V} y_{kj} = 1 && \forall k \in V \label{form:mtp:assignment}\\
