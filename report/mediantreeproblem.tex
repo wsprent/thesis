@@ -2,7 +2,6 @@
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
 
-
 \section{Problem Definition}
 
 Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
@@ -15,9 +14,91 @@ $E_T \subseteq E$ which minimises the cost function,
 $$c(T) = \sum_{ij \in E_T} c_{ij} + \sum_{i \in V} \min_{j \in V_T} d_{ij}\mathnormal{.}$$
 We say that such a subgraph is a \textit{Median Tree} of $G$.
 
+\begin{figure}[h]\centering
+  \begin{subfigure}[b]{0.47\linewidth}\centering
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[terminal] (b) [right=of a] {b};
+      \node[terminal] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[terminal] (e) [left=of d] {e};
+      \node[terminal] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.75 and 1.3 of c] {g};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick}]
+        \draw (a) edge node[below]{4} (b);
+        \draw (b) edge node[near start]{5} (d);
+        \draw (b) edge node[below]{8} (c);
+        \draw (c) edge node{3} (d);
+        \draw (c) edge node{2} (g);
+        \draw (c) edge node[near start]{5} (e);
+        \draw (d) edge node{6} (e);
+        \draw (d) edge node{10} (g);
+        \draw (e) edge node{1} (f);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{The graph $G$ with edge costs.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.47\linewidth}\centering
+    \begin{tabular}{r|c|c|c|c|c|c|c}
+ $d_{ij}$ & $a$ & $b$ & $c$ & $d$ & $e$ & $f$ & $g$ \\ \hline
+      $a$ &  0  &  5  &  8  &     &     &  6  &     \\ \hline
+      $b$ &  2  &  0  &  2  &  2  &     &     &     \\ \hline
+      $c$ &     &     &  0  & 10  &  4  &     &  1  \\ \hline
+      $d$ &     &  3  &     &  0  &  6  &     &  2  \\ \hline
+      $e$ &     &     &     &     &  0  &     &     \\ \hline
+      $f$ &  2  &  8  &     &     &  5  &  0  &     \\ \hline
+      $g$ &     &     &  5  &  5  &     &     &  0  
+    \end{tabular}
+    \caption{The distance function $d$.}
+    \end{subfigure}
+  \caption{Instance of the MTP problem.}
+  \label{fig:mtp:01}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+      \begin{tikzpicture}[auto, node distance=1.5 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[terminal] (b) [right=of a] {b};
+      \node[terminal] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[terminal] (e) [left=of d] {e};
+      \node[terminal] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.75 and 1.3 of c] {g};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick}]
+        \draw (a) edge node[below]{4} (b);
+        \draw (b) edge node[near start]{5} (d);
+        \draw (b) edge node[below]{8} (c);
+        \draw (c) edge node{3} (d);
+        \draw (c) edge[selected] node{2} (g);
+        \draw (c) edge[selected] node[near start]{5} (e);
+        \draw (d) edge node{6} (e);
+        \draw (d) edge node{10} (g);
+        \draw (e) edge[selected] node{1} (f);
+      \end{scope}
+      \begin{scope}[every edge/.style={draw=red, thin, opacity=0.6}]
+        \draw[->] (a) edge node{6} (f);
+        \draw[->] (b) edge[bend right=60] node[below]{2} (c);
+        \draw[->] (d) edge[bend left=60] node{2} (g);
+      \end{scope}
+    \end{tikzpicture}
+
+  \caption{Sol}
+  \label{fig:mtp:01:opt}
+\end{figure}
+\todo[inline]{Add a figure... figure out how to show assignment costs}
+\todo[inline]{Maybe define terms Nonterminals and Supply points for vertices which
+  respectively have either no assignment costs associated with them, are free to assign to any facility node,
+  and are}
+
+\paragraph{Reduction from the Prize-Collecting Steiner Tree Problem}
 
 \section{Applications}
-
+\textit{* Any kind of supply situation: military / water (piping) / aid / maybe rail / postal}
 \section{Integer Programming Formulation}
 
 Given an instance of the Median Tree Problem as defined above,
@@ -29,7 +110,10 @@ Steiner Tree Problem.
 The variables $\bd x$ and $\bd y$ are boolean
 decision vectors which are interpreted as follows.
 As with the PCSTP formulation, when $x_{ij} = 1$,
-the edge between vertices $v_i$ and $v_j$ is part of the solution.
+the edge between vertices $v_i$ and $v_j$ is part of the solution -- note that only
+one of $x_{ij}$ and $x_{ji}$ are variables in model and we will use both indices interchangably
+to refer to the same variable for the sake of readability.
+
 Similarly, $\bd y$ describes the assignment relation of a solution. When
 $y_{ij} = 1$, vertex $v_i$ is \textit{assigned} to vertex $v_j$ and the corresponding
 assignment cost must be paid. 
@@ -79,9 +163,27 @@ itself, which implies that vertex $v_k$ is part of the facility.
  by the solution tree.
 
  \paragraph{Valid Inequalities}
+ Whenever a vertex is connected to the facility, it trivially must be assigned to itself. This
+ follows directly from the fact that $d_{ii} = 0$ for all $i \in V$ and thus have $d_{ij} \geq d_{ii}$
+ for all $j \in V$. The fact that this is implied by the probe (i.e. it is always correct to assign a
+ vertex in the facility to itself) allows us to not formalise it in the problem. However, we can
+ still add the constraints
+ \begin{equation}
+ y_{ii} \geq x_{ji} \qquad \forall i \in V,  \forall j \in \delta(i)
+\end{equation}
+ to as valid constraints to formalise this relation.
 
-
- \todo[inline]{Perhaps strengthen the formulation.}
+ Similar to how \citeauthor{ljubic2005solving} constrain the degree of Nonterminals in Constraint
+ (\ref{form:exact:strength}), the same idea holds for the MTP but in a slightly different manner.
+ Consider the set of vertices which cost nothing to assign and cannot be assigned to as \textit{Nonterminals},
+ $$N = \left\{ i \in V \middle\vert \sum_{j \in v} d_{ij} = 0 \wedge  \forall j. d_{ji} = \infty\right\}\mathnormal{.}$$
+ Any nonterminal cannot be a leaf in an optimal solution, and thus must have degree of at least
+ two should they be part of an optimal facility. Hence it is valid to add the constraint
+ \begin{equation}\label{mtp:valid:deg}
+   \sum_{j \in \delta(i)}x_{ij} \geq 2 x_{ik} \qquad \forall i \in N, \: \forall k \in \delta(i)
+ \end{equation}
+ to the model. The intuitive interpretation of (\ref{mtp:valid:deg}) is that if any edge adjacent to
+ a nonterminal is selected, \textit{at least} two edges adjacent to the nonterminal must be selected.
 \section{Algorithm and Implementation}
 
 \paragraph{Branch and Cut}
@@ -98,7 +200,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
 
 \section{Computational Experience}
 
-\subsection{Instances}
+\subsection{Datasets}
 
 \subsection{Results}
 
