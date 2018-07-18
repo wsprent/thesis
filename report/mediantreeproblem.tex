@@ -1,4 +1,3 @@
-
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
 
@@ -39,24 +38,36 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
       \end{scope}
     \end{tikzpicture}
     \caption{The graph $G$ with edge costs.}
+    \label{fig:mtp:01:g}
   \end{subfigure}
   \begin{subfigure}[b]{0.47\linewidth}\centering
-    \begin{tabular}{r|c|c|c|c|c|c|c}
- $d_{ij}$ & $a$ & $b$ & $c$ & $d$ & $e$ & $f$ & $g$ \\ \hline
+    \footnotesize
+    \begin{tabular}{r||c|c|c|c|c|c|c}
+ $d_{ij}$ & $a$ & $b$ & $c$ & $d$ & $e$ & $f$ & $g$ \\ \hline\hline
       $a$ &  0  &  5  &  8  &     &     &  6  &     \\ \hline
       $b$ &  2  &  0  &  2  &  2  &     &     &     \\ \hline
       $c$ &     &     &  0  & 10  &  4  &     &  1  \\ \hline
       $d$ &     &  3  &     &  0  &  6  &     &  2  \\ \hline
       $e$ &     &     &     &     &  0  &     &     \\ \hline
       $f$ &  2  &  8  &     &     &  5  &  0  &     \\ \hline
-      $g$ &     &     &  5  &  5  &     &     &  0  
+      $g$ &     &     &  5  &  5  &     &     &  0
     \end{tabular}
-    \caption{The distance function $d$.}
+    \caption{The assignment cost function $d$.}
+    \label{fig:mtp:01:d}
     \end{subfigure}
   \caption{Instance of the MTP problem.}
   \label{fig:mtp:01}
 \end{figure}
 
+Figure \ref{fig:mtp:01} shows an example of the MTP represented as a graph
+(\ref{fig:mtp:01:g}) taken from our recurring example
+and an assignment function (\ref{fig:mtp:01:d}) which has been chosen with
+no specfic purpose.
+Figure \ref{fig:mtp:01:opt}
+shows the optimal solution
+$$T = ( \{ c, e, f, g \}, \{(c, e), (c, g), (e, f)\})$$
+to this problem with total cost
+$$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
 \begin{figure}[h!]
   \centering
       \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -80,23 +91,128 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
         \draw (d) edge node{10} (g);
         \draw (e) edge[selected] node{1} (f);
       \end{scope}
-      \begin{scope}[every edge/.style={draw=red, thin, opacity=0.6}]
+      \begin{scope}[every edge/.style={assignment}]
         \draw[->] (a) edge node{6} (f);
         \draw[->] (b) edge[bend right=60] node[below]{2} (c);
         \draw[->] (d) edge[bend left=60] node{2} (g);
       \end{scope}
     \end{tikzpicture}
+    \caption{Optimal solution to the MTP problem in Figure (\ref{fig:mtp:01}).
+      The edges of the facility are coloured in red and assignments are denoted with translucent red arrows.}
+    \label{fig:mtp:01:opt}
+  \end{figure}
 
-  \caption{Sol}
-  \label{fig:mtp:01:opt}
-\end{figure}
-\todo[inline]{Add a figure... figure out how to show assignment costs}
+  Since there exists a relative balance between the cost of the edges in the graph and the assignment cost, $T$
+  only spans part of the graph. This raises a point. As assignment costs tend to infinity, the MTP begins to look
+  like the Minimum Spanning Tree problem -- this is akin to the STP with $N = V$ and the PCSTP with infinite prize
+  on all vertices. However, when edge costs tend toward infinity, the facility will naturally become a single vertex
+  and the MTP starts looking like the $1$-Median problem (See Section \ref{sec:related:median}).
 \todo[inline]{Maybe define terms Nonterminals and Supply points for vertices which
   respectively have either no assignment costs associated with them, are free to assign to any facility node,
   and are}
 
 \paragraph{Reduction from the Prize-Collecting Steiner Tree Problem}
+Instances of the PCSTP can straightforwardly be reduced to instances of the MTP. This is in exact correspondence to how instances
+of the Profitable Tour Problem can be reduced to instances of the Median Tour Problem (Section \ref{sec:related:median}).
+Given an instance of the PCSTP on graph $G = (V, E, c, p)$, define the assignment cost function
 
+$$d_{ij} =
+ \begin{cases}
+   0 & i = j \\
+   p_i & i \neq j
+ \end{cases}\mathnormal{.}
+ $$
+ then solving the MTP on the graph $G' = (V, E, c, d)$ is equivalent to solving the PCSTP on $G$. Since every vertex assignment not
+ to the vertex itself pays the \textit{prize} of that vertex, every vertex not in the facility will pay its prize as penalty. Hence,
+ any solution $T = (V, E, c, p)$ to the PCSTP on $G$ will have the exact same cost as the solution $T' = (V, E, c, d)$ to the MTP on $G'$.
+
+\begin{figure}[h]\centering
+  \begin{subfigure}[b]{0.47\linewidth}\centering
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[terminal] (b) [right=of a] {b};
+      \node[terminal] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[terminal] (e) [left=of d] {e};
+      \node[terminal] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.75 and 1.3 of c] {g};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick}]
+        \draw (a) edge node[below]{4} (b);
+        \draw (b) edge node[near start]{5} (d);
+        \draw (b) edge node[below]{8} (c);
+        \draw (c) edge node{3} (d);
+        \draw (c) edge node{2} (g);
+        \draw (c) edge node[near start]{5} (e);
+        \draw (d) edge node{6} (e);
+        \draw (d) edge node{10} (g);
+        \draw (e) edge node{1} (f);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{The graph $G$ with edge costs.}
+    \label{fig:mtp:pcstp:g}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.47\linewidth}\centering
+    \footnotesize
+    \begin{tabular}{r||c|c|c|c|c|c|c}
+ $d_{ij}$ & $a$ & $b$ & $c$ & $d$ & $e$ & $f$ & $g$ \\ \hline\hline
+      $a$ &  0  &  12 &  12 &  12 &  12 &  12 &  12 \\ \hline
+      $b$ &  0  &  0  &  0  &  0  &  0  &  0  &  0  \\ \hline
+      $c$ &  0  &  0  &  0  & 0  &  0  &  0  &  0  \\ \hline
+      $d$ &  10 &  10 &  10 &  0  &  10 &  10 &  10 \\ \hline
+      $e$ &  0  &  0  &  0  &  0  &  0  &  0  &  0  \\ \hline
+      $f$ &  0  &   0 &  0  &  0  &  0  &  0  &  0  \\ \hline
+      $g$ &  3  &   3 &  3  &  3  &  3  &  3  &  0
+    \end{tabular}
+    \caption{The assignment cost function $d$.}
+  \end{subfigure}
+
+  \begin{subfigure}[b]{0.60\linewidth}\centering
+    \begin{tikzpicture}[auto, node distance=1.5 cm]
+      % Nodes
+      \node[terminal] (a) {a};
+      \node[terminal] (b) [right=of a] {b};
+      \node[terminal] (c) [right=of b] {c};
+      \node[terminal] (d) [above =of c] {d};
+      \node[terminal] (e) [left=of d] {e};
+      \node[terminal] (f) [left=of e] {f};
+      \node[terminal] (g) [above right=0.75 and 1.3 of c] {g};
+      % Edges
+      \begin{scope}[every edge/.style={draw=black, thick}]
+        \draw (a) edge[selected] node[below]{4} (b);
+        \draw (b) edge[selected] node[near start]{5} (d);
+        \draw (b) edge node[below]{8} (c);
+        \draw (c) edge node{3} (d);
+        \draw (c) edge node{2} (g);
+        \draw (c) edge node[near start]{5} (e);
+        \draw (d) edge node{6} (e);
+        \draw (d) edge node{10} (g);
+        \draw (e) edge node{1} (f);
+      \end{scope}
+      \begin{scope}[every edge/.style={assignment}]
+        \draw[->] (c) edge[bend left=60] node{0} (b);
+        \draw[->] (e) edge node[left]{0} (b);
+        \draw[->] (f) edge node{0} (a);
+        \draw[->] (g) edge[bend right=60] node[above]{3} (d);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Optimal Solution to (\ref{fig:mtp:pcstp:g}).}
+  \end{subfigure}
+
+  \caption{Instance of the PCSTP (Figure \ref{fig:pcstp:01}) with optimal solution.}
+  \label{fig:mtp:pcstp}
+\end{figure}
+
+Figure \ref{fig:mtp:pcstp} shows how this reduction works on the PCSTP instance in Figure \ref{fig:pcstp:01}
+as well as the optimal solution
+$$T = (\{a,b,d\}, \{(a,b), (b,d)\})$$
+with cost
+$$c(T) = (4 + 5) + (3) = 12$$
+which is the same cost as the optimal solution to the original PCSTP problem (Figure \ref{fig:pcstp:01:opt}).
+
+While it is obvious that the MTP problem is NP-Hard -- something which has already been established in previous literature
+ (See Section \ref{sec:related:median}) -- this reduction again implies the NP-Hardness of the problem.
 \section{Applications}
 \textit{* Any kind of supply situation: military / water (piping) / aid / maybe rail / postal}
 \section{Integer Programming Formulation}
@@ -116,14 +232,14 @@ to refer to the same variable for the sake of readability.
 
 Similarly, $\bd y$ describes the assignment relation of a solution. When
 $y_{ij} = 1$, vertex $v_i$ is \textit{assigned} to vertex $v_j$ and the corresponding
-assignment cost must be paid. 
+assignment cost must be paid.
 These relations are reflected in the objective function.
 When $y_{kk} = 1$, we consider that vertex assigned to
 itself, which implies that vertex $v_k$ is part of the facility.
 
  \begin{formulation}[h!]
    \begin{subequations}
-     \begin{alignat}{3} 
+     \begin{alignat}{3}
        &\underset{\bd x, \bd y}{\text{minimize}}
        & & \sum_{ij \in E} c_{ij} x_{ij} +  \sum_{i, j \in V} d_{ij}y_{ij}  & \\
        & \text{subject to}\quad
@@ -177,8 +293,10 @@ itself, which implies that vertex $v_k$ is part of the facility.
  (\ref{form:exact:strength}), the same idea holds for the MTP but in a slightly different manner.
  Consider the set of vertices which cost nothing to assign and cannot be assigned to as \textit{Nonterminals},
  $$N = \left\{ i \in V \middle\vert \sum_{j \in v} d_{ij} = 0 \wedge  \forall j. d_{ji} = \infty\right\}\mathnormal{.}$$
- Any nonterminal cannot be a leaf in an optimal solution, and thus must have degree of at least
- two should they be part of an optimal facility. Hence it is valid to add the constraint
+ As nonterminals play no part in the assignment question, they cannot be a leaf node in an optimal solution as they could trivially
+ be removed from the facility to produce a solution with no greater cost. Thus they
+ must have degree of at least
+ two should they be part of an optimal facility, and it is valid to add the constraint
  \begin{equation}\label{mtp:valid:deg}
    \sum_{j \in \delta(i)}x_{ij} \geq 2 x_{ik} \qquad \forall i \in N, \: \forall k \in \delta(i)
  \end{equation}
