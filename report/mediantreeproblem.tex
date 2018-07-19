@@ -1,6 +1,22 @@
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
+Having surveyed the state of research on the Prize-Collecting Steiner Tree Problem closely along with a
+short summary related problems. We now turn our eyes to the lattermost problem we have inspected:
+The Median Tree Problem (MTP).
 
+As we noted in Chapter \ref{chap:related}, the problem involving the finding of \textit{median} trees
+in graphs is not very well researched. To the best of our knowledge, no work has been put into solving
+the problem in the general case to optimality. Being that this problem has some striking similarities
+to the PCSTP -- that is, both problems involve finding the tree in a graph which minimises the sum
+of the tree's edge costs and a penalty for every not-included vetex -- we suspect that refitting the
+methods used to solve the PCSTP to the MTP may result in good performance.
+
+In this chapter, we will present a formal definition of the Median Tree Problem in Graphs. Then,
+we will present a branch and cut algorithm and a solver for the MTP which is inspired by the
+work done on the PCSTP. Finally, we will present a dataset for the MTP generated from a subset
+of the DIMACs Steiner Tree challenge datasets for the PCSTP, and a set of experiments performed
+ on these.
+ 
 \section{Problem Definition}
 
 Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
