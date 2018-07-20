@@ -318,10 +318,27 @@ itself, which implies that vertex $v_k$ is part of the facility.
  \end{equation}
  to the model. The intuitive interpretation of (\ref{mtp:valid:deg}) is that if any edge adjacent to
  a nonterminal is selected, \textit{at least} two edges adjacent to the nonterminal must be selected.
-\section{Algorithm and Implementation}
+\section{Solver}
+As mentioned previously, to test out the applicability of some of the methods introduced in
+the Chapter \ref{chap:solving}, we have implemented a solver for the \gls{mtp}.
+This section both goes over algorithmic and technical implemention details of the solver
 
+The solver makes use of the general purpose \gls{mip} solver
+Gurobi\footnote{\url{https://www.gurobi.com/}} (version 8.0.1)
+and its Python 3 interface. While this means that the callbacks written for the solver
+will naturally have much slower performance than if, for example, we had chosen to make
+use of the C or C++ interface, the Python interface was chosen for its higher level interface
+and better ease-of-use -- giving better iteration times. Having no other computational results
+to compare against, this trade-off was easy to make.
 
-The solver makes use of the general purpose \gls{mip}
+The Python library,
+NetworkX\footnote{\url{https://networkx.github.io/}}
+was used for the internal graph representation of the
+problem instances in the solver as well as for implementation of common
+graph algorithms.
+
+The source code of the solver as well as the benchmark suite
+can be found on GitHub\footnote{\url{https://github.com/wsprent/thesis-code}}.
 \paragraph{Branch and Cut}
 
 \paragraph{Separation of GSECs} \textit{Max flow method. From Lucena/Resende.}
