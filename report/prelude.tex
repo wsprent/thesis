@@ -100,10 +100,20 @@
 \usepackage{glossaries}
 \makeglossaries
 
-\newdualentry{pcstp}{PCSTP}{Prize-Collecting Steiner Tree Problem}{\textit{See Section \ref{sec:pcstp}}}
+\newdualentry{pcstp}{PCSTP}
+{Prize-Collecting Steiner Tree Problem}
+{An NP-Hard graph optimisation problem (\textit{See Section \ref{sec:pcstp}})}
 \newacronym{stp}{STP}{Steiner Tree Problem}
 \newacronym{sap}{SAP}{Steiner Arborescence Problem}
 \newacronym{pcsap}{PCSAP}{Prize-Collecting Steiner Arborescence Problem}
+
+\newglossaryentry{delta}
+{
+  name={\ensuremath{\delta}},
+  description={Function: $V \to \mathcal P (V)$, returns the adjacency of
+    the input vertex \textit{(See Section \ref{sec:notation:graphs})}},
+  sort=pi
+}
 %%%
 %%% Local Variables:
 %%% TeX-master: "report"

@@ -265,7 +265,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
        &&& \sum_{j \in V} y_{kj} = 1 && \forall k \in V \label{form:mtp:assignment}\\
        &&& y_{ik} \leq  y_{kk}
        && \forall i, k \in V \label{form:mtp:facility}\\
-       &&& y_{kk} \leq \sum_{i \in \delta(k)} x_{ik}
+       &&& y_{kk} \leq \sum_{i \in \gls{delta}(k)} x_{ik}
        && \forall k \in V \label{form:mtp:legal} \\
        &&& \bd x \in \BB^{|E|} && \\
        &&& \bd y \in \BB^{|V \times V|}
