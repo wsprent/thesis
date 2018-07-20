@@ -119,7 +119,7 @@ When $N = V$, the \gls{stp} is equivalent to the Minimum Spanning Tree Problem, 
 shortest path between two vertices. However, while these problems both have polynomial-time solutions, the \gls{stp} is an NP-Hard problem,
  the decision variant being one of Edmund Karp's original 21 NP-Complete problems \citep{karp1972reducibility}.
 
-\subsection{ILP Formulations}
+\subsection{\gls{ilp} Formulations}
 
 \paragraph{Cut Formulation} Let $x$ be a decision vector of length $|E|$ where
 $x_{ij} = 1$ implies that $(i,j) \in T$ and $x_{ij} = 0$ implies that $(i,j) \not\in T$,
@@ -130,7 +130,7 @@ that is, $x(E)$ is equal to the number of selected edges in $E$.
 Finally let,
 $$\delta(S) = \{(i, j) \mid i \in S \wedge j \in (E \setminus S)\}$$
 be all edges which span the cut defined by $S$. Then we can formulate
- the \gls{stp} as in ILP in terms of cuts (see Formulation (\ref{form:stp:cut})).
+ the \gls{stp} as in \gls{ilp} in terms of cuts (see Formulation (\ref{form:stp:cut})).
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} %TODO: Find reference for this formulation
@@ -334,13 +334,13 @@ $$N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}$$
 \label{fig:pcstp:01}
 \end{figure}
 
-Figure (\ref{fig:pcstp:01}) shows an instance, $G$, of the \gls{pcstp} created by assigning prizes to the terminals of the \gls{stp} instance, $G_{\gls{stp}}$, in Figure (\ref{fig:stp:01}).
+Figure (\ref{fig:pcstp:01}) shows an instance, $G$, of the \gls{pcstp} created by assigning prizes to the terminals of the \gls{stp} instance, $G_{STP}$, in Figure (\ref{fig:stp:01}).
 Figure (\ref{fig:pcstp:01:opt})
 shows an optimal solution, $T = (V_T, E_T)$, to $G$. An interesting observation is that
-$T$ is a sub-graph of the solution in Figure (\ref{fig:stp:01:min}) to $G_{\gls{stp}}$.
-In fact, if we were to modify $G_{\gls{stp}}$ by setting its terminal set to the vertices spanned
-by $T$, that is we define $G'_{\gls{stp}} =  G_{\gls{stp}}$ where  $N_{G'_{\gls{stp}}} = V_T$, then $T$ is a Steiner
-tree in $G'_{\gls{stp}}$. In other words, we can describe the search space of the \gls{pcstp}
+$T$ is a sub-graph of the solution in Figure (\ref{fig:stp:01:min}) to $G_{STP}$.
+In fact, if we were to modify $G_{STP}$ by setting its terminal set to the vertices spanned
+by $T$, that is we define $G'_{STP} =  G_{STP}$ where  $N_{G'_{STP}} = V_T$, then $T$ is a Steiner
+tree in $G'_{STP}$. In other words, we can describe the search space of the \gls{pcstp}
  as the set of all Steiner trees in a graph $G$.
 
 \begin{figure}[h]\centering

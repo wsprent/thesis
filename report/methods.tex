@@ -27,10 +27,10 @@ bounds by \citet{Johnson:2000:PCS:338219.338637}.
 \citet{canuto2001local} presented a primal heuristic based on multi-start
 local search with pertubations and path relinking.
 
-An ILP formulation based on the General Subtour Elimination Constraint (GSEC) formulation of the Travelling Salesman Problem was
-stated by \citet{lucena2004strong}, who presented an algorithm for solving the LP relaxation of the GSEC formulation using
+An \gls{ilp} formulation based on the \gls{gsec} formulation of the Travelling Salesman Problem was
+stated by \citet{lucena2004strong}, who presented an algorithm for solving the LP relaxation of the \gls{gsec} formulation using
 a separation procedure as a method for generating a strong lower bound for the \gls{pcstp}. Similarly, \citet{Ljubic:2004:memetic}
-presented a memetic algorithm using tournament selection and mutation. They additionally presented an ILP formulation of the Steiner
+presented a memetic algorithm using tournament selection and mutation. They additionally presented an \gls{ilp} formulation of the Steiner
  Aborescence Problem, based on cuts, the LP-relaxation of which was solved on a subgraph extracted from the memetic algorithm to
  improve the solutions as a postprocessing step.
 
@@ -64,10 +64,10 @@ presented a memetic algorithm using tournament selection and mutation. They addi
   generating incumbents with
   a shortest-path primal heuristics.
   \citet{gamrath2017scip} presented SCIP Jack -- an exact solver for \gls{stp} variants based on the solver (of the \gls{stp}, by way of \gls{sap}) presented by
-  \citet{koch1998solving} and the MIP solver, SCIP \footnote{\url{http://scip.zib.de/}}.
+  \citet{koch1998solving} and the \gls{mip} solver, SCIP \footnote{\url{http://scip.zib.de/}}.
   Preprocessing routines were natively applied to \gls{pcstp} instances before transforming them into \gls{sap} instances.
   The \gls{sap} was formulated as an
-  ILP in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch-and-bound
+  \gls{ilp} in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch-and-bound
   procedures of the SCIP optimization suite were
   then employed together with a contraint separation procedure defined in \citet{koch1998solving}.
 
@@ -89,6 +89,21 @@ presented a memetic algorithm using tournament selection and mutation. They addi
 \input{bounding.tex}
 
 \input{exact.tex}
+
+\section{Conclusion}
+
+
+\textit{Preprocessing is strong}
+\textit{Very similar to the research on the STP}
+\textit{GW Algorithm is an important milestone}
+\textit{Not a lot of variety in solvers / agreement in methods}
+% Notes from the exact section:
+% Both use \gls{sap} transformations
+% SCIP uses an actual \gls{sap} instead of the \gls{pcsap}ish favoured by Ljubic
+
+% Both make use of multipurpose solvers
+% Both use the max flow separation of the GSECs
+% Both heavily inspired by \gls{stp} research
 
 %%% Local Variables:
 %%% TeX-master: "report"

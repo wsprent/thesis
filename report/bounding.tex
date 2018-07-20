@@ -7,14 +7,16 @@
 the LP relaxations of the \gls{pcstp} using a constraint separation procedure.
 
 Their main contributions
-are the stating of a \textit{generalised subtour elimination constraint} ILP (see Formulation \ref{form:lower:gsec}) formulation
+are the stating of a \textit{\acrlong{gsec}} \gls{ilp} (see Formulation \ref{form:lower:gsec}) formulation
 for the \gls{pcstp}, the separation procedure for solving the LP-relaxation, and strengthening of the formulation by considering
-single vertex solution seperately.
+single vertex solution separately.
 
 Define the function
 $$E(S) = \{(i,j) \in E \mid i \in S \wedge j \in S\}$$
-then Formulation (\ref{form:lower:gsec}) is a ILP formulation of the \gls{pcstp}. Constraints (\ref{form:lower:gsec:gsec}) are
-referred to as generalised subtour elimination constraints, and together with constraint (\ref{form:lower:gsec:sum})
+then Formulation (\ref{form:lower:gsec}) is a \gls{ilp} formulation of the \gls{pcstp}. Constraints (\ref{form:lower:gsec:gsec}) are
+referred to as
+\glsreset{gsec}\glspl{gsec},
+and together with constraint (\ref{form:lower:gsec:sum})
 ensure that the solution defined by $(x, y)$ is a tree which spans the vertices $y_v = 1$.
 
  \begin{formulation}[h!]
@@ -39,22 +41,22 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
        \end{cases} \qquad && \forall v \in V \label{form:lower:gsec:single}
      \end{alignat}\label{form:lower:gsec}
    \end{subequations}
-   \caption{(GSEC-IP) GSEC formulation of the \gls{pcstp}.}
+   \caption{(GSEC-IP) \gls{gsec} formulation of the \gls{pcstp}.}
  \end{formulation}
 
  Expanding the formulation with constraint (\ref{form:lower:gsec:single}), excludes single vertex solutions.
  \citet{lucena2004strong} found that adding these constraints and
- considering single vertex solutions in a separate routine results faster runtimes.
+ considering single vertex solutions in a separate routine results faster runtime.
 
- \paragraph{Separation of GSECs} Each subset $S \in V$ produces $|S|$ GSECs. To reduce the size of the LP relaxation,
- \citet{lucena2004strong} suggest relaxing these constraints and readding them in a separation procedure.
+ \paragraph{Separation of GSECs} Each subset $S \in V$ produces $|S|$ \glspl{gsec}. To reduce the size of the LP relaxation,
+ \citet{lucena2004strong} suggest relaxing these constraints and reading them in a separation procedure.
  This separation procedure can be stated a max-flow problem as follows:
 
- Let $(\bar{x}, \bar{y})$ be a solution to the relaxed LP. Consider the support graph induced by vertices and edges with nonzero decision veriables,
+ Let $(\bar{x}, \bar{y})$ be a solution to the relaxed LP. Consider the support graph induced by vertices and edges with nonzero decision variables,
   and vertex $l$ with decision variable $\bar y_l > 0$
   then iff
   $$\max_{S_l \subseteq V} \left\{ \bar x (E(S_l)) - (\bar y (S_l) - \bar y_l) \right\} > 0$$
-  there is a violated GSEC for a subset containing $l$, and constraint corresponding to $S_l^{max}$ is the most violated constraint.
+  there is a violated \gls{gsec} for a subset containing $l$, and constraint corresponding to $S_l^{max}$ is the most violated constraint.
 
   We can model finding this subset for a given $l$ as follows. Let $\bar{N} = (\bar{V}, \bar{A})$ be a flow-network
   for the support graph, with vertices
@@ -104,9 +106,9 @@ v       \sum_{i \in S, j \in T}  \xi_{ij} +
   $l$ \textit{must} be in $S$ due to $\xi_{sy} = \infty$, any minimum cut, $(S,T)$, will maximise
   $$\bar x (E(S_l)) - (\bar y (S_l) - \bar y_l)\mathnormal{.}$$
   Hence any set of vertices $S' = S \setminus \{s\}$ where $S$ induces a minimal $S,T$ cut in the flow network will correspond to
-  a most violated GSEC for the solution $(\bar x, \bar y)$ to the relaxed LP.
+  a most violated \gls{gsec} for the solution $(\bar x, \bar y)$ to the relaxed LP.
 
-  Finding violated GSECs then reduces to solving $|V|$ maximum flow problems, which can be done in polynomial time. However, there is guarantee
+  Finding violated \glspl{gsec} then reduces to solving $|V|$ maximum flow problems, which can be done in polynomial time. However, there is guarantee
   that the $|V|$ problems will result in different violated constraints.
   To avoid adding finding the same constraints multiple times, \citet{lucena2004strong} suggest that whenever a max flow problem has been
   solved for some $l = v \in V$, then we can set $\xi_{lt} = \infty$ to avoid $v$ being on the source-side of any subsequent min-cuts.

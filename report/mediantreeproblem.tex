@@ -234,7 +234,7 @@ While it is obvious that the \gls{mtp} problem is NP-Hard -- something which has
 \section{Integer Programming Formulation}
 
 Given an instance of the \gls{mtp} as defined above,
-Formulation (\ref{form:mtp:cut}) is an ILP formulation of the \gls{mtp}.
+Formulation (\ref{form:mtp:cut}) is an \gls{ilp} formulation of the \gls{mtp}.
 It is loosely inspired by the one defined by \citet{lucena2004strong}
 (Formulation \ref{form:lower:gsec}, Section \ref{sec:lower:gsec}) for the Prize-Collecting
 Steiner Tree Problem.
@@ -320,6 +320,8 @@ itself, which implies that vertex $v_k$ is part of the facility.
  a nonterminal is selected, \textit{at least} two edges adjacent to the nonterminal must be selected.
 \section{Algorithm and Implementation}
 
+
+The solver makes use of the general purpose \gls{mip}
 \paragraph{Branch and Cut}
 
 \paragraph{Separation of GSECs} \textit{Max flow method. From Lucena/Resende.}

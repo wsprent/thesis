@@ -17,7 +17,7 @@ similar to the one defined in \citet{lucena2004strong}
 (Section \ref{sec:lower:gsec}) and a new primal heuristics for
 finding good incumbents at every node.
 
-The solver has as a dependency on of the MIP solvers CPLEX or LEDA.
+The solver has as a dependency on of the \gls{mip} solvers CPLEX or LEDA.
  \paragraph{Reducing the \gls{pcstp} to \gls{pcsap}}
  Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input \gls{pcstp} instance
  into a related problem in a directed graph which essentially is a constrained version
@@ -190,10 +190,10 @@ in the original problem. Enforcing that any solution to the transformed problem 
    which is the same as the corresponding problem to the \gls{pcstp}. Note that solution starting with $(r,d)$ would have the same cost,
    $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
    but is infeasible due to $d > a$.
-  \paragraph{ILP Formulation}
+  \paragraph{\gls{ilp} Formulation}
 
 Finding such a minimum ``prize-collecting'' aborescence is formalised by \citet{ljubic2005solving}
-as the ILP in Fomulation (\ref{form:exact:cut}). 
+as the \gls{ilp} in Fomulation (\ref{form:exact:cut}). 
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
@@ -276,7 +276,7 @@ capacity of all edges crossing a min cut to $1$ and rerunning the max flow proce
 Primal heuristics based on the solution of LP relaxations are used at each node in the branch and bound
 tree to discover improved incumbents.
 
-The rest of the branch and bound procedure is handled by an underlying MIP solver (CPLEX or LEDA).
+The rest of the branch and bound procedure is handled by an underlying \gls{mip} solver (CPLEX or LEDA).
 \subsection{SCIP-Jack Solver}
 \label{sec:exact:scipj}
 The SCIP-Jack solver is a set of plugins for the SCIP general purpose optimisation suite capable
@@ -452,7 +452,7 @@ directly to selecting the corresponding edge in $G$.
   which is the same as the corresponding solution in the optimal graph.
 
  \paragraph{ILP Formulation}
- \cite{gamrath2017scip} define the ILP formulation of the constrained \gls{sap} in Formulation (\ref{form:sap:flow})
+ \cite{gamrath2017scip} define the \gls{ilp} formulation of the constrained \gls{sap} in Formulation (\ref{form:sap:flow})
  named \textit{flow-balance directed cut formulation}. Constraint (\ref{form:exact:sap:cut}) ensures that there exists a
   path from the root to any terminal by ensuring that any
  cut in the graph which does not contain all terminals must have outgoing arcs. Constraint (\ref{form:exact:sap:cut})
@@ -504,7 +504,7 @@ directly to selecting the corresponding edge in $G$.
  \gls{pcstp} instance.
  
   \paragraph{Branch \& Bound}
-  While node selection is left to the underlying MIP solver, SCIP-Jack branches on vertices in the following way. For each node in the
+  While node selection is left to the underlying \gls{mip} solver, SCIP-Jack branches on vertices in the following way. For each node in the
   b\&b tree with optimal solution $x^*$ to the LP relaxation, the nonterminal, $v \in V_A \setminus N_A$, which minimises
   $$v_b = \argmin_{v \in V_A \setminus N_A} \left| \sum_{u \in \delta^-(v)} x^*_{uv} - 0.5 \right|$$
   is added to the set of terminals in one child of the b\&b node and excluded completely in the other.
@@ -513,15 +513,6 @@ directly to selecting the corresponding edge in $G$.
 
   Futhermore, SCIP-Jack contains an array of heuristics for the \gls{sap} which are not well described
   by the author's and we will not delve further into.
-
-\subsection{Difference in Approach}
-
-% Both use \gls{sap} transformations
-% SCIP uses an actual \gls{sap} instead of the \gls{pcsap}ish favoured by Ljubic
-
-% Both make use of multipurpose solvers
-% Both use the max flow separation of the GSECs
-% Both heavily inspired by \gls{stp} research
 
 
 %%% Local Variables:

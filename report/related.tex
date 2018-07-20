@@ -91,13 +91,13 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  for the Travelling Salesman Problem \citep{goemans1995general}.
 
  \todo[inline]{A branch-and-cut algorithm for the capacitated profitable tour problem}
- \paragraph{MIP Formulations}
+ \paragraph{ILP Formulations}
 
  As part of developing an exact solution to the PCTSP, \citet{fischetti1988additive} stated the problem
  on a directed graph as
  an integer linear program. This formulation is shown in Formulation (\ref{form:pctsp:cut}) for
  a graph $G = (V, A, c, p)$.
- We note the similarity between this and the cut-based ILP (CUT-IP) formulation used by
+ We note the similarity between this and the cut-based \gls{ilp} (CUT-IP) formulation used by
  \citet{ljubic2005solving} for their variant of a Prize-Collecting Aborescence Problem
  (Formulation \ref{form:exact:cut}).
  
@@ -129,7 +129,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  the shape of the solution (circuit / arborescence).
  As a result there are also similarities in how these prize-collecting problems can be solved
  -- e.g. the method of solving a max-flow problem on a support graph
- to separate connectivity constraints or GSECs can be directly applied to PCTSP variants, and with the GW Algorithm being
+ to separate connectivity constraints or \glspl{gsec} can be directly applied to PCTSP variants, and with the GW Algorithm being
  directly applicable to the PTP, there is not much in the way from directly lifting a branch and cut routine from
  one problem to another.
 
@@ -187,7 +187,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
  The Profitable Tour Problem turns out to be a special case of certain variants of Median
  Tour Problems. Consider a variant defined as follows:
- \todo{Consider whether we want ILP formulations here}
+ \todo{Consider whether we want \gls{ilp} formulations here}
 
  Let $G = (V, E, c, d)$ be a undirected graph with two edge cost functions
  $c : E \to \RR^+$ and $d : E \to \RR^+$, then find a circuit $C = (V_C, E_C) \subseteq G$
@@ -225,7 +225,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
   \citet{kim1991locating} considers a variant of the problem where the graph is embedded in the plane
   and assignment costs correspond to euclidean distances.
   
-  However, we have found no MIP formulations of the problem nor any attempts to solve it to optimality
+  However, we have found no \gls{ilp} formulations of the problem nor any attempts to solve it to optimality
   in the general case. Additionally, there seems to be no consensus of a ``most interesting'' variant
   of the problem of finding median trees in graphs.
 
