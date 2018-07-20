@@ -88,10 +88,19 @@
 
 % Glossary
 
+\newcommand*{\newdualentry}[5][]{%  
+  \newglossaryentry{main-#2}{name={#4},%  
+  text={#3\glsadd{#2}},%  
+  description={#5},%  
+  #1  
+  }%  
+  \newacronym{#2}{#3\glsadd{main-#2}}{#4}%  
+}
+
 \usepackage{glossaries}
 \makeglossaries
 
-\newacronym{pcstp}{PCSTP}{Prize-Collecting Steiner Tree Problem}
+\newdualentry{pcstp}{PCSTP}{Prize-Collecting Steiner Tree Problem}{\textit{See Section \ref{sec:pcstp}}}
 \newacronym{stp}{STP}{Steiner Tree Problem}
 \newacronym{sap}{SAP}{Steiner Arborescence Problem}
 \newacronym{pcsap}{PCSAP}{Prize-Collecting Steiner Arborescence Problem}
