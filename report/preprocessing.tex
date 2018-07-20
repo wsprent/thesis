@@ -1,8 +1,8 @@
  \section{Preprocessing}
  \label{sec:solving:pre}
-Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven succesful in many cases both for instances of the STP
+Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven succesful in many cases both for instances of the \gls{stp}
 \citep{koch1998solving}
-and instances of the PCSTP
+and instances of the \gls{pcstp}
 \citep{lucena2004strong,canuto2001local,ljubic2005solving, gamrath2017scip}. %TODO: MORE
 These routines make use of proven invariants to remove and contract edges as well as choose edges before applying the any main procedure.
 A set of common preprocessing routines are applied in different manners in literature, mainly differentiated by:
@@ -11,8 +11,8 @@ A set of common preprocessing routines are applied in different manners in liter
 \item in which order, and
 \item when to recursively apply routines and how many times.
 \end{enumerate}
-Preprocessing routines can be very effective. For example, the preprocesing routine presented by \cite{koch1998solving} for the STP removes
-up to 98\% of edges in some instances. In this section, we will first give a full overview of existing preprocessing methods for the PCSTP,
+Preprocessing routines can be very effective. For example, the preprocesing routine presented by \cite{koch1998solving} for the \gls{stp} removes
+up to 98\% of edges in some instances. In this section, we will first give a full overview of existing preprocessing methods for the \gls{pcstp},
  including proofs of validity,
  and then summarize their usage in recent literature.
 
@@ -72,13 +72,13 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
   \label{fig:red:test:deg1}
 \end{figure}
 
- While this reduction test is originally stated for the STP \citep{hwang1992steiner}, it is also applicable to the PCSTP. Figure (\ref{fig:red:test:deg1})
+ While this reduction test is originally stated for the \gls{stp} \citep{hwang1992steiner}, it is also applicable to the \gls{pcstp}. Figure (\ref{fig:red:test:deg1})
   shows an example of removing a degree 1 non-terminal.
 
   \subsubsection{Non-Terminals of Degree 2 (NTD2)}
     \label{fig:red:test2}
 \todo{These two sections probably use too different methods in defining their reductions}
-    Similarly, let $G = (V,E,c,p)$ be an instance of the PCSTP, let $v \in G$ be a non-terminal with degree $|\delta(v)| = 2$, and let
+    Similarly, let $G = (V,E,c,p)$ be an instance of the \gls{pcstp}, let $v \in G$ be a non-terminal with degree $|\delta(v)| = 2$, and let
     $u$ and $w$ be the two vertices adjacent to $v$. Then we can obtain a reduced, equivalent graph,
     $$G' = (V', E', c', p)$$
     where
@@ -135,8 +135,8 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
   \label{fig:pre:ntd2}
 \end{figure}
 
-This test is another example of a reduction test for the STP which can by directly applied to
- the PCSTP.
+This test is another example of a reduction test for the \gls{stp} which can by directly applied to
+ the \gls{pcstp}.
  \subsubsection{Terminals of Degree 1 (TD1)}\label{sec:pre:td1}
  When we have a terminal, $u$, of degree one, we can make the following two observations:
  \begin{enumerate}
@@ -345,7 +345,7 @@ This test can easily be applied as a special case for subgraphs consisting of a 
  of TD1 followed directly by UDV.
 
 \subsubsection{Minimum Adjacency (MA)}
-Again defined in \cite{duin1989reduction} for the STP but also applicable for the PCSTP,
+Again defined in \cite{duin1989reduction} for the \gls{stp} but also applicable for the \gls{pcstp},
 the \textit{minimum adjacency test}
 (also known as the \textit{$V \setminus K$ test}) 
 is a reduction test which contracts any adjacent
@@ -404,7 +404,7 @@ terminals which are connected by an edge with lower cost than either of their pr
   then it is valid to contract $u$ and $v$.
 \end{theorem}
 \begin{proof}
-  It can be shown that any solution $T$ for the PCSTP problem defined by a graph $G$
+  It can be shown that any solution $T$ for the \gls{pcstp} problem defined by a graph $G$
   which contains $u$ but not $(u,v)$ can
   be transformed into a solution $T'$ which contains $(u,v)$ where $c(T') \leq c(T)$.
 
@@ -424,8 +424,8 @@ terminals which are connected by an edge with lower cost than either of their pr
 % $$d(u,v) = \min \{ c(P) \mid P \in \mathcal{P}_{uv}\}$$
 More complex tests can be described in terms
 of the concepts Steiner distance and Bottleneck distance. These were originally stated for
-the STP in, amongst others, \cite{duin1989edge,duin1989reduction} and later
-adapted for the PCSTP in \cite{uchoa2006reduction}.
+the \gls{stp} in, amongst others, \cite{duin1989edge,duin1989reduction} and later
+adapted for the \gls{pcstp} in \cite{uchoa2006reduction}.
 
 First we must make some definitions.
 If $P = (..., u, ..., w, ...)$ is a simple path in $G$, then $P_{uw}$ is
@@ -463,16 +463,16 @@ that is $P_{u,w} = (u, ...,w)$. Then we define the \textit{Steiner distance} of
 
 It is worth noting that due to
 \begin{enumerate*}[label={\alph*)}]
-\item the relatively new proposal of the Steiner/bottleneck distances in \cite{uchoa2006reduction} for the PCSTP, and
+\item the relatively new proposal of the Steiner/bottleneck distances in \cite{uchoa2006reduction} for the \gls{pcstp}, and
 \item their computational complexities,
 \end{enumerate*}
 the reduction tests stated in this section have been applied in literature
 using ordinary distance (i.e. ignoring prizes) and shortests paths
 instead of the Steiner and bottleneck distances. This corresponds to the direct application of
 reduction tests
-proposed for the STP in \cite{duin1989edge,duin1989reduction}. Since this results in
+proposed for the \gls{stp} in \cite{duin1989edge,duin1989reduction}. Since this results in
 upper bounds on the bottleneck distance, the original
-tests are still valid for the PCSTP,
+tests are still valid for the \gls{pcstp},
 but are weaker than the natively tests proposed in \cite{uchoa2006reduction}.
 
 When we talk
@@ -480,7 +480,7 @@ When we talk
 
  \subsubsection{Special Distance (SD)}
  \label{sec:red:test:sd}
- Using the PCSTP version of the Steiner and bottleneck distances, \cite{uchoa2006reduction} proves
+ Using the \gls{pcstp} version of the Steiner and bottleneck distances, \cite{uchoa2006reduction} proves
   the validity of the more general \textit{special distance test}.
  \begin{theorem}[Special Distance Test]
  Consider any edge $(u,v) \in E$. If we have
@@ -488,7 +488,7 @@ When we talk
  then $(u,v)$ is redundant.
 \end{theorem}
  \begin{proof}
-   Let $T  \subseteq G$ be an optimal solution to the PCSTP in graph $G$
+   Let $T  \subseteq G$ be an optimal solution to the \gls{pcstp} in graph $G$
    where we have
    $$B(u,v)^{-(u,v)} \leq c_{uv}$$
    for some edge $(u,v) \in E_T$, and let $(T_1, T_2)$ be the cut bridged
@@ -565,7 +565,7 @@ When we talk
 \subsubsection{Non-Terminals of Degree 3 (NTD3)}
 \label{sec:red:test:deg3}
 Another bottleneck distance based test,
-also proved valid for the PCSTP in \cite{uchoa2006reduction},
+also proved valid for the \gls{pcstp} in \cite{uchoa2006reduction},
 is the \textit{non-terminals of degree 3 test}.
 \begin{theorem}[Non-Terminals of Degree 3 Test]\label{thm:ntd3}
   Let $u$ be a vertex with degree 3 in $G = (V, E, c, p)$,
@@ -656,13 +656,13 @@ is the \textit{non-terminals of degree 3 test}.
 
 \subsection{Voronoi Reductions}
 
-Reduction test based on a Voronoi decomposition of the input graph was introduced for the PCSTP by \cite{rehfeldt2016reduction}. These reduction tests broadly
+Reduction test based on a Voronoi decomposition of the input graph was introduced for the \gls{pcstp} by \cite{rehfeldt2016reduction}. These reduction tests broadly
 involve using the Voronoi decomposition to generate conditional lower bounds based on vertex inclusion/exclusion. Given a strong upper bound, these can be used
 to reduce the graph.
 
-\paragraph{Voronoi Decomposition of a PCSTP Graph}
+\paragraph{Voronoi Decomposition of a \gls{pcstp} Graph}
 
-Given an instance of the PCSTP with the undirected graph $G = (V, E, c, p)$ and terminal set
+Given an instance of the \gls{pcstp} with the undirected graph $G = (V, E, c, p)$ and terminal set
 $N \subseteq V$, we define a Voronoi region for a given terminal, $i \in N$, as the set of nonterminals
 which are closer to $i$ than any other terminal in terms of simple shortests paths -- that is,
 $$R_i = \left\{v \in V \setminus N \mid i = \argmin_{u \in N} d_{vu}\right\}$$
@@ -689,11 +689,11 @@ $$\pcradius(z_1) \leq \pcradius(z_2) \leq ... \leq \pcradius(z_{|N|})\mathnormal
 \paragraph{Lower Bound Reductions}
 
 The first reduction we can present based on Voronoi regions is based on a lower bound given that some nonterminal is
-part of a solution. This was first introduced for the STP by \citet{polzin2001improved} and later adapted by
-\citet{rehfeldt2016reduction} for the PCSTP.
+part of a solution. This was first introduced for the \gls{stp} by \citet{polzin2001improved} and later adapted by
+\citet{rehfeldt2016reduction} for the \gls{pcstp}.
 
 \begin{theorem}\label{thm:vor:1}
-  Let $T = (V_T, E_T, c, p)$ be a solution to the PCSTP in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
+  Let $T = (V_T, E_T, c, p)$ be a solution to the \gls{pcstp} in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
   $v_k \in V_T$ for some $v_k \in V \setminus N$. Finally, let $v_a \in N$ and $v_b \in N$ be the two terminals \textit{closest}
   to $v_k$, then we have
   $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}$$
@@ -779,7 +779,7 @@ part of a solution. This was first introduced for the STP by \citet{polzin2001im
    \end{scope}
   \end{tikzpicture}
   
-  \caption{Example solution of the PCSTP split into paths.}
+  \caption{Example solution of the \gls{pcstp} split into paths.}
   \label{fig:pre:vor:pro}
 \end{figure}
   
@@ -823,7 +823,7 @@ d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m
 
  Similar 
 \begin{theorem}\label{thm:vor:2}
-  Let $T = (V_T, E_T, c, p)$ be a solution to the PCSTP in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
+  Let $T = (V_T, E_T, c, p)$ be a solution to the \gls{pcstp} in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
   $v_k \in V_T$ for some $v_k \in N$ and $V_T \neq \{v_k\}$. Finally, let $v_b \in N$ be the terminal \textit{closest}
   to $v_k$, and let $z'_1, ..., z_{|N|-1}$ be an ordering of the set $N \setminus \{v_k\}$ such that
   $$\pcradius(z_1) \leq ... \leq \pcradius(i) \leq ... \leq \pcradius(z'_{|N|-1})$$
@@ -836,10 +836,10 @@ the respective lower bound is higher than the objective value of a given incumbe
 
  \subsection{Summary of Usage}\label{sec:pre:summary-usage}
 There's a general consensus in literature that preprocessing is an important part of producing solutions
-for the PCSTP. Preprocessing described in this section is applied natively to the PCSTP
+for the \gls{pcstp}. Preprocessing described in this section is applied natively to the \gls{pcstp}
 in all of
 \cite{lucena2004strong, Ljubic:2004:memetic, ljubic2005solving,akhmedov2016divide,gamrath2017scip}.
-Additionally, preprocessing is applied to the SAP in \cite{leitner2016dual}, and proposed
+Additionally, preprocessing is applied to the \gls{sap} in \cite{leitner2016dual}, and proposed
 as further improvements in \cite{fu2014knowledge}.
 
 \paragraph{Combinations of Tests}
@@ -873,7 +873,7 @@ total computation time with/without preprocessing.
 Finally, we'll give an example of the power of
 these preprocessing methods. Figure \ref{fig:pre:ex} shows how just
 the local tests defined in Section \ref{sec:pre:local} are enough
-to solve the -- admittedly simplistic -- instance of the PCSTP
+to solve the -- admittedly simplistic -- instance of the \gls{pcstp}
 from Figure \ref{fig:pcstp:01}.
 
 
@@ -1038,7 +1038,7 @@ minimum height=2.5cm] (7) at (0, -12) {
 \draw (6) edge[snake it] node[snake node] {6: $NTD_2$} (7);
 \draw (7) edge[snake it] node[snake node] {7: $TD_2 + UV$} (8);
 \end{tikzpicture}
-\caption{Graph reduction on the PCSTP instance in Figure \ref{fig:pcstp:01}. In the final graph,
+\caption{Graph reduction on the \gls{pcstp} instance in Figure \ref{fig:pcstp:01}. In the final graph,
  the node $d$ represents nodes $\{a,b,d\}$.}
 \label{fig:pre:ex}
 \end{figure}

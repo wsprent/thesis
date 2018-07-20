@@ -2,7 +2,7 @@
 \label{chap:steiner-trees}
 
 \section{Steiner Tree Problem}
-The Steiner Tree Problem (STP) is defined as follows.
+The \gls{stp} is defined as follows.
 Given an undirected graph
 $$G = (V, E, c)$$
  where $c: E \to \RR^+$ defines edge weights, and additionally a set of terminals $N \subseteq V$ then
@@ -41,7 +41,7 @@ Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \e
 \label{fig:stp:01}
 \end{figure}
 
-Figure (\ref{fig:stp:01}) shows an instance of the STP with three terminals and four Steiner vertices. Since vertices
+Figure (\ref{fig:stp:01}) shows an instance of the \gls{stp} with three terminals and four Steiner vertices. Since vertices
 A, D, and G are terminals, they must be spanned by any feasible solution. Figure (\ref{fig:stp:01:feasible}) shows
 a feasible solution (which we here denote as a set of edges)
 $$E_T = \{(a,b), (b,d), (d,g)\}$$
@@ -51,7 +51,7 @@ However, $T$ is not a minimal tree as there exists at least one feasible solutio
 $$E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}$$
 in Figure (\ref{fig:stp:01:min}) which has cost
 $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
-% Suboptimal and Optimal STP solutions 
+% Suboptimal and Optimal \gls{stp} solutions 
 \begin{figure}[h]\centering
   \begin{subfigure}{0.47\linewidth}
     \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -107,11 +107,11 @@ $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
     \caption{Minimal weight, optimal.}
     \label{fig:stp:01:min}
   \end{subfigure}
-  \caption{Solutions to the STP in (\ref{fig:stp:01}). Red edges are part of the solution.}
+  \caption{Solutions to the \gls{stp} in (\ref{fig:stp:01}). Red edges are part of the solution.}
 \end{figure} 
 
-When $N = V$, the STP is equivalent to the Minimum Spanning Tree Problem, and when $|N| = 2$ the STP is equivalent to finding the
-shortest path between two vertices. However, while these problems both have polynomial-time solutions, the STP is an NP-Hard problem,
+When $N = V$, the \gls{stp} is equivalent to the Minimum Spanning Tree Problem, and when $|N| = 2$ the \gls{stp} is equivalent to finding the
+shortest path between two vertices. However, while these problems both have polynomial-time solutions, the \gls{stp} is an NP-Hard problem,
  the decision variant being one of Edmund Karp's original 21 NP-Complete problems \citep{karp1972reducibility}.
 
 \subsection{ILP Formulations}
@@ -125,7 +125,7 @@ that is, $x(E)$ is equal to the number of selected edges in $E$.
 Finally let,
 $$\delta(S) = \{(i, j) \mid i \in S \wedge j \in (E \setminus S)\}$$
 be all edges which span the cut defined by $S$. Then we can formulate
- the STP as in ILP in terms of cuts (see Formulation (\ref{form:stp:cut})).
+ the \gls{stp} as in ILP in terms of cuts (see Formulation (\ref{form:stp:cut})).
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} %TODO: Find reference for this formulation
@@ -138,7 +138,7 @@ be all edges which span the cut defined by $S$. Then we can formulate
        &&& x \in \BB. &&
      \end{alignat}\label{form:stp:cut}
    \end{subequations}
-   \caption{The \textit{Cut Formulation} of the STP \citep{koch1998solving}.}
+   \caption{The \textit{Cut Formulation} of the \gls{stp} \citep{koch1998solving}.}
  \end{formulation}
 
  Constraints (\ref{form:stp:cut:cut}) ensures that any feasible solution, $T$,  must span all terminals in $G$, by
@@ -146,14 +146,14 @@ be all edges which span the cut defined by $S$. Then we can formulate
   ensures that any optimal solution to (\ref{form:stp:cut}) must be a Steiner tree in $G$ and vice versa.
 
 \section{Steiner Aborescence Problem}
-The Steiner Aborescence Problem (SAP) is the directed version of the Steiner Tree Problem.
+The \gls{sap} is the directed version of the Steiner Tree Problem.
 Given a \textit{directed} graph,
 $$G = (V, A, c)$$
 a non-empty terminal set $N \subseteq V$, a root terminal $r \in N$, and arc-weights $c : A \to \RR^+$,
 then a Steiner Aborescence, $T \subseteq A$, is an aborescence
 in $G$, rooted in $r$, which spans $N$ and has minimal cost.
 
-As with the STP, we denote vertices in $N$ as \textit{terminals}, and any non-terminals spanned by a Steiner Aborescence as
+As with the \gls{stp}, we denote vertices in $N$ as \textit{terminals}, and any non-terminals spanned by a Steiner Aborescence as
  \textit{Steiner vertices} or \textit{Steiner Points}.
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.7 cm]
@@ -186,9 +186,9 @@ As with the STP, we denote vertices in $N$ as \textit{terminals}, and any non-te
 \label{fig:sap:01}
 \end{figure}
 
-Figure (\ref{fig:sap:01}) shows an instance of the SAP with four terminals. Figure (\ref{fig:sap:01:opt}) shows a Steiner Aborescence in (\ref{fig:sap:01})
+Figure (\ref{fig:sap:01}) shows an instance of the \gls{sap} with four terminals. Figure (\ref{fig:sap:01:opt}) shows a Steiner Aborescence in (\ref{fig:sap:01})
 with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away from the root in an aborescence, while the path $p = (c, b, r)$  has
- lower cost than the arc $(r, c)$, it cannot be part of a solution. Similarly, solutions to the SAP in the same graph but with root $c$ have lower cost.
+ lower cost than the arc $(r, c)$, it cannot be part of a solution. Similarly, solutions to the \gls{sap} in the same graph but with root $c$ have lower cost.
 
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.7 cm]
@@ -220,10 +220,10 @@ with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away 
 \label{fig:sap:01:opt}
 \end{figure}
 
-The SAP is relevant mainly due to a tendency of reformulating the undirected STP into the SAP \citep{koch1998solving}, as well as reformulating
-the PCSTP into the SAP \citep{gamrath2017scip, Ljubic:2004:memetic} and
-prize-collecting variants of the SAP \citep{leitner2016dual, ljubic2005solving} before stating them as integer programs. This is due to results which show that LP relaxations of
- directed Steiner Tree Problem variants behave better than undirected variants \citep{Chopra:1994}.
+The \gls{sap} is relevant mainly due to a tendency of reformulating the undirected \gls{stp} into the \gls{sap} \citep{koch1998solving}, as well as reformulating
+the \gls{pcstp} into the \gls{sap} \citep{gamrath2017scip, Ljubic:2004:memetic} and
+prize-collecting variants of the \gls{sap} \citep{leitner2016dual, ljubic2005solving} before stating them as integer programs. This is due to results which show that LP relaxations of
+ directed \gls{stp} variants behave better than undirected variants \citep{Chopra:1994}.
 
 \subsection{Reduction from Other Variants}
 
@@ -277,9 +277,9 @@ prize-collecting variants of the SAP \citep{leitner2016dual, ljubic2005solving} 
         \draw[<->] (e) edge node{1} (f);
       \end{scope}
     \end{tikzpicture}
-    \caption{Instance (\ref{fig:stp:01}) as a SAP instance. Root node is coloured blue.}
+    \caption{Instance (\ref{fig:stp:01}) as a \gls{sap} instance. Root node is coloured blue.}
   \end{subfigure}
-  \caption{Reduction from STP to SAP.}
+  \caption{Reduction from \gls{stp} to \gls{sap}.}
   \label{fig:stptosap}
 \end{figure}
 
@@ -291,15 +291,15 @@ prize-collecting variants of the SAP \citep{leitner2016dual, ljubic2005solving} 
 Given an undirected graph
 $$G = (V, E, c, p)$$
 where $c: E \to \RR^+$ defines edge weights,
-and $p: V \to \RR_0^+$ defines vertex \textit{prizes}, then the solution to the \textit{Prize-Collecting
-  Steiner Tree Problem} (PCSTP) is a tree
+and $p: V \to \RR_0^+$ defines vertex \textit{prizes}, then the solution to the
+\textit{\gls{pcstp}} is a tree
 $$T = (V_T, E_T, c, p) \subseteq G$$
 which minimizes
 $$c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v$$
 which is also known as the {\textit{Goemans-Williamson Minimization Problem}}. This involves minimising
  the total cost of edges in $T$ while trying to minimise the amount of uncollected prize, or perhaps paid penalties.
 
-In the context of the PCSTP, We denote vertices with nonzero prize as \textit{terminals}, giving the terminal set
+In the context of the \gls{pcstp}, We denote vertices with nonzero prize as \textit{terminals}, giving the terminal set
 $$N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}$$
 
 \begin{figure}[h]\centering
@@ -325,17 +325,17 @@ $$N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}$$
     \draw (e) edge node{1} (f);
   \end{scope}
 \end{tikzpicture}
-\caption{Instance of the Prize-Collecting Steiner Tree Problem. Terminals are coloured black and non-terminals coloured white.}
+\caption{Instance of the \gls{pcstp}. Terminals are coloured black and non-terminals coloured white.}
 \label{fig:pcstp:01}
 \end{figure}
 
-Figure (\ref{fig:pcstp:01}) shows an instance, $G$, of the PCSTP created by assigning prizes to the terminals of the STP instance, $G_{STP}$, in Figure (\ref{fig:stp:01}).
+Figure (\ref{fig:pcstp:01}) shows an instance, $G$, of the \gls{pcstp} created by assigning prizes to the terminals of the \gls{stp} instance, $G_{\gls{stp}}$, in Figure (\ref{fig:stp:01}).
 Figure (\ref{fig:pcstp:01:opt})
 shows an optimal solution, $T = (V_T, E_T)$, to $G$. An interesting observation is that
-$T$ is a sub-graph of the solution in Figure (\ref{fig:stp:01:min}) to $G_{STP}$.
-In fact, if we were to modify $G_{STP}$ by setting its terminal set to the vertices spanned
-by $T$, that is we define $G'_{STP} =  G_{STP}$ where  $N_{G'_{STP}} = V_T$, then $T$ is a Steiner
-tree in $G'_{STP}$. In other words, we can describe the search space of the PCSTP
+$T$ is a sub-graph of the solution in Figure (\ref{fig:stp:01:min}) to $G_{\gls{stp}}$.
+In fact, if we were to modify $G_{\gls{stp}}$ by setting its terminal set to the vertices spanned
+by $T$, that is we define $G'_{\gls{stp}} =  G_{\gls{stp}}$ where  $N_{G'_{\gls{stp}}} = V_T$, then $T$ is a Steiner
+tree in $G'_{\gls{stp}}$. In other words, we can describe the search space of the \gls{pcstp}
  as the set of all Steiner trees in a graph $G$.
 
 \begin{figure}[h]\centering
@@ -365,8 +365,8 @@ tree in $G'_{STP}$. In other words, we can describe the search space of the PCST
 \label{fig:pcstp:01:opt}
 \end{figure}
 
-Unsurprisingly, the PCSTP is an NP-Hard problem. It is a generalisation of the STP. Any instance of
-the STP with graph $G = (V, E, c)$ and terminal set $N$ can be reduced to an instance of the PCSTP
+Unsurprisingly, the \gls{pcstp} is an NP-Hard problem. It is a generalisation of the \gls{stp}. Any instance of
+the \gls{stp} with graph $G = (V, E, c)$ and terminal set $N$ can be reduced to an instance of the \gls{pcstp}
 with graph $G' = (V, E, c, p)$ where
 $$p_v =
 \begin{cases}
@@ -377,7 +377,7 @@ Any optimal solution to $G'$ is then a Steiner tree in $G$ and vice versa.
 
 \subsection{Variants}
 
- The PCSTP can stated differently as the {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637}.
+ The \gls{pcstp} can stated differently as the {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637}.
   This involves maximising the function,
 $$NW(T) = \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij}$$
 or in other words, maximising the profit of $T$.
@@ -407,7 +407,7 @@ which we call the \textit{Quota} and \textit{Budget} problems \citep{Johnson:200
 In the case of the former, we are looking to minimize the total edge cost of the solution tree, $T$, while
 collecting \textit{at least} some quota, $P \in \RR$, of prize, that is we wish to minimise,
 $$\sum_{e \in E_T} c_e \quad \text{s.t.} \: \sum_{v \in V_T} p_v \geq P\mathnormal{.}$$
-As with the PCSTP, the Quota problem is NP-hard by reduction from the STP. Given any instance of the STP,
+As with the \gls{pcstp}, the Quota problem is NP-hard by reduction from the \gls{stp}. Given any instance of the \gls{stp},
 we can create an equivalent Quota problem by setting prizes
 $$p_v =
 \begin{cases}
@@ -416,7 +416,7 @@ $$p_v =
 \end{cases}
 $$
 and then setting the quota to be the number of terminals, i.e. $P = |N|$. Then all feasible solutions
-must span all terminals, and an optimal solution to the STP is an optimal solution to the quota problem
+must span all terminals, and an optimal solution to the \gls{stp} is an optimal solution to the quota problem
  and vice versa.
 
 Similarly, the Budget problem involves collecting as much prize as possible without allowing the
@@ -451,7 +451,7 @@ Similarly, the Budget problem involves collecting as much prize as possible with
 \label{fig:pcstp:budget:knapsack}
 \end{figure}
 
-\paragraph{Fractional PCSTP}
+\paragraph{Fractional \gls{pcstp}}
 
 
 \subsection{ILP Formulations}

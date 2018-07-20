@@ -1,11 +1,11 @@
 \chapter{Research in Related Problems}
 \label{chap:related}
-The Prize-Collecting Steiner Tree Problem, while unique in formulation,
+The \gls{pcstp}, while unique in formulation,
 is part of a family of problems which somehow deal with the trade-off of
 \textit{paying} for connecting vertices to gain their \textit{prize}.
 
 In this chapter, we will look at a collection of similar problems, see how far research is
-on them, and discuss similarities with the PCSTP both with respect to the motivation and
+on them, and discuss similarities with the \gls{pcstp} both with respect to the motivation and
 intutive understanding of the problems, but also to how the problems are approached and
 how similar the solutions are.
 
@@ -13,16 +13,16 @@ By doing this, we aim to gain deeper insight into the structure of this collecti
  and separate generalisable methods from problem-specific methods.
 
 \todo[inline]{Do examples for this section. Show the problems visually.}
-\todo[inline]{Be clear about the intuitive differences between the PCSTP and these problems}
+\todo[inline]{Be clear about the intuitive differences between the \gls{pcstp} and these problems}
 
 
 \section{The Steiner Tree Problem}
-\todo[inline]{This section should be a section which highlights the research history of the STP
- which has been ``replicated'' in the PCSTP}
+\todo[inline]{This section should be a section which highlights the research history of the \gls{stp}
+ which has been ``replicated'' in the \gls{pcstp}}
 \section{The Prize-Collecting Travelling Salesman Problem and Variants}
 \todo{Think about whether there should be a super-section about all the variants}
 First introduced by \citet*{balas1989prize}, the Prize-Collecting Travelling Salesman Problem
-(PCTSP) is a problem closely related to the PCSTP.
+(PCTSP) is a problem closely related to the \gls{pcstp}.
 
 The problem is formulated by \citeauthor{balas1989prize} as follows. Let
 $G = (V, A, c, p)$ be a directed
@@ -34,7 +34,7 @@ such that
 $$\sum_{v_i \in V_C} p_i \geq B$$
 for some $B \in \RR_+$.
 
-If we recollect the definition of the PCSTP and its variants (Section \ref{sec:pcstp}) then
+If we recollect the definition of the \gls{pcstp} and its variants (Section \ref{sec:pcstp}) then
 we immediately see some similarities. The PCTSP involves optimising the
 \textit{Goemans-Williamson Minimization Problem} for the circuit $C$, however with the extra
 constraint of collecting at least $B$ prize on the tour. This extra constraint draws comparisons
@@ -43,15 +43,15 @@ to the \textit{Quota Problem}.
 As the PCTSP is a natural member of the family of Vehicle Routing Problems, it is also sometimes
 stated with a \textit{depot} vertex \citep{feillet2005traveling} -- that is a vertex which
 must be part of the solution circuit, $C$. This corresponds to the \textit{Rooted}
-Prize-Collecting Steiner Tree Problem.
+\gls{pcstp}.
 
 Intuitively, these kinds of problems seek to solve concrete problems with respect to transport routes.
 Where the Travelling Salesman Problem seeks to find the optimal ``route'' to visit all vertices in
 a graph, the PCTSP (and its variants) look to answer which routes/vertices are worth visiting and
-which are not. This is reminiscent of how the PCSTP is to the Steiner Tree Problem.
+which are not. This is reminiscent of how the \gls{pcstp} is to the Steiner Tree Problem.
 
 By being routing problems, the PCTSP variants are more often than not defined on directed graphs in
-contrast to the PCSTP which is exclusively defined on a undirected graph (while the Steiner Aborescence
+contrast to the \gls{pcstp} which is exclusively defined on a undirected graph (while the Steiner Aborescence
  Problem is very much the directed variant).
 
 \paragraph{The Orienteering Problem}
@@ -66,16 +66,16 @@ for some $B \in \RR_+$.
 A maybe more familiar problem in the realm of prize collecting tour problems, is the
 so-called Profitable Tour Problem (PTP). This variant -- which earlier shared name with
 the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a true
- ``cousin'' of the PCSTP.
+ ``cousin'' of the \gls{pcstp}.
 
  Specifically, the PTP involves finding a circuit,
  $C = (V_C, E_C)$ in a graph which minimises
  $$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
  with no additional constraints.
  
- While similar in formulation to the PCSTP, according to a fairly recent survey by
+ While similar in formulation to the \gls{pcstp}, according to a fairly recent survey by
  \citet{archetti2014chapter}, the PTP has received very little attention -- 
- especially when compared to the PCSTP.
+ especially when compared to the \gls{pcstp}.
  In fact, to the best of our knowledge, no exact solution to the PTP
  has been proposed.
  However, \citet{dell1995prize} does define a lower bounding procedure for the problem
@@ -139,7 +139,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  \todo[inline]{Either change title of paragraph or find more examples}
  \section{The Median Facility Problems}
  \label{sec:related:median}
- A type of problems which are closesly related to the ``prize-collecting'' problems such as the PCSTP, are the so-called
+ A type of problems which are closesly related to the ``prize-collecting'' problems such as the \gls{pcstp}, are the so-called
  ``median'' problems. These problems involve finding optimal location of a ``facility'' with regards to the sum
  of distances from all vertices to the facility.
 
@@ -175,7 +175,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
  Additional research has been performed into both MCP varients
  in the form of new heuristics based on variable neighbourhood tabu search
- (similar to the methods used for the PCSTP by \citet{canuto2001local} --
+ (similar to the methods used for the \gls{pcstp} by \citet{canuto2001local} --
  See Section \ref{sec:canuto-search}) by \citet{perez2003variable}, and both
  greedy and evolutionary heuristics were proposed by \citet{renaud2004efficient}.
  
@@ -219,7 +219,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
   Finding a median tree in a general graph is, to the best of our knowledge, not well researched.
  \citet{aneja1992location} establishes the
-  problem as being NP-Hard -- by reduction from the Steiner Tree Problem, and shows that the problem can
+  problem as being NP-Hard -- by reduction from the \gls{stp}, and shows that the problem can
   decomposed into finding median trees on distinct ``blocks'' of a graph.
 
   \citet{kim1991locating} considers a variant of the problem where the graph is embedded in the plane

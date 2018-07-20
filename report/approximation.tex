@@ -3,12 +3,12 @@
 
 \subsection{The Goemans-Williamson Algorithm}\label{sec:solving:approx:gw}
 \citet*{goemans1995general} presented a primal-dual 2-approximation algorithm for the rooted variant of the
-PCSTP, based on an algorithm for solving the general \textit{constrained forest problem}.
+\gls{pcstp}, based on an algorithm for solving the general \textit{constrained forest problem}.
 
 \todo[inline]{Quick summary of usage. It is popular.}
 
 \paragraph{Definitions}
-\citeauthor{goemans1995general} stated the ILP (GW-ILP) in Formulation \ref{form:approx:gw} for the rooted PCSTP.
+\citeauthor{goemans1995general} stated the ILP (GW-ILP) in Formulation \ref{form:approx:gw} for the rooted \gls{pcstp}.
 
  \begin{formulation}[h!]
    \begin{subequations}
@@ -22,7 +22,7 @@ PCSTP, based on an algorithm for solving the general \textit{constrained forest 
        &&& z_X \in \BB  && \forall S \subset V; r \not\in S
      \end{alignat}\label{form:approx:gw}
    \end{subequations}
-   \caption{(GW-IP) formulation of the PCSTP.}
+   \caption{(GW-IP) formulation of the \gls{pcstp}.}
  \end{formulation}
 
  GW-IP has two decision vectors. The decision vector $x$ denotes which edges are contained in the solution,
@@ -168,7 +168,7 @@ PCSTP, based on an algorithm for solving the general \textit{constrained forest 
  \citet{Johnson:2000:PCS:338219.338637} investigated three main modifications to the GW Algorithm:
  \begin{enumerate}
  \item an improved pruning procedure called Strong Pruning,
- \item how the the algorithm performs on the unrooted PCSTP, and
+ \item how the the algorithm performs on the unrooted \gls{pcstp}, and
  \item how pertubation of the prize vector affects the algorithm.
  \end{enumerate}
  Furthermore, as a part of these investigations, they produced an implementation of the GW Algorithm.
@@ -217,9 +217,9 @@ generated instances, this is reported to be up to $20\%$.
 
 Thus, modifying the GW Algorithm to perform Strong Pruning results in better solutions at
  no extra cost.
-\paragraph{GW  Algorithm for the unrooted PCSTP}
+\paragraph{GW  Algorithm for the unrooted \gls{pcstp}}
 The GW Algorithm is stated and its approximation ratio proved
-for the rooted variant of the PCSTP. While these apply directly to unrooted variants
+for the rooted variant of the \gls{pcstp}. While these apply directly to unrooted variants
 when run for all possible roots, this comes with
 a worsened $O(n^3 \log n)$ runtime.
 

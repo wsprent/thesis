@@ -1,20 +1,20 @@
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
-Having surveyed the state of research on the Prize-Collecting Steiner Tree Problem closely along with a
+Having surveyed the state of research on the \gls{pcstp} closely along with a
 short summary related problems. We now turn our eyes to the lattermost problem we have inspected:
 The Median Tree Problem (MTP).
 
 As we noted in Chapter \ref{chap:related}, the problem involving the finding of \textit{median} trees
 in graphs is not very well researched. To the best of our knowledge, no work has been put into solving
 the problem in the general case to optimality. Being that this problem has some striking similarities
-to the PCSTP -- that is, both problems involve finding the tree in a graph which minimises the sum
+to the \gls{pcstp} -- that is, both problems involve finding the tree in a graph which minimises the sum
 of the tree's edge costs and a penalty for every not-included vetex -- we suspect that refitting the
-methods used to solve the PCSTP to the MTP may result in good performance.
+methods used to solve the \gls{pcstp} to the MTP may result in good performance.
 
 In this chapter, we will present a formal definition of the Median Tree Problem in Graphs. Then,
 we will present a branch and cut algorithm and a solver for the MTP which is inspired by the
-work done on the PCSTP. Finally, we will present a dataset for the MTP generated from a subset
-of the DIMACs Steiner Tree challenge datasets for the PCSTP, and a set of experiments performed
+work done on the \gls{pcstp}. Finally, we will present a dataset for the MTP generated from a subset
+of the DIMACs Steiner Tree challenge datasets for the \gls{pcstp}, and a set of experiments performed
 on these.
  
 \section{Problem Definition}
@@ -120,7 +120,7 @@ $$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
 
   Since there exists a relative balance between the cost of the edges in the graph and the assignment cost, $T$
   only spans part of the graph. This raises a point. As assignment costs tend to infinity, the MTP begins to look
-  like the Minimum Spanning Tree problem -- this is akin to the STP with $N = V$ and the PCSTP with infinite prize
+  like the Minimum Spanning Tree problem -- this is akin to the \gls{stp} with $N = V$ and the \gls{pcstp} with infinite prize
   on all vertices. However, when edge costs tend toward infinity, the facility will naturally become a single vertex
   and the MTP starts looking like the $1$-Median problem (See Section \ref{sec:related:median}).
 \todo[inline]{Maybe define terms Nonterminals and Supply points for vertices which
@@ -128,9 +128,9 @@ $$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
   and are}
 
 \paragraph{Reduction from the Prize-Collecting Steiner Tree Problem}
-Instances of the PCSTP can straightforwardly be reduced to instances of the MTP. This is in exact correspondence to how instances
+Instances of the \gls{pcstp} can straightforwardly be reduced to instances of the MTP. This is in exact correspondence to how instances
 of the Profitable Tour Problem can be reduced to instances of the Median Tour Problem (Section \ref{sec:related:median}).
-Given an instance of the PCSTP on graph $G = (V, E, c, p)$, define the assignment cost function
+Given an instance of the \gls{pcstp} on graph $G = (V, E, c, p)$, define the assignment cost function
 
 $$d_{ij} =
  \begin{cases}
@@ -138,9 +138,9 @@ $$d_{ij} =
    p_i & i \neq j
  \end{cases}\mathnormal{.}
  $$
- then solving the MTP on the graph $G' = (V, E, c, d)$ is equivalent to solving the PCSTP on $G$. Since every vertex assignment not
+ then solving the MTP on the graph $G' = (V, E, c, d)$ is equivalent to solving the \gls{pcstp} on $G$. Since every vertex assignment not
  to the vertex itself pays the \textit{prize} of that vertex, every vertex not in the facility will pay its prize as penalty. Hence,
- any solution $T = (V, E, c, p)$ to the PCSTP on $G$ will have the exact same cost as the solution $T' = (V, E, c, d)$ to the MTP on $G'$.
+ any solution $T = (V, E, c, p)$ to the \gls{pcstp} on $G$ will have the exact same cost as the solution $T' = (V, E, c, d)$ to the MTP on $G'$.
 
 \begin{figure}[h]\centering
   \begin{subfigure}[b]{0.47\linewidth}\centering
@@ -216,16 +216,16 @@ $$d_{ij} =
     \caption{Optimal Solution to (\ref{fig:mtp:pcstp:g}).}
   \end{subfigure}
 
-  \caption{Instance of the PCSTP (Figure \ref{fig:pcstp:01}) with optimal solution.}
+  \caption{Instance of the \gls{pcstp} (Figure \ref{fig:pcstp:01}) with optimal solution.}
   \label{fig:mtp:pcstp}
 \end{figure}
 
-Figure \ref{fig:mtp:pcstp} shows how this reduction works on the PCSTP instance in Figure \ref{fig:pcstp:01}
+Figure \ref{fig:mtp:pcstp} shows how this reduction works on the \gls{pcstp} instance in Figure \ref{fig:pcstp:01}
 as well as the optimal solution
 $$T = (\{a,b,d\}, \{(a,b), (b,d)\})$$
 with cost
 $$c(T) = (4 + 5) + (3) = 12$$
-which is the same cost as the optimal solution to the original PCSTP problem (Figure \ref{fig:pcstp:01:opt}).
+which is the same cost as the optimal solution to the original \gls{pcstp} problem (Figure \ref{fig:pcstp:01:opt}).
 
 While it is obvious that the MTP problem is NP-Hard -- something which has already been established in previous literature
  (See Section \ref{sec:related:median}) -- this reduction again implies the NP-Hardness of the problem.
@@ -241,7 +241,7 @@ Steiner Tree Problem.
 
 The variables $\bd x$ and $\bd y$ are boolean
 decision vectors which are interpreted as follows.
-As with the PCSTP formulation, when $x_{ij} = 1$,
+As with the \gls{pcstp} formulation, when $x_{ij} = 1$,
 the edge between vertices $v_i$ and $v_j$ is part of the solution -- note that only
 one of $x_{ij}$ and $x_{ji}$ are variables in model and we will use both indices interchangably
 to refer to the same variable for the sake of readability.

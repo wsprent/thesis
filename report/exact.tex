@@ -5,27 +5,27 @@
 \label{sec:exact:dhea}
 The DHEA solver, defined and implemented
 by \citet{ljubic2005solving}
-(more concisely described in \citet{ljubic2006algorithmic}) finds exact solutions to the PCSTP
+(more concisely described in \citet{ljubic2006algorithmic}) finds exact solutions to the \gls{pcstp}
 by first applying
 reduction tests to the input graph (See Section \ref{sec:solving:pre}) and
 then transforming the resulting problem into related problem of finding a minimum
 aborescence in a directed graph. It is the first example of a procedure designed for
-finding provably optimal solutions for the PCSTP.
+finding provably optimal solutions for the \gls{pcstp}.
 
-The resulting SAP is then solved by branch-and-cut using a separation procedure
+The resulting \gls{sap} is then solved by branch-and-cut using a separation procedure
 similar to the one defined in \citet{lucena2004strong}
 (Section \ref{sec:lower:gsec}) and a new primal heuristics for
 finding good incumbents at every node.
 
 The solver has as a dependency on of the MIP solvers CPLEX or LEDA.
- \paragraph{Reducing the PCSTP to PCSAP}
- Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input PCSTP instance
+ \paragraph{Reducing the \gls{pcstp} to \gls{pcsap}}
+ Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input \gls{pcstp} instance
  into a related problem in a directed graph which essentially is a constrained version
- of a Prize-Collecting Steiner Aborescence Problem (PCSAP).
+ of a Prize-Collecting Steiner Aborescence Problem (\gls{pcsap}).
 
- Given an instance of the PCSTP, with graph $G = (V, E, c, p)$ and terminals $N \subset V$,
+ Given an instance of the \gls{pcstp}, with graph $G = (V, E, c, p)$ and terminals $N \subset V$,
  we define an instance
- of the PCSAP with directed graph, $G_A = (V_A, A, c')$, where $c'$ define the arc costs,
+ of the \gls{pcsap} with directed graph, $G_A = (V_A, A, c')$, where $c'$ define the arc costs,
  by first adding an
  artificial root vector, $r$, to $V$
  $$V_A = \{r\} \cup V\mathnormal{.}$$
@@ -66,7 +66,7 @@ Figure (\ref{fig:pcstptosap}) shows an example of this kind of reduction.
     \draw (e) edge node{1} (f);
   \end{scope}
     \end{tikzpicture}
-    \caption{PCSTP Instance (\ref{fig:pcstp:01})}
+    \caption{\gls{pcstp} Instance (\ref{fig:pcstp:01})}
   \end{subfigure}
   \begin{subfigure}[t]{0.47\linewidth}
     \begin{tikzpicture}[auto, node distance=1.7 cm]
@@ -102,9 +102,9 @@ Figure (\ref{fig:pcstptosap}) shows an example of this kind of reduction.
         \draw[->] (r) edge[bend left=40] node{-12} (a);
       \end{scope}
     \end{tikzpicture}
-    \caption{Instance (\ref{fig:pcstp:01}) as a PCSAP instance. Root node is coloured blue.}
+    \caption{Instance (\ref{fig:pcstp:01}) as a \gls{pcsap} instance. Root node is coloured blue.}
   \end{subfigure}
-  \caption{Reduction from PCSTP to SAP.}
+  \caption{Reduction from \gls{pcstp} to \gls{sap}.}
   \label{fig:pcstptosap}
 \end{figure}
 
@@ -184,10 +184,10 @@ in the original problem. Enforcing that any solution to the transformed problem 
 
   With these extra constraints in place, any feasible solution in the transformed, directed graph $G_{A}$ will correspond
   to a feasible solution in the original graph $G$ with the same cost. In other words there exists a bijection between feasible
-  solutions to corresponding instances of the constrained SAP and the PCSTP. Figure \ref{fig:exact:sap:opt} shows this for our
-   original PCSTP (see Figure \ref{fig:pcstp:01:opt}). This optimal solution has cost
+  solutions to corresponding instances of the constrained \gls{sap} and the \gls{pcstp}. Figure \ref{fig:exact:sap:opt} shows this for our
+   original \gls{pcstp} (see Figure \ref{fig:pcstp:01:opt}). This optimal solution has cost
    $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} p_v = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
-   which is the same as the corresponding problem to the PCSTP. Note that solution starting with $(r,d)$ would have the same cost,
+   which is the same as the corresponding problem to the \gls{pcstp}. Note that solution starting with $(r,d)$ would have the same cost,
    $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
    but is infeasible due to $d > a$.
   \paragraph{ILP Formulation}
@@ -222,7 +222,7 @@ as the ILP in Fomulation (\ref{form:exact:cut}).
        \label{form:exact:orientation}
      \end{alignat}\label{form:exact:cut}
    \end{subequations}
-   \caption{(CUT-IP) CUT-based formulation of the constrained PCSAP.}
+   \caption{(CUT-IP) CUT-based formulation of the constrained \gls{pcsap}.}
  \end{formulation}
 
  As usual, the ILP formulation has two decision vectors, $x$ and $y$, where the former denotes arcs
@@ -248,10 +248,10 @@ as the ILP in Fomulation (\ref{form:exact:cut}).
 
  Adding only constraints (\ref{form:exact:pcsap:root})-(\ref{form:exact:pcsap:conn})
  has the unfortunate consequence of having multiple 
- PCSAP solutions
+ \gls{pcsap} solutions
  correspond
- to a single PCSTP solution. To achieve a bijection between the PCSAP solutions and the
- PCSTP solutions, constraint (\ref{form:exact:bijection}) allows only the chosen vertex
+ to a single \gls{pcstp} solution. To achieve a bijection between the \gls{pcsap} solutions and the
+ \gls{pcstp} solutions, constraint (\ref{form:exact:bijection}) allows only the chosen vertex
  with the lowest index to be adjacent to the root vertex.
  
  Additionally, \citet{ljubic2005solving} observe that each nonterminal in an optimal solution
@@ -280,28 +280,28 @@ The rest of the branch and bound procedure is handled by an underlying MIP solve
 \subsection{SCIP-Jack Solver}
 \label{sec:exact:scipj}
 The SCIP-Jack solver is a set of plugins for the SCIP general purpose optimisation suite capable
-of generating exact solutions to a variety of STP variants in graphs \cite{gamrath2017scip}.
+of generating exact solutions to a variety of \gls{stp} variants in graphs \cite{gamrath2017scip}.
 
-As with the DHEA solver (Section \ref{sec:exact:dhea}), SCIP-Jack solves the PCSTP by first applying
+As with the DHEA solver (Section \ref{sec:exact:dhea}), SCIP-Jack solves the \gls{pcstp} by first applying
 reduction tests (See section \ref{sec:pre:summary-usage} for details) to the input graph before transforming problem
-instances to a constrained version of the SAP and solving it with branch and cut.
+instances to a constrained version of the \gls{sap} and solving it with branch and cut.
 The main difference here is in that the DHEA solver works with a prize-collecting variant
- of the SAP problem whereas SCIP-Jack works with the regular version of the SAP.
+ of the \gls{sap} problem whereas SCIP-Jack works with the regular version of the \gls{sap}.
 
-\paragraph{Reduction to SAP}
-As with the DHEA solver, SCIP-Jack internally works on the SAP instead of the solving native
-versions of the STP variants. Different from the DHEA solver, SCIP-Jack, however, does not
-transform the PCSTP into a prize-collecting SAP. This means that the reduction is slightly
-different, as the prize-collecting aspect of the PCSTP has to be described in an alternative
-way in the SAP.
+\paragraph{Reduction to \gls{sap}}
+As with the DHEA solver, SCIP-Jack internally works on the \gls{sap} instead of the solving native
+versions of the \gls{stp} variants. Different from the DHEA solver, SCIP-Jack, however, does not
+transform the \gls{pcstp} into a prize-collecting \gls{sap}. This means that the reduction is slightly
+different, as the prize-collecting aspect of the \gls{pcstp} has to be described in an alternative
+way in the \gls{sap}.
 
-Given an instance of the PCSTP with graph $G = (V,E,c,p)$ and terminal set $N$, we wish to define
+Given an instance of the \gls{pcstp} with graph $G = (V,E,c,p)$ and terminal set $N$, we wish to define
  a directed graph $G_A = (V_A, A, c')$ with a terminal set $N_A$. The first
  step of this reduction is to add a copy of each terminal to the vertex set, $V_A$.
  To do this, we define a
 set of auxiliary terminals as
 $$N_A = \{v' \mid v \in N\}$$
-which are the terminal set for our SAP.
+which are the terminal set for our \gls{sap}.
 The original set of vertices $V$ is combined with this set and an
 artificial root vector to define the vertex-set in the directed graph
 $$V_A = V \cup \{r\} \cup N_A\mathnormal{.}$$
@@ -349,7 +349,7 @@ have no cost and the same goes for arcs from the original terminals to the auxil
     \draw (e) edge node{1} (f);
   \end{scope}
     \end{tikzpicture}
-    \caption{PCSTP Instance (\ref{fig:pcstp:01})}
+    \caption{\gls{pcstp} Instance (\ref{fig:pcstp:01})}
   \end{subfigure}
   \begin{subfigure}[t]{0.47\linewidth}
     \begin{tikzpicture}[auto, node distance=1.7 cm]
@@ -388,9 +388,9 @@ have no cost and the same goes for arcs from the original terminals to the auxil
         \draw[->] (r) edge[bend left=50, looseness=0.7] node{12} (aa);
       \end{scope}
     \end{tikzpicture}
-    \caption{Instance (\ref{fig:pcstp:01}) as a SAP instance. Root node is coloured blue.}
+    \caption{Instance (\ref{fig:pcstp:01}) as a \gls{sap} instance. Root node is coloured blue.}
   \end{subfigure}
-  \caption{Reduction from PCSTP to SAP.}
+  \caption{Reduction from \gls{pcstp} to \gls{sap}.}
   \label{fig:scip:pcstptosap}
 \end{figure}
 
@@ -452,7 +452,7 @@ directly to selecting the corresponding edge in $G$.
   which is the same as the corresponding solution in the optimal graph.
 
  \paragraph{ILP Formulation}
- \cite{gamrath2017scip} define the ILP formulation of the constrained SAP in Formulation (\ref{form:sap:flow})
+ \cite{gamrath2017scip} define the ILP formulation of the constrained \gls{sap} in Formulation (\ref{form:sap:flow})
  named \textit{flow-balance directed cut formulation}. Constraint (\ref{form:exact:sap:cut}) ensures that there exists a
   path from the root to any terminal by ensuring that any
  cut in the graph which does not contain all terminals must have outgoing arcs. Constraint (\ref{form:exact:sap:cut})
@@ -463,7 +463,7 @@ directly to selecting the corresponding edge in $G$.
 
  Finally, as with the DHEA solver constraint (\ref{form:sap:root})
  ensures that exact one ``free'' arc from the root can be selected, and (\ref{form:sap:bijection}) creates a bijection
-  between solutions in the SAP and PCSTP.
+  between solutions in the \gls{sap} and \gls{pcstp}.
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
@@ -495,13 +495,13 @@ directly to selecting the corresponding edge in $G$.
        \label{form:sap:bijection}
      \end{alignat}\label{form:sap:flow}
    \end{subequations}
-   \caption{(FLW-IP) Flow-balance directed cut formulation of the constrained SAP.}
+   \caption{(FLW-IP) Flow-balance directed cut formulation of the constrained \gls{sap}.}
  \end{formulation}
 
- Given a solution to the an instance of the constrained SAP as defined here, a solution to the PCSTP can then
+ Given a solution to the an instance of the constrained \gls{sap} as defined here, a solution to the \gls{pcstp} can then
  be obtained by taking an edge for all arcs in the solution for which both endpoints are vertices
  in the original graph. The tree induced by this set of edges then is the corresponding solution in the original
- PCSTP instance.
+ \gls{pcstp} instance.
  
   \paragraph{Branch \& Bound}
   While node selection is left to the underlying MIP solver, SCIP-Jack branches on vertices in the following way. For each node in the
@@ -511,17 +511,17 @@ directly to selecting the corresponding edge in $G$.
   \cite{gamrath2017scip} claim that this gives stronger performance than
   to branching on single arcs.
 
-  Futhermore, SCIP-Jack contains an array of heuristics for the SAP which are not well described
+  Futhermore, SCIP-Jack contains an array of heuristics for the \gls{sap} which are not well described
   by the author's and we will not delve further into.
 
 \subsection{Difference in Approach}
 
-% Both use SAP transformations
-% SCIP uses an actual SAP instead of the PCSAPish favoured by Ljubic
+% Both use \gls{sap} transformations
+% SCIP uses an actual \gls{sap} instead of the \gls{pcsap}ish favoured by Ljubic
 
 % Both make use of multipurpose solvers
 % Both use the max flow separation of the GSECs
-% Both heavily inspired by STP research
+% Both heavily inspired by \gls{stp} research
 
 
 %%% Local Variables:
