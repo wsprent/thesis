@@ -276,8 +276,8 @@ itself, which implies that vertex $v_k$ is part of the facility.
 
  Since edges have nonnegative weights, we know that the shape of the facility must be a tree.
  Constraint (\ref{form:mtp:tree}) ensures that any facility has exactly one less edge than
- vertices, and constraints (\ref{form:mtp:gsec}) -- commonly known as Generalised Subtour
- Elimination Contraints -- ensures that no subset of vertices in the facility can form
+ vertices, and constraints (\ref{form:mtp:gsec}) -- commonly known as \glspl{gsec}
+ -- ensures that no subset of vertices in the facility can form
  a cycle. Together, these ensure that any feasible
  solution must be a single, connected subgraph of $G$
  which is shaped as a tree.
@@ -332,16 +332,56 @@ and better ease-of-use -- giving better iteration times. Having no other computa
 to compare against, this trade-off was easy to make.
 
 The Python library,
-NetworkX\footnote{\url{https://networkx.github.io/}}
+NetworkX\footnote{\url{https://networkx.github.io/}} \citep{hagberg2008exploring}
 was used for the internal graph representation of the
 problem instances in the solver as well as for implementation of common
-graph algorithms.
+graph algorithms. It is worth noting that NetworkX features algorithm implementations
+in native Python instead of the more efficient Python C modules. This, again, has some
+performance implications especially with regards to user callbacks (which we will
+ touch on below).
 
 The source code of the solver as well as the benchmark suite
 can be found on GitHub\footnote{\url{https://github.com/wsprent/thesis-code}}.
-\paragraph{Branch and Cut}
 
-\paragraph{Separation of GSECs} \textit{Max flow method. From Lucena/Resende.}
+\paragraph{Branch and Cut}
+The choice of applying a branch and cut method in the solver, is fairly straight
+forward to make as it is infeasible to load all of the exponential number of
+\glspl{gsec} into the model initially. Thus, the solver
+\textit{must} make use of
+Gurobi's \textit{Lazy Constraints} to avoid producing infeasible solutions
+and \textit{may} additionally make use of \textit{User Cuts} to potentially
+give faster runtimes by producing tighter lower bounds.
+
+Both of these are included in the solver through Gurobi's callback system.
+\subparagraph{Lazy Constraints}
+The job of the lazy constraint callback involves separating integer solutions
+which violate any \glspl{gsec}. This boils down to finding cycles in the solution
+graph.
+
+Given an integer solution $(\bd{\hat{x}}, \bd{\hat{y}})$ produced by Gurobi, we
+identify any violated \glspl{gsec} by first generating a NetworkX graph,
+$$S = (\{i \in V \mid \hat y_{ii} = 1 \}, \{ (i, j) \in E \mid \hat x_{ij} = 1\})\mathnormal{.}$$
+Then we again use NetworkX to find all simple cycles in $S$. Then for each vertex
+subsets $C \subseteq V$ induced by a cycle
+in $S$, we add all of the violated constraints
+$$x(E(C)) \leq y_{ii} \setminus \{c\} \qquad \forall c \in C$$
+to the model.
+\subparagraph{User Cuts}
+The callback responsible for
+Separating infeasible LP solutions with regards to \glspl{gsec}
+have been adapted for the solver from the max-flow/min-cut  method used by \citet{lucena2004strong}
+ (see Section \ref{sec:solving:lower})
+-- and later \citet{ljubic2005solving} and \citet{gamrath2017scip} -- for the \gls{pcstp}.
+
+Adapting this separation procedure can be done directly. Having the decision variable
+$\hat y_{ii} = b$ for some $b \in [0,1]$ in the LP relaxation of
+the \gls{mtp} corresponds directly to $\hat y_i = b$ with respect to the \glspl{gsec}.
+Once again, we use NetworkX to both represent the support graph and solve max flow problem(s).
+
+As with the DHEA solver by \citet{ljubic2005solving}, we allow for controlling the maximum amount
+of cuts performed at each node in the b\&b tree
+with a \texttt{-{}-max-cuts} option. Additionally, this can be set
+to \texttt{0} to disable the user cut routine altogether.
 
 \paragraph{Primal Heuristics}
 
