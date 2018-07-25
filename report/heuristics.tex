@@ -171,6 +171,52 @@ But in particular, \citeauthor{canuto2001local} report that adding the
 path relinking scheme results in a stark increase
  in number of instances solved to optimality.
 
+ \subsection{LP Based Heuristic}
+ \label{sec:heuristics:lp}
+ As part of their branch and bound algorithm for the \gls{pcstp}, \cite{ljubic2005solving} detail a primal
+ heuristics which takes advantage of an optimal solution to the LP relaxation of the problem. While this
+ is detailed for a directed version of the \gls{pcstp} (see Section \ref{sec:exact:dhea}) we detail it
+ here for the \gls{pcstp}.
+ 
+ Given an optimal solution to the \gls{gsec} and LP relaxation of the ILP
+ $$(\bd{ \bar x^*}, \bd{\bar y^*})$$
+ of an instance of the \gls{pcstp} defined on the graph $G = (V, E, c, p)$,
+ a \textit{good} feasible solution to the \gls{pcstp} as follows.
+
+ Select an initial subset of vertices to be part of the solution based on their decision variable value,
+ $$S = \{ i \in V \mid \bar y^*_i > 0.5 \}\mathnormal{.}$$
+ \textit{Alternatively, use $\bar y^*_i$ as the probability for including $i$ in $S$.}
+ We then augment $G$ to have costs relative to $\bd{\bar{x}}$. More specifically,
+ we create the cost function
+ $$c'_{ij} = 1 - \bar{x}^*_{ij}$$
+ and let it replace $c$ in $G$ to give us the graph,
+ $$G' = (V, E, c', p)\mathnormal{.}$$
+ With $G'$ and $S$ in hand, we compute the \textit{distance network} of $S$ as
+ $$G_S = (S, S \times S, d_S)$$
+ where ${d_S}_{ij}$ is the length of the shortest path from $v_i$ to $v_j$ in $G'$.
+ Since we use $G'$, a path is short if its edges have high values in the LP
+ relaxation.
+
+ Then we find a minimum spanning tree on $G_S$,
+ $$T = (S, E_S, d_S) \mathnormal{.}$$
+ Let $P_{ij}$ be the shortest path between vertices $i$ and $j$ in $G$, then
+ we select a new --- larger --- subset of $V$ by selecting all vertices which
+ are implicitly part of an edge in $T$ according to $d_S$, that is
+ $$S' = \{ v \in V \mid \exists (i,j) \in E_S, v \in P_{ij}\}\mathnormal{.}$$
+
+ Finally, let $G_H$ be the the graph induced by $S'$ on $G$,
+ $$G_H = (S', E_H, c, p)$$
+ and a minimum spanning tree of $G_H$, $T' = (S', E_{T'}, c, p)$.
+
+ The heuristic solution is then given by solving the \gls{pcstp}
+ on $T'$. This can be done in linear time, e.g. by using the
+ strong pruning procedure defined by
+ \citet{Johnson:2000:PCS:338219.338637}
+ (see Section \ref{sec:approx:strongpruning}).
+
+ 
+ 
+ 
 %%% Local Variables:
 %%% TeX-master: "report"
 %%% reftex-default-bibliography: ("lit.bib")

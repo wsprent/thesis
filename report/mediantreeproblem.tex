@@ -1,7 +1,7 @@
 \chapter{The Median Tree Problem}
 \label{chap:mediantree}
 Having surveyed the state of research on the \gls{pcstp} closely along with a
-short summary related problems. We now turn our eyes to the lattermost problem we have inspected:
+short summary of related problems. We now turn our eyes to the lattermost problem we have inspected:
 \gls{mtp}.
 
 As we noted in Chapter \ref{chap:related}, the problem involving the finding of \textit{median} trees
@@ -384,13 +384,18 @@ with a \texttt{-{}-max-cuts} option. Additionally, this can be set
 to \texttt{0} to disable the user cut routine altogether.
 
 \paragraph{Primal Heuristics}
+The solver an optional custom primal heuristic adapted from the primal hueristics detailed
+for the \gls{pcstp} by \citet{ljubic2005solving}
+(see Sections \ref{sec:solving:exact} and , \ref{sec:heuristics:lp}).
 
+As with the cuts above, we exploit the fact that $y_i$ in the \gls{pcstp}
+corresponds directly to $y_{ii}$ in the \gls{mtp}.
 
-\textit{Select vertex subset to be part of the facility from LP
-  relaxation after separation (perhaps randomness)
-  -- apply MST. Similar to Ljubic.}
+One thing we have not adapted, however, is the last step of solving the \gls{mtp}
+on the final tree. This is left for further research.
 
-
+The primal heuristic can be disabled in favour of Gurobi's inbuilt heuristic with
+the switch \texttt{-{}-no-heuristics}.
 \section{Computational Experience}
 
 \subsection{Datasets}

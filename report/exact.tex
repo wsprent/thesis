@@ -9,7 +9,8 @@ by \citet{ljubic2005solving}
 by first applying
 reduction tests to the input graph (See Section \ref{sec:solving:pre}) and
 then transforming the resulting problem into related problem of finding a minimum
-aborescence in a directed graph. It is the first example of a procedure designed for
+aborescence in a directed graph, which we call the \gls{pcsap}.
+It is the first example of a procedure designed for
 finding provably optimal solutions for the \gls{pcstp}.
 
 The resulting \gls{sap} is then solved by branch-and-cut using a separation procedure
@@ -197,7 +198,7 @@ as the \gls{ilp} in Fomulation (\ref{form:exact:cut}).
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
-       &\underset{x,y}{\text{minimize}}
+       &\underset{\bd x, \bd y}{\text{minimize}}
        & & \sum_{ij \in A} c'_{ij} x_{ij} +  \sum_{v \in V} p_v  & \\
        & \text{subject to}\quad
        & & \sum_{j \in A} x_{rj} = 1 &&  \label{form:exact:pcsap:root}\\
@@ -263,7 +264,7 @@ as the \gls{ilp} in Fomulation (\ref{form:exact:cut}).
  \citet{ljubic2005solving} report improved running times for adding them as it avoids
  having to implicitly separate the in the separation procedure.
  
-\paragraph{Branch \& Bound}
+\paragraph{Branch \& Cut}
 
 For finding lower bounds, the LP relaxation of (\ref{form:exact:cut}) is solved at each node.
 Constraints of type (\ref{form:exact:pcsap:conn}) are separated through solving the max flow (min cut)
@@ -273,8 +274,15 @@ the root, and the minimum cut $(S,T)$ ``closest'' to the sink with $v \in T$.
 Violated constraints are iteratively found by increasing the
 capacity of all edges crossing a min cut to $1$ and rerunning the max flow procedure.
 
-Primal heuristics based on the solution of LP relaxations are used at each node in the branch and bound
-tree to discover improved incumbents.
+\subparagraph{Primal Heuristics}
+At each node of the branch and bound tree, the primal heuristics described in Section \ref{sec:heuristics:lp}
+which based on the solution to the LP relaxation at that node
+is used to generate good incumbents.
+
+The heuristics is used with the minor modification that the alternative cost function $c'$ has
+costs
+$$c'_{ij} = 1 - \max\{x_{ij}, x_{ji} \}$$
+to accomodate the \gls{pcsap} being on a directed graph.
 
 The rest of the branch and bound procedure is handled by an underlying \gls{mip} solver (CPLEX or LEDA).
 \subsection{SCIP-Jack Solver}
