@@ -395,21 +395,70 @@ One thing we have not adapted, however, is the last step of solving the \gls{mtp
 on the final tree. This is left for further research.
 
 The primal heuristic can be disabled in favour of Gurobi's inbuilt heuristic with
-the switch \texttt{-{}-no-heuristics}.
+the switch $$\texttt{-{}-no-heuristics}\mathnormal{.}$$
 \section{Computational Experience}
+With having no prior attempts to solve the \gls{mtp} in the general case to draw from,
+we have no interesting timings to test our model against nor any previously constructed
+datasets to perform benchmarks on. Thus, we present in this section two things,
+\begin{enumerate}
+\item The specifics of how we have generated a new dataset for the \gls{mtp} out of previously released,
+  as well as the details of the dataset, and
+\item The result of performing benchmarks testing the effectiveness of
+  \begin{enumerate*}[label={\alph*)}, font=\bfseries]
+  \item our primal heuristic,
+  \item the user cut routine, and
+  \item the extra constraint (\ref{form:mtp:str}).
+  \end{enumerate*}
+\end{enumerate}
+In short, we are looking to test out our additions to a what could be called a ``default'' Gurobi
+implementation of the \gls{mtp}.
 
-\subsection{Datasets}
+First we will give an overview of the dataset followed by an inspection of the three experiments we have
+ performed.
+ \subsection{Datasets}
+ To perform realistic and relevant benchmarks of the settings in our solver, we need to run the solver
+ against instances of the \gls{mtp} which are large enough to not be presolved and preferably small
+ enough to solve to optimality within a reasonable timeframe.
+
+ In getting to this point, our starting point is the \texttt{JMP} dataset presented by 
+ \citet{Johnson:2000:PCS:338219.338637}. This was picked mainly for featuring the smallest
+ and easiest to solve instances of the \gls{pcstp} instances available
+ (and yet -- as shown below -- we have had to truncate the instances).
+ The input instances are distributed in the \texttt{STP} format used by the \textit{SteinLib}
+ library \citep{koch2001steinlib}.
+
+ The \gls{mtp} instances we output are described in \texttt{STP} format with a small extension.
+ This involves the addition of a new \texttt{Section} named \texttt{AssignmentCosts} each line
+ in this section describes the cost of assigning a single vertex to another.
+
+ Formally, each line has the format,
+ \begin{grammar}
+   <assignment> := `D' `\ ' <vertex-id> `\ ' <vertex-id> `\ ' <cost>
+ \end{grammar}
+ where \textit{<vertex-id>} is an integer id which corresponds to a vertex declared in the \texttt{Graph}
+ section of the same file, and \textit{<cost>} is a non-negative real number.
+
+ For example, the following example reads as \textit{the cost of assigning vertex ``1'' to vertex ``2'' is $4.5$.}
+\begin{verbatim}
+D 1 2 4.5
+\end{verbatim}
+
+ \lstinputlisting[caption={Figure \ref{fig:mtp:01} in the extended \texttt{STP} format.}]{report.stp}
+ \paragraph{Translation}
+
+
+ \paragraph{Truncation}
+
+
+ 
+
+ \textit{We use STP}
+\textit{The extension. We have implemented a reader.}
+\textit{How do we generate the datasets?}
 
 \subsection{Results}
 
-\begin{table}[h!]
-  \centering
-  \begin{tabular}[h!]{|c|c|c|c|c|c|}\hline
-    \input{max-cut-table.tex}
-  \end{tabular}
-  \caption{Res}
-  \label{tab:jmp:maxcut}
-\end{table}
+\paragraph{Heuristics}
 
 \begin{table}[h!]
   \centering
@@ -419,6 +468,18 @@ the switch \texttt{-{}-no-heuristics}.
   \caption{Res}
   \label{tab:jmp:heuristics}
 \end{table}
+
+\paragraph{User Cuts}
+\begin{table}[h!]
+  \centering
+  \begin{tabular}[h!]{|c|c|c|c|c|c|}\hline
+    \input{max-cut-table.tex}
+  \end{tabular}
+  \caption{Res}
+  \label{tab:jmp:maxcut}
+\end{table}
+
+\paragraph{Strengthening the Model}
 
 \begin{table}[h!]
   \centering
