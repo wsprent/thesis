@@ -300,7 +300,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
  for all $j \in V$. The fact that this is implied by the probe (i.e. it is always correct to assign a
  vertex in the facility to itself) allows us to not formalise it in the problem. However, we can
  still add the constraints
- \begin{equation}
+ \begin{equation}\label{form:mtp:str}
  y_{ii} \geq x_{ji} \qquad \forall i \in V,  \forall j \in \delta(i)
 \end{equation}
  to as valid constraints to formalise this relation.
@@ -404,11 +404,29 @@ the switch \texttt{-{}-no-heuristics}.
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}[h!]{|c|c|c|c|c|}\hline
+  \begin{tabular}[h!]{|c|c|c|c|c|c|}\hline
     \input{max-cut-table.tex}
   \end{tabular}
   \caption{Res}
-  \label{tab:jmp}
+  \label{tab:jmp:maxcut}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}[h!]{|c|c|c|c|c|}\hline
+    \input{heuristics-table.tex}
+  \end{tabular}
+  \caption{Res}
+  \label{tab:jmp:heuristics}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}[h!]{|c|c|c|c|c|}\hline
+    \input{strengthen-table.tex}
+  \end{tabular}
+  \caption{Res}
+  \label{tab:jmp:strengthen}
 \end{table}
 
 \section{Conclusion}
