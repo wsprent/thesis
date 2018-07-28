@@ -8,7 +8,7 @@
  The heuristics can be seen as a multi start heuristics which uses the GW Algorithm
  to generate good intitial
  solutions (line \ref{alg:canuto:line:gw})
- which it progressively refines using using a hill climbing local search
+ which it progressively refines using a hill climbing local search
  (line \ref{alg:canuto:line:hc}),
  and then a path relinking scheme against a previous good solution
  (line \ref{alg:canuto:line:relink}).
@@ -153,7 +153,7 @@ search within a union of the first $k_{max}$ order neighbourhoods with an early 
  \end{algorithm}
 
  As a postprocessing step, this procedure is only applied to the single best solution generated
-  by all the the previous steps.
+  by all the previous steps.
 \paragraph{Evaluation}
 Based on the implementation of the GW Algorithm by \citet{Johnson:2000:PCS:338219.338637},
 \citet{canuto2001local} performed experiments, detailing the objective function value
@@ -204,7 +204,7 @@ path relinking scheme results in a stark increase
  are implicitly part of an edge in $T$ according to $d_S$, that is
  $$S' = \{ v \in V \mid \exists (i,j) \in E_S, v \in P_{ij}\}\mathnormal{.}$$
 
- Finally, let $G_H$ be the the graph induced by $S'$ on $G$,
+ Finally, let $G_H$ be the graph induced by $S'$ on $G$,
  $$G_H = (S', E_H, c, p)$$
  and a minimum spanning tree of $G_H$, $T' = (S', E_{T'}, c, p)$.
 
