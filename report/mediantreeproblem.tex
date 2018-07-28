@@ -324,7 +324,7 @@ the Chapter \ref{chap:solving}, we have implemented a solver for the \gls{mtp}.
 This section both goes over algorithmic and technical implemention details of the solver
 
 The solver makes use of the general purpose \gls{mip} solver
-Gurobi\footnote{\url{https://www.gurobi.com/}} (version 8.0.1)
+Gurobi \citep{gurobi} (version 8.0.1)
 and its Python 3 interface. While this means that the callbacks written for the solver
 will naturally have much slower performance than if, for example, we had chosen to make
 use of the C or C++ interface, the Python interface was chosen for its higher level interface
@@ -418,7 +418,9 @@ First we will give an overview of the dataset followed by an inspection of the t
  \subsection{Datasets}
  To perform realistic and relevant benchmarks of the settings in our solver, we need to run the solver
  against instances of the \gls{mtp} which are large enough to not be presolved and preferably small
- enough to solve to optimality within a reasonable timeframe.
+ enough to solve to optimality within a reasonable timeframe. At the same time, as this is an introduction
+ to the problem, we want the instances to be generic, opposed to modelling some specfic application or
+ flavour of the \gls{mtp}.
 
  In getting to this point, our starting point is the \texttt{JMP} dataset presented by 
  \citet{Johnson:2000:PCS:338219.338637}. This was picked mainly for featuring the smallest
@@ -477,12 +479,48 @@ $$
  can be assigned to all other vertices without incurring infinite cost, and no vertex
  can be assigned to another vertex at zero cost. 
 
- \paragraph{Truncation}
+ \paragraph{Truncation} However, even though we chose the ``easiest'' of the available datasets,
+ our solver still struggle with our translated instances, and would require a timeout
+ value too large time constraint wise.
 
+ Thus we have chosen to create smaller instances by truncating the translated \texttt{JMP}
+ instances. The translated dataset mainly contains instances with either $100$ or $400$ vertices,
+ and we truncate these into instances containing $60$ and $80$ vertices respectively.
+
+ We accomplish this by iteratively contracting randomly selected edges. To avoid generating a
+ vastly more connected graph, we then remove adjacent edges from the resulting vertex until
+ we have $|\delta(i)| \frac{n_{target}}{|V|}$ edges in its adjacency (where $i$ is the vertex
+ and $n_{target}$ is the number of vertices in the truncated instance) or until we randomly select
+ an edge which would disconnect the graph.
+
+ This method is admittedly rather arbitrary, but it aims to accomplish a graph containing similar
+ connectivity as well as introducing a level of randomness to ---hopefully--- avoid a too uniform graph.
+
+ The end result from the above is two sets of instances, \texttt{JMP-60} and \texttt{JMP-80}, named
+ after the original dataset and the amount of vertices they contain.
+ 
 \subsection{Results}
+\textit{Benchmark suite}
+
+\textit{Time taking}
+
+\textit{Settings -- defaults and otherwise}
+
+\textit{Ordering -- specific and what is not}
+
+\textit{PC}
+
+
 
 \paragraph{Heuristics}
 
+\textit{Motivation:}
+
+\textit{- LP relaxation/vs problemspecfic / search algorithms}
+
+\textit{Maybe MTP is too generic?}
+
+\textit{Gurobi: 5\% of the time vs us at every 50th node}
 \begin{table}[h!]
   \centering
   \begin{tabular}[h!]{|c|c|c|c|c|}\hline
@@ -492,7 +530,13 @@ $$
   \label{tab:jmp:heuristics}
 \end{table}
 
+\textit{Gurobi is strongest in the majority of cases but not all}
+\textit{Is the Python implementation just not strong enough?}
 \paragraph{User Cuts}
+
+\textit{Separation is costly -- more so with the LP relaxation}
+\textit{Lower bounds should give more value}
+\textit{Turns PreCrush}
 \begin{table}[h!]
   \centering
   \begin{tabular}[h!]{|c|c|c|c|c|c|}\hline
@@ -502,7 +546,10 @@ $$
   \label{tab:jmp:maxcut}
 \end{table}
 
+\textit{Terrible performance for our user cuts.}
 \paragraph{Strengthening the Model}
+\textit{Size of model vs. size of feasible region (for the LP relaxation)}
+\textit{Invariant of implementation interface}
 
 \begin{table}[h!]
   \centering
@@ -513,7 +560,10 @@ $$
   \label{tab:jmp:strengthen}
 \end{table}
 
+\textit{Inconclusive: Strengthened model performs better on some instances - no clear tendencies}
 \section{Conclusion}
+
+\textit{Perhaps tests not timing-related are interesting?}
 
 %%% Local Variables:
 %%% TeX-master: "report"
