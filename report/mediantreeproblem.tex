@@ -444,7 +444,36 @@ D 1 2 4.5
 \end{verbatim}
 Appendix \ref{app:report:stp} shows Figure \ref{fig:mtp:01} represented in the extended STP format.
  \paragraph{Translation}
+ In translating the \gls{pcstp} instances into \gls{mtp} instances, we keep all the of the graph
+ structure including the edge costs. Hence we only need to generate a set of assignment costs which
+  \textit{balanced} with respect to edge costs.
 
+ To generate assignment costs, we first assign any nonterminal with no prize a prize
+ equal to the average prize across all vertices. For each vertex, $i$, the cost to assign
+ it to some vertex, $j$, is then,
+ $$d_{ij} =
+ \begin{cases}
+   p_i \cdot \frac{sp(i, j)}{\sum_{l \in V}sp(i,l) / |V|} & p_i > 0 \\
+      \frac{\sum_{l \in V} p_l}{|V|} \cdot \frac{sp(i, j)}{\sum_{l \in V}sp(i,l) / |V|} & p_i = 0
+ \end{cases}\mathnormal{.}
+$$
+ In other words, vertex $i$'s prize is factored by ratio between length of the shortest path
+ between $i$ and $j$ relative to the average distance between vertex $i$ and all vertices.
+ This keeps the prizes in the original dataset relevant, and makes ``closeness'' between
+ verties with respect to assignment costs somewhat transitive.
+
+ A facet --- perhaps a weakness --- of this method is that it produces somewhat uniform
+ assignment costs, and that it requires a connected graph to produce an \gls{mtp} instance
+ with a lower-than-infinity optimal value. Furthermore, on connected graphs, all vertices
+ are assignable to all vertices, and no vertex is assignable to another vertex at no cost.
+
+ Some of the instances in the \texttt{JMP} dataset are disconnected. For these instances,
+ before performing the above, we connect the graph by selecting a random pair of vertices,
+ $i,j$, from disjoint components. The edge $(i,j)$ is then added to the edge set with cost
+ $$c_{ij} = \sum_{k \in \delta(i)} c_{ik} / |\delta(i)|\mathnormal{.}$$
+
+
+ 
 
  \paragraph{Truncation}
 
