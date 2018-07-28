@@ -46,15 +46,15 @@ Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \e
 \label{fig:stp:01}
 \end{figure}
 
-Figure (\ref{fig:stp:01}) shows an instance of the \gls{stp} with three terminals and four Steiner vertices. Since vertices
-A, D, and G are terminals, they must be spanned by any feasible solution. Figure (\ref{fig:stp:01:feasible}) shows
+Figure~(\ref{fig:stp:01}) shows an instance of the \gls{stp} with three terminals and four Steiner vertices. Since vertices
+A, D, and G are terminals, they must be spanned by any feasible solution. Figure~(\ref{fig:stp:01:feasible}) shows
 a feasible solution (which we here denote as a set of edges)
 $$E_T = \{(a,b), (b,d), (d,g)\}$$
 with cost
 $$c(T) = 4 + 5 + 10 = 19\mathnormal{.}$$
 However, $T$ is not a minimal tree as there exists at least one feasible solution with lower cost, i.e. the solution
 $$E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}$$
-in Figure (\ref{fig:stp:01:min}) which has cost
+in Figure~(\ref{fig:stp:01:min}) which has cost
 $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
 % Suboptimal and Optimal \gls{stp} solutions 
 \begin{figure}[h]\centering
@@ -130,7 +130,7 @@ that is, $x(E)$ is equal to the number of selected edges in $E$.
 Finally let,
 $$\delta(S) = \{(i, j) \mid i \in S \wedge j \in (E \setminus S)\}$$
 be all edges which span the cut defined by $S$. Then we can formulate
- the \gls{stp} as in \gls{ilp} in terms of cuts (see Formulation (\ref{form:stp:cut})).
+ the \gls{stp} as in \gls{ilp} in terms of cuts (see Formulation~(\ref{form:stp:cut})).
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} %TODO: Find reference for this formulation
@@ -191,7 +191,7 @@ As with the \gls{stp}, we denote vertices in $N$ as \textit{terminals}, and any 
 \label{fig:sap:01}
 \end{figure}
 
-Figure (\ref{fig:sap:01}) shows an instance of the \gls{sap} with four terminals. Figure (\ref{fig:sap:01:opt}) shows a Steiner Aborescence in (\ref{fig:sap:01})
+Figure~(\ref{fig:sap:01}) shows an instance of the \gls{sap} with four terminals. Figure~(\ref{fig:sap:01:opt}) shows a Steiner Aborescence in (\ref{fig:sap:01})
 with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away from the root in an aborescence, while the path $p = (c, b, r)$  has
  lower cost than the arc $(r, c)$, it cannot be part of a solution. Similarly, solutions to the \gls{sap} in the same graph but with root $c$ have lower cost.
 
@@ -334,10 +334,10 @@ $$N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}$$
 \label{fig:pcstp:01}
 \end{figure}
 
-Figure (\ref{fig:pcstp:01}) shows an instance, $G$, of the \gls{pcstp} created by assigning prizes to the terminals of the \gls{stp} instance, $G_{STP}$, in Figure (\ref{fig:stp:01}).
-Figure (\ref{fig:pcstp:01:opt})
+Figure~(\ref{fig:pcstp:01}) shows an instance, $G$, of the \gls{pcstp} created by assigning prizes to the terminals of the \gls{stp} instance, $G_{STP}$, in Figure~(\ref{fig:stp:01}).
+Figure~(\ref{fig:pcstp:01:opt})
 shows an optimal solution, $T = (V_T, E_T)$, to $G$. An interesting observation is that
-$T$ is a sub-graph of the solution in Figure (\ref{fig:stp:01:min}) to $G_{STP}$.
+$T$ is a sub-graph of the solution in Figure~(\ref{fig:stp:01:min}) to $G_{STP}$.
 In fact, if we were to modify $G_{STP}$ by setting its terminal set to the vertices spanned
 by $T$, that is we define $G'_{STP} =  G_{STP}$ where  $N_{G'_{STP}} = V_T$, then $T$ is a Steiner
 tree in $G'_{STP}$. In other words, we can describe the search space of the \gls{pcstp}
@@ -435,7 +435,7 @@ Similarly, the Budget problem involves collecting as much prize as possible with
  a weight budget $B$, we
  can construct an instance of the budget problem by creating a vertex for each item with weight
  $v_i \leq B$ with prize $p_i = v_i$ and connecting them all to an auxiliary vertex, $0$, with
- edges which have cost $c_{0i} = w_i$. Figure \ref{fig:pcstp:budget:knapsack} shows this for
+ edges which have cost $c_{0i} = w_i$. Figure~\ref{fig:pcstp:budget:knapsack} shows this for
   a small instance of the Knapsack problem with four items.
 
  \begin{figure}[h!]\centering

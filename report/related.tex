@@ -34,7 +34,7 @@ such that
 $$\sum_{v_i \in V_C} p_i \geq B$$
 for some $B \in \RR_+$.
 
-If we recollect the definition of the \gls{pcstp} and its variants (Section \ref{sec:pcstp}) then
+If we recollect the definition of the \gls{pcstp} and its variants (Section~\ref{sec:pcstp}) then
 we immediately see some similarities. The PCTSP involves optimising the
 \textit{Goemans-Williamson Minimization Problem} for the circuit $C$, however with the extra
 constraint of collecting at least $B$ prize on the tour. This extra constraint draws comparisons
@@ -84,7 +84,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  There has, however, been some research into approximation algorithms for the PTP.
  In fact, an interesting symptom of exactly how related these two families of
  prize collecting problems are
- is how the GW Algorithm (see Section \ref{sec:solving:approx:gw})
+ is how the GW Algorithm (see Section~\ref{sec:solving:approx:gw})
  is used by \citeauthor{goemans1995general} to generate a 2-approximation algorithm for the PTP
  on graphs satisfying the triangle inequality -- much in the same way that
  polynomial time MST algorithms can be used to generate 2-approximation algorithms
@@ -95,11 +95,11 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
  As part of developing an exact solution to the PCTSP, \citet{fischetti1988additive} stated the problem
  on a directed graph as
- an integer linear program. This formulation is shown in Formulation (\ref{form:pctsp:cut}) for
+ an integer linear program. This formulation is shown in Formulation~(\ref{form:pctsp:cut}) for
  a graph $G = (V, A, c, p)$.
  We note the similarity between this and the cut-based \gls{ilp} (CUT-IP) formulation used by
  \citet{ljubic2005solving} for their variant of a Prize-Collecting Aborescence Problem
- (Formulation \ref{form:exact:cut}).
+ (Formulation~\ref{form:exact:cut}).
  
  \begin{formulation}
    \begin{subequations}

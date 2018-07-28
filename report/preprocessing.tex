@@ -72,7 +72,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
   \label{fig:red:test:deg1}
 \end{figure}
 
- While this reduction test is originally stated for the \gls{stp} \citep{hwang1992steiner}, it is also applicable to the \gls{pcstp}. Figure (\ref{fig:red:test:deg1})
+ While this reduction test is originally stated for the \gls{stp} \citep{hwang1992steiner}, it is also applicable to the \gls{pcstp}. Figure~(\ref{fig:red:test:deg1})
   shows an example of removing a degree 1 non-terminal.
 
   \paragraph{Non-Terminals of Degree 2 (NTD2)}
@@ -93,7 +93,7 @@ Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal 
 
     In other words, if $c_{uv} + c_{vw} <  c_{uw}$ then $(u,w)$ is redundant, can be removed, and $v$ and its edges
     can be contracted to a single edge.
-    Otherwise $v$ and its edges are redundant and can be removed. Figure (\ref{fig:pre:ntd2})
+    Otherwise $v$ and its edges are redundant and can be removed. Figure~(\ref{fig:pre:ntd2})
     shows an example this reduction test.
 
 \begin{figure}[h!]\centering
@@ -152,8 +152,8 @@ This test is another example of a reduction test for the \gls{stp} which can by 
    $p_u < c_{uv}$ then $(u,v)$ is redundant.
  \end{theorem}
 
- Applying this definition of TD1 in conjection with the UDV test (defined in Section \ref{sec:pre:udv})
- allows for the potential removal of terminals of degree one (see Figure \ref{fig:red:test:deg1}), giving the
+ Applying this definition of TD1 in conjection with the UDV test (defined in Section~\ref{sec:pre:udv})
+ allows for the potential removal of terminals of degree one (see Figure~\ref{fig:red:test:deg1}), giving the
   test defined in \cite{uchoa2006reduction} and \cite{rehfeldt2016reduction}.
 
 \begin{figure}[h!]\centering
@@ -341,7 +341,7 @@ Stated formally as in the following theorem, which we will not prove.
 
 This test can easily be applied as a special case for subgraphs consisting of a single,
  unconnected vertex.
- Figure (\ref{fig:red:test:deg1}) shows the application
+ Figure~(\ref{fig:red:test:deg1}) shows the application
  of TD1 followed directly by UDV.
 
 \paragraph{Minimum Adjacency (MA)}
@@ -350,7 +350,7 @@ the \textit{minimum adjacency test}
 (also known as the \textit{$V \setminus K$ test}) 
 is a reduction test which contracts any adjacent
 terminals which are connected by an edge with lower cost than either of their prizes.
- This is shown in Figure (\ref{fig:red:test:ma}).
+ This is shown in Figure~(\ref{fig:red:test:ma}).
  
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
@@ -503,7 +503,7 @@ When we talk
    a subpath not contained in $T$, followed by a subpath contained in $T_2$.
    In other words, we have,
    $$P = (u, P_1, w, P_2, z, P_3, v)$$
-   as shown in Figure \ref{fig:red:test:sd:thm}.
+   as shown in Figure~\ref{fig:red:test:sd:thm}.
 
    Then by definition we have,
    $$sd(P_2) \leq sd(P) = B(u,v)^{-(u,v)} \leq c_{uv}$$
@@ -586,7 +586,7 @@ is the \textit{non-terminals of degree 3 test}.
   $$sd(P_1) = B(v,w)$$
   and similarly let $P_2 = (v, ..., z)$ be the simple path with Steiner distance
   $$sd(P_2) = B(v,z)\mathnormal{.}$$
-  This gives us the situation in Figure (\ref{fig:red:test:ntd3:thm}). Note that $u$ may be a part of either paths.
+  This gives us the situation in Figure~(\ref{fig:red:test:ntd3:thm}). Note that $u$ may be a part of either paths.
 
   Let $T_v$, $T_w$, and $T_z$ be the subtrees of $T$ obtained by
   removing the edges adjacent to $u$ from $T$, and construct a new solution with
@@ -709,7 +709,7 @@ part of a solution. This was first introduced for the \gls{stp} by \citet{polzin
 
   Let $v_m$ and $v_l$ be two terminals such that $\Delta(P_m) + \Delta(P_l)$ is minimal among
   all pairs of terminals where $P_m$ and $P_l$ are disjoint paths. Since $T$ is a tree and
-  $v_i$ must have degree of at least $2$ (See Section \ref{sec:red:test:deg1}) there must
+  $v_i$ must have degree of at least $2$ (See Section~\ref{sec:red:test:deg1}) there must
   be at least one such pair.
 
   Consider the set of paths
@@ -784,7 +784,7 @@ part of a solution. This was first introduced for the \gls{stp} by \citet{polzin
 \end{figure}
   
 
-An example of this partition of $T$ is shown in Figure (\ref{fig:pre:vor:pro}). The two ``closest''
+An example of this partition of $T$ is shown in Figure~(\ref{fig:pre:vor:pro}). The two ``closest''
 terminals $v_l$ and $v_m$ have disjoint paths $P_l$ and $P_m$ to the interesting nonterminal $v_i$.
 The rest of the solution is partitioned by $P_i'$ paths, these paths run from a terminal towards $v_i$
 until -- and inclusive -- the first edge which crosses a Voronoi boundary. No two paths in such a decomposition
@@ -871,10 +871,10 @@ total computation time with/without preprocessing.
 
 \begin{example}
 Finally, we'll give an example of the power of
-these preprocessing methods. Figure \ref{fig:pre:ex} shows how just
-the local tests defined in Section \ref{sec:pre:local} are enough
+these preprocessing methods. Figure~\ref{fig:pre:ex} shows how just
+the local tests defined in Section~\ref{sec:pre:local} are enough
 to solve the -- admittedly simplistic -- instance of the \gls{pcstp}
-from Figure \ref{fig:pcstp:01}.
+from Figure~\ref{fig:pcstp:01}.
 
 
 \begin{figure}[h!]\centering
@@ -1038,14 +1038,14 @@ minimum height=2.5cm] (7) at (0, -12) {
 \draw (6) edge[snake it] node[snake node] {6: $NTD_2$} (7);
 \draw (7) edge[snake it] node[snake node] {7: $TD_2 + UV$} (8);
 \end{tikzpicture}
-\caption{Graph reduction on the \gls{pcstp} instance in Figure \ref{fig:pcstp:01}. In the final graph,
+\caption{Graph reduction on the \gls{pcstp} instance in Figure~\ref{fig:pcstp:01}. In the final graph,
  the node $d$ represents nodes $\{a,b,d\}$.}
 \label{fig:pre:ex}
 \end{figure}
 
 This example shows how successive application of preprocessing routines can be at
 reducing the size of an input graph. These routines have a cascading effect as one
-graph reduction makes another one legal. In Figure (\ref{fig:pre:ex}) this comes to
+graph reduction makes another one legal. In Figure~(\ref{fig:pre:ex}) this comes to
 pass when the third reduction -- the \textit{Minimum Adjacency} test -- contracts
 the edge between nodes $b$ and $d$, causing the degree of nodes $c$ and $e$ to
  drop to 2, which allows for the fifth and sixth reductions.

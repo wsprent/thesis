@@ -7,7 +7,7 @@ The DHEA solver, defined and implemented
 by \citet{ljubic2005solving}
 (more concisely described in \citet{ljubic2006algorithmic}) finds exact solutions to the \gls{pcstp}
 by first applying
-reduction tests to the input graph (See Section \ref{sec:solving:pre}) and
+reduction tests to the input graph (See Section~\ref{sec:solving:pre}) and
 then transforming the resulting problem into related problem of finding a minimum
 aborescence in a directed graph, which we call the \gls{pcsap}.
 It is the first example of a procedure designed for
@@ -15,7 +15,7 @@ finding provably optimal solutions for the \gls{pcstp}.
 
 The resulting \gls{sap} is then solved by branch-and-cut using a separation procedure
 similar to the one defined in \citet{lucena2004strong}
-(Section \ref{sec:lower:gsec}) and a new primal heuristics for
+(Section~\ref{sec:lower:gsec}) and a new primal heuristics for
 finding good incumbents at every node.
 
 The solver has as a dependency on of the \gls{mip} solvers CPLEX or LEDA.
@@ -41,7 +41,7 @@ The solver has as a dependency on of the \gls{mip} solvers CPLEX or LEDA.
    c_{ij} - p_j & \text{otherwise.}
  \end{cases}
  $$
-Figure (\ref{fig:pcstptosap}) shows an example of this kind of reduction.
+Figure~(\ref{fig:pcstptosap}) shows an example of this kind of reduction.
  \begin{figure}[h]\centering
   \begin{subfigure}[t]{0.47\linewidth}
     
@@ -179,14 +179,14 @@ in the original problem. Enforcing that any solution to the transformed problem 
         \draw[->] (r) edge[bend left=40, selected] node{-12} (a);
       \end{scope}
     \end{tikzpicture}
-    \caption{Solution to the transformed instance corresponding to the solution in Figure (\ref{fig:pcstp:01:opt}).}
+    \caption{Solution to the transformed instance corresponding to the solution in Figure~(\ref{fig:pcstp:01:opt}).}
     \label{fig:exact:sap:opt}
   \end{figure}
 
   With these extra constraints in place, any feasible solution in the transformed, directed graph $G_{A}$ will correspond
   to a feasible solution in the original graph $G$ with the same cost. In other words there exists a bijection between feasible
-  solutions to corresponding instances of the constrained \gls{sap} and the \gls{pcstp}. Figure \ref{fig:exact:sap:opt} shows this for our
-   original \gls{pcstp} (see Figure \ref{fig:pcstp:01:opt}). This optimal solution has cost
+  solutions to corresponding instances of the constrained \gls{sap} and the \gls{pcstp}. Figure~\ref{fig:exact:sap:opt} shows this for our
+   original \gls{pcstp} (see Figure~\ref{fig:pcstp:01:opt}). This optimal solution has cost
    $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} p_v = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
    which is the same as the corresponding problem to the \gls{pcstp}. Note that solution starting with $(r,d)$ would have the same cost,
    $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
@@ -268,14 +268,14 @@ as the \gls{ilp} in Fomulation (\ref{form:exact:cut}).
 
 For finding lower bounds, the LP relaxation of (\ref{form:exact:cut}) is solved at each node.
 Constraints of type (\ref{form:exact:pcsap:conn}) are separated through solving the max flow (min cut)
-problem on a support graph (similar to the procedure in Section \ref{sec:lower:gsec}). 
+problem on a support graph (similar to the procedure in Section~\ref{sec:lower:gsec}). 
 The max flow problem is solved for every terminal $v \in N$ and returns both the minimum cut closest to
 the root, and the minimum cut $(S,T)$ ``closest'' to the sink with $v \in T$.
 Violated constraints are iteratively found by increasing the
 capacity of all edges crossing a min cut to $1$ and rerunning the max flow procedure.
 
 \subparagraph{Primal Heuristics}
-At each node of the branch and bound tree, the primal heuristics described in Section \ref{sec:heuristics:lp}
+At each node of the branch and bound tree, the primal heuristics described in Section~\ref{sec:heuristics:lp}
 which based on the solution to the LP relaxation at that node
 is used to generate good incumbents.
 
@@ -290,7 +290,7 @@ The rest of the branch and bound procedure is handled by an underlying \gls{mip}
 The SCIP-Jack solver is a set of plugins for the SCIP general purpose optimisation suite capable
 of generating exact solutions to a variety of \gls{stp} variants in graphs \cite{gamrath2017scip}.
 
-As with the DHEA solver (Section \ref{sec:exact:dhea}), SCIP-Jack solves the \gls{pcstp} by first applying
+As with the DHEA solver (Section~\ref{sec:exact:dhea}), SCIP-Jack solves the \gls{pcstp} by first applying
 reduction tests (See section \ref{sec:pre:summary-usage} for details) to the input graph before transforming problem
 instances to a constrained version of the \gls{sap} and solving it with branch and cut.
 The main difference here is in that the DHEA solver works with a prize-collecting variant
@@ -402,7 +402,7 @@ have no cost and the same goes for arcs from the original terminals to the auxil
   \label{fig:scip:pcstptosap}
 \end{figure}
 
-Figure \ref{fig:scip:pcstptosap} shows this transfomation. Intuitively, we see that
+Figure~\ref{fig:scip:pcstptosap} shows this transfomation. Intuitively, we see that
 picking an arc which goes from the root to a vertex in $v' \in N_A$
 corresponds to not picking the terminal $v$ in the original graph. Selecting an arc from the root
 to some vertex $v \in N$ (and the arc $(v, v')$) then corresponds to selecting $v$
@@ -449,18 +449,18 @@ directly to selecting the corresponding edge in $G$.
         \draw[->] (r) edge[bend left=50, looseness=0.7] node{12} (aa);
       \end{scope}
     \end{tikzpicture}
-    \caption{Optimal solution to Figure (\ref{fig:exact:sap:opt}) corresponding to solution (\ref{fig:pcstp:01:opt}).}
+    \caption{Optimal solution to Figure~(\ref{fig:exact:sap:opt}) corresponding to solution (\ref{fig:pcstp:01:opt}).}
     \label{fig:scip:sap:opt}
   \end{figure}
 
-  Figure (\ref{fig:scip:sap:opt}) shows the optimal solution in Figure (\ref{fig:pcstp:01:opt}) in a transformed graph.
+  Figure~(\ref{fig:scip:sap:opt}) shows the optimal solution in Figure~(\ref{fig:pcstp:01:opt}) in a transformed graph.
   Here we see how terminal $g$ not being selected is represented by selecting the arc $(r, g')$, incurring its prize as
   a penalty. The solution has total cost,
   $$c(SA) = 0 + 0 + 4 + 5 + 0 + 3 = 12$$
   which is the same as the corresponding solution in the optimal graph.
 
  \paragraph{ILP Formulation}
- \cite{gamrath2017scip} define the \gls{ilp} formulation of the constrained \gls{sap} in Formulation (\ref{form:sap:flow})
+ \cite{gamrath2017scip} define the \gls{ilp} formulation of the constrained \gls{sap} in Formulation~(\ref{form:sap:flow})
  named \textit{flow-balance directed cut formulation}. Constraint (\ref{form:exact:sap:cut}) ensures that there exists a
   path from the root to any terminal by ensuring that any
  cut in the graph which does not contain all terminals must have outgoing arcs. Constraint (\ref{form:exact:sap:cut})

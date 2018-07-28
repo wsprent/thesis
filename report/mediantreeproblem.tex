@@ -75,11 +75,11 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
   \label{fig:mtp:01}
 \end{figure}
 
-Figure \ref{fig:mtp:01} shows an example of the \gls{mtp} represented as a graph
+Figure~\ref{fig:mtp:01} shows an example of the \gls{mtp} represented as a graph
 (\ref{fig:mtp:01:g}) taken from our recurring example
 and an assignment function (\ref{fig:mtp:01:d}) which has been chosen with
 no specfic purpose.
-Figure \ref{fig:mtp:01:opt}
+Figure~\ref{fig:mtp:01:opt}
 shows the optimal solution
 $$T = ( \{ c, e, f, g \}, \{(c, e), (c, g), (e, f)\})$$
 to this problem with total cost
@@ -113,7 +113,7 @@ $$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
         \draw[->] (d) edge[bend left=60] node{2} (g);
       \end{scope}
     \end{tikzpicture}
-    \caption{Optimal solution to the \gls{mtp} problem in Figure (\ref{fig:mtp:01}).
+    \caption{Optimal solution to the \gls{mtp} problem in Figure~(\ref{fig:mtp:01}).
       The edges of the facility are coloured in red and assignments are denoted with translucent red arrows.}
     \label{fig:mtp:01:opt}
   \end{figure}
@@ -122,14 +122,14 @@ $$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
   only spans part of the graph. This raises a point. As assignment costs tend to infinity, the \gls{mtp} begins to look
   like the Minimum Spanning Tree problem -- this is akin to the \gls{stp} with $N = V$ and the \gls{pcstp} with infinite prize
   on all vertices. However, when edge costs tend toward infinity, the facility will naturally become a single vertex
-  and the \gls{mtp} starts looking like the $1$-Median problem (See Section \ref{sec:related:median}).
+  and the \gls{mtp} starts looking like the $1$-Median problem (See Section~\ref{sec:related:median}).
 \todo[inline]{Maybe define terms Nonterminals and Supply points for vertices which
   respectively have either no assignment costs associated with them, are free to assign to any facility node,
   and are}
 
 \paragraph{Reduction from the Prize-Collecting Steiner Tree Problem}
 Instances of the \gls{pcstp} can straightforwardly be reduced to instances of the \gls{mtp}. This is in exact correspondence to how instances
-of the Profitable Tour Problem can be reduced to instances of the Median Tour Problem (Section \ref{sec:related:median}).
+of the Profitable Tour Problem can be reduced to instances of the Median Tour Problem (Section~\ref{sec:related:median}).
 Given an instance of the \gls{pcstp} on graph $G = (V, E, c, p)$, define the assignment cost function
 
 $$d_{ij} =
@@ -216,27 +216,27 @@ $$d_{ij} =
     \caption{Optimal Solution to (\ref{fig:mtp:pcstp:g}).}
   \end{subfigure}
 
-  \caption{Instance of the \gls{pcstp} (Figure \ref{fig:pcstp:01}) with optimal solution.}
+  \caption{Instance of the \gls{pcstp} (Figure~\ref{fig:pcstp:01}) with optimal solution.}
   \label{fig:mtp:pcstp}
 \end{figure}
 
-Figure \ref{fig:mtp:pcstp} shows how this reduction works on the \gls{pcstp} instance in Figure \ref{fig:pcstp:01}
+Figure~\ref{fig:mtp:pcstp} shows how this reduction works on the \gls{pcstp} instance in Figure~\ref{fig:pcstp:01}
 as well as the optimal solution
 $$T = (\{a,b,d\}, \{(a,b), (b,d)\})$$
 with cost
 $$c(T) = (4 + 5) + (3) = 12$$
-which is the same cost as the optimal solution to the original \gls{pcstp} problem (Figure \ref{fig:pcstp:01:opt}).
+which is the same cost as the optimal solution to the original \gls{pcstp} problem (Figure~\ref{fig:pcstp:01:opt}).
 
 While it is obvious that the \gls{mtp} problem is NP-Hard -- something which has already been established in previous literature
- (See Section \ref{sec:related:median}) -- this reduction again implies the NP-Hardness of the problem.
+ (See Section~\ref{sec:related:median}) -- this reduction again implies the NP-Hardness of the problem.
 \section{Applications}
 \textit{* Any kind of supply situation: military / water (piping) / aid / maybe rail / postal}
 \section{Integer Programming Formulation}
 
 Given an instance of the \gls{mtp} as defined above,
-Formulation (\ref{form:mtp:cut}) is an \gls{ilp} formulation of the \gls{mtp}.
+Formulation~(\ref{form:mtp:cut}) is an \gls{ilp} formulation of the \gls{mtp}.
 It is loosely inspired by the one defined by \citet{lucena2004strong}
-(Formulation \ref{form:lower:gsec}, Section \ref{sec:lower:gsec}) for the Prize-Collecting
+(Formulation~\ref{form:lower:gsec}, Section~\ref{sec:lower:gsec}) for the Prize-Collecting
 Steiner Tree Problem.
 
 The variables $\bd x$ and $\bd y$ are boolean
@@ -370,7 +370,7 @@ to the model.
 The callback responsible for
 Separating infeasible LP solutions with regards to \glspl{gsec}
 have been adapted for the solver from the max-flow/min-cut  method used by \citet{lucena2004strong}
- (see Section \ref{sec:solving:lower})
+ (see Section~\ref{sec:solving:lower})
 -- and later \citet{ljubic2005solving} and \citet{gamrath2017scip} -- for the \gls{pcstp}.
 
 Adapting this separation procedure can be done directly. Having the decision variable
@@ -444,7 +444,7 @@ First we will give an overview of the dataset followed by an inspection of the t
 \begin{verbatim}
 D 1 2 4.5
 \end{verbatim}
-Appendix \ref{app:report:stp} shows Figure \ref{fig:mtp:01} represented in the extended STP format.
+Appendix \ref{app:report:stp} shows Figure~\ref{fig:mtp:01} represented in the extended STP format.
  \paragraph{Translation}
  In translating the \gls{pcstp} instances into \gls{mtp} instances, we keep all the of the graph
  structure including the edge costs. Hence we only need to generate a set of assignment costs which
