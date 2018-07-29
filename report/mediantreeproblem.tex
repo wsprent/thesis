@@ -499,39 +499,90 @@ $$
  The end result from the above is two sets of instances, \texttt{JMP-60} and \texttt{JMP-80}, named
  after the original dataset and the amount of vertices they contain.
  
-\subsection{Results}
-\textit{Benchmark suite}
+ \subsection{Experiments}
 
-\textit{Time taking}
+ To perform our three experiments, we have developed a small rudimentary benchmarking suite. The solver
+ itself is equipped with the ability to time itself and perform repeated solving of the same problem.
+ For each problem instance, the solver is run with a \texttt{-{}-timeout} of five minutes. This timeout
+ is passed directly to Gurobi, so the actual timeout is five minutes plus the time it takes to load the
+ graph etc. Each instance is solved five times (the problem is loaded from file each of the five times)
+ and the all times reported below is the mean these five timings.
 
-\textit{Settings -- defaults and otherwise}
+ Executions are grouped by instance, that is for each instance, the solver is run with the following
+ settings in order:
+ \begin{enumerate}
+ \item No user cuts (\texttt{-{}-max-cuts 0 -{}-no-heuristics}).
+ \item Maximum of one cut per node (\texttt{-{}-max-cuts 1 -{}-no-heuristics}).
+ \item Maximum of 25 cuts per node (\texttt{-{}-max-cuts 25 -{}-no-heuristics}).
+ \item Default settings.
+ \item With constraint~(\ref{mtp:valid:deg}) (\texttt{-{}-strengthen -{}-no-heuristics}).
+ \end{enumerate}
+ Grouping benchmarks by instances was done to hopefully improve the chances of each run happening
+ under the same circumstances while the precise ordering of the settings is arbitrary.
+ 
+ Default settings solves the input problem on the basic model (Formulation~\ref{form:mtp:cut})
+ with a maximum of 25 user cuts, and performs the primal heuristics defined above at every
+ 25th node.
 
-\textit{Ordering -- specific and what is not}
-
-\textit{PC}
-
-
+\textit{System info}
 
 \paragraph{Heuristics}
+In this experiment, we look at the performance of our primal heuristic, defined above, versus
+the inbuilt heuristic from Gurobi. While the Gurobi heuristic, which is based on rounding
+of the the LP solution, has the advantages of being written in a systems programming language
+with less overhead and ---probably--- has hooks directly into the core optimiser,
+implementing a strong heuristic for the \gls{mtp} should be able to out perform it.
 
-\textit{Motivation:}
+In the case of this particular formulation of the \gls{mtp},
+for example, the Gurobi optimiser does not have access to the
+many \glspl{gsec}, making it prone to produce infeasible solutions which waste time.
 
-\textit{- LP relaxation/vs problemspecfic / search algorithms}
+However, our heuristic is rudimentary, adapted directly from a neighbouring problem,
+and implemented in an interpreted language. It may struggle to keep up.
 
-\textit{Maybe MTP is too generic?}
+For our benchmarks, we have kept the default Gurobi setting of approximately running
+the default heuristic $5\%$ of the time when enabled. Our heuristic instead runs on
+every 25th node.
 
-\textit{Gurobi: 5\% of the time vs us at every 50th node}
 \begin{table}[h!]
   \centering
   \begin{tabular}[h!]{|c|c|c|c|c|}\hline
     \input{heuristics-table.tex}
   \end{tabular}
-  \caption{Res}
+  \caption{Timing results for the primal heuristic benchmark. The
+    \textbf{bolded} times are the fastest.}
   \label{tab:jmp:heuristics}
 \end{table}
 
-\textit{Gurobi is strongest in the majority of cases but not all}
+In Table~\ref{tab:jmp:heuristics} we show the timings of running the heuristics experiment.
+In both cases, all instances were solved to optimality within the five minute time limit.
+The results are somewhat mixed, with the Gurobi heuristic proving to be faster in the majority
+of cases. In a couple of cases, particularly instances \texttt{K400.1} and \texttt{K400.5},
+our primal heuristic is twice as slow as the Gurobi heuristic.
+
+While these results suggest that turning off the Python-based heuristic is the way to go,
+they also suggest that perhaps by improving the heuristic we can achieve performance
+which eclipses the default performance.
+
+How we should achieve this, depends heavily on which way the heuristic is ``underperforming''.
+ Is it producing solutions of too high value? Is it running too slowly?
+
+ If speed is a problem, a good first option to improve performance,
+ would be to rewrite the heuristic procedure
+in a systems programming language (e.g. C, C++, Rust).
+This should by default give a multi-factor speedup, and gives better options for
+later performance optimisation.
+
+If the heuristic isn't producing good enough solutions, then we could look at the final step
+of the algorithm. In our implementation we do not solve the \gls{mtp} on the final tree contrary
+to the original algorithm defined by \citet{ljubic2005solving}. It may be that by skipping
+this step, we are missing out on a lot.
+
+In both cases, running the heuristic on every 25th node is not a very sophisticated way of using
+our resources.
+
 \textit{Is the Python implementation just not strong enough?}
+\textit{Maybe be more sophisticated with when the heuristics are run}
 \paragraph{User Cuts}
 
 \textit{Separation is costly -- more so with the LP relaxation}
@@ -542,8 +593,7 @@ $$
   \begin{tabular}[h!]{|c|c|c|c|c|c|}\hline
     \input{max-cut-table.tex}
   \end{tabular}
-  \caption{Res}
-  \label{tab:jmp:maxcut}
+  \caption{Res}\label{tab:jmp:maxcut}
 \end{table}
 
 \textit{Terrible performance for our user cuts.}
