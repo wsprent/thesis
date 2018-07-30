@@ -14,7 +14,8 @@ methods used to solve the \gls{pcstp} to the \gls{mtp} may result in good perfor
 In this chapter, we will present a formal definition of the \acrlong{mtp} in Graphs. Then,
 we will present a branch and cut algorithm and a solver for the \gls{mtp} which is inspired by the
 work done on the \gls{pcstp}. Finally, we will present a dataset for the \gls{mtp} generated from a subset
-of the DIMACs Steiner Tree challenge datasets for the \gls{pcstp}, and a set of experiments performed
+of the DIMACS Steiner Tree challenge datasets for the \gls{pcstp}\citep{DIMACS},
+and a set of experiments performed
 on these.
  
 \section{Problem Definition}
@@ -53,8 +54,7 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
         \draw (e) edge node{1} (f);
       \end{scope}
     \end{tikzpicture}
-    \caption{The graph $G$ with edge costs.}
-    \label{fig:mtp:01:g}
+    \caption{The graph $G$ with edge costs.}\label{fig:mtp:01:g}
   \end{subfigure}
   \begin{subfigure}[b]{0.47\linewidth}\centering
     \footnotesize
@@ -68,8 +68,7 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
       $f$ &  2  &  8  &     &     &  5  &  0  &     \\ \hline
       $g$ &     &     &  5  &  5  &     &     &  0
     \end{tabular}
-    \caption{The assignment cost function $d$.}
-    \label{fig:mtp:01:d}
+    \caption{The assignment cost function $d$.}\label{fig:mtp:01:d}
     \end{subfigure}
   \caption{Instance of the \gls{mtp} problem.}
   \label{fig:mtp:01}
@@ -114,8 +113,7 @@ $$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
       \end{scope}
     \end{tikzpicture}
     \caption{Optimal solution to the \gls{mtp} problem in Figure~(\ref{fig:mtp:01}).
-      The edges of the facility are coloured in red and assignments are denoted with translucent red arrows.}
-    \label{fig:mtp:01:opt}
+      The edges of the facility are coloured in red and assignments are denoted with translucent red arrows.}\label{fig:mtp:01:opt}
   \end{figure}
 
   Since there exists a relative balance between the cost of the edges in the graph and the assignment cost, $T$
@@ -229,8 +227,17 @@ which is the same cost as the optimal solution to the original \gls{pcstp} probl
 
 While it is obvious that the \gls{mtp} problem is NP-Hard -- something which has already been established in previous literature
  (See Section~\ref{sec:related:median}) -- this reduction again implies the NP-Hardness of the problem.
-\section{Applications}
-\textit{* Any kind of supply situation: military / water (piping) / aid / maybe rail / postal}
+ \section{Applications}
+ We expect the \acrlong{mtp} to have similar applications to the \gls{pcstp} as they are fairly similar problems.
+
+ Foremost, any kind of problem which involves a two tiered supply system could possibly be modelled as an instance of the
+ \gls{mtp}. Take, for example, the placement of postal warehouses --- building and staffing a new warehouse comes at
+ a cost but makes easier the delivery of packages to the surrounding area. The cost of warehouses (and the cost of maintaining
+ a transport networks between them) could be modelled as edge costs, while the cost of delivering post from a warehouse to an area
+ could be modelled as assignment costs.  Similar scenarios could exist in water supply, military supply lines, aid distribution etc.
+
+ Another area of interest may be within computation biology, which as seen applications for the \gls{pcstp} and similar
+ \citep{sun2018classical, akhmedov2016divide}.
 \section{Integer Programming Formulation}
 
 Given an instance of the \gls{mtp} as defined above,
@@ -643,24 +650,64 @@ Our final experiment involves modifying the model itself instead of behaviour of
 This obviously involves a trade off between increasing the size of the model and reducing the size
 of the feasible region.
 
-Table~\ref{tab:jmp:strengthen} shows the effects of adding Constraints~(\ref{form:mtp:str}) to
- the model.
-
-\textit{Invariant of implementation interface}
-
 \begin{table}[h!]
   \centering
   \begin{tabular}[h!]{|c|c|c|c|c|}\hline
     \input{strengthen-table.tex}
   \end{tabular}
-  \caption{Res}
+  \caption{Timing results with and without constraint constraints~(\ref{form:mtp:str}).
+    \textbf{Bold} font indicates fastest time;
+    \textit{Italic} font indicates
+    timeout; the percentage GAP is shown is the highest across the two configurations.} 
   \label{tab:jmp:strengthen}
 \end{table}
 
-\textit{Inconclusive: Strengthened model performs better on some instances - no clear tendencies}
-\section{Conclusion}
+Table~\ref{tab:jmp:strengthen} shows the effects of adding constraints~(\ref{form:mtp:str}) to
+the model. For most of the instances there is very little difference between the two models
+of the problem in how long it takes to reach an optimal solution. Notably, \texttt{K100.8} is
+solved in $223$ seconds with the strengthened model yet times out on the basic model at $310$
+seconds. The only other stark runtime difference of this caliber is on instance \texttt{K400.4}
+which took on average $13.6$ and $23.3$ seconds to solve with and without the extra constraints
+respectively.
 
-\textit{Perhaps tests not timing-related are interesting?}
+Either way, we see no clear tendencies in these results. Sometimes adding the extra constraints
+pay off in faster runtimes and sometimes it may cause slowdown. Maybe, with extra research, it
+would be possible to determine whether certain characteristics in an instance make either option
+more desirable.
+
+It would also be interesting to see if disabling user cuts would make a difference with regards
+to strengthening the model. As mentioned above, adding user cuts requires disabling part of
+Gurobi's presolve. It is not unrealistic that the extra constraints could add something there.
+\section{Conclusion}
+In this chapter we have taken a look at the \acrlong{mtp}. We have defined the problem as
+a graph optimisation problem on an undirected graph and then reformulated it as an \gls{ilp}
+problem. As our main contribution, however, we have detailed and implemented a solver for the
+problem based on the Gurobi optimisation suite on which we have performed a set of experiments
+against a newly generated dataset.
+
+Our new dataset, generated from a dataset for the \gls{pcstp}, comprises 22 instances both in
+full and truncated forms (with 100 to 400 and 60 to 80 vertices respectively). This dataset
+has been made available on ??? for further use. We have solved all truncated instances to
+optimality, but leave the full instances to the reader.
+
+For our solver, we have attempted to translate proven succesful methods for the \gls{pcstp}
+into methods for
+the \gls{mtp}.
+In our experiments, we validated the usefulness of our primal heuristic callback and
+a strengthened model to the point where they did not notably decrease performance.
+We failed to show the same for our user cut callback, which significantly slowed down the
+optimiser.
+
+Based on these results, we are confident that it is possible to directly apply research on
+the \gls{pcstp} to the \gls{mtp}. While there are some cases where additonal work must be
+done to translate an algorithm ---e.g. the primal heuristic for which we skipped a step---
+it seems that the problems are either generic enough or similar enough for information share.
+
+For further work, it would be interesting to implement some of the refinements to the solver
+mentioned above and see if the results of our experiments would change. Furthermore, we have
+only tested the solver on a generic dataset. It would be interesting to idenfify and describe
+real world instances of the \gls{mtp} and run the solver on these.
+
 
 %%% Local Variables:
 %%% TeX-master: "report"
