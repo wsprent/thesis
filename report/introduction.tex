@@ -1,8 +1,50 @@
 
 \chapter{Introduction}
+\section{Background and Motivation}
+\label{sec:intro:background}
+There exists a family of combinatorial optimisation problems in graphs which involve
+finding a subgraph which optimises the trade-off of including a vertex for its prize
+(or to avoid paying a penalty) and paying the cost of the edge(s) needed to connect
+to it.
 
-\section{Scope and Motivation}
-\label{sec:intro:scope}
+These problems generally come with the moniker of \textit{Prize-Collecting}
+and were first introduced by \citet*{balas1989prize}
+with the introduction of the \textit{\gls{pctsp}}. This problem is a generalisation of
+the famous \gls{tsp}, relaxing its Hamiltonian tour constraint by instead applying penalities
+to missed vertices and setting a minimum on collected ``prize''.
+
+Perhaps unsurprisingly, this concept of collecting prize spread to another famour optimisation
+problem, that is the \gls{stp}. This was done by \citet{Bienstock1993} in conjuction with
+defining an approximation algorithm for the \gls{pctsp}. This variant of the \gls{stp},
+aptly named the \gls{pcstp}, gained traction --- particularly with the
+\textit{11th DIMACS Implementation Challenge}\citep{DIMACS}.
+
+At the onset of writing this thesis, we started off with the goal of surveying research done
+on the \gls{pcstp}, and attempting to fill out any holes with methods defined for the older
+\gls{pctsp}. This was considered with the assumption that the older problem had
+been more covered.
+However, it turned out that the \gls{pcstp} had been \textit{far} more covered
+by research with multiple exact algorithms
+\citep{ljubic2005solving, leitner2016dual, gamrath2017scip},
+approximation algorithms \citep{Bienstock1993,goemans1995general,Johnson:2000:PCS:338219.338637},
+and primal heuristics \citep{canuto2001local,fu2014knowledge,akhmedov2016divide}
+having been already proposed while the \gls{pctsp} had received little such attention
+\citep{archetti2014chapter}.
+
+Still wanting to have the \gls{pcstp} as our starting point, we decided to still survery the
+problem with the hope that any knowledge gained could be applied somehow. We found an application
+for this when running into the \gls{mtp}. The \gls{mtp} is a generalisation of the \gls{pcstp}
+which, to the best of our knowledge, has not been explored in the general case. Thus we set out
+to apply knowledge from the \gls{pcstp} to the \gls{mtp} to hopefully learn something about
+both problems.
+\section{Aim and Scope}
+The aim of this thesis is two-fold and split in two parts. In the first part, we perform a
+survey of the \acrlong{pctsp} where we report, detail, and bring intution to the most interesting
+and/or effective methods for solving the \gls{pcstp}.
+
+In the second part, we widen our lenses and look at related problems from the perspective of
+the \gls{pcstp}. First superficially, and then with a deep dive in the \acrlong{mtp} for which
+we proprose an \gls{ilp} formulation and an exact solver.
 
 \section{Related Work}
 
