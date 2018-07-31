@@ -46,6 +46,10 @@ In the second part, we widen our lenses and look at related problems from the pe
 the \gls{pcstp}. First superficially, and then with a deep dive in the \acrlong{mtp} for which
 we proprose an \gls{ilp} formulation, a new dataset, and a solver.
 
+Overall, we aim to see how well state of the art methods used to solve an NP-hard combinatorial
+optimisation problem can be utilised another NP-hard problem when the problems are similar in
+formulation.
+
 \section{Related Work}
 Besides the work we relay in this thesis, there has been some recent work which is closely related
  to what we present. Particularly, there has been some in surveying the
@@ -60,16 +64,53 @@ routines.
 
 \citet*{sun2018classical} presents a survey of the practical applications of the \gls{pcstp}.
 In their thesis, they first perform a short and sweet summary on the historical perspective of
-solving the \gls{pcstp}. Their main constribution, however, is a detailed look at the applications
+solving the \gls{pcstp}. Their main constribution, however,
+is a detailed look at the applications
 of the problem in real world scenarios.
-
-
-
 
 
 \section{Notation}
 \label{sec:intro:notation}
 
+Throughout this thesis, we will make repeated use of some shorthand notation, particularly
+with respect to graphs and decisions vectors.
+
+\paragraph{Graphs}
+
+We define the adjacency function $\delta : V \to \mathcal{P} (E)$ on undirected graphs as
+the function which given the index of a vertex, returns all adjacent edges, that is
+$$\delta(i) = \{(i,j) \mid j \in V \wedge (i, j) \in E\}\mathnormal{.}$$
+On a directed graph, this is replaced by two functions
+$\delta^+ : V \to \mathcal{P} (A)$
+and $\delta^-: V \to \mathcal{P} (A)$.
+The former returns all vertices, $j$, for which there exists an arc
+which starts in the input vertex, $i$, and terminates in $j$, that is
+$$\delta^+(i) = \{(i, j) \mid j \in V \wedge (i, j) \in A\}\mathnormal{.}$$
+Correspondingly, $\delta^-$ then returns the set,
+$$\delta^-(i) = \{(j, i) \mid j \in V \wedge (j, i) \in A\}\mathnormal{.}$$
+When we are not interested in adjacent edges, but instead neighbouring vertices,
+we may use $\delta(v)$ to mean the set of vertices which are neighbours to $v$.
+This will be clear in usage.
+
+
+When given some subset of vertices, $S \subseteq V$, as input,
+$\delta(S)$ returns all edges which span the cut $(S, V \setminus S)$.
+Thus we have $\delta : \mathcal{P}(V) \to \mathcal{P}(E)$, with
+$$\delta(S) = \{(i,j) \in E \mid i \in S \wedge j \in V \setminus S\}\mathnormal{.}$$
+And for directed graphs we have, $\delta^+ : \mathcal{P}(V) \to \mathcal{P}(A)$, with
+$$\delta^+(S) = \{(i,j) \in A \mid i \in S \wedge j \in V \setminus S\}\mathnormal{,}$$
+and $\delta^- : \mathcal{P}(V) \to \mathcal{P}(A)$, with
+$$\delta^-(S) = \{(i,j) \in A \mid i \in V \setminus S \wedge j \in S\}\mathnormal{.}$$
+
+\paragraph{Decision Vectors}
+
+When working with \gls{ilp} models of graph problems, we often need to sum over variables
+related to edges or vertices. For example, let $x_{ij}$ be $1$ if the edge $(i,j) \in E$
+is part of a solution and $0$ if not, and let $L \subseteq E$ be some subset of edges.
+Then the \textit{function} $x : \mathcal{P} (E) \to \NN$ returns the number of edges
+ in $L$ which was selected in the solution defined by $x$,
+ $$x(L) = \sum_{(i, j) \in L} x_{ij}\mathnormal{.}$$
+ If $x_{ij}$ is a real number, then $x(L)$ returns a real number as well.
 
 %%% Local Variables:
 %%% TeX-master: "report"
