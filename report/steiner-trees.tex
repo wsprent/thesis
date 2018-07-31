@@ -1,7 +1,7 @@
 \chapter{Steiner Trees in Graphs}
 \label{chap:steiner-trees}
 
-The remainder of this thesis will make heavy references to the family of problems related to the
+This part of the thesis will make heavy references to the family of problems related to the
 graph version of the \gls{stp}, in particular the \gls{pcstp} and the \gls{sap}.
 This chapter serves to refresh the definitions of these
 problems and give some intuition on how they are related.
@@ -56,7 +56,7 @@ However, $T$ is not a minimal tree as there exists at least one feasible solutio
 $$E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}$$
 in Figure~(\ref{fig:stp:01:min}) which has cost
 $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
-% Suboptimal and Optimal \gls{stp} solutions 
+% Suboptimal and Optimal \gls{stp} solutions
 \begin{figure}[h]\centering
   \begin{subfigure}{0.47\linewidth}
     \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -113,7 +113,7 @@ $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
     \label{fig:stp:01:min}
   \end{subfigure}
   \caption{Solutions to the \gls{stp} in (\ref{fig:stp:01}). Red edges are part of the solution.}
-\end{figure} 
+\end{figure}
 
 When $N = V$, the \gls{stp} is equivalent to the Minimum Spanning Tree Problem, and when $|N| = 2$ the \gls{stp} is equivalent to finding the
 shortest path between two vertices. However, while these problems both have polynomial-time solutions, the \gls{stp} is an NP-Hard problem,
@@ -121,34 +121,34 @@ shortest path between two vertices. However, while these problems both have poly
 
 \subsection{ILP Formulations}
 
-\paragraph{Cut Formulation} Let $x$ be a decision vector of length $|E|$ where
-$x_{ij} = 1$ implies that $(i,j) \in T$ and $x_{ij} = 0$ implies that $(i,j) \not\in T$,
- and let $c$ be a vector of node-weight s.t. $c_{ij} = c((i,j))$.
-Then define the function $x : E \to \ZZ$ as
-$$x(E') = \sum_{i,j \in E'} x_{ij}$$
-that is, $x(E)$ is equal to the number of selected edges in $E$.
-Finally let,
-$$\delta(S) = \{(i, j) \mid i \in S \wedge j \in (E \setminus S)\}$$
-be all edges which span the cut defined by $S$. Then we can formulate
- the \gls{stp} as in \gls{ilp} in terms of cuts (see Formulation~(\ref{form:stp:cut})).
+\paragraph{Cut Formulation}
+Let $\bd x$ be a boolean decision vector such that $x_{ij} = 1$
+if and only if the edge $(i,j)$ is included in a solution.
+Then we can formulate
+the \gls{stp} as in \gls{ilp} in terms of Steiner cuts.
+
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} %TODO: Find reference for this formulation
-       &\underset{x}{\text{minimize}}
+       &\underset{\bd x}{\text{minimize}}
        & & c^T x & \\
        & \text{subject to}\quad
        & & x(\delta(S)) \geq 1 \qquad&& \forall S \subset V \label{form:stp:cut:cut}\\
        &&&&& S \cap N \neq \emptyset \nonumber\\
        &&&&& S \cap (V \setminus N) \neq \emptyset \nonumber\\
-       &&& x \in \BB. &&
+       &&& \bd x \in \BB^{|E|}. &&
      \end{alignat}\label{form:stp:cut}
    \end{subequations}
    \caption{The \textit{Cut Formulation} of the \gls{stp} \citep{koch1998solving}.}
  \end{formulation}
 
- Constraints (\ref{form:stp:cut:cut}) ensures that any feasible solution, $T$,  must span all terminals in $G$, by
- requiring that every Steiner cut in $G$ must be crossed by an edge in $T$. This, combined with objective function
-  ensures that any optimal solution to (\ref{form:stp:cut}) must be a Steiner tree in $G$ and vice versa.
+ Formulation~\ref{form:stp:cut} shows an example of this.
+ Constraints~(\ref{form:stp:cut:cut}) ensures that any feasible solution, $T$,
+ must span all terminals in $G$, by
+ requiring that every Steiner cut in $G$ must be crossed by an edge in $T$.
+ This, combined with objective function
+ ensures that any optimal solution to (\ref{form:stp:cut}) must be
+ a Steiner tree in $G$ and vice versa.
 
 \section{Steiner Aborescence Problem}
 The \gls{sap} is the directed version of the Steiner Tree Problem.
@@ -159,7 +159,7 @@ then a Steiner Aborescence, $T \subseteq A$, is an aborescence
 in $G$, rooted in $r$, which spans $N$ and has minimal cost.
 
 As with the \gls{stp}, we denote vertices in $N$ as \textit{terminals}, and any non-terminals spanned by a Steiner Aborescence as
- \textit{Steiner vertices} or \textit{Steiner Points}.
+ \textit{Steiner vertices}.
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.7 cm]
   %Nodes
@@ -225,14 +225,22 @@ with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away 
 \label{fig:sap:01:opt}
 \end{figure}
 
-The \gls{sap} is relevant mainly due to a tendency of reformulating the undirected \gls{stp} into the \gls{sap} \citep{koch1998solving}, as well as reformulating
-the \gls{pcstp} into the \gls{sap} \citep{gamrath2017scip, Ljubic:2004:memetic} and
-prize-collecting variants of the \gls{sap} \citep{leitner2016dual, ljubic2005solving} before stating them as integer programs. This is due to results which show that LP relaxations of
+The \gls{sap} is relevant to our theis mainly due to a tendency of reformulating the
+undirected \gls{stp} into the \gls{sap} \citep{koch1998solving}, as well as reformulating
+the \gls{pcstp} into variants of the\gls{sap}
+\citep{gamrath2017scip, Ljubic:2004:memetic, leitner2016dual, ljubic2005solving}
+before stating them as integer programs. This is due to results which show that LP relaxations of
  directed \gls{stp} variants behave better than undirected variants \citep{Chopra:1994}.
 
 \subsection{Reduction from Other Variants}
 
-\subsubsection{Steiner Tree Problem}
+\paragraph{Steiner Tree Problem}
+The \gls{stp} can easily be reduced to an instance of the \gls{sap}
+simply by turning all edges into bidirectional arcs. While this expands
+the number of feasible solutions, a Steiner Aborescence will trivially never
+contain a bi-directional arc.
+
+Figure~\ref{fig:stptosap} shows an example of this reduction.
 \begin{figure}[h]\centering
   \begin{subfigure}{0.47\linewidth}
     \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -288,9 +296,12 @@ prize-collecting variants of the \gls{sap} \citep{leitner2016dual, ljubic2005sol
   \label{fig:stptosap}
 \end{figure}
 
-\subsubsection{Prize-Collecting Steiner Tree Problem}
+\paragraph{Prize-Collecting Steiner Tree Problem}
+The \gls{pcstp} cannot directly be reduced to the \gls{sap}, as the dynamic of leaving out
+terminals cannot be described natively. However, slightly modifying the rules of the problem
+allows for this translation.
 
-\subsection{ILP Formulations}
+How to do this, is explored more deeply in Section~\ref{sec:solving:exact}.
 \section{Prize-Collecting Steiner Tree Problem}
 \label{sec:pcstp}
 Given an undirected graph
@@ -456,10 +467,8 @@ Similarly, the Budget problem involves collecting as much prize as possible with
 \label{fig:pcstp:budget:knapsack}
 \end{figure}
 
-\paragraph{Fractional \gls{pcstp}}
+\paragraph{Fractional PCSTP}\todo{dont forget}
 
-
-\subsection{ILP Formulations}
 %%% Local Variables:
 %%% TeX-master: "report"
 %%% reftex-default-bibliography: ("lit.bib")

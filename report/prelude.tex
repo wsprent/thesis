@@ -62,6 +62,32 @@
 \algnewcommand\algorithmicoutput{\textbf{Output:}}
 \algnewcommand\Output{\item[\algorithmicoutput]}
 
+% various theorems, numbered by section
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\newcommand{\nn}{\mathcal{N}}
+\newcommand{\uu}{\mathcal{U}}
+\newcommand{\bb}{\mathcal{B}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\rd}[1]{\mathrm{#1}}
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\BB}{\mathbb{B}}      % for Booleans
+\newcommand{\PP}{\mathbb{P}}      % for Prob
+\newcommand{\EE}{\mathbb{E}}      % for Expectation
+\newcommand{\II}{\mathbbm{1}}      % for Indicator fun
+\newcommand{\NN}{\mathbb{N}}      % for Prob
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+\newcommand{\sint}[1]{\shortintertext{#1}}
+
 % Captions
 \usepackage[margin=1cm, labelfont=bf]{caption}
 \usepackage{subcaption}
@@ -157,6 +183,13 @@
   description={Function: $V \to \mathcal P (V)$, returns the adjacency of
     the input vertex \textit{(See Section~\ref{sec:intro:notation})}},
   sort=delta
+}
+
+\newglossaryentry{realplus}
+{
+  name={\ensuremath{\RR^+}},
+  description={Subset of the Real numbers. Includes the interval $[0, \infty[$ and $\infty$},
+  sort=real
 }
 
 %%% 
