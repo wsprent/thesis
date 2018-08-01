@@ -1,6 +1,20 @@
 \clearpage
 \section{Approximation Algorithms}\label{sec:solving:approx}
+An approximation algorithm was the first contribution to research on the \gls{pcstp}. As a by-product of
+defining an approximation algorithm for the \gls{ptp}, \citet{Bienstock1993} produced in \citeyear{Bienstock1993} a 3-approximation
+algorithm for the \gls{pcstp} based on solving a number of LP relaxations.
 
+However, the biggest result within approximation algorithms for the \gls{pcstp},
+must be the Goemans-Williamson Algorithm. Stated in \citeyear{goemans1995general}
+by \citet*{goemans1995general}, and later modified by \cite{Johnson:2000:PCS:338219.338637}.
+
+In \citeyear{archer2011improved}, \citet{archer2011improved} presented a $(2- \epsilon)$-approximation algorithm
+based on the GW Algorithm, and in \citeyear{hegde2014fast}, \citet{hegde2014fast}
+presented a variant of the GW Algorithm with
+improved runtime.
+
+In this section, we present the original GW Algorithm as it gives the clearest view of the principles behind
+this ``family'' of approximation algorithms.
 \subsection{The Goemans-Williamson Algorithm}\label{sec:solving:approx:gw}
 \citet*{goemans1995general} presented a primal-dual 2-approximation algorithm for the rooted variant of the
 \gls{pcstp}, based on an algorithm for solving the general \textit{constrained forest problem}.
@@ -8,12 +22,12 @@
 \todo[inline]{Quick summary of usage. It is popular.}
 
 \paragraph{Definitions}
-\citeauthor{goemans1995general} stated the \gls{ilp} (GW-ILP) in Formulation~\ref{form:approx:gw} for the rooted \gls{pcstp}.
+\citeauthor{goemans1995general} stated the \gls{ilp} model (GW-ILP) in Formulation~\ref{form:approx:gw} for the rooted \gls{pcstp}.
 
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
-       &\underset{x, z}{\text{minimize}}
+       &\underset{\bd x, \bd z}{\text{minimize}}
        & & \sum_{e \in E} c_e x_e + \sum_{X \subset V; r \not\in X} z_X \left( \sum_{v \in X} p_v \right) & \\
        & \text{subject to}\quad
        & & x(\delta(S)) + \sum_{X \supseteq S}z_X \geq 1 \qquad&& \forall S \subset V; r \not\in S \label{form:approx:gw:cut}\\
@@ -25,13 +39,13 @@
    \caption{(GW-IP) formulation of the \gls{pcstp}.}
  \end{formulation}
 
- GW-IP has two decision vectors. The decision vector $x$ denotes which edges are contained in the solution,
- and the decision vector $z$, we have that $z_X$ is
+ GW-IP has two decision vectors. The decision vector $\bd x \in \BB^{|E|}$ denotes which edges are contained in the solution,
+ and the decision vector $z \in \BB^{|\mathcal P (V \setminus \{r\}) |}$, we have that $z_X$ is
  $1$ when iff. all $v \in X$ are not part of a feasible solution. Clearly, any optimal solution will have $z_X = 1$ for just a single
  $X \subset V$. However, it is still enforced by constraint (\ref{form:approx:gw:cz}).
 
  Constraint (\ref{form:approx:gw:cut})
- ensures that the solution is connected subgraph by requiring that for each subset $S$, the cut defined by $S$ must either be
+ ensures that the solution is a connected subgraph of $G$ by requiring that for each subset $S$, the cut defined by $S$ must either be
  bridged by an edge in a feasible solution or $S$ must be counted as not included.
 
  \begin{formulation}[h!]
@@ -50,12 +64,12 @@
  
  The dual to the LP relaxation of GW-IP is the linear program in \ref{form:approx:gw:dual}. We make note of the
  \textit{packing} constraints (\ref{form:gw:pe}) and (\ref{form:gw:pv}), and note that by \textit{complementary slackness}
+ \citep{chvatal1983linear}
  of the primal LP, we have for optimal primal solutions to the LP, $(x^*, z^*)$,
  $$x^*_e > 0 \Rightarrow \sum_{S: e \in \delta(S)} y_S = c_e$$
  and
  $$z^*_X > 0 \Rightarrow \sum_{S \subseteq X} y_S = \sum_{v \in X} p_v\mathnormal{.}$$
  
-
  
  \paragraph{The Algorithm} The GW Algorithm consists of a growing phase and a pruning phase. The growing phase
  builds a feasible solution $T$ by maintaining a set of active and inactive \textit{components} which
@@ -128,13 +142,19 @@
   the tightest ``active'' constraint. Notice that we can reformulate the left side of the constraint (\ref{form:gw:pe}) as follows,
  $$\sum_{S: (i,j) \in \delta(S)} y_S = \sum_{S : i \in S} y_S + \sum_{S : j \in S} y_S - \sum_{S : i,j \in S} y_S\mathnormal{.}$$
  Since we are only considering edges which connect components, we clearly must have $\sum_{S : i,j \in S} y_S = 0$
- and thus,
+ since any subset containing \textit{both} $i$ and $j$ is yet to be activated.
+ Thus the above becomes,
  $$\sum_{S: (i,j) \in \delta(S)} y_S = d(i) + d(j)\mathnormal{.}$$
  Suppose, w.l.o.g., that both $i$ and $j$ belong to active components.
  When the iteration is over, we will have increased $d(i)$ and $d(j)$ by $\epsilon = \frac{c_{ij} - d(i) - d(j)}{2}$.
  Then clearly the packing constraint for $e = (i,j)$ is then binding as demostrated below,
- $$\sum_{S: (i,j) \in \delta(S)} y_S = d(i) + \left( \frac{c_{ij} - d(i) - d(j)}{2} \right) + d(j) +
- \left( \frac{c_{ij} - d(i) - d(j)}{2} \right)   = c_{ij}\mathnormal{.}$$
+ \begin{align*}
+\sum_{S: (i,j) \in \delta(S)} y_S &= d(i) + \left( \frac{c_{ij} - d(i) - d(j)}{2} \right) + d(j) +
+                                    \left( \frac{c_{ij} - d(i) - d(j)}{2} \right) \\
+                              &= d(i) - d(i) + d(j) - d(j) + c_{ij}
+                                    &= c_{ij}\mathnormal{.}
+ \end{align*}
+
  The case where a packing constraint (\ref{form:gw:pv}) is the tightest is similar, and follows directly from the loop
  invariant
  $$w(C) = \sum_{S \subset C} y_S, \forall C \in \mathcal{C}\mathnormal{.}$$
