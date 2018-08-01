@@ -2,15 +2,69 @@
 \def\toclevel@chapter{-1}
 \makeatother
 \chapter{Conclusions}
-
-\section{Future Work}
-
+This chapter serves as a summary of the work we have presented in this thesis.
+Section~\ref{sec:con:fut} looks at some of the work which we think would be
+interesting to explore, but have not either due to the scoping of our thesis or
+time constraints.
+Section~\ref{sec:con:con} then concludes this thesis with a look back at what we
+have achieved (and not achieved) and presents what we think are our main results.
+\section{Future Work}\label{sec:con:fut}
 \textit{DiGraph transformation of \gls{mtp}.}
 \textit{Produce real world datasets / datasets which represent different flavours of mtp}
 \textit{Develop a strong heuristic for the MTP}
 \textit{Reimplement the solver with system programming callbacks}
 
-\section{Conclusion}
+\section{Conclusion}\label{sec:con:con}
+In this thesis, we have surveyed the state of research on
+an NP-hard combinatorial graph optimisation problem in
+the \acrlong{pcstp}. We have given a detailed overview of state-of-the-art
+methods used to solve this problem.
+With this knowledge in hand, we have then implemented a solver for the related
+\acrlong{mtp}, a generalisation of the \gls{pcstp}.
+
+We have learned that the gls{pcstp}
+is a well-research problem, and stands out as the most mature field of
+research among related ``prize-collecting'' problems.
+We have seen that research on the \gls{pcstp} is heavily based on corresponding
+research on the \gls{stp}.
+
+Furthermore, we have seen that some of the methods
+---particularly within preprocessing---
+are very sepecific to the \gls{pcstp} as they lean heavily on
+invariants inherent in the problem itself. Thus, while preprocessing routines
+are key results ---and widely used--- within the realm of the \gls{pcstp}
+they are not easily transferable to other problems, if transferable at all.
+
+Other areas with research on the \gls{pcstp} lend themselves much more to such
+translations. We have shown this, by applying methods
+with a varying degree of success for the
+\gls{pcstp} in our solver for the \gls{mtp}.
+
+While we have not seen great results for the methods we have translated
+---oftentimes showing that default methods to our \gls{mip} being superior---
+we have no reason to believe that this is due to the methods not being
+translatable. Particularly, we have seen that our primal heuristic implemented
+in the relatively slow Python3 interface gives ambivalent results in our experimental
+section. This suggests that a better implementation may eclipse the default heuristic
+altoghether.
+
+% Main contributions
+In our thesis, we have made presented three main contributions,
+\begin{itemize}
+\item A survey on the \gls{pcstp}. This survey serves as a comprehensive introduction
+  and overview of research on the \gls{pcstp} and gives insight into the details of
+  methods used to solve the \gls{pcstp}. Futhermore, for methods we do not cover
+  in a detailed manner, it serves as an index for further research.
+\item An introduction to the \acrlong{mtp}, a NP-hard optimisation problem along with
+  a problem defintion in the vein of the family of ``prize-collecting'' problems.
+  Additionally, we have formulated the problem as an \gls{ilp} problem, using \glspl{gsec}.
+\item A new small dataset for the \gls{mtp} which can be used to compare results, as well
+  as tools to convert STP format data sets for the \gls{pcstp}. These tools can be used
+  \textit{as-is} or modified to generate different kinds of instances.
+\item A solver for the \gls{mtp}. This solver is able to solve \textit{lets try to solve all
+  instances to optimality before finishing this sentence}.
+\end{itemize}
+
 
 
 %%% Local Variables:
