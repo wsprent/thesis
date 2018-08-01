@@ -1,5 +1,19 @@
 \section{Heuristics}\label{sec:solving:heuristics}
+There has been a number of heuristics defined for the \gls{pcstp}:
 
+\begin{itemize}
+\item \citet{canuto2001local} presented a local search based heuristics which we
+   will detail below.
+ \item \citet{Ljubic:2004:memetic} presented a heuristics with inspiration in genetic
+   algorithms.
+ \item \citet{ljubic2005solving} presented a LP relation based heuristic for their branch
+   and bound algorithm which we will detail below.
+\item \citet{fu2014knowledge} presented a tabu search heuristic.
+ \item \citet{akhmedov2016divide} presented a divide and conquer algorithm based on clustering
+    for applications within bioinformatics.
+\end{itemize}
+We have chosen to show in this section, one search based and one LP based heuristic to give
+an overview of general heuristics methods can be applied to the \gls{pcstp}.
 \subsection{Local Search with Pertubation and Relinking}\label{sec:canuto-search}
 
 \citet{canuto2001local} presented a multi-phase heuristics which makes use of the GW Algorithm.

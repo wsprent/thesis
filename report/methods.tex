@@ -92,14 +92,29 @@ presented a memetic algorithm using tournament selection and mutation. They addi
 \input{exact.tex}
 
 \section{Conclusion}
+We have presented a survey on methods used to solve the \acrlong{pcstp}. We have covered
+preprocessing methods to reduce graph size, approximation algorithms which give provably
+good solutions, heuristics which give good solutions at low computational costs, lower
+bounding methods, and algorithms which give exact solutions all for the \gls{pcstp}.
 
-\textit{For a more comprehensive study of preprocessing routines see rehfeldt}
-\textit{Preprocessing is strong}
-\textit{- We see how both}
+We have seen that preprocessing routines are a strong component of
+research on the \gls{pcstp} and are
+used widely by authors whenever experimental results are presented. It seems that
+any serious attempt at solving large instances of the \gls{pcstp} \textit{must} involve a
+preprocessing routine containing some of the reduction tests presented above.
 
-\textit{Very similar to the research on the STP}
-\textit{GW Algorithm is an important milestone}
-\textit{Not a lot of variety in solvers / agreement in methods}
+A reoccuring tendency has been that research on the \gls{pcstp} leans on
+previous results for the \gls{stp}. This is both the case for preprocessing
+where \citet{uchoa2006reduction} converts reduction tests from the \gls{stp}
+to the \gls{pcstp}, and in the area of exact solvers where both solvers
+initially transform their inputs into problem instances in directed graphs
+guided by results on the \gls{stp} by \citet{chopra1994steiner}.
+
+The two solvers described in research, the DHEA and SCIP-Jack solvers, have show no
+remarkable differences. Both similar preprocessing routines, directed versions of the problem,
+similar \gls{ilp} models, the same seperation routine, etc. This may indicated that research
+in the area has reached some maturity.
+
 % Notes from the exact section:
 % Both use \gls{sap} transformations
 % SCIP uses an actual \gls{sap} instead of the \gls{pcsap}ish favoured by Ljubic
