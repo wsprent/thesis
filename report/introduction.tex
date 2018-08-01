@@ -1,7 +1,16 @@
 
 \chapter{Introduction}
-\section{Background and Motivation}
-\label{sec:intro:background}
+\section{Background and Motivation}\label{sec:intro:background}
+NP-Hard combinatorial optimisation problems are, well, hard to solve, and generally
+don't allow for as athestetically pleasing solutions as polynomially solvable problems.
+Commonly, they are reformulated as \gls{ilp} problems, and solved applying general purpose
+\gls{mip} solvers backed with a bouquet of user callbacks for supplying
+stronger lower bounds and good incumbents.
+
+Hence, there exists a whole class of problems which, at least superfiscially, are
+solved in the same manner.
+
+\paragraph{Collecting Prize}
 There exists a family of combinatorial optimisation problems in graphs which involve
 finding a subgraph which optimises the trade-off of including a vertex for its prize
 (or to avoid paying a penalty) and paying the cost of the edge(s) needed to connect
@@ -13,13 +22,14 @@ with the introduction of the \textit{\gls{pctsp}}. This problem is a generalisat
 the famous \gls{tsp}, relaxing its Hamiltonian tour constraint by instead applying penalities
 to missed vertices and setting a minimum on collected ``prize''.
 
-Perhaps unsurprisingly, this concept of collecting prize spread to another famour optimisation
+Perhaps unsurprisingly, this concept of collecting prize spread to another famous optimisation
 problem, that is the \gls{stp}. This was done by \citet{Bienstock1993} in conjuction with
 defining an approximation algorithm for the \gls{pctsp}. This variant of the \gls{stp},
 aptly named the \gls{pcstp}, gained traction --- particularly with the
 \textit{11th DIMACS Implementation Challenge}\citep{DIMACS}.
 
-At the onset of writing this thesis, we started off with the goal of surveying research done
+At the onset of writing this thesis, we started off with the stated
+goal of surveying research done
 on the \gls{pcstp}, and attempting to fill out any holes with methods defined for the older
 \gls{pctsp}. This was considered with the assumption that the older problem had
 been more covered.
@@ -38,20 +48,49 @@ which, to the best of our knowledge, has not been explored in the general case. 
 to apply knowledge from the \gls{pcstp} to the \gls{mtp} to hopefully learn something about
 both problems.
 \section{Aim and Scope}
-The aim of this thesis is two-fold and split in two parts. In the first part, we perform a
+This thesis is split in two parts which examine the same problem area with different lenses.
+\paragraph{Part I}
+
+In the first part, we perform a
 survey of the \acrlong{pctsp} where we report, detail, and bring intution to the most interesting
 and/or effective methods for solving the \gls{pcstp}.
+Our goal is not for this to be a comprehensive index
+of research done on the \gls{pcstp}, but to give a comprehensive \textit{overview} of
+types of methods are used to solve the \gls{pcstp}. For example, we won't fully detail \textit{all}
+heuristics or approximation algorithms for the \gls{pcstp}, but the ones we find the most interesting.
 
-In the second part, we widen our lenses and look at related problems from the perspective of
-the \gls{pcstp}. First superficially, and then with a deep dive in the \acrlong{mtp} for which
+The reader should be left with a good understanding of
+what constitutes a state-of-the-art method for solving the \gls{pcstp}.
+
+\paragraph{Part II}
+
+In the second part, we widen our lenses and look at problems which are related to the \gls{pcstp},
+but still from the perspective of
+the \gls{pcstp}.
+First we will take a superficial look at the closest problem,
+before taking a deep dive in the \acrlong{mtp} for which
 we proprose an \gls{ilp} formulation, a new dataset, and a solver.
 
-Overall, we aim to see how well state of the art methods used to solve an NP-hard combinatorial
+Our aim is to uncover how the \gls{pcstp} relates to other problems
+both with regards to the nature of the problems themselves and state of
+research.
+
+Futhermore, we wish to examine how translatable results made for the \gls{pcstp} for similar problems.
+Can research on one combinatorial optimisation problem be applied directly or maybe just serve as a
+starting point for another such problem?
+
+\medskip\noindent
+Overall, we first take a look at a well-understood problem with a mature field of reasearch and collect
+the main points of knowledge in one place. Then we turn our view to problems with younger research fields
+and see how the former relates to the latter.
+
+In the end, we aim to see how well state-of-the-art methods used to solve an NP-hard combinatorial
 optimisation problem can be utilised another NP-hard problem when the problems are similar in
 formulation.
 
 \section{Related Work}
-Besides the work we relay in this thesis, there has been some recent work which is closely related
+Besides the work we relay in Part~\ref{part:survey} of this thesis,
+there has been some recent work which is closely related
  to what we present. Particularly, there has been some in surveying the
 \acrlong{pcstp} from different angles.
 
@@ -68,9 +107,7 @@ solving the \gls{pcstp}. Their main constribution, however,
 is a detailed look at the applications
 of the problem in real world scenarios.
 
-
-\section{Notation}
-\label{sec:intro:notation}
+\section{Notation}\label{sec:intro:notation}
 
 Throughout this thesis, we will make repeated use of some shorthand notation, particularly
 with respect to graphs and decisions vectors.

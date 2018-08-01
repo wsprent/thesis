@@ -676,9 +676,6 @@ is the \textit{non-terminals of degree 3 test}.
    Thus $T'$ is an optimal solution to $G$ with $|\delta_{T'}(u)| \leq 2$.
 \end{proof}
 
-\paragraph{Non-Terminals of Degree k (NTDk)}
-\todo[inline]{This is stated somewhat in the Uchoa paper and weirdly in the Rehfeldt paper. The latter claims that the former proves it, but there is no such proof. Shouldn't be too difficult}
-
 \subsection{Voronoi Reductions}
 
 Reduction test based on a Voronoi decomposition of the input graph was introduced for the
@@ -687,7 +684,7 @@ involve using Voronoi decomposition of the graph to generate conditional lower b
 vertex inclusion/exclusion. Given a strong upper bound, these can then be used
 to reduce the graph.
 
-\paragraph{Voronoi Decomposition of a \gls{pcstp} Graph}
+\paragraph{Voronoi Decomposition of a PCSTP Graph}
 
 Given an instance of the \gls{pcstp} with the undirected graph $G = (V, E, c, p)$ and terminal set
 $N \subseteq V$, we define a Voronoi region for a given terminal, $i \in N$, as the set of nonterminals
@@ -710,7 +707,7 @@ on the cost contribution
  than the \textit{radius} of the region.
 
  Finally, let
- $$z_1, z_2, ..., z_{|N|}$$
+ $$z_1, z_2, \ldots, z_{|N|}$$
  be a monotonically increasing ordering of terminals such that
 $$\pcradius(z_1) \leq \pcradius(z_2) \leq ... \leq \pcradius(z_{|N|})\mathnormal{.}$$
 
@@ -727,28 +724,15 @@ part of a solution. This was first introduced for the \gls{stp} by \citet{polzin
   $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}$$
 \end{theorem}
 \begin{proof}
-  Consider a solution $T$ as described above containing some nonterminal $u \in V_T$.
-  For all $j \in (N \cap V_T)$ let $P_i$ be the
+  Consider a solution $T$ as described above which contains some nonterminal $u \in V_T$.
+  For all $i \in (N \cap V_T)$ let $P_i$ be the
   path from $v_i$ to $u$ in $T$ (this must be well defined as $T$ is a tree). Furthermore,
   let $P_i'$ be the subpath of $P_i$ which starts in $v_i$ and ends in the first vertex along
   $P_i$ not in $R_i$, and
-  let $\Delta(P_i)$ be the number of times a Voronoi border is crossed by the path $P_i$ and
-  let $\Delta(P_i) = \infty$ if $v_i \not\in V_T$.
+  let $\Delta(P_i)$ be the number of times a Voronoi border is crossed by the path $P_i$ where
+  we have $\Delta(P_i) = \infty$ if $v_i \not\in V_T$.
 
-  Let $v_m$ and $v_l$ be two terminals such that $\Delta(P_m) + \Delta(P_l)$ is minimal among
-  all pairs of terminals where $P_m$ and $P_l$ are disjoint paths. Since $T$ is a tree and
-  $v_i$ must have degree of at least $2$ (See Section~\ref{sec:red:test:deg1}) there must
-  be at least one such pair.
-
-  Consider the set of paths
-  $$\mathcal{P} = \{P_i' \mid i \in (V_T \cap N) \setminus \{v_m, v_l\} \}
-  \mathnormal{.}$$
-  These paths must be disjoint as $T$ contains no cycles. The paths in $\mathcal{P}$
-  alongside $P_m$ and $P_l$ are then all pairwise disjoint paths which cover a subset of the
-  edges
-  in $E_T$.
-
- \begin{figure}[h!]
+  \begin{figure}[h!]
      \centering
      \begin{tikzpicture}[auto, node distance=1.3cm]
        \node[steiner] (vi) {$v_i$};
@@ -807,21 +791,32 @@ part of a solution. This was first introduced for the \gls{stp} by \citet{polzin
    \end{scope}
   \end{tikzpicture}
   
-  \caption{Example solution of the \gls{pcstp} split into paths.}
-  \label{fig:pre:vor:pro}
+  \caption{Example solution of the \gls{pcstp} split into paths.}\label{fig:pre:vor:pro}
 \end{figure}
-  
+
+  Let $v_m$ and $v_l$ be two terminals such that $\Delta(P_m) + \Delta(P_l)$ is minimal among
+  all pairs of terminals where $P_m$ and $P_l$ are disjoint paths. Since $T$ is a tree and
+  $v_i$ must have degree of at least $2$ (See Section~\ref{sec:red:test:deg1}) there must
+  be at least one such pair.
+
+  Consider the set of paths
+  $$\mathcal{P} = \{P_i' \mid i \in (V_T \cap N) \setminus \{v_m, v_l\} \}
+  \mathnormal{.}$$
+  These paths must be disjoint as $T$ contains no cycles. The paths in $\mathcal{P}$
+  alongside $P_m$ and $P_l$ are then all pairwise disjoint paths which cover a subset of the
+  edges
+  in $E_T$.
 
 An example of this partition of $T$ is shown in Figure~(\ref{fig:pre:vor:pro}). The two ``closest''
 terminals $v_l$ and $v_m$ have disjoint paths $P_l$ and $P_m$ to the interesting nonterminal $v_i$.
 The rest of the solution is partitioned by $P_i'$ paths, these paths run from a terminal towards $v_i$
-until -- and inclusive -- the first edge which crosses a Voronoi boundary. No two paths in such a decomposition
-can share an edge. This follows directly from the facts that each Voronoi region contains
+until ---inclusive--- the first edge which crosses a Voronoi boundary. No two paths in such a decomposition
+can share an edge. This follows directly from the fact that each Voronoi region contains
 \textit{only} a single terminal, and that there can be only a single path from vertex to $v_i$ (no cycles).
 Hence a border edge can only be crossed in one ``direction'' this way.
 
-With this, clearly the total edge costs of these paths cannot be greater than the edge cost of $T$. We select only
- in this way a subset of the edges of $T$, and never select an edge twice. In other words, we have
+With this, clearly, the total edge costs of these paths cannot be greater than the edge cost of $T$, as
+we have only selected a subset of the edges of $T$, and never select an edge twice. In other words, we have
   \begin{equation}
     c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P)) \leq c(E_T)\mathnormal{.}\label{eq:vor:one}
   \end{equation}
@@ -835,8 +830,7 @@ With this, clearly the total edge costs of these paths cannot be greater than th
 d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m)) + c(E(P_l)) + \sum_{P_i \in \mathcal{P}} c(E(P))\label{eq:vor:two}
 \end{equation}
 
-
-  Finally, for the set of terminals not covered by $T$, we must -- again by the definition of $\pcradius$ -- have
+  Finally, for the set of terminals not covered by $T$, we must ---again by the definition of $\pcradius$--- have
   \begin{equation}
   \sum_{i \in N \setminus V_T} \pcradius(i) \leq \sum_{i \in N \setminus V_T} p_i \mathnormal{.}\label{eq:vor:three}
   \end{equation}
@@ -849,59 +843,57 @@ d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m
  If a nonterminal is found such that the bound in Theorem \ref{thm:vor:1} is larger than the objective value of
  any found feasible solution, then that nonterminal is redundant and it is valid to remove it and its edges.
 
- Similar 
+ We can produce a similar lower bound if the ``interesting'' vertex is instead a terminal.
 \begin{theorem}\label{thm:vor:2}
   Let $T = (V_T, E_T, c, p)$ be a solution to the \gls{pcstp} in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
   $v_k \in V_T$ for some $v_k \in N$ and $V_T \neq \{v_k\}$. Finally, let $v_b \in N$ be the terminal \textit{closest}
-  to $v_k$, and let $z'_1, ..., z_{|N|-1}$ be an ordering of the set $N \setminus \{v_k\}$ such that
-  $$\pcradius(z_1) \leq ... \leq \pcradius(i) \leq ... \leq \pcradius(z'_{|N|-1})$$
+  to $v_k$, and let $z'_1, \ldots, z_{|N|-1}$ be an ordering of the set $N \setminus \{v_k\}$ such that
+  $$\pcradius(z_1) \leq \cdots \leq \pcradius(i) \leq \cdots \leq \pcradius(z'_{|N|-1})$$
   then we have
   $$d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z'_i) \leq c(T)\mathnormal{.}$$
 \end{theorem}
-The proof of Theorem \ref{thm:vor:2} is symmetric to the proof of Theorem \ref{thm:vor:1}. If a terminal is found such that
+The proof of Theorem~\ref{thm:vor:2} is symmetric to the proof of Theorem~\ref{thm:vor:1}. If a terminal is found such that
 the respective lower bound is higher than the objective value of a given incumbent, then the terminal is redundant and it is
  valid to remove it from $G$ along with its adjacent edges.
 
  \subsection{Summary of Usage}\label{sec:pre:summary-usage}
 There's a general consensus in literature that preprocessing is an important part of producing solutions
 for the \gls{pcstp}. Preprocessing described in this section is applied natively to the \gls{pcstp}
-in all of
-\cite{lucena2004strong, Ljubic:2004:memetic, ljubic2005solving,akhmedov2016divide,gamrath2017scip}.
-Additionally, preprocessing is applied to the \gls{sap} in \cite{leitner2016dual}, and proposed
-as further improvements in \cite{fu2014knowledge}.
+by all of
+\citet{lucena2004strong, Ljubic:2004:memetic, ljubic2005solving,akhmedov2016divide,gamrath2017scip}.
+Additionally, preprocessing is applied to the \gls{sap} by \citet{leitner2016dual}, and proposed
+as further improvements by \citet{fu2014knowledge}.
 
 \paragraph{Combinations of Tests}
 
-In \cite{lucena2004strong} all four of the degree tests (NTD1, NTD2, TD1+UDV, TD2+UDV) are
-applied alongside shortest path relaxations of SD and NTDk (for ``small'' numbers of $k$)
+\citet{lucena2004strong} applies all four of the degree tests (NTD1, NTD2, TD1+UDV, TD2+UDV)
+alongside shortest path relaxations of SD and NTDk (for ``small'' numbers of $k$)
 tests. They do not
 present in which order tests are applied or how often they are repeated, but they
 do present the graph sizes of their benchmark cases before and after applying preprocessing.
 
-\cite{Ljubic:2004:memetic} and \cite{ljubic2005solving} share a preprocessing routine
+\citet{Ljubic:2004:memetic} and \citet{ljubic2005solving} share a preprocessing routine
  which applies in order:
 \begin{enumerate}
 \item degree one tests: NTD1+TD1+UDV,
 \item degree two tests: NTD2+TD2.
 \item shortest path relaxation of the special distance test (here called the least cost test),
-\item shortest path relaxation of NTDk for $k = 3,...,8$, and
+\item shortest path relaxation of NTDk for $k = 3,\ldots,8$, and
 \item the minimum adjacency test.
 \end{enumerate}
 until a fixpoint is reached. They present both numbers on graph reduction and preprocessing
 time. Across all problem instances, they report on average
 a 45\% reduction in graph size.
 
-\cite{akhmedov2016divide} applies the four degree tests until a fixpoint is reached. They
+\citet{akhmedov2016divide} applies the four degree tests until a fixpoint is reached. They
 report reduction in graph sizes for their test cases as well as pre-processing time and
 total computation time with/without preprocessing.
-
-\todo[inline]{Maybe insert a comparison of computational experiences (table)}
 
 \begin{example}
 Finally, we'll give an example of the power of
 these preprocessing methods. Figure~\ref{fig:pre:ex} shows how just
 the local tests defined in Section~\ref{sec:pre:local} are enough
-to solve the -- admittedly simplistic -- instance of the \gls{pcstp}
+to solve the ---admittedly simplistic--- instance of the \gls{pcstp}
 from Figure~\ref{fig:pcstp:01}.
 
 
