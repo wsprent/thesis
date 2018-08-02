@@ -1,6 +1,7 @@
-\makeatletter
-\def\toclevel@chapter{-1}
-\makeatother
+% \makeatletter
+% \def\toclevel@chapter{-1}
+% \makeatother
+\bookmarksetup{startatroot}
 \chapter{Conclusions}
 This chapter serves as a summary of the work we have presented in this thesis.
 Section~\ref{sec:con:fut} looks at some of the work which we think would be
@@ -40,12 +41,12 @@ translations. We have shown this, by applying methods
 with a varying degree of success for the
 \gls{pcstp} in our solver for the \gls{mtp}.
 
-While we have not seen great results for the methods we have translated
----oftentimes showing that default methods to our \gls{mip} being superior---
+While we have not seen perfect results for the methods we have translated
+---in fact, more often than not, Gurobi's defaults are preferable---
 we have no reason to believe that this is due to the methods not being
 translatable. Particularly, we have seen that our primal heuristic implemented
-in the relatively slow Python3 interface gives ambivalent results in our experimental
-section. This suggests that a better implementation may eclipse the default heuristic
+in the relatively slow Python 3 interface gives ambivalent results in our experimental
+section. This suggests that a stronger implementation may eclipse the default heuristic
 altoghether.
 
 % Main contributions
