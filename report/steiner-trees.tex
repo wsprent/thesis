@@ -467,7 +467,14 @@ Similarly, the Budget problem involves collecting as much prize as possible with
 \label{fig:pcstp:budget:knapsack}
 \end{figure}
 
-\paragraph{Fractional PCSTP}\todo{dont forget}
+\paragraph{Fractional PCSTP}
+Introduced by \citet{klau2003fractional}, the Fractional \gls{pcstp}
+alters the objective function to instead optimising the profit
+margin of the subgraph. Hence we have,
+$$c(T) = \frac{\sum_{v \in V_T} p_v}{\sum_{(i,j) \in E_T} c_{ij}}\mathnormal{.}$$
+\citet{klau2003fractional} model the problem with a fixed root node, making it a variant
+of the Rooted \gls{pcstp}. As it diverges significantly from the linear \gls{pcstp},
+we will not spend more time this problem but include it here for the sake of completeness.
 
 %%% Local Variables:
 %%% TeX-master: "report"
