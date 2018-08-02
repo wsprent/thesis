@@ -77,11 +77,30 @@ and weak implementation.
 To produce more satisfying experimental results, we believe it is a good idea to reimplement
 the solver in a faster language, e.g. C++.
 
-\subsection{Primal Heuristic for the Median Tree Problem}
+\paragraph{Primal Heuristic for the Median Tree Problem}
+In Section~\ref{sec:mtp:solver} we detail a primal heuristic for the \gls{mtp}
+which we translated directly from a primal heuristic for the \gls{pcstp}.
+The final step of the algorithm did not translate directly, however, which potentially
+results in a weaker heuristic.
 
-\subsection{Goemans-Williamson for the Median Tree Problem}
+Implementing a solver for the \gls{mtp} on tree based on results on literature
+(see Section~\ref{sec:related:mtp}) may give improved results for our solver,
+but the extra computational cost may also be a burden.
+
+Alternatively, it could be interesting to take a look at implementing a search-based
+heuristic for the \gls{mtp}, perhaps based on the work by \citet{canuto2001local}
+for the \gls{pcstp}.
 
 \subsection{Real World Datasets}
+\citet{ljubic2006algorithmic}, along with their solver, produced two groups of real-world
+instances modeled on the city of Cologne using GIS data and real world infrastructure.
+These instances give a concrete example of application of the \gls{pcstp} with regards
+to the deployment of fiber-optics networks, and contribute perhaps even more than
+a new algorithm as they allow for the benchmarking of methods against realistic instances
+for all subsequent algorithms.
+
+We suggest that it would be worthwhile in and of itself to look into produce more of these
+datasets, both for the \gls{mtp} and \gls{pcstp}.
 
 \section{Conclusion}\label{sec:con:con}
 In this thesis, we have surveyed the state of research on
