@@ -1,6 +1,11 @@
 \clearpage
 \section{Exact Algorithms}\label{sec:solving:exact}
+There are two main solvers which have been presented for the \gls{pcstp}.
+First is the so-called DHEA solver, presented by \citet{ljubic2005solving}
+in \citeyear{ljubic2005solving}, and afterwards the SCIP-Jack solver
+by \citet{gamrath2017scip} in \citeyear{gamrath2017scip}.
 
+In this section, we will visit both of these solvers in detail.
 \subsection{DHEA Solver}
 \label{sec:exact:dhea}
 The DHEA solver, defined and implemented
@@ -22,7 +27,7 @@ The solver has as a dependency on of the \gls{mip} solvers CPLEX or LEDA.
  \paragraph{Reducing the \gls{pcstp} to \gls{pcsap}}
  Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input \gls{pcstp} instance
  into a related problem in a directed graph which essentially is a constrained version
- of a Prize-Collecting Steiner Aborescence Problem (\gls{pcsap}).
+ of a \gls{pcsap}.
 
  Given an instance of the \gls{pcstp}, with graph $G = (V, E, c, p)$ and terminals $N \subset V$,
  we define an instance

@@ -274,13 +274,13 @@ itself, which implies that vertex $v_k$ is part of the facility.
        &&& \bd y \in \BB^{|V \times V|}
      \end{alignat}\label{form:mtp:cut}
    \end{subequations}
-   \caption{TBD}
+   \caption{\gls{ilp} formulation of the \gls{mtp}.}
  \end{formulation}
 
  Since edges have nonnegative weights, we know that the shape of the facility must be a tree.
  Constraint (\ref{form:mtp:tree}) ensures that any facility has exactly one less edge than
- vertices, and constraints (\ref{form:mtp:gsec}) -- commonly known as \glspl{gsec}
- -- ensures that no subset of vertices in the facility can form
+ vertices, and constraints (\ref{form:mtp:gsec}) ---commonly known as \glspl{gsec}
+ ---ensures that no subset of vertices in the facility can form
  a cycle. Together, these ensure that any feasible
  solution must be a single, connected subgraph of $G$
  which is shaped as a tree.
