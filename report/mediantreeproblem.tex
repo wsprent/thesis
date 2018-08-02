@@ -349,6 +349,21 @@ performance implications especially with regards to user callbacks (which we wil
 The source code of the solver as well as the benchmark suite
 can be found on GitHub\footnote{\url{https://github.com/wsprent/thesis-code}}.
 
+\paragraph{Preprocessing}
+
+While we have seen that preprocessing for the \gls{pcstp} is a \textit{very} important
+tool in solving hard instances, our solver does not include any preprocessing routines.
+
+This is not a design choice but rather a limitation. The \gls{mtp} is
+more combinatorially
+complex than the \gls{pcstp} which makes it impossible to directly translate those particular
+methods. Where removing an edge or a vertex in the \gls{pcstp}
+has very straightfoward consequences in
+some cases, it may have cascading effects in the \gls{mtp}.
+
+We have simply yet to uncover which preprocessing routines can be applied to instances of
+the \gls{mtp}.
+
 \paragraph{Branch and Cut}
 The choice of applying a branch and cut method in the solver, is fairly straight
 forward to make as it is infeasible to load all of the exponential number of
