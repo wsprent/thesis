@@ -2,20 +2,21 @@
 \section{Background and Motivation}\label{sec:intro:background}
 NP-hard combinatorial optimisation problems are, well, hard to solve, and generally
 don't allow for as athestetically pleasing solutions as polynomially solvable problems.
-Commonly, they are reformulated as \gls{ilp} problems, and solved applying general purpose
-\gls{mip} solvers backed with a bouquet of user callbacks for supplying
+Commonly, they are reformulated as \gls{ilp} problems, and solved by
+applying general purpose
+\gls{mip} solvers. These are typically backed
+with a bouquet of user callbacks for supplying
 stronger lower bounds and good incumbents.
 
-Hence, there exists a whole class of problems which, at least superfiscially, are
+Hence, there exists a whole class of problems which, at least superficially, are
 solved in the same manner.
 
 \paragraph{Collecting Prize}
-There exists a family of combinatorial optimisation problems in graphs which involve
-finding a subgraph which optimises the trade-off of including a vertex for its prize
-(or to avoid paying a penalty) and paying the cost of the edge(s) needed to connect
-to it.
+There is a family of combinatorial optimisation problems which involve
+finding a subgraph which minimises total edge cost while paying a penalty
+for not including vertices.
 
-These problems generally come with the moniker of \textit{Prize-Collecting}
+These problems generally live under the moniker of \textit{Prize-Collecting}
 and were first introduced by \citet*{balas1989prize}
 with the introduction of the \textit{\gls{pctsp}}. This problem is a generalisation of
 the famous \gls{tsp}, relaxing its Hamiltonian tour constraint by instead applying penalities

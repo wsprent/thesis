@@ -1,21 +1,24 @@
 \chapter{The Median Tree Problem}\label{chap:mediantree}
 Having surveyed the state of research on the \gls{pcstp} closely along with a
-short summary of related problems. We now turn our eyes to the lattermost problem we have inspected:
-\gls{mtp}.
+short summary of related problems. We now turn our eyes to the lattermost problem we have inspected: the \gls{mtp}.
 
-As we noted in Chapter \ref{chap:related}, the problem involving the finding of \textit{median} trees
+As we noted in Chapter~\ref{chap:related},
+the problem involving the finding of median trees
 in graphs is not very well researched. To the best of our knowledge, no work has been put into solving
-the problem in the general case to optimality. Being that this problem has some striking similarities
-to the \gls{pcstp} -- that is, both problems involve finding the tree in a graph which minimises the sum
-of the tree's edge costs and a penalty for every not-included vetex -- we suspect that refitting the
+the problem in the general case to optimality.
+Being that this problem has some striking similarities
+to the \gls{pcstp} ---foremost that both problems involve finding a connected
+subgraph which minimises the edge cost of the subgraph summed with
+penalties for every not-included vetex--- we suspect that refitting the
 methods used to solve the \gls{pcstp} to the \gls{mtp} may result in good performance.
 
-In this chapter, we will present a formal definition of the \acrlong{mtp} in Graphs. Then,
-we will present a branch and cut algorithm and a solver for the \gls{mtp} which is inspired by the
-work done on the \gls{pcstp}. Finally, we will present a dataset for the \gls{mtp} generated from a subset
-of the DIMACS Steiner Tree challenge datasets for the \gls{pcstp}\citep{DIMACS},
-and a set of experiments performed
-on these.
+In this chapter, we will present a formal definition of the \acrlong{mtp} in Graphs
+followed by a new \gls{ilp} formulation for the problem.
+Then, we present a branch and cut algorithm for the \gls{mtp} which is inspired by the
+work done on the \gls{pcstp}. Finally, we implement this algorithm as a solver with which
+we perform a series of experiments on a newly generated dataset
+for the \gls{mtp}, generated from a subset
+of the DIMACS Steiner Tree challenge datasets for the \gls{pcstp} \citep{DIMACS}.
  
 \section{Problem Definition}
 
@@ -74,9 +77,9 @@ We say that such a subgraph is a \textit{Median Tree} of $G$.
 \end{figure}
 
 Figure~\ref{fig:mtp:01} shows an example of the \gls{mtp} represented as a graph
-(\ref{fig:mtp:01:g}) taken from our recurring example
-and an assignment function (\ref{fig:mtp:01:d}) which has been chosen with
-no specfic purpose.
+(Figure~\ref{fig:mtp:01:g}) taken from our recurring example (Figure~\ref{fig:pcstp:01})
+and an assignment function (\ref{fig:mtp:01:d}) for which the values have been
+chosen arbitrarily.
 Figure~\ref{fig:mtp:01:opt}
 shows the optimal solution
 $$T = ( \{ c, e, f, g \}, \{(c, e), (c, g), (e, f)\})$$
@@ -117,13 +120,14 @@ $$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
 
   Since there exists a relative balance between the cost of the edges in the graph and the assignment cost, $T$
   only spans part of the graph. This raises a point. As assignment costs tend to infinity, the \gls{mtp} begins to look
-  like the Minimum Spanning Tree problem -- this is akin to the \gls{stp} with $N = V$ and the \gls{pcstp} with infinite prize
+  like the Minimum Spanning Tree problem.
+  This is akin to the \gls{stp} with $N = V$ and the \gls{pcstp} with infinite prize
   on all vertices. However, when edge costs tend toward infinity, the facility will naturally become a single vertex
-  and the \gls{mtp} starts looking like the $1$-Median problem (See Section~\ref{sec:related:median}).
+  and the \gls{mtp} will begin to look like the $1$-Median problem (See Section~\ref{sec:related:median}).
 
 \paragraph{Reduction from the Prize-Collecting Steiner Tree Problem}
 Instances of the \gls{pcstp} can straightforwardly be reduced to instances of the \gls{mtp}. This is in exact correspondence to how instances
-of the Profitable Tour Problem can be reduced to instances of the Median Tour Problem (Section~\ref{sec:related:median}).
+of the \gls{ptp} can be reduced to instances of the Median Tour Problem (Section~\ref{sec:related:median}).
 Given an instance of the \gls{pcstp} on graph $G = (V, E, c, p)$, define the assignment cost function
 
 $$d_{ij} =
