@@ -1,14 +1,21 @@
 \chapter{Introduction}
 \section{Background and Motivation}\label{sec:intro:background}
-NP-hard combinatorial optimisation problems are, well, hard to solve, and generally
-don't allow for as athestetically pleasing solutions as polynomially solvable problems.
-Commonly, they are reformulated as \gls{ilp} problems, and solved by
-applying general purpose
-\gls{mip} solvers. These are typically backed
-with a bouquet of user callbacks for supplying
+The hardest problems to solve don't necessarily have the most aethstetically pleasing solutions.
+This is particularly the case within the realm of NP-hard combinatorial optimisation problems.
+Commonly, these are reformulated as \gls{ilp} problems, and solved through
+branch-and-bound
+by applying general purpose
+\gls{mip} solvers. These solvers are then typically
+fed with a bouquet of user callbacks for supplying
 stronger lower bounds and good incumbents.
 
-Hence, there exists a whole class of problems which, at least superficially, are
+This is much akin to working with small disjoint building blocks
+within a fixed framework, and when the problem changes, the framework stays
+the same. Sometimes even some of the building blocks stay the same.
+
+Hence, for many of these kinds of problems, finding exact solutions
+involve using the same frameworks again and again.
+Thus there exists a whole class of problems which are, to some point,
 solved in the same manner.
 
 \paragraph{Collecting Prize}
@@ -41,23 +48,26 @@ and primal heuristics \citep{canuto2001local,fu2014knowledge,akhmedov2016divide}
 having been already proposed while the \gls{pctsp} had received little such attention
 \citep{archetti2014chapter}.
 
-Still wanting to have the \gls{pcstp} as our starting point, we decided to still survery the
+Still wanting to have the \gls{pcstp} as our starting point, we decided to still survey the
 problem with the hope that any knowledge gained could be applied somehow. We found an application
 for this when running into the \gls{mtp}. The \gls{mtp} is a generalisation of the \gls{pcstp}
 which, to the best of our knowledge, has not been explored in the general case. Thus we set out
 to apply knowledge from the \gls{pcstp} to the \gls{mtp} to hopefully learn something about
 both problems.
 \section{Aim and Scope}
-This thesis is split in two parts which examine the same problem area with different lenses.
+As we touch upon two slightly disjoint subjects, this thesis is split
+in two parts.
 \paragraph{Part I}
 
 In the first part, we perform a
 survey of the \acrlong{pctsp} where we report, detail, and bring intution to the most interesting
 and/or effective methods for solving the \gls{pcstp}.
-Our goal is not for this to be a comprehensive index
-of research done on the \gls{pcstp}, but to give a comprehensive \textit{overview} of
-types of methods are used to solve the \gls{pcstp}. For example, we won't fully detail \textit{all}
-heuristics or approximation algorithms for the \gls{pcstp}, but the ones we find the most interesting.
+Our goal is not for this to be a comprehensive retelling
+of all research done on the \gls{pcstp}, but to give a comprehensive \textit{overview} of
+the kind of methods which are used to solve the \gls{pcstp}.
+For example, we will not fully detail \textit{all}
+heuristics or approximation algorithms for the \gls{pcstp},
+but select those that we find most interesting or important.
 
 The reader should be left with a good understanding of
 what constitutes a state-of-the-art method for solving the \gls{pcstp}.
@@ -75,9 +85,10 @@ Our aim is to uncover how the \gls{pcstp} relates to other problems
 both with regards to the nature of the problems themselves and state of
 research.
 
-Futhermore, we wish to examine how translatable results made for the \gls{pcstp} for similar problems.
-Can research on one combinatorial optimisation problem be applied directly or maybe just serve as a
-starting point for another such problem?
+Furthermore, we wish to examine how translatable results made for the \gls{pcstp} are for similar problems.
+In other words, we ask the question,
+``Can research on one combinatorial optimisation problem be applied directly, or at least
+serve as a good starting point for solutions to another such problem?''
 
 \medskip\noindent
 Overall, we first take a look at a well-understood problem with a mature field of reasearch and collect
@@ -85,11 +96,12 @@ the main points of knowledge in one place. Then we turn our view to problems wit
 and see how the former relates to the latter.
 
 In the end, we aim to see how well state-of-the-art methods used to solve an NP-hard combinatorial
-optimisation problem can be utilised another NP-hard problem when the problems are similar in
-formulation.
+optimisation problem can be utilised to solver another NP-hard problem when the problems are particularly
+similar in formulation.
 
 \section{Related Work}
-Besides the work we relay in Part~\ref{part:survey} of this thesis,
+Besides the research we cover through our survey in
+Part~\ref{part:survey} of this thesis,
 there has been some recent work which is closely related
  to what we present. Particularly, there has been some in surveying the
 \acrlong{pcstp} from different angles.
@@ -98,13 +110,13 @@ there has been some recent work which is closely related
 for the \gls{pcstp} and the Node-Weighted Steiner Tree Problem. This is similar in scope to
 Section~\ref{sec:solving:pre} in this thesis. The reader is encouraged to visit their paper
 if they wish to see a more theoretical and comprehensive look at preprocessing routines for
-the \gls{pcstp}. We aim to complement this with a slightly more ituitive description of the
+the \gls{pcstp}. We aim to complement this with a slightly more intuitive description of the
 routines.
 
 \citet*{sun2018classical} presents a survey of the practical applications of the \gls{pcstp}.
-In their thesis, they first perform a short and sweet summary on the historical perspective of
-solving the \gls{pcstp}. Their main constribution, however,
-is a detailed look at the applications
+In their thesis, they first perform a short summary of the historical perspective of
+solving the \gls{pcstp}. Their main contributions include
+a detailed look at the applications
 of the problem in real world scenarios.
 
 \section{Notation}\label{sec:intro:notation}
