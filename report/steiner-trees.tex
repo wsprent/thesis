@@ -116,7 +116,7 @@ $$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
 \end{figure}
 
 When $N = V$, the \gls{stp} is equivalent to the Minimum Spanning Tree Problem, and when $|N| = 2$ the \gls{stp} is equivalent to finding the
-shortest path between two vertices. However, while these problems both have polynomial-time solutions, the \gls{stp} is an NP-Hard problem,
+shortest path between two vertices. However, while these problems both have polynomial-time solutions, the \gls{stp} is an NP-hard problem,
  the decision variant being one of Edmund Karp's original 21 NP-Complete problems \citep{karp1972reducibility}.
 
 \subsection{ILP Formulations}
@@ -381,7 +381,7 @@ tree in $G'_{STP}$. In other words, we can describe the search space of the \gls
 \label{fig:pcstp:01:opt}
 \end{figure}
 
-Unsurprisingly, the \gls{pcstp} is an NP-Hard problem. It is a generalisation of the \gls{stp}. Any instance of
+Unsurprisingly, the \gls{pcstp} is an NP-hard problem. It is a generalisation of the \gls{stp}. Any instance of
 the \gls{stp} with graph $G = (V, E, c)$ and terminal set $N$ can be reduced to an instance of the \gls{pcstp}
 with graph $G' = (V, E, c, p)$ where
 $$p_v =

@@ -203,7 +203,7 @@ Canuto et al. present a multi step heuristic for the PCSTP based mainly on local
 :END:
 ** Short Summary
 Uchoa observes that recent algoritms on the PCSTP use weakened "special distance" reduction tests as they
- are adapted from the STP. Uchoa defines a native SD test - which is NP-Hard - to use natively on PCST.
+ are adapted from the STP. Uchoa defines a native SD test - which is NP-hard - to use natively on PCST.
 
 The justification of using an NP hard red. test is that the STP tests are usually doe heuristically anyway
  as the O(n^3) cost are too high.
@@ -258,7 +258,7 @@ Two more quirks in this variant of the problem is,
 Hence the objective function is,
 $$k c(T) + \sum_{v_i \not \in V_T} w_i d(v, T)$$
 
-Kim et. al. consider special case graphs (tree and cactus graph) along side the general case which is NP-Hard.
+Kim et. al. consider special case graphs (tree and cactus graph) along side the general case which is NP-hard.
 ** The Median Cycle Problem, Laporte
 Median problem in a mixed graph -- a graph with both arcs and edges -- where the objective is to minimize the combined
  cost of a cycle (in the edges) alongside the sum of distances of all vertices to the cycle (in the arcs). The latter is

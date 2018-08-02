@@ -1,1 +1,26 @@
-bla bla bla
+The \gls{pcstp} in graphs is an NP-hard optimisation problem which involves
+finding a connected subgraph which minimises the total sum of edge costs of
+the subgraph and sum of vertex prizes for vertices not spanned by the subgraph.
+It is a very well researched problem --- not least due to it being one of the
+subjects of the \textit{11th DIMACS Implementation Challenge}.
+
+In this master's thesis, we present a comprehensive survey of the research landscape
+on the \gls{pcstp}. This involves a thorough look at some of the most interesting
+and important algorithms for the \gls{pcstp}. Among the surveyed subjects are
+powerful preprocessing routines, the widely cited Goemans-Williamson approximation
+algorithm, and two state-of-the-art solvers.
+
+We make use of this survey to consider the relation of the \gls{pcstp} other close
+ problems, and take a new look at the younger and much less researched problem, the
+\gls{mtp}. This problem is a generalisation of the \gls{pcstp} where instead of paying
+static vertex prizes for unspanned vertices, a cost is now paid to \textit{assign}
+unspanned vertices to the result subgraph.
+
+For the \gls{mtp} we present a new \acrlong{ilp} formulation as well as a solver which
+is able to generate exact solutions to the problem. Furthermore, we present a new
+dataset based on previously released datasets for the \gls{pcstp}.
+
+%%% Local Variables:
+%%% TeX-master: "report"
+%%% reftex-default-bibliography: ("lit.bib")
+%%% End:

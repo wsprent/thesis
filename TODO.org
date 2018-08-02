@@ -143,7 +143,7 @@ Highlight the connection to the PCTSP.
 
 ***** TODO Find the articles in the old Networks
 Vol. 23 (6) 
-- Is more interested in multiple facilities, gives a tabular view of NP-Hardness across multiple
+- Is more interested in multiple facilities, gives a tabular view of NP-hardness across multiple
  problems.
 and Vol. 20 (4)
 - Interested in poly-time algorithms. Touches upon the budget version of the median problem
