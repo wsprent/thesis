@@ -48,12 +48,19 @@ and primal heuristics \citep{canuto2001local,fu2014knowledge,akhmedov2016divide}
 having been already proposed while the \gls{pctsp} had received little such attention
 \citep{archetti2014chapter}.
 
-Still wanting to have the \gls{pcstp} as our starting point, we decided to still survey the
-problem with the hope that any knowledge gained could be applied somehow. We found an application
-for this when running into the \gls{mtp}. The \gls{mtp} is a generalisation of the \gls{pcstp}
-which, to the best of our knowledge, has not been explored in the general case. Thus we set out
-to apply knowledge from the \gls{pcstp} to the \gls{mtp} to hopefully learn something about
-both problems.
+As a consequence, the \gls{pcstp} with its mature field of research then appears to be a strong
+starting point. The obvious choice, then, is to flip the equation and apply what we learn
+from the \gls{pcstp} to the \gls{pctsp}.
+However, there is another interesting problem to explore: \textit{the \gls{mtp}}.
+The \gls{mtp} is a generalisation of the \gls{pcstp}
+which involves finding the subgraph which minimises total edge cost summed with an
+\textit{assignment cost} for assigning each vertex in the input graph to a vertex in
+the subgraph.
+
+The \gls{mtp} has only recieved much attention for the special case where the input graph is
+a tree, giving us plenty of space to work in. Based on the evaluation that the tour constraint
+puts the \gls{pctsp} at a further distance from the \gls{pcstp}, we make the \gls{mtp}
+the secondary target of this thesis.
 \section{Aim and Scope}
 As we touch upon two slightly disjoint subjects, this thesis is split
 in two parts.
