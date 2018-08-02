@@ -10,10 +10,78 @@ time constraints.
 Section~\ref{sec:con:con} then concludes this thesis with a look back at what we
 have achieved (and not achieved) and presents what we think are our main results.
 \section{Future Work}\label{sec:con:fut}
-\textit{DiGraph transformation of \gls{mtp}.}
-\textit{Produce real world datasets / datasets which represent different flavours of mtp}
-\textit{Develop a strong heuristic for the MTP}
-\textit{Reimplement the solver with system programming callbacks}
+While we have done some work in this thesis, there is still plenty to do. We have
+managed to a lot of questions than we have answered. Below are some of the open
+questions which we think would be interesting to follow up on.
+
+\subsection{Combinations of Preprocessing Routines}
+In Section~\ref{sec:solving:pre} we discuss and describe preprocessing routines for
+the \gls{pcstp}. This is done more in-depth by \citet{rehfeldt2016reduction}, who
+additionally present a series of computational experiments which test single reduction
+tests on a graph and also test a package of reduction tests.
+
+They report that the ordering
+in which preprocessing routines are applied \textit{does} matter and claim that running
+the ``weakest'' routines first before moving on to the stronger, more costly routines.
+However, they do not present results which show this.
+
+We think it would be interesting to dive deeper into the dynamics between graph reduction
+techniques. Uncovering which reduction tests enable eachother the most may lead to more
+complex ordering of routines with potentially lower runtimes.
+
+\subsection{Preprocessing for the MTP}
+We did not spend much time dwelling on preprocessing for the \gls{mtp}. Our first goal was
+to directly translate routines from the \gls{pcstp} and it was clear this was not possible
+for its preprocessing routines.
+
+However, while it seems like a hard problem due to the combinatorial size of the assignment
+cost function, it may be that preprocessing routines could be a factor in solving the
+\gls{mtp}.
+
+We suspect that these routines will be more niché and more instance specific
+than the ones for the \gls{pcstp}, relying
+on specific graph formations, and it may well be that there simply aren't strong enough
+invariant inherent in the \gls{mtp} to generate usefull preprocessing routines.
+
+However, if it is possible to uncover some useful routines, we have seen with the \gls{pcstp}
+just how big a different it can make.
+
+\subsection{Directed Formulation of the MTP}
+
+We have seen how \citet{ljubic2005solving} and \citet{gamrath2017scip}
+make use of a transformation of
+the \gls{pcstp} into an equivalent problem on a directed graph citing stronger
+lower bounds from the LP relaxation.
+  
+It is not unlikely that this is the case for the \gls{mtp} as well. Thus, we propose
+formulating a directed version of the \gls{mtp} and performing a comparative analysis
+on the tightness of the lower bounds produced by its LP relaxation along with an
+analysis on its effect on producing exact solutions for the \gls{mtp}.
+
+\subsection{Refine the MTP Solver}
+
+In Chapter~\ref{chap:mediantree}, we have proposed possible amendments to our solver to
+solves some of its shortcomings.
+
+The most poignant of these is probably the weakness of the Python 3 interface.
+We stand by the ability of the Python interface to allow for faster iteration times,
+which helped put together the solver in relatively short time.
+However, at the same time, we have repeatedly
+returned to the fact that Python as a callback interface is
+inherently slower than a compiled system-programming language.
+This ends up being a bit of a cop-out in our results section,
+and it ends up clouding our ability
+to distinguish between bad algorithms
+and weak implementation.
+
+To produce more satisfying experimental results, we believe it is a good idea to reimplement
+the solver in a faster language, e.g. C++.
+
+\subsection{Primal Heuristic for the Median Tree Problem}
+
+\subsection{Goemans-Williamson for the Median Tree Problem}
+
+\subsection{Real World Datasets}
 
 \section{Conclusion}\label{sec:con:con}
 In this thesis, we have surveyed the state of research on
