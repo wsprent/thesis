@@ -1,23 +1,24 @@
 \chapter{Research in Related Problems}
 \label{chap:related}
 The \gls{pcstp}, while unique in formulation,
-is part of a family of problems which somehow deal with the trade-off of
-\textit{paying} for connecting vertices to gain their \textit{prize}.
+is part of a family of problems all of which somehow deal with a
+trade-off of \textit{paying} for connecting vertices to gain their \textit{prize}.
 
-In this chapter, we will look at a collection of similar problems, see how far research is
-on them, and discuss similarities with the \gls{pcstp} both with respect to the motivation and
-intutive understanding of the problems, but also to how the problems are approached and
-how similar the solutions are.
+In this chapter, we will look at this collection of similar problems,
+see how far research is on them,
+and discuss their similarities with the \gls{pcstp}
+both with respect to an intutive understanding of the problems,
+but also with respect to in which ways the problems are approached.
 
-By doing this, we aim to gain deeper insight into the structure of this collection of problems
- and separate generalisable methods from problem-specific methods.
+By doing this, we aim to gain deeper insight into the structure of
+this collection of problems.
 
 \todo[inline]{Do examples for this section. Show the problems visually.}
 
 \section{The Prize-Collecting Travelling Salesman Problem and Variants}\label{sec:rel:tsp}
-\todo{Think about whether there should be a super-section about all the variants}
-First introduced by \citet*{balas1989prize}, the Prize-Collecting Travelling Salesman Problem
-(PCTSP) is a problem closely related to the \gls{pcstp}.
+First introduced by \citet*{balas1989prize}, in \citeyear{balas1989prize},
+the \gls{pctsp} is a problem very closely related to the \gls{pcstp} both
+in formulation and in history.
 
 The problem is formulated by \citeauthor{balas1989prize} as follows. Let
 $G = (V, A, c, p)$ be a directed
@@ -29,25 +30,33 @@ such that
 $$\sum_{v_i \in V_C} p_i \geq B$$
 for some $B \in \RR_+$.
 
-If we recollect the definition of the \gls{pcstp} and its variants (Section~\ref{sec:pcstp}) then
+If we recollect the definition of the \gls{pcstp}
+and its variants (Section~\ref{sec:pcstp}) then
 we immediately see some similarities. The PCTSP involves optimising the
-\textit{Goemans-Williamson Minimization Problem} for the circuit $C$, however with the extra
-constraint of collecting at least $B$ prize on the tour. This extra constraint draws comparisons
+\textit{Goemans-Williamson Minimization Problem} for the circuit $C$,
+however with the extra
+constraint of collecting at least $B$ prize on the tour.
+This extra constraint draws comparisons
 to the \textit{Quota Problem}.
 
 As the PCTSP is a natural member of the family of Vehicle Routing Problems, it is also sometimes
-stated with a \textit{depot} vertex \citep{feillet2005traveling} -- that is a vertex which
+stated with a \textit{depot} ---or root--
+vertex \citep{feillet2005traveling} -- that is a vertex which
 must be part of the solution circuit, $C$. This corresponds to the \textit{Rooted}
 \gls{pcstp}.
 
 Intuitively, these kinds of problems seek to solve concrete problems with respect to transport routes.
-Where the Travelling Salesman Problem seeks to find the optimal ``route'' to visit all vertices in
-a graph, the PCTSP (and its variants) look to answer which routes/vertices are worth visiting and
-which are not. This is reminiscent of how the \gls{pcstp} is to the Steiner Tree Problem.
+Where the \gls{tsp} seeks to find the optimal ``route'' to visit all vertices in
+a graph, the \gls{pctsp} (and its variants) look to answer additionally
+which vertices are even worth visiting.
+This is an \textit{exact} reflection of how the \gls{pcstp} is related
+to the \gls{stp}.
 
-By being routing problems, the PCTSP variants are more often than not defined on directed graphs in
-contrast to the \gls{pcstp} which is exclusively defined on a undirected graph (while the Steiner Aborescence
- Problem is very much the directed variant).
+By being routing problems, the \gls{pctsp} variants are more often than not
+defined on (sometimes complete) directed graphs in
+contrast to the \gls{pcstp} which is exclusively
+defined on a undirected graph (while the (Prize-Collecting)
+\gls{sap} serves as the directed variant).
 
 \paragraph{The Orienteering Problem}
 The Orienteering Problem (OP) is very much the circuit version of the \textit{Budget Problem}.
@@ -55,45 +64,50 @@ Given a graph $G  = (V, E, c, p)$, the OP inolves finding a circuit, $C = (V_C, 
 which maximises
 $$\sum_{v \in V_C}  p_v \quad \text{s.t.} \quad \sum_{ij \in E_C} c_{ij} \leq B$$
 for some $B \in \RR_+$.
-\todo{Add something short on the history of the OP}
+
+The OP is probably the most well researched of the \gls{pctsp} variants. For it, there exists
+multiple exact solutions, heuristic solutions, and approximation algorithms
+\citep{archetti2014chapter}.
 
 \paragraph{The Profitable Tour Problem}
 A maybe more familiar problem in the realm of prize collecting tour problems, is the
-so-called Profitable Tour Problem (PTP). This variant -- which earlier shared name with
-the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a true
- ``cousin'' of the \gls{pcstp}.
+so-called \gls{ptp}. This variant ---which sometimes shares name with
+the \gls{pctsp}--- involves dropping the quota constraint from the \gls{pctsp},
+making it the true ``cousin'' of the \gls{pcstp}.
 
- Specifically, the PTP involves finding a circuit,
+ Specifically, the \gls{ptp} involves finding a circuit,
  $C = (V_C, E_C)$ in a graph which minimises
  $$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
  with no additional constraints.
  
  While similar in formulation to the \gls{pcstp}, according to a fairly recent survey by
- \citet{archetti2014chapter}, the PTP has received very little attention -- 
- especially when compared to the \gls{pcstp}.
- In fact, to the best of our knowledge, no exact solution to the PTP
+ \citet{archetti2014chapter}, the \gls{ptp} has received very little attention
+ --- especially when compared to the \gls{pcstp}.
+ In fact, to the best of our knowledge, no exact solution to the \gls{ptp}
  has been proposed.
  However, \citet{dell1995prize} does define a lower bounding procedure for the problem
  which is a big step in defining an exact algorithm.
  
- There has, however, been some research into approximation algorithms for the PTP.
+ There has, however, been some research into approximation algorithms for the \gls{ptp}.
  In fact, an interesting symptom of exactly how related these two families of
  prize collecting problems are
  is how the GW Algorithm (see Section~\ref{sec:solving:approx:gw})
- is used by \citeauthor{goemans1995general} to generate a 2-approximation algorithm for the PTP
- on graphs satisfying the triangle inequality -- much in the same way that
- polynomial time MST algorithms can be used to generate 2-approximation algorithms
- for the Travelling Salesman Problem \citep{goemans1995general}.
+ is used by \citeauthor{goemans1995general} to generate a 2-approximation algorithm for the \gls{ptp}
+ on graphs which satisfying the triangle inequality
+ -- much in the same way that
+ a Minimum Spanning Tree can be used to generate a 2-approximation algorithm
+ for the \gls{tsp}\citep{goemans1995general}.
 
- \todo[inline]{A branch-and-cut algorithm for the capacitated profitable tour problem}
  \paragraph{ILP Formulations}
 
- As part of developing an exact solution to the PCTSP, \citet{fischetti1988additive} stated the problem
+ As part of developing an exact solution to the \gls{pctsp},
+ \citet{fischetti1988additive} stated the problem
  on a directed graph as
- an integer linear program. This formulation is shown in Formulation~(\ref{form:pctsp:cut}) for
+ an integer linear program.
+ This formulation is shown in Formulation~(\ref{form:pctsp:cut}) for
  a graph $G = (V, A, c, p)$.
  We note the similarity between this and the cut-based \gls{ilp} (CUT-IP) formulation used by
- \citet{ljubic2005solving} for their variant of a Prize-Collecting Aborescence Problem
+ \citet{ljubic2005solving} for their variant of a \gls{pcsap}
  (Formulation~\ref{form:exact:cut}).
  
  \begin{formulation}
@@ -110,7 +124,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
        &&& \bd y \in \BB^{|V|}.
      \end{alignat}\label{form:pctsp:cut}
    \end{subequations}
-   \caption{ILP formulation of the PCTSP by \citet{fischetti1988additive}.}
+   \caption{ILP formulation of the \gls{pctsp} by \citet{fischetti1988additive}.}
  \end{formulation}
 
  Constraints (\ref{form:pctsp:prize}) and (\ref{form:pctsp:conn}) correspond directly to constraints
@@ -123,31 +137,45 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  The similarities of the two formulations reflect the similarities of the two problems, with the main difference being
  the shape of the solution (circuit / arborescence).
  As a result there are also similarities in how these prize-collecting problems can be solved
- -- e.g. the method of solving a max-flow problem on a support graph
- to separate connectivity constraints or \glspl{gsec} can be directly applied to PCTSP variants, and with the GW Algorithm being
- directly applicable to the PTP, there is not much in the way from directly lifting a branch and cut routine from
+ The method of solving a max-flow problem on a support graph
+ to separate connectivity constraints or \glspl{gsec} can
+ be directly applied to \gls{pctsp} variants, and with the GW Algorithm being
+ directly applicable to the \gls{ptp},
+ there is not much in the way from directly lifting a branch and cut routine from
  one problem to another.
 
- The main uniqueness of working with Steiner trees versus circuits in this case seems to be the possibilities of applying
- preprocessing routines to the input graphs.
+ The main uniqueness of working with Steiner trees versus
+ circuits in this case seems to be the possibilities of applying
+ preprocessing routines to the input graphs, which does not come up
+ when discussing prize-collecting tours.
 
- \todo[inline]{Either change title of paragraph or find more examples}
  \section{The Median Facility Problems}
  \label{sec:related:median}
- A type of problems which are closesly related to the ``prize-collecting'' problems such as the \gls{pcstp}, are the so-called
- ``median'' problems. These problems involve finding optimal location of a ``facility'' with regards to the sum
- of distances from all vertices to the facility.
+ A type of problems which are closely related to the
+ ``prize-collecting'' problems such as the \gls{pcstp}, are the so-called
+ ``median'' problems.
+ These problems involve finding optimal location of a ``facility''
+ with regards to the sum
+ of distances from all vertices to the facility by some measure of
+ \textit{distance}.
 
- For example, first introduced in \citeyear{hakimi1964optimum} by \citet{hakimi1964optimum} is a problem known as
- the \textit{$p$-Median Problem}. Given a graph $G = (V, E, c)$, this involves selecting a subset $S \subseteq V$ with
- cardinality $p$ such that $S$ minimises the sum of minimum distances from vertices in $V$ to vertices in $S$.
+ For example, first introduced in \citeyear{hakimi1964optimum}
+ by \citet{hakimi1964optimum} is a problem known as
+ the \textit{$p$-Median Problem}.
+ Given a graph $G = (V, E, c)$, this involves selecting a subset $S \subseteq V$ with
+ cardinality $|S| = p$ such that $S$ minimises the sum of minimum distances
+ from vertices in $V$ to vertices in $S$.
  
  \citet{current1987median} adds structure to the selection of vertices by introducing the \textit{Median Shortest Path Problem (MSPP)}.
- Here, given a graph $G = (V,E,c,d,p)$ -- where $c$ and $d$ are edge weight functions --
- and source and sink vertices $s$ and $t$, one must find a facility
-  -- now a simple path $P$ --  in $G$
- from $s$ to $t$ in s.t. the function
+ Here, given a graph $G = (V,E,c,d,p)$,
+ where $c$ and $d$ are edge weight functions,
+ along with source and sink vertices $s$ and $t$,
+ one must find a facility
+ in the shape of a simple path, $P$,
+ from $s$ to $t$ in $G$
+ such that the function
  $$\sum_{i,j \in E(P)} c_{ij} + \sum_{i \in V} p_i D_{i, P}$$
+ is minimised,
  where $p_i$ is the weight of vertex $v_i$ and
  $D_{i, P}$ is the shortest path from vertex $v_i$ to any vertex in $P$ with regards to
  weights $d$.
@@ -182,14 +210,13 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
  The Profitable Tour Problem turns out to be a special case of certain variants of Median
  Tour Problems. Consider a variant defined as follows:
- \todo{Consider whether we want \gls{ilp} formulations here}
-
+ 
  Let $G = (V, E, c, d)$ be a undirected graph with two edge cost functions
  $c : E \to \RR^+$ and $d : E \to \RR^+$, then find a circuit $C = (V_C, E_C) \subseteq G$
  which minimises
  the function
  $$c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} \mathnormal{.}$$
- Given this definition and an instance of the PTP on a graph $G = (V, E, c, p)$
+ Given this definition and an instance of the \gls{ptp} on a graph $G = (V, E, c, p)$
  we can define an assignment cost function as
  $$d_{ij} =
  \begin{cases}
@@ -202,7 +229,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
  $$c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} =
  \sum_{ij \in E_C} c_{ij} + \sum_{i \not\in C} \min_{j \in C} d_{ij} + \sum_{i \in V_C} \min_{j \in V_C} d_{ij}
  = \sum_{ij \in E_C} c_{ij} + \sum_{i \not\in V_C}  p_i$$
- which corresponds to the cost of a tour in the PTP.
+ which corresponds to the cost of a tour in the \gls{ptp}.
  \subsection{Median Trees}\label{sec:related:mtp}
  We then turn our focus to the problem of finding median \textit{trees} in graphs.
   To the best of our knowledge, this problem has not recieved much attention.
@@ -214,7 +241,7 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
 
   Finding a median tree in a general graph is, to the best of our knowledge, not well researched.
  \citet{aneja1992location} establishes the
-  problem as being NP-hard -- by reduction from the \gls{stp}, and shows that the problem can
+  problem as being NP-hard by reduction from the \gls{stp}, and shows that the problem can
   decomposed into finding median trees on distinct ``blocks'' of a graph.
 
   \citet{kim1991locating} considers a variant of the problem where the graph is embedded in the plane
@@ -224,7 +251,8 @@ the PCTSP -- involves dropping the quota constraint from the PCTSP, making it a 
   in the general case. Additionally, there seems to be no consensus of a ``most interesting'' variant
   of the problem of finding median trees in graphs.
 
-  
+  Still, we find this problem interesting, and with it being a generalisation of the
+  \gls{pcstp}, we see it as a natural next step to take a deeper look at it.
 
 %%% Local Variables:
 %%% TeX-master: "report"
