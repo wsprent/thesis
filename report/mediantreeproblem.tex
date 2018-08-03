@@ -25,12 +25,12 @@ of the DIMACS Steiner Tree challenge datasets for the \gls{pcstp} \citep{DIMACS}
 
 Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
 and $d : V \times V  \to \RR^+$ be an \textit{assignment cost} function where we have
-$$d_{ii} = 0 \mathnormal{.}$$
+\[d_{ii} = 0 \mathnormal{.}\]
 Then the \textit{\acrlong{mtp}}
 is defined as finding a \textit{connected subgraph} $T = (V_T, E_T)$ of $G$
 where $V_T \subseteq V$ and
 $E_T \subseteq E$ which minimises the cost function,
-$$c(T) = \sum_{ij \in E_T} c_{ij} + \sum_{i \in V} \min_{j \in V_T} d_{ij}\mathnormal{.}$$
+\[c(T) = \sum_{ij \in E_T} c_{ij} + \sum_{i \in V} \min_{j \in V_T} d_{ij}\mathnormal{.}\]
 We say that such a subgraph is a \textit{Median Tree} of $G$.
 
 \begin{figure}[h]\centering
@@ -83,9 +83,9 @@ and an assignment function (\ref{fig:mtp:01:d}) for which the values have been
 chosen arbitrarily.
 Figure~\ref{fig:mtp:01:opt}
 shows the optimal solution
-$$T = ( \{ c, e, f, g \}, \{(c, e), (c, g), (e, f)\})$$
+\[T = ( \{ c, e, f, g \}, \{(c, e), (c, g), (e, f)\})\]
 to this problem with total cost
-$$c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}$$
+\[c(T) = (1 + 5 + 2) + (6 + 2 + 2) = 18\mathnormal{.}\]
 \begin{figure}[h!]
   \centering
       \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -224,9 +224,9 @@ $$d_{ij} =
 
 Figure~\ref{fig:mtp:pcstp} shows how this reduction works on the \gls{pcstp} instance in Figure~\ref{fig:pcstp:01}
 as well as the optimal solution
-$$T = (\{a,b,d\}, \{(a,b), (b,d)\})$$
+\[T = (\{a,b,d\}, \{(a,b), (b,d)\})\]
 with cost
-$$c(T) = (4 + 5) + (3) = 12$$
+\[c(T) = (4 + 5) + (3) = 12\]
 which is the same cost as the optimal solution to the original \gls{pcstp} problem (Figure~\ref{fig:pcstp:01:opt}).
 
 While it is obvious that the \gls{mtp} problem is NP-hard
@@ -308,7 +308,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
  vertex, and constraint (\ref{form:mtp:facility}) ensures that a vertex can only be assigned
  to if it is part of the facility. The latter could alternatively be modelled with a set
  of \textit{Big M} constraints as
- $$\sum_{i \in V} y_{ik} \leq  M y_{kk}  \qquad \forall i \in V$$
+ \[\sum_{i \in V} y_{ik} \leq  M y_{kk}  \qquad \forall i \in V\]
  for some $M \gg |V|$. Which ensures that if $v_k$ is part of the facility then
  \textit{any number} of
  vertices (or $M$ vertices, to be precise) can be assigned to it, but if not
@@ -349,7 +349,7 @@ the same idea holds for the \gls{mtp} but in a slightly different manner.
 
  Consider the set of vertices which cost nothing to assign and cannot be assigned to as \textit{Nonterminals},
 
- $$N = \left\{ i \in V \middle\vert \forall j.\: d_{ij} = 0 \wedge   d_{ji} = \infty\right\}\mathnormal{.}$$
+ \[N = \left\{ i \in V \middle\vert \forall j.\: d_{ij} = 0 \wedge   d_{ji} = \infty\right\}\mathnormal{.}\]
 
  As nonterminals play no part in the assignment question,
  they cannot be a leaf node in an optimal solution.
@@ -376,7 +376,7 @@ Gurobi \citep{gurobi} (version 8.0.1)
 and its Python 3 interface. While this means that the callbacks written for the solver
 will naturally have much slower performance than if, for example, we had chosen to make
 use of the C or C++ interface, the Python interface was chosen for its higher level interface
-and better ease-of-use -- giving better iteration times. Having no other computational results
+and better ease-of-use which results in better iteration times. Having no other computational results
 to compare against, this trade-off was easy to make.
 
 The Python library,
@@ -423,11 +423,11 @@ graph.
 
 Given an integer solution $(\bd{\hat{x}}, \bd{\hat{y}})$ produced by Gurobi, we
 identify any violated \glspl{gsec} by first generating a NetworkX graph,
-$$S = (\{i \in V \mid \hat y_{ii} = 1 \}, \{ (i, j) \in E \mid \hat x_{ij} = 1\})\mathnormal{.}$$
+\[S = (\{i \in V \mid \hat y_{ii} = 1 \}, \{ (i, j) \in E \mid \hat x_{ij} = 1\})\mathnormal{.}\]
 Then we again use NetworkX to find all simple cycles in $S$. Then for each vertex
 subsets $C \subseteq V$ induced by a cycle
 in $S$, we add all of the violated constraints
-$$x(E(C)) \leq y_{ii} \setminus \{c\} \qquad \forall c \in C$$
+\[x(E(C)) \leq y_{ii} \setminus \{c\} \qquad \forall c \in C\]
 to the model.
 \subparagraph{User Cuts}
 The callback responsible for
@@ -458,7 +458,7 @@ One thing we have not adapted, however, is the last step of solving the \gls{mtp
 on the final tree. This is left for further research.
 
 The primal heuristic can be disabled in favour of Gurobi's inbuilt heuristic with
-the switch $$\texttt{-{}-no-heuristics}\mathnormal{.}$$
+the switch \[\texttt{-{}-no-heuristics}\mathnormal{.}\]
 \section{Computational Experience}
 With having no prior attempts to solve the \gls{mtp} in the general case to draw from,
 we have no interesting timings to test our model against nor any previously constructed
@@ -535,7 +535,7 @@ $$
  Some of the instances in the \texttt{JMP} dataset are disconnected. For these instances,
  before performing the above, we connect the graph by selecting a random pair of vertices,
  $i,j$, from disjoint components. The edge $(i,j)$ is then added to the edge set with cost
- $$c_{ij} = \sum_{k \in \delta(i)} c_{ik} / |\delta(i)|\mathnormal{.}$$
+ \[c_{ij} = \sum_{k \in \delta(i)} c_{ik} / |\delta(i)|\mathnormal{.}\]
 
  The summarise, the output dataset features instances which have connected graphs with
  \textit{smooth} -- as opposed to erratic -- assignment cost functions. All vertices

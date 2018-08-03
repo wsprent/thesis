@@ -34,10 +34,10 @@ The solver has as a dependency on of the \gls{mip} solvers CPLEX or LEDA.
  of the \gls{pcsap} with directed graph, $G_A = (V_A, A, c')$, where $c'$ define the arc costs,
  by first adding an
  artificial root vector, $r$, to $V$
- $$V_A = \{r\} \cup V\mathnormal{.}$$
+ \[V_A = \{r\} \cup V\mathnormal{.}\]
  Then we define the arc set by adding bi-directional arcs for each edge in $E$ and
  adding an arc from $r$ to each terminal,
- $$A = \{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \cup \{(r, i) \mid i \in N\}\mathnormal{.}$$
+ \[A = \{(i,j) \mid (i,j) \in E \} \cup \{ (j,i) \mid (i,j) \in E \} \cup \{(r, i) \mid i \in N\}\mathnormal{.}\]
  We define arc-costs by subtracting the prize of the arc's endpoint from the original cost of the
  corresponding edge in $G$. Arcs from the root have cost equal to the negative prize of the endpoint vertex. This gives us,
  $$c'_{ij} =
@@ -124,7 +124,7 @@ $SA$.
 
 However, to ensure that $T$ is indeed a feasible solution to the original problem we
 cannot simply find the connected subgraph in $G_A$ which minimises
-$$c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v\mathnormal{.}$$
+\[c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v\mathnormal{.}\]
 Firstly, since all the arcs from the root have negative costs they are trivially part of any minimal arborescence.
 As a result, whenever $G$ has more than one terminal, this may result in a disconnected -- hence infeasible --
 solution in the original graph.
@@ -192,9 +192,9 @@ in the original problem. Enforcing that any solution to the transformed problem 
   to a feasible solution in the original graph $G$ with the same cost. In other words there exists a bijection between feasible
   solutions to corresponding instances of the constrained \gls{sap} and the \gls{pcstp}. Figure~\ref{fig:exact:sap:opt} shows this for our
    original \gls{pcstp} (see Figure~\ref{fig:pcstp:01:opt}). This optimal solution has cost
-   $$c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} p_v = (-12 + 4 -5) + (12 + 10 + 3) = 12$$
+   \[c(SA) = \sum_{ij \in A_{SA}} c'_{ij} + \sum_{v \in V} p_v = (-12 + 4 -5) + (12 + 10 + 3) = 12\]
    which is the same as the corresponding problem to the \gls{pcstp}. Note that solution starting with $(r,d)$ would have the same cost,
-   $$(-10 + 5 -8) + (12 + 10 + 3) = 12$$
+   \[(-10 + 5 -8) + (12 + 10 + 3) = 12\]
    but is infeasible due to $d > a$.
   \paragraph{\gls{ilp} Formulation}
 
@@ -286,7 +286,7 @@ is used to generate good incumbents.
 
 The heuristics is used with the minor modification that the alternative cost function $c'$ has
 costs
-$$c'_{ij} = 1 - \max\{x_{ij}, x_{ji} \}$$
+\[c'_{ij} = 1 - \max\{x_{ij}, x_{ji} \}\]
 to accomodate the \gls{pcsap} being on a directed graph.
 
 The rest of the branch and bound procedure is handled by an underlying \gls{mip} solver (CPLEX or LEDA).
@@ -313,11 +313,11 @@ Given an instance of the \gls{pcstp} with graph $G = (V,E,c,p)$ and terminal set
  step of this reduction is to add a copy of each terminal to the vertex set, $V_A$.
  To do this, we define a
 set of auxiliary terminals as
-$$N_A = \{v' \mid v \in N\}$$
+\[N_A = \{v' \mid v \in N\}\]
 which are the terminal set for our \gls{sap}.
 The original set of vertices $V$ is combined with this set and an
 artificial root vector to define the vertex-set in the directed graph
-$$V_A = V \cup \{r\} \cup N_A\mathnormal{.}$$
+\[V_A = V \cup \{r\} \cup N_A\mathnormal{.}\]
 We then add antiparallel arcs for each edge in $E$ as well as arcs from the artifical root vertex, $r$,
 to each original terminal and auxiliary terminal and arcs from the original terminals to the auxiliary
 terminals,
@@ -461,7 +461,7 @@ directly to selecting the corresponding edge in $G$.
   Figure~(\ref{fig:scip:sap:opt}) shows the optimal solution in Figure~(\ref{fig:pcstp:01:opt}) in a transformed graph.
   Here we see how terminal $g$ not being selected is represented by selecting the arc $(r, g')$, incurring its prize as
   a penalty. The solution has total cost,
-  $$c(SA) = 0 + 0 + 4 + 5 + 0 + 3 = 12$$
+  \[c(SA) = 0 + 0 + 4 + 5 + 0 + 3 = 12\]
   which is the same as the corresponding solution in the optimal graph.
 
  \paragraph{ILP Formulation}
@@ -519,7 +519,7 @@ directly to selecting the corresponding edge in $G$.
   \paragraph{Branch \& Bound}
   While node selection is left to the underlying \gls{mip} solver, SCIP-Jack branches on vertices in the following way. For each node in the
   b\&b tree with optimal solution $x^*$ to the LP relaxation, the nonterminal, $v \in V_A \setminus N_A$, which minimises
-  $$v_b = \argmin_{v \in V_A \setminus N_A} \left| \sum_{u \in \delta^-(v)} x^*_{uv} - 0.5 \right|$$
+  \[v_b = \argmin_{v \in V_A \setminus N_A} \left| \sum_{u \in \delta^-(v)} x^*_{uv} - 0.5 \right|\]
   is added to the set of terminals in one child of the b\&b node and excluded completely in the other.
   \cite{gamrath2017scip} claim that this gives stronger performance than
   to branching on single arcs.

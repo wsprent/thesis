@@ -9,7 +9,7 @@ problems and give some intuition on how they are related.
 \section{Steiner Tree Problem}
 The \gls{stp} is defined as follows.
 Given an undirected graph
-$$G = (V, E, c)$$
+\[G = (V, E, c)\]
  where $c: E \to \RR^+$ defines edge weights, and additionally a set of terminals $N \subseteq V$ then
 a Steiner Tree is a tree, $T = (V_T, E_T, c) \subseteq G$, which spans $N$ with minimal cost. We denote vertices which must be part of a feasible solution,
 that is $v \in N$, as \textit{terminals}, vertices which are not terminals as \textit{non-terminals},
@@ -49,13 +49,13 @@ Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \e
 Figure~(\ref{fig:stp:01}) shows an instance of the \gls{stp} with three terminals and four Steiner vertices. Since vertices
 A, D, and G are terminals, they must be spanned by any feasible solution. Figure~(\ref{fig:stp:01:feasible}) shows
 a feasible solution (which we here denote as a set of edges)
-$$E_T = \{(a,b), (b,d), (d,g)\}$$
+\[E_T = \{(a,b), (b,d), (d,g)\}\]
 with cost
-$$c(T) = 4 + 5 + 10 = 19\mathnormal{.}$$
+\[c(T) = 4 + 5 + 10 = 19\mathnormal{.}\]
 However, $T$ is not a minimal tree as there exists at least one feasible solution with lower cost, i.e. the solution
-$$E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}$$
+\[E_{T'} = \{(a,b), (b,d), (d,c), (c,g)\}\]
 in Figure~(\ref{fig:stp:01:min}) which has cost
-$$c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}$$
+\[c(T') = 4 + 5 + 3 + 2 = 14\mathnormal{.}\]
 % Suboptimal and Optimal \gls{stp} solutions
 \begin{figure}[h]\centering
   \begin{subfigure}{0.47\linewidth}
@@ -153,7 +153,7 @@ the \gls{stp} as in \gls{ilp} in terms of Steiner cuts.
 \section{Steiner Aborescence Problem}
 The \gls{sap} is the directed version of the Steiner Tree Problem.
 Given a \textit{directed} graph,
-$$G = (V, A, c)$$
+\[G = (V, A, c)\]
 a non-empty terminal set $N \subseteq V$, a root terminal $r \in N$, and arc-weights $c : A \to \RR^+$,
 then a Steiner Aborescence, $T \subseteq A$, is an aborescence
 in $G$, rooted in $r$, which spans $N$ and has minimal cost.
@@ -305,18 +305,18 @@ How to do this, is explored more deeply in Section~\ref{sec:solving:exact}.
 \section{Prize-Collecting Steiner Tree Problem}
 \label{sec:pcstp}
 Given an undirected graph
-$$G = (V, E, c, p)$$
+\[G = (V, E, c, p)\]
 where $c: E \to \RR^+$ defines edge weights,
 and $p: V \to \RR_0^+$ defines vertex \textit{prizes}, then the solution to the
 \textit{\gls{pcstp}} is a tree
-$$T = (V_T, E_T, c, p) \subseteq G$$
+\[T = (V_T, E_T, c, p) \subseteq G\]
 which minimizes
-$$c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v$$
+\[c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v\]
 which is also known as the {\textit{Goemans-Williamson Minimization Problem}}. This involves minimising
  the total cost of edges in $T$ while trying to minimise the amount of uncollected prize, or perhaps paid penalties.
 
 In the context of the \gls{pcstp}, We denote vertices with nonzero prize as \textit{terminals}, giving the terminal set
-$$N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}$$
+\[N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}\]
 
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -395,7 +395,7 @@ Any optimal solution to $G'$ is then a Steiner tree in $G$ and vice versa.
 
  The \gls{pcstp} can stated differently as the {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637}.
   This involves maximising the function,
-$$NW(T) = \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij}$$
+\[NW(T) = \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij}\]
 or in other words, maximising the profit of $T$.
 
 While this formulation differs philosophically from the GW optimisation problem
@@ -404,9 +404,9 @@ the GW minimisation problem and NW maximisation problem are equivalent in the se
 
 
 We can easily show this by seeing that the tree which solves the maximisation problem
-$$\max_T \: NW(T) = \max_T \left\{ \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij} \right\}$$
+\[\max_T \: NW(T) = \max_T \left\{ \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij} \right\}\]
 must be the tree which finds the minimum of its negative,
-$$\min_T \left\{ \sum_{(i,j) \in E_T} c_{ij} - \sum_{v \in V_T} p_v\right\}$$
+\[\min_T \left\{ \sum_{(i,j) \in E_T} c_{ij} - \sum_{v \in V_T} p_v\right\}\]
 and finally since the total prize in $G$ is independent of $T$, it must also minimise,
 \begin{align*}
   &\phantom{=}\min_T \left\{ \sum_{(i,j) \in E_T} c_{ij} - \sum_{v \in V_T} p_v + \sum_{v \in V} p_v \right\} \\
@@ -422,7 +422,7 @@ which we call the \textit{Quota} and \textit{Budget} problems \citep{Johnson:200
 
 In the case of the former, we are looking to minimize the total edge cost of the solution tree, $T$, while
 collecting \textit{at least} some quota, $P \in \RR$, of prize, that is we wish to minimise,
-$$\sum_{e \in E_T} c_e \quad \text{s.t.} \: \sum_{v \in V_T} p_v \geq P\mathnormal{.}$$
+\[\sum_{e \in E_T} c_e \quad \text{s.t.} \: \sum_{v \in V_T} p_v \geq P\mathnormal{.}\]
 As with the \gls{pcstp}, the Quota problem is NP-hard by reduction from the \gls{stp}. Given any instance of the \gls{stp},
 we can create an equivalent Quota problem by setting prizes
 $$p_v =
@@ -437,7 +437,7 @@ must span all terminals, and an optimal solution to the \gls{stp} is an optimal 
 
 Similarly, the Budget problem involves collecting as much prize as possible without allowing the
  total edge cost of $T$ to increase beyond some budget, $B \in \RR$, this is we wish to maximise,
- $$\sum_{v \in V_T} p_v \quad \text{s.t.} \: \sum_{e \in E_T} c_e \leq B\mathnormal{.}$$
+ \[\sum_{v \in V_T} p_v \quad \text{s.t.} \: \sum_{e \in E_T} c_e \leq B\mathnormal{.}\]
  The budget problem is similar in spirit to the well-known Knapsack problem. In fact we can
  reduce instances of the Knapsack problem to instances of the budget problem, which shows that
   the latter is also NP-hard.
@@ -471,7 +471,7 @@ Similarly, the Budget problem involves collecting as much prize as possible with
 Introduced by \citet{klau2003fractional}, the Fractional \gls{pcstp}
 alters the objective function to instead maximise the profit
 margin of the subgraph. Hence we have,
-$$c(T) = \frac{\sum_{v \in V_T} p_v}{\sum_{(i,j) \in E_T} c_{ij}}\mathnormal{.}$$
+\[c(T) = \frac{\sum_{v \in V_T} p_v}{\sum_{(i,j) \in E_T} c_{ij}}\mathnormal{.}\]
 \citet{klau2003fractional} model the problem with a fixed root node, making it a variant
 of the Rooted \gls{pcstp}. As it diverges significantly from the linear \gls{pcstp},
 we will not spend more time this problem but include it here for the sake of completeness.

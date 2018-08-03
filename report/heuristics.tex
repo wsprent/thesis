@@ -66,19 +66,19 @@ an overview of general heuristics methods can be applied to the \gls{pcstp}.
 trees on all graphs induced by a subset of vertices
  $S \subset V$. If $G[S]$ is the subgraph induced by the vertex subset $S \subseteq V$, then
  this search space can formally be defined as
-$$\mathcal{S_G} = \{MST(G[S]) : S \subseteq V \}\mathnormal{.}$$
+\[\mathcal{S_G} = \{MST(G[S]) : S \subseteq V \}\mathnormal{.}\]
 A neighbour to a given MST is then any MST of a subgraph induced by a subset which differs from $S$
  by exactly one vertex, that is,
-$$\mathcal{N}(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = 1 \Big\}\mathnormal{.}$$ 
+\[\mathcal{N}(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = 1 \Big\}\mathnormal{.}\] 
 Clearly this neighbourhood structure means that all feasible solutions are reachable
 given any initial subset as starting point. Additionally, they define the
 $k$'th order neighbourhood as,
-$$\mathcal{N}^k(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = k \Big\}\mathnormal{.}$$ 
+\[\mathcal{N}^k(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = k \Big\}\mathnormal{.}\] 
 
 To reduce clutter we will denote the cost
 of a given subset, $S \subseteq V$, of vertices as the cost
 of the MST of the graph induced by $S$, that is
-$$c(S) = c(MST(G[S]))\mathnormal{.}$$
+\[c(S) = c(MST(G[S]))\mathnormal{.}\]
 
 The search algorithm itself is just a plain hill-climbing algorithm which repeatedly
  moves to the first
@@ -131,9 +131,9 @@ The solution along the way which has the best objective value is then returned.
 
  Entry into $E$ for a subset $S$ is dermined by two criteria:
  either we must
- $$c(\tilde{S}) < \min_{S \in E} c(S)\mathnormal{,}$$
+ \[c(\tilde{S}) < \min_{S \in E} c(S)\mathnormal{,}\]
  or we must have both
- $$c(\tilde{S}) < \max_{S \in E} c(S)$$
+ \[c(\tilde{S}) < \max_{S \in E} c(S)\]
   and that the Hamming distances between the characteristic vectors of $\tilde{S}$
    and \textit{all} solutions in $E$ are greater than $\rho |V|$ for some $\rho \leq 1$. 
 
@@ -193,33 +193,33 @@ path relinking scheme results in a stark increase
  here for the \gls{pcstp}.
  
  Given an optimal solution to the \gls{gsec} and LP relaxation of the ILP
- $$(\bd{ \bar x^*}, \bd{\bar y^*})$$
+ \[(\bd{ \bar x^*}, \bd{\bar y^*})\]
  of an instance of the \gls{pcstp} defined on the graph $G = (V, E, c, p)$,
  a \textit{good} feasible solution to the \gls{pcstp} as follows.
 
  Select an initial subset of vertices to be part of the solution based on their decision variable value,
- $$S = \{ i \in V \mid \bar y^*_i > 0.5 \}\mathnormal{.}$$
+ \[S = \{ i \in V \mid \bar y^*_i > 0.5 \}\mathnormal{.}\]
  \textit{Alternatively, use $\bar y^*_i$ as the probability for including $i$ in $S$.}
  We then augment $G$ to have costs relative to $\bd{\bar{x}}$. More specifically,
  we create the cost function
- $$c'_{ij} = 1 - \bar{x}^*_{ij}$$
+ \[c'_{ij} = 1 - \bar{x}^*_{ij}\]
  and let it replace $c$ in $G$ to give us the graph,
- $$G' = (V, E, c', p)\mathnormal{.}$$
+ \[G' = (V, E, c', p)\mathnormal{.}\]
  With $G'$ and $S$ in hand, we compute the \textit{distance network} of $S$ as
- $$G_S = (S, S \times S, d_S)$$
+ \[G_S = (S, S \times S, d_S)\]
  where ${d_S}_{ij}$ is the length of the shortest path from $v_i$ to $v_j$ in $G'$.
  Since we use $G'$, a path is short if its edges have high values in the LP
  relaxation.
 
  Then we find a minimum spanning tree on $G_S$,
- $$T = (S, E_S, d_S) \mathnormal{.}$$
+ \[T = (S, E_S, d_S) \mathnormal{.}\]
  Let $P_{ij}$ be the shortest path between vertices $i$ and $j$ in $G$, then
  we select a new --- larger --- subset of $V$ by selecting all vertices which
  are implicitly part of an edge in $T$ according to $d_S$, that is
- $$S' = \{ v \in V \mid \exists (i,j) \in E_S, v \in P_{ij}\}\mathnormal{.}$$
+ \[S' = \{ v \in V \mid \exists (i,j) \in E_S, v \in P_{ij}\}\mathnormal{.}\]
 
  Finally, let $G_H$ be the graph induced by $S'$ on $G$,
- $$G_H = (S', E_H, c, p)$$
+ \[G_H = (S', E_H, c, p)\]
  and a minimum spanning tree of $G_H$, $T' = (S', E_{T'}, c, p)$.
 
  The heuristic solution is then given by solving the \gls{pcstp}

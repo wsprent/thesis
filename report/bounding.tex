@@ -12,7 +12,7 @@ for the \gls{pcstp}, the separation procedure for solving the LP-relaxation, and
 single vertex solution separately.
 
 Define the function
-$$E(S) = \{(i,j) \in E \mid i \in S \wedge j \in S\}$$
+\[E(S) = \{(i,j) \in E \mid i \in S \wedge j \in S\}\]
 then Formulation~(\ref{form:lower:gsec}) is a \gls{ilp} formulation of the \gls{pcstp}. Constraints (\ref{form:lower:gsec:gsec}) are
 referred to as
 \glsreset{gsec}\glspl{gsec},
@@ -55,18 +55,18 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
  Let $(\bar{x}, \bar{y})$ be a solution to the relaxed LP. Consider the support graph induced by vertices and edges with nonzero decision variables,
   and vertex $l$ with decision variable $\bar y_l > 0$
   then iff
-  $$\max_{S_l \subseteq V} \left\{ \bar x (E(S_l)) - (\bar y (S_l) - \bar y_l) \right\} > 0$$
+  \[\max_{S_l \subseteq V} \left\{ \bar x (E(S_l)) - (\bar y (S_l) - \bar y_l) \right\} > 0\]
   there is a violated \gls{gsec} for a subset containing $l$, and constraint corresponding to $S_l^{max}$ is the most violated constraint.
 
   We can model finding this subset for a given $l$ as follows. Let $\bar{N} = (\bar{V}, \bar{A})$ be a flow-network
   for the support graph, with vertices
-  $$\bar V = \{s, t\} \cup \{v \in V \mid \bar y_v > 0 \}$$
+  \[\bar V = \{s, t\} \cup \{v \in V \mid \bar y_v > 0 \}\]
   and arcs
-  $$\bar A = \{(i, j) \in E \mid \bar x_{ij} > 0 \} \cup \{(j, i) \in E \mid \bar x_{ij} > 0\} \cup \{(s, v) \mid v \in \bar V\} \cup \{(v, t) \mid v \in \bar V\}\mathnormal{.}$$
+  \[\bar A = \{(i, j) \in E \mid \bar x_{ij} > 0 \} \cup \{(j, i) \in E \mid \bar x_{ij} > 0\} \cup \{(s, v) \mid v \in \bar V\} \cup \{(v, t) \mid v \in \bar V\}\mathnormal{.}\]
   Additionally we have capacities original edges,
-  $$\xi_{ij} = \xi_{ji} = \frac{\bar x_{ij}}{2} \qquad \forall (i,j) \in \bar A$$
+  \[\xi_{ij} = \xi_{ji} = \frac{\bar x_{ij}}{2} \qquad \forall (i,j) \in \bar A\]
   and if we let $\delta (v)$ be all vertices adjacent to $v$ in the support graph then node capacities are
-  $$\xi_v = \sum_{u \in \delta(v)} \xi_{vu}\mathnormal{,}$$
+  \[\xi_v = \sum_{u \in \delta(v)} \xi_{vu}\mathnormal{,}\]
   and finally
   for arcs from and to the source and the sink, we have
   $$\xi_{sv} =
@@ -75,7 +75,7 @@ ensure that the solution defined by $(x, y)$ is a tree which spans the vertices 
     \max(\xi_v - \bar y_v, 0) & \text{otherwise}
   \end{cases}$$
   and
-  $$\xi_{vt} = \max(\bar y - \xi_v, 0)\mathnormal{.}$$
+  \[\xi_{vt} = \max(\bar y - \xi_v, 0)\mathnormal{.}\]
   Then, similarly to \citet{padberg1983trees}, we can see that
   the minimum $(S,T)$ cut on the flow network will minimise
   \begin{align*}
@@ -104,7 +104,7 @@ v       \sum_{i \in S, j \in T}  \xi_{ij} +
   Since $\sum_{v \in V} \max\left\{\xi_v - \bar y_v, 0\right\}$ is independent of
   any cuts, and
   $l$ \textit{must} be in $S$ due to $\xi_{sy} = \infty$, any minimum cut, $(S,T)$, will maximise
-  $$\bar x (E(S_l)) - (\bar y (S_l) - \bar y_l)\mathnormal{.}$$
+  \[\bar x (E(S_l)) - (\bar y (S_l) - \bar y_l)\mathnormal{.}\]
   Hence any set of vertices $S' = S \setminus \{s\}$ where $S$ induces a minimal $S,T$ cut in the flow network will correspond to
   a most violated \gls{gsec} for the solution $(\bar x, \bar y)$ to the relaxed LP.
 

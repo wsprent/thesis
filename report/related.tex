@@ -25,9 +25,9 @@ $G = (V, A, c, p)$ be a directed
 graph with arc costs $c: A \to \RR_+$ and vertex prizes (or penalties) $p: V \to \RR_+$
 then find a circuit $C = (V_C, A_C)$ with $V_C \subseteq V$ and $A_C \subseteq A$ which
 minimises the function
-$$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
+\[\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v\]
 such that
-$$\sum_{v_i \in V_C} p_i \geq B$$
+\[\sum_{v_i \in V_C} p_i \geq B\]
 for some $B \in \RR_+$.
 
 If we recollect the definition of the \gls{pcstp}
@@ -62,7 +62,7 @@ defined on a undirected graph (while the (Prize-Collecting)
 The Orienteering Problem (OP) is very much the circuit version of the \textit{Budget Problem}.
 Given a graph $G  = (V, E, c, p)$, the OP inolves finding a circuit, $C = (V_C, E_C)$,
 which maximises
-$$\sum_{v \in V_C}  p_v \quad \text{s.t.} \quad \sum_{ij \in E_C} c_{ij} \leq B$$
+\[\sum_{v \in V_C}  p_v \quad \text{s.t.} \quad \sum_{ij \in E_C} c_{ij} \leq B\]
 for some $B \in \RR_+$.
 
 The OP is probably the most well researched of the \gls{pctsp} variants. For it, there exists
@@ -77,7 +77,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
 
  Specifically, the \gls{ptp} involves finding a circuit,
  $C = (V_C, E_C)$ in a graph which minimises
- $$\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v$$
+ \[\sum_{ij \in V_C} c_{ij} + \sum_{v \in V \setminus V_C} p_v\]
  with no additional constraints.
  
  While similar in formulation to the \gls{pcstp}, according to a fairly recent survey by
@@ -174,7 +174,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
  in the shape of a simple path, $P$,
  from $s$ to $t$ in $G$
  such that the function
- $$\sum_{i,j \in E(P)} c_{ij} + \sum_{i \in V} p_i D_{i, P}$$
+ \[\sum_{i,j \in E(P)} c_{ij} + \sum_{i \in V} p_i D_{i, P}\]
  is minimised,
  where $p_i$ is the weight of vertex $v_i$ and
  $D_{i, P}$ is the shortest path from vertex $v_i$ to any vertex in $P$ with regards to
@@ -215,7 +215,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
  $c : E \to \RR^+$ and $d : E \to \RR^+$, then find a circuit $C = (V_C, E_C) \subseteq G$
  which minimises
  the function
- $$c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} \mathnormal{.}$$
+ \[c(C) = \sum_{ij \in E_C} c_{ij} + \sum_{i \in V} \min_{j \in C} d_{ij} \mathnormal{.}\]
  Given this definition and an instance of the \gls{ptp} on a graph $G = (V, E, c, p)$
  we can define an assignment cost function as
  $$d_{ij} =

@@ -54,7 +54,7 @@ clearly
 $v$ can not be part of an optimal solution.
 Thus, $v$ is redundant, and
  all vertices in the set
- $$\{v \mid v \in V \setminus N \wedge |\delta(v)| = 1\}$$
+ \[\{v \mid v \in V \setminus N \wedge |\delta(v)| = 1\}\]
  are redundant. Hence it is valid to remove them from $G$ along with their adjacent edges.
 
 \begin{figure}[h]\centering
@@ -98,10 +98,10 @@ Thus, $v$ is redundant, and
     \label{fig:red:test2}
     Similarly, let $G = (V,E,c,p)$ be an instance of the \gls{pcstp}, let $v \in G$ be a non-terminal of degree $|\delta(v)| = 2$, and let
     $u$ and $w$ be the two vertices adjacent to $v$. Then we can obtain a reduced, equivalent graph,
-    $$G' = (V', E', c', p)$$
+    \[G' = (V', E', c', p)\]
     where
-    $$V' = V - v \mathnormal{,}$$
-    $$E' = (E \setminus \{(u,v),(w,v)\}) \cup \{(u,w)\}\mathnormal{,}$$
+    \[V' = V - v \mathnormal{,}\]
+    \[E' = (E \setminus \{(u,v),(w,v)\}) \cup \{(u,w)\}\mathnormal{,}\]
     and $c' = c$ except for
     $$c'_{uw} =
     \begin{cases}
@@ -284,10 +284,10 @@ Similarly to TD1, we can disconnect terminals of degree 2 where both edges have 
  of the terminal. Formally we state this as,
  \begin{theorem}[Terminals of Degree 2 Test]
    Let $u$ be a vertex of degree 2, such that vertices $v$ and $w$ are adjacent to $u$. Suppose that
-   $$p_u \leq \min(c_{uv}, c_{uw})$$
+   \[p_u \leq \min(c_{uv}, c_{uw})\]
    then any optimal solution must \textit{either} contain both edges or neither.
    Thus it is valid to replace the edges $(u,v)$ and $(u,w)$ with a single edge $(w,v)$ with cost
-   $$c_{wv} = c_{uv} + c_{uw} - p_u\mathnormal{.}$$
+   \[c_{wv} = c_{uv} + c_{uw} - p_u\mathnormal{.}\]
  \end{theorem}
 
 \begin{figure}[h!]\centering
@@ -420,9 +420,9 @@ terminals which are connected by an edge with lower cost than either of their pr
 
 \begin{theorem}[Minimum Adjacency]
   Let $u$ and $v$ be adjacent terminals in $G$. If we have
-  $$c_{uv} \leq \min(p_u, p_v)$$
+  \[c_{uv} \leq \min(p_u, p_v)\]
   and
-  $$c_{uv} = \min_{(u, w) \in \delta(u)}c_{uw}$$
+  \[c_{uv} = \min_{(u, w) \in \delta(u)}c_{uw}\]
   then it is valid to contract $u$ and $v$.
 \end{theorem}
 \begin{proof}
@@ -436,16 +436,16 @@ terminals which are connected by an edge with lower cost than either of their pr
   one such path). By assumption, we
   have that $c_{uv} \leq c_{uw}$, and the tree $T'$ constructed by removing $(u,w)$ from $T$ and
   adding $(u,v)$ has cost
-  $$c(T') = c(T) - c_{uw} + c_{uv} \leq T\mathnormal{.}$$
+  \[c(T') = c(T) - c_{uw} + c_{uv} \leq T\mathnormal{.}\]
   \paragraph{Case 2: ($v  \not\in V_T$)}
   Let $T'$ be the tree obtained by adding $(u,v)$ to $T$. As per the assumption that $\min(p_u, p_v) \geq c_{uv}$,
   we have that $T'$ has cost,
-  $$c(T') = c(T) + c_{uv} - p_{uv} \leq c(T)\mathnormal{.}$$
+  \[c(T') = c(T) + c_{uv} - p_{uv} \leq c(T)\mathnormal{.}\]
 \end{proof}
 
 
 \subsection{Steiner Distance Reduction Tests}\label{sec:sd-red-test}
-% $$d(u,v) = \min \{ c(P) \mid P \in \mathcal{P}_{uv}\}$$
+% \[d(u,v) = \min \{ c(P) \mid P \in \mathcal{P}_{uv}\}\]
 More complex tests can be described in terms
 of the concepts Steiner distance and Bottleneck distance. These were originally stated for
 the \gls{stp} by, amongst others, \citet{duin1989edge,duin1989reduction} and later
@@ -461,12 +461,12 @@ $P_{uw}$ as the cost of edges in $P_{uw}$ subtracted by the prize collected alon
  \sum_{v \in V(P) \setminus \{u,w\}} p_{v}\mathnormal{.}$$
  We then denote the Steiner distance of a simple path, $P$, as the maximal Steiner
  distance found among subpaths of $P$,
- $$sd(P) = \max_{u,w \in P} sd(P_{uw})\mathnormal{.}$$
+ \[sd(P) = \max_{u,w \in P} sd(P_{uw})\mathnormal{.}\]
  Let $\mathcal{P}_{uw}$ be the set of all simple paths
  connecting vertices $u$ and $w$ in
  $G$, then we denote the \textit{bottleneck distance} between $u$ and $w$ as the minimal Steiner
   distance among paths in $\mathcal{P}_{uw}$,
-  $$B(u,w) = \min_{P \in  \mathcal{P}_{uw}} sd(P)\mathnormal{.}$$
+  \[B(u,w) = \min_{P \in  \mathcal{P}_{uw}} sd(P)\mathnormal{.}\]
   The bottleneck distance is a measure of the worst case \textit{opportunity cost}
  of bridging some cut $(S, T)$
  where $u \in S$ and $v \in T$.
@@ -474,7 +474,7 @@ $P_{uw}$ as the cost of edges in $P_{uw}$ subtracted by the prize collected alon
  Finally, we denote ${B(u,w)}^{-e}$
  as the minimum Steiner distance of a path between $u$ and $w$ which does
    not include $e$, that is
-  $${B(u,w)}^{-e} = \min_{P \in  \mathcal{P}_{uw}, e \not \in P} sd(P)\mathnormal{.}$$
+  \[{B(u,w)}^{-e} = \min_{P \in  \mathcal{P}_{uw}, e \not \in P} sd(P)\mathnormal{.}\]
 
  \citet{uchoa2006reduction} shows that calculating the bottleneck distance
  is an NP hard problem by reduction from the Hamiltonian Path problem, suggesting that
@@ -509,19 +509,19 @@ When we refer to
   the validity of the more general \textit{special distance test}.
  \begin{theorem}[Special Distance Test]
  Consider any edge $(u,v) \in E$. If we have
- $${B(u,v)}^{-(u,v)} \leq c_{uv}$$
+ \[{B(u,v)}^{-(u,v)} \leq c_{uv}\]
  then $(u,v)$ is redundant.
 \end{theorem}
  \begin{proof}
    Let $T  \subseteq G$ be an optimal solution to the \gls{pcstp} in graph $G$
    where we have
-   $$B(u,v)^{-(u,v)} \leq c_{uv}$$
+   \[B(u,v)^{-(u,v)} \leq c_{uv}\]
    for some edge $(u,v) \in E_T$, and let $(T_1, T_2)$ be the cut bridged
    by $(u,v)$ in $T$.
 
    Consider then the simple path $P \in \mathcal{P}_{uv}$ in $G$ from $u$ to $v$ which doesn't
     contain $(u,v)$ and has
-   $$sd(P) = {B(u,v)}^{-(u,v)}\mathnormal{.}$$
+   \[sd(P) = {B(u,v)}^{-(u,v)}\mathnormal{.}\]
 
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
@@ -576,15 +576,15 @@ When we refer to
    then we must have that $P$ consists of a subpath contained in $T_1$, followed by
    a subpath not contained in $T$, followed by a subpath contained in $T_2$.
    In other words, we have,
-   $$P = (u, P_1, w, P_2, z, P_3, v)$$
+   \[P = (u, P_1, w, P_2, z, P_3, v)\]
    as shown in Figure~\ref{fig:red:test:sd:thm}.
 
    Then by definition we have,
-   $$sd(P_2) \leq sd(P) = B(u,v)^{-(u,v)} \leq c_{uv}$$
+   \[sd(P_2) \leq sd(P) = B(u,v)^{-(u,v)} \leq c_{uv}\]
    and we can construct another solution $T'$ by replacing the edge
    $(u,v)$ with the
    vertices and edges of $P_2$ which then must have the cost
-   $$c(T') = c(T) - c_{uv} + sd(P_2) \leq c(T)\mathnormal{.}$$
+   \[c(T') = c(T) - c_{uv} + sd(P_2) \leq c(T)\mathnormal{.}\]
    Hence $T'$ also optimal in $G$ and $(u,v)$ is by definition redundant.
 \end{proof}
 
@@ -601,7 +601,7 @@ is the \textit{non-terminals of degree 3 test}.
   then there exists an optimal solution to $G$ where $u$ has degree of
   \textit{at most} 2, that is $|\delta(u)| \leq 2$. Thus $u$ and its three edges, can be replaced by
   the edges $\{(v, w), (w,z), (z,v)\}$ with costs
-  $$c_{vw} = c_{vu} + c_{uw},\quad c_{wz} = c_{wu} + c_{uz},\quad c_{zv} = c_{zu} + c_{uv}\mathnormal{.}$$
+  \[c_{vw} = c_{vu} + c_{uw},\quad c_{wz} = c_{wu} + c_{uz},\quad c_{zv} = c_{zu} + c_{uv}\mathnormal{.}\]
 \end{theorem}
 \begin{figure}[h!]\centering
     \begin{tikzpicture}[auto, node distance=1.3 cm]
@@ -654,24 +654,24 @@ is the \textit{non-terminals of degree 3 test}.
   and let $T$ be an optimal solution which contains $(u,v)$, $(u,w)$, and $(u,z)$.
 
   Let $P_1 = (v, ..., w)$ be the simple path with Steiner distance
-  $$sd(P_1) = B(v,w)$$
+  \[sd(P_1) = B(v,w)\]
   and similarly let $P_2 = (v, ..., z)$ be the simple path with Steiner distance
-  $$sd(P_2) = B(v,z)\mathnormal{.}$$
+  \[sd(P_2) = B(v,z)\mathnormal{.}\]
   This gives us the situation in Figure~(\ref{fig:red:test:ntd3:thm}). Note that $u$ may be a part of either paths.
 
   Let $T_v$, $T_w$, and $T_z$ be the subtrees of $T$ obtained by
   removing the edges adjacent to $u$ from $T$, and construct a new solution with
    total cost no-larger than $T$ as,
-   $$T' = T_v \cup T_w \cup T_z \cup P_1 \cup P_2\mathnormal{.}$$
+   \[T' = T_v \cup T_w \cup T_z \cup P_1 \cup P_2\mathnormal{.}\]
    We must have $|\delta_{T'}(u)| \leq 2$. If we had $|\delta_{T'}| = 3$ then
    we would have
-   $$P_1 = \left[v, (v,u), u, (u,w), w \right]$$
+   \[P_1 = \left[v, (v,u), u, (u,w), w \right]\]
    and
-   $$P_2 = \left[v, (v,u), u, (u,z), z \right]$$
+   \[P_2 = \left[v, (v,u), u, (u,z), z \right]\]
    giving us
-   $$B(v,w) + B(v, z) = sd(P_1) + sd(P_2) = 2 c_{vu} + c_{uw} + c_{uz} > c_{vu} + c_{uw} + c_{uz}$$
+   \[B(v,w) + B(v, z) = sd(P_1) + sd(P_2) = 2 c_{vu} + c_{uw} + c_{uz} > c_{vu} + c_{uw} + c_{uz}\]
    which is a contradiction to our original assumption that
-   $$B(v,w) + B(v,z) \leq c_{uv} + c_{uw} + c_{uz}\mathnormal{.}$$
+   \[B(v,w) + B(v,z) \leq c_{uv} + c_{uw} + c_{uz}\mathnormal{.}\]
    Thus $T'$ is an optimal solution to $G$ with $|\delta_{T'}(u)| \leq 2$.
 \end{proof}
 
@@ -688,16 +688,16 @@ to reduce the graph.
 Given an instance of the \gls{pcstp} with the undirected graph $G = (V, E, c, p)$ and terminal set
 $N \subseteq V$, we define a Voronoi region for a given terminal, $i \in N$, as the set of nonterminals
 which are closer to $i$ than any other terminal in terms of simple shortests paths, that is,
-$$R_i = \left\{v \in V \setminus N \mid i = \argmin_{u \in N} d_{vu}\right\}$$
+\[R_i = \left\{v \in V \setminus N \mid i = \argmin_{u \in N} d_{vu}\right\}\]
 where $R_i$ is the Voronoi region covered by the terminal $i$ and $d_{vu}$ is the shortest path between vertices
 $v$ and $u$.
 
 We then define the \textit{radius} of the $i$th Voronoi region as the shortest path
 from its centre (the $i$th terminal)
 to any vertex not in the region,
-$$\radius(i) = \min_{v \not\in R_i} d_{iv}\mathnormal{.}$$
+\[\radius(i) = \min_{v \not\in R_i} d_{iv}\mathnormal{.}\]
 From this we define a \textit{prize-collecting radius} of a region as,
-$$\pcradius(i) = \min(\radius(i), p_i)\mathnormal{.}$$
+\[\pcradius(i) = \min(\radius(i), p_i)\mathnormal{.}\]
 We can intuitively see the \textit{pc radius} of a region as a kind of lower bound
 on the cost contribution
  of that region to any
@@ -706,9 +706,9 @@ on the cost contribution
  than the \textit{radius} of the region.
 
  Finally, let
- $$z_1, z_2, \ldots, z_{|N|}$$
+ \[z_1, z_2, \ldots, z_{|N|}\]
  be a monotonically increasing ordering of terminals such that
-$$\pcradius(z_1) \leq \pcradius(z_2) \leq ... \leq \pcradius(z_{|N|})\mathnormal{.}$$
+\[\pcradius(z_1) \leq \pcradius(z_2) \leq ... \leq \pcradius(z_{|N|})\mathnormal{.}\]
 
 \paragraph{Lower Bound Reductions}
 
@@ -720,7 +720,7 @@ part of a solution. This was first introduced for the \gls{stp} by \citet{polzin
   Let $T = (V_T, E_T, c, p)$ be a solution to the \gls{pcstp} in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
   $v_k \in V_T$ for some $v_k \in V \setminus N$. Finally, let $v_a \in N$ and $v_b \in N$ be the two terminals \textit{closest}
   to $v_k$, then we have
-  $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}$$
+  \[d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\mathnormal{.}\]
 \end{theorem}
 \begin{proof}
   Consider a solution $T$ as described above which contains some nonterminal $u \in V_T$.
@@ -836,7 +836,7 @@ d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m
 
   By combining the equations (\ref{eq:vor:one}), (\ref{eq:vor:two}), and (\ref{eq:vor:three}), and
    by the definition of vertices $v_a$ and $v_b$ being the terminals closest to $v_i$ we have,
-   $$d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)$$
+   \[d(v_a, v_k) + d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z_i) \leq c(T)\]
    and we are done.
  \end{proof}
  If a nonterminal is found such that the bound in Theorem \ref{thm:vor:1} is larger than the objective value of
@@ -847,9 +847,9 @@ d(v_l, v_i) + d(v_m, v_i) + \sum_{P_i \in \mathcal{P}} \pcradius(i) \leq c(E(P_m
   Let $T = (V_T, E_T, c, p)$ be a solution to the \gls{pcstp} in the graph $G = (V, E, c, p)$ with terminal set $N$ such that
   $v_k \in V_T$ for some $v_k \in N$ and $V_T \neq \{v_k\}$. Finally, let $v_b \in N$ be the terminal \textit{closest}
   to $v_k$, and let $z'_1, \ldots, z_{|N|-1}$ be an ordering of the set $N \setminus \{v_k\}$ such that
-  $$\pcradius(z_1) \leq \cdots \leq \pcradius(i) \leq \cdots \leq \pcradius(z'_{|N|-1})$$
+  \[\pcradius(z_1) \leq \cdots \leq \pcradius(i) \leq \cdots \leq \pcradius(z'_{|N|-1})\]
   then we have
-  $$d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z'_i) \leq c(T)\mathnormal{.}$$
+  \[d(v_b, v_k) + \sum_{i = 1}^{|N| - 2} \pcradius(z'_i) \leq c(T)\mathnormal{.}\]
 \end{theorem}
 The proof of Theorem~\ref{thm:vor:2} is symmetric to the proof of Theorem~\ref{thm:vor:1}. If a terminal is found such that
 the respective lower bound is higher than the objective value of a given incumbent, then the terminal is redundant and it is
