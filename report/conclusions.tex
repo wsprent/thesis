@@ -4,30 +4,34 @@
 \bookmarksetup{startatroot}
 \chapter{Conclusions}
 This chapter serves as a summary of the work we have presented in this thesis.
-Section~\ref{sec:con:fut} looks at some of the work which we think would be
-interesting to explore, but have not either due to the scoping of our thesis or
+Section~\ref{sec:con:fut} looks at some subjects which we think would be
+interesting to explore, but have not
+due to either the scoping of our thesis or
 time constraints.
 Section~\ref{sec:con:con} then concludes this thesis with a look back at what we
-have achieved (and not achieved) and presents what we think are our main results.
+have achieved (and not achieved) and it summarises the main results of our thesis.
 \section{Future Work}\label{sec:con:fut}
-While we have done some work in this thesis, there is still plenty to do. We have
-managed to a lot of questions than we have answered. Below are some of the open
+While we have done some work in this thesis, there is still plenty to do. In some ways,
+we have managed to pose more questions than we have answered. Below are some of the open
 questions which we think would be interesting to follow up on.
 
 \subsection{Combinations of Preprocessing Routines}
-In Section~\ref{sec:solving:pre} we discuss and describe preprocessing routines for
+In Section~\ref{sec:solving:pre}, we discuss and describe preprocessing routines for
 the \gls{pcstp}. This is done more in-depth by \citet{rehfeldt2016reduction}, who
-additionally present a series of computational experiments which test single reduction
-tests on a graph and also test a package of reduction tests.
+additionally present a series of computational experiments. These both test
+the effectiveness of stand-alone reduction tests on a graph
+as well the effectiveness of a package of reduction tests.
 
 They report that the ordering
 in which preprocessing routines are applied \textit{does} matter and claim that running
-the ``weakest'' routines first before moving on to the stronger, more costly routines.
-However, they do not present results which show this.
+the ``weakest'' routines first before moving on to the stronger, more costly routines
+gives the best results.
+However, they do not present the benchmarks which have shown this.
 
 We think it would be interesting to dive deeper into the dynamics between graph reduction
-techniques. Uncovering which reduction tests enable eachother the most may lead to more
-complex ordering of routines with potentially lower runtimes.
+techniques. The goal would be to uncover which reduction tests
+enable each other the most. This may lead to discovering slightly more
+complex orderings of these routines with potentially lower runtimes.
 
 \subsection{Preprocessing for the MTP}
 We did not spend much time dwelling on preprocessing for the \gls{mtp}. Our first goal was
@@ -38,12 +42,14 @@ However, while it seems like a hard problem due to the combinatorial size of the
 cost function, it may be that preprocessing routines could be a factor in solving the
 \gls{mtp}.
 
-We suspect that these routines will be more niché and more instance specific
+We suspect that these routines, if they can be found,
+will be more niché and more instance-specific
 than the ones for the \gls{pcstp}, relying
-on specific graph formations, and it may well be that there simply aren't strong enough
-invariant inherent in the \gls{mtp} to generate usefull preprocessing routines.
+on specific graph formations. However, it may well be that there simply aren't strong enough
+invariants inherent in the \gls{mtp} to generate useful preprocessing routines.
 
-However, if it is possible to uncover some useful routines, we have seen with the \gls{pcstp}
+In the end, if it \textit{is} possible to uncover some useful preprocessing routines,
+we have seen with the \gls{pcstp}
 just how big a different it can make.
 
 \subsection{Directed Formulation of the MTP}
@@ -63,12 +69,13 @@ analysis on its effect on producing exact solutions for the \gls{mtp}.
 \subsection{Refine the MTP Solver}
 
 In Chapter~\ref{chap:mediantree}, we have proposed possible amendments to our solver to
-solves some of its shortcomings.
+solve some of its shortcomings.
 
-The most poignant of these is probably the weakness of the Python 3 interface.
+The most poignant of these is probably the inherent weakness
+of the Python 3 interface.
 We stand by the ability of the Python interface to allow for faster iteration times,
-which helped put together the solver in relatively short time.
-However, at the same time, we have repeatedly
+which helped put together the solver in a relatively short time.
+However, at the same time, in this thesis we have repeatedly
 returned to the fact that Python as a callback interface is
 inherently slower than a compiled system-programming language.
 This ends up being a bit of a cop-out in our results section,
@@ -81,27 +88,31 @@ the solver in a faster language, e.g. C++.
 
 \paragraph{Primal Heuristic for the Median Tree Problem}
 In Section~\ref{sec:mtp:solver} we detail a primal heuristic for the \gls{mtp}
-which we translated directly from a primal heuristic for the \gls{pcstp}.
+which we have translated directly from a primal heuristic for the \gls{pcstp}.
 The final step of the algorithm did not translate directly, however, which potentially
 results in a weaker heuristic.
 
-Implementing a solver for the \gls{mtp} on tree based on results on literature
+Implementing a routine for solving the \gls{mtp} on trees based on results from literature
 (see Section~\ref{sec:related:mtp}) may give improved results for our solver,
-but the extra computational cost may also be a burden.
+but the extra computational cost may also be a burden. The only way to find out, is
+to implement the routine into the solver and analyse the results.
 
 Alternatively, it could be interesting to take a look at implementing a search-based
 heuristic for the \gls{mtp}, perhaps based on the work by \citet{canuto2001local}
 for the \gls{pcstp}.
 
 \subsection{Real World Datasets}
-\citet{ljubic2006algorithmic}, along with their solver, produced two groups of real-world
+\citet{ljubic2006algorithmic}, produced, on top of heir solver,
+two groups of real-world
 instances modeled on the city of Cologne using GIS data and real world infrastructure.
-These instances give a concrete example of application of the \gls{pcstp} with regards
-to the deployment of fiber-optics networks, and contribute perhaps even more than
-a new algorithm as they allow for the benchmarking of methods against realistic instances
-for all subsequent algorithms.
+These instances give a concrete example of application for the \gls{pcstp} with regards
+to the deployment of fiber-optics networks.
+In many ways, this contribution is larger than
+a new algorithm as it allows for the benchmarking of methods against realistic instances
+for all subsequent work on the problem.
 
-We suggest that it would be worthwhile in and of itself to look into produce more of these
+We suggest that it would be worthwhile goal in and of itself to look into
+producing more of these
 datasets, both for the \gls{mtp} and \gls{pcstp}.
 
 \section{Conclusion}\label{sec:con:con}

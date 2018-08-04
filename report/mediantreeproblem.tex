@@ -10,7 +10,7 @@ the problem in the general case to optimality.
 Being that this problem has some striking similarities
 to the \gls{pcstp} ---foremost that both problems involve finding a connected
 subgraph which minimises the edge cost of the subgraph summed with
-penalties for every not-included vetex--- we suspect that refitting the
+penalties for every not-included vertex--- we suspect that refitting the
 methods used to solve the \gls{pcstp} to the \gls{mtp} may result in good performance.
 
 In this chapter, we will present a formal definition of the \acrlong{mtp} in Graphs
@@ -260,7 +260,7 @@ As with the \gls{pcstp} formulation, when $x_{ij} = 1$,
 the edge between vertices $v_i$ and $v_j$ is part of the solution.
 Note that only
 one of the variables $x_{ij}$ or $x_{ji}$ are variables
-in model and we will use both indices interchangably
+in model and we will use both indices interchangeably
 to refer to the same variable for the sake of readability.
 
 Similarly, $\bd y$ describes the assignment relation of a solution. When
@@ -292,7 +292,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
    \caption{\gls{ilp} formulation of the \gls{mtp}.}
  \end{formulation}
 
- Since edges have nonnegative weights, we know that the shape of the facility must be a tree.
+ Since edges have non-negative weights, we know that the shape of the facility must be a tree.
  Constraint (\ref{form:mtp:tree}) ensures that any facility has exactly one less edge than
  vertices, and constraints (\ref{form:mtp:gsec})
  ---commonly known as \glspl{gsec}---
@@ -321,7 +321,8 @@ itself, which implies that vertex $v_k$ is part of the facility.
 
  \paragraph{Valid Inequalities}
  Whenever a vertex is connected to the facility, it is trivially correct to assign it to itself.
- This follows directly from the fact that assignment costs are non-negative. So, since we have $d_{ii} = 0$
+ This follows directly from the fact that assignment costs are non-negative.
+ So, since we have $d_{ii} = 0$
  for all $i \in V$
  we also must have $d_{ij} \geq d_{ii}$
  for all $i,j \in V$.
@@ -339,11 +340,11 @@ itself, which implies that vertex $v_k$ is part of the facility.
  \begin{equation}\label{form:mtp:str}
  y_{ii} \geq x_{ji} \qquad \forall i \in V,  \forall j \in \delta(i)\mathnormal{.}
 \end{equation}
-This increases the size of the model by upto $|V|^2$ constraints, but
+This increases the size of the model by up to $|V|^2$ constraints, but
 decreases the amount of feasible solutions and potentially the amount of optimal solutions.
 \smallskip
 
-Similar to how \citet{ljubic2005solving} constrain the degree of Nonterminals in
+Similar to how \citet{ljubic2005solving} constrain the degree of nonterminals in
 Constraint~(\ref{form:exact:strength}) for their model of the \gls{pcsap},
 the same idea holds for the \gls{mtp} but in a slightly different manner.
 
@@ -367,23 +368,27 @@ the same idea holds for the \gls{mtp} but in a slightly different manner.
  The intuitive interpretation of (\ref{mtp:valid:deg}) is that if any edge adjacent to
  a nonterminal is selected, \textit{at least} two edges adjacent to the nonterminal must be selected.
 \section{Solver}\label{sec:mtp:solver}
-As mentioned previously, to test out the applicability of some of the methods introduced in
-the Chapter~\ref{chap:solving}, we have implemented a solver for the \gls{mtp}.
-This section both goes over algorithmic and technical implemention details of the solver
+Based in part on results from the survey in Chapter~\ref{chap:solving}, we present here
+a solver for the \gls{mtp}. This section both goes over algorithmic and technical
+implementation details of the solver
 
-The solver makes use of the general purpose \gls{mip} solver
-Gurobi \citep{gurobi} (version 8.0.1)
-and its Python 3 interface. While this means that the callbacks written for the solver
-will naturally have much slower performance than if, for example, we had chosen to make
-use of the C or C++ interface, the Python interface was chosen for its higher level interface
-and better ease-of-use which results in better iteration times. Having no other computational results
+The \gls{mtp} solver makes use of the general purpose \gls{mip} solver
+Gurobi \citep{gurobi} (version 8.0.1) as a \gls{ilp} framework
+and its Python 3 interface applying user callbacks.
+Using Python as a callback interface obviously comes at a performance cost.
+Had we chosen to make use of Gurobi's C or C++ interfaces,
+we would undoubtedly see better performance.
+However, the Python interface was chosen for its higher level interface
+and better ease-of-use which has resulted in shorter iteration times.
+Having no other computational results
 to compare against, this trade-off was easy to make.
 
 The Python library,
 NetworkX\footnote{\url{https://networkx.github.io/}} \citep{hagberg2008exploring}
 was used for the internal graph representation of the
-problem instances in the solver as well as for implementation of common
-graph algorithms. It is worth noting that NetworkX features algorithm implementations
+problem instances in the solver as well as for its implementation of common
+graph algorithms.
+It is worth noting that NetworkX features algorithm implementations
 in native Python instead of the more efficient Python C modules. This, again, has some
 performance implications especially with regards to user callbacks (which we will
  touch on below).
@@ -398,10 +403,11 @@ tool in solving hard instances, our solver does not include any preprocessing ro
 
 This is not a design choice but rather a limitation. The \gls{mtp} is
 more combinatorially
-complex than the \gls{pcstp} which makes it impossible to directly translate those particular
-methods. Where removing an edge or a vertex in the \gls{pcstp}
-has very straightfoward consequences in
-some cases, it may have cascading effects in the \gls{mtp}.
+complex than the \gls{pcstp} and this makes it the preprocessing routines defined for
+the \gls{pcstp} incompatible with the \gls{mtp}.
+For example, while removing an edge or a vertex in the \gls{pcstp}
+has very straightforward consequences in
+specific cases, it may have cascading effects in same cases for the \gls{mtp}.
 
 We have simply yet to uncover which preprocessing routines can be applied to instances of
 the \gls{mtp}.
@@ -411,45 +417,49 @@ The choice of applying a branch and cut method in the solver, is fairly straight
 forward to make as it is infeasible to load all of the exponential number of
 \glspl{gsec} into the model initially. Thus, the solver
 \textit{must} make use of
-Gurobi's \textit{Lazy Constraints} to avoid producing infeasible solutions
-and \textit{may} additionally make use of \textit{User Cuts} to potentially
+Gurobi's \textit{Lazy Constraint} callbacks to avoid producing infeasible solutions.
+Additionally, we \textit{may} apply \glspl{gsec} as
+\textit{User Cuts} to LP relaxation solutions to potentially
 give faster runtimes by producing tighter lower bounds.
 
-Both of these are included in the solver through Gurobi's callback system.
+As we are going to be separating \glspl{gsec} anyway, we might as well generate cuts
+for the LP solution anyway. Hence, we include both lazy constraints and user cuts
+in our solver through Gurobi's callback system.
 \subparagraph{Lazy Constraints}
-The job of the lazy constraint callback involves separating integer solutions
+The job of the lazy constraint callback is to separate integer solutions
 which violate any \glspl{gsec}. This boils down to finding cycles in the solution
-graph.
+graph. If this is not done, the optimiser may incorrectly return infeasible solutions.
 
 Given an integer solution $(\bd{\hat{x}}, \bd{\hat{y}})$ produced by Gurobi, we
 identify any violated \glspl{gsec} by first generating a NetworkX graph,
 \[S = (\{i \in V \mid \hat y_{ii} = 1 \}, \{ (i, j) \in E \mid \hat x_{ij} = 1\})\mathnormal{.}\]
-Then we again use NetworkX to find all simple cycles in $S$. Then for each vertex
+Then we again use NetworkX to find all simple cycles in $S$, and for all vertex
 subsets $C \subseteq V$ induced by a cycle
 in $S$, we add all of the violated constraints
 \[x(E(C)) \leq y_{ii} \setminus \{c\} \qquad \forall c \in C\]
 to the model.
 \subparagraph{User Cuts}
-The callback responsible for
-Separating infeasible LP solutions with regards to \glspl{gsec}
-have been adapted for the solver from the max-flow/min-cut  method used by \citet{lucena2004strong}
- (see Section~\ref{sec:solving:lower})
--- and later \citet{ljubic2005solving} and \citet{gamrath2017scip} -- for the \gls{pcstp}.
+For user cuts, we have implemented a routine which is
+responsible for separating infeasible LP solutions with regards to \glspl{gsec}.
+This routine has been adapted from the max-flow/min-cut method presented by \citet{lucena2004strong}
+ (see Section~\ref{sec:solving:lower}) for the \gls{pcstp}.
+ This is also the method used for the \gls{pcstp} solvers presented by
+ \citet{ljubic2005solving} and \citet{gamrath2017scip}.
 
 Adapting this separation procedure can be done directly. Having the decision variable
 $\hat y_{ii} = b$ for some $b \in [0,1]$ in the LP relaxation of
-the \gls{mtp} corresponds directly to $\hat y_i = b$ with respect to the \glspl{gsec}.
+the \gls{mtp} corresponds directly to $\hat y_i = b$ in the \gls{pcstp}.
 Once again, we use NetworkX to both represent the support graph and solve max flow problem(s).
 
 As with the DHEA solver by \citet{ljubic2005solving}, we allow for controlling the maximum amount
-of cuts performed at each node in the b\&b tree
+of cuts performed at each node in the branch-and-bound tree
 with a \texttt{-{}-max-cuts} option. Additionally, this can be set
 to \texttt{0} to disable the user cut routine altogether.
 
 \paragraph{Primal Heuristics}
-The solver an optional custom primal heuristic adapted from the primal hueristics detailed
+The solver an optional custom primal heuristic adapted from the primal heuristics detailed
 for the \gls{pcstp} by \citet{ljubic2005solving}
-(see Sections \ref{sec:solving:exact} and , \ref{sec:heuristics:lp}).
+(see Sections~\ref{sec:solving:exact}~and,~\ref{sec:heuristics:lp}).
 
 As with the cuts above, we exploit the fact that $y_i$ in the \gls{pcstp}
 corresponds directly to $y_{ii}$ in the \gls{mtp}.
@@ -464,7 +474,8 @@ With having no prior attempts to solve the \gls{mtp} in the general case to draw
 we have no interesting timings to test our model against nor any previously constructed
 datasets to perform benchmarks on. Thus, we present in this section two things,
 \begin{enumerate}
-\item The specifics of how we have generated a new dataset for the \gls{mtp} out of previously released,
+\item The specifics of how we have generated a new dataset for the \gls{mtp} out of previously released
+  datasets for the \gls{pcstp},
   as well as the details of the dataset, and
 \item The result of performing benchmarks testing the effectiveness of
   \begin{enumerate*}[label={\alph*)}, font=\bfseries]
@@ -473,27 +484,30 @@ datasets to perform benchmarks on. Thus, we present in this section two things,
   \item the extra constraint (\ref{form:mtp:str}).
   \end{enumerate*}
 \end{enumerate}
-In short, we are looking to test out our additions to a what could be called a ``default'' Gurobi
+In short, we are looking to test out our additions to what could be called a ``default'' Gurobi
 implementation of the \gls{mtp}.
 
-First we will give an overview of the dataset followed by an inspection of the three experiments we have
+First we will give an overview of the dataset. This is then
+followed by an inspection of the three experiments we have
  performed.
  \subsection{Datasets}
  To perform realistic and relevant benchmarks of the settings in our solver, we need to run the solver
  against instances of the \gls{mtp} which are large enough to not be presolved and preferably small
- enough to solve to optimality within a reasonable timeframe. At the same time, as this is an introduction
- to the problem, we want the instances to be generic, opposed to modelling some specfic application or
- flavour of the \gls{mtp}.
+ enough to solve to optimality within a reasonable time frame. At the same time, as this is an introduction
+ to the problem, we want the instances to be generic, opposed to modelling some specific application or
+ edge case of the \gls{mtp}.
 
  In getting to this point, our starting point is the \texttt{JMP} dataset presented by 
  \citet{Johnson:2000:PCS:338219.338637}. This was picked mainly for featuring the smallest
- and easiest to solve instances of the \gls{pcstp} instances available
- (and yet -- as shown below -- we have had to truncate the instances).
- The input instances are distributed in the \texttt{STP} format used by the \textit{SteinLib}
- library \citep{koch2001steinlib}.
+ and most easy to solve instances among the available \gls{pcstp}.
+ And yet ---as seen below--- we have had to truncate the instances to make them solvable.
 
- The \gls{mtp} instances we output are described in \texttt{STP} format with a small extension.
- This involves the addition of a new \texttt{Section} named \texttt{AssignmentCosts} each line
+ The input instances are distributed in the \texttt{STP} format used by the \textit{SteinLib}
+ library \citep{koch2001steinlib}, and since we can easily extend the \texttt{STP} format
+ to describe the \gls{mtp}, we describe the resulting instances in this format as well.
+
+ Extending the \texttt{STP} involves the addition of a new
+ \texttt{Section} named \texttt{AssignmentCosts}. Each line
  in this section describes the cost of assigning a single vertex to another.
 
  Formally, each line has the format,
@@ -507,25 +521,30 @@ First we will give an overview of the dataset followed by an inspection of the t
 \begin{verbatim}
 D 1 2 4.5
 \end{verbatim}
-Appendix \ref{app:report:stp} shows Figure~\ref{fig:mtp:01} represented in the extended STP format.
+ 
+ For reference, Appendix~\ref{app:report:stp} shows Figure~\ref{fig:mtp:01}
+ represented in the extended STP format.
+
  \paragraph{Translation}
  In translating the \gls{pcstp} instances into \gls{mtp} instances, we keep all the of the graph
  structure including the edge costs. Hence we only need to generate a set of assignment costs which
-  \textit{balanced} with respect to edge costs.
+ are \textit{balanced} with respect to edge costs.
 
  To generate assignment costs, we first assign any nonterminal with no prize a prize
- equal to the average prize across all vertices. For each vertex, $i$, the cost to assign
- it to some vertex, $j$, is then,
+ equal to the average prize across all vertices. The cost of assigning some vertex $i$
+ to some vertex $j$ is then,
  $$d_{ij} =
  \begin{cases}
    p_i \cdot \frac{sp(i, j)}{\sum_{l \in V}sp(i,l) / |V|} & p_i > 0 \\
       \frac{\sum_{l \in V} p_l}{|V|} \cdot \frac{sp(i, j)}{\sum_{l \in V}sp(i,l) / |V|} & p_i = 0
  \end{cases}\mathnormal{.}
 $$
- In other words, vertex $i$'s prize is factored by ratio between length of the shortest path
- between $i$ and $j$ relative to the average distance between vertex $i$ and all vertices.
- This keeps the prizes in the original dataset relevant, and makes ``closeness'' between
- verties with respect to assignment costs somewhat transitive.
+In other words, vertex $i$'s prize is factored by the ratio between the
+length of the shortest path
+between $i$ and $j$ and the
+average distance between vertex $i$ and all vertices.
+This keeps the prizes in the original dataset relevant, and makes ``closeness'' between
+vertices with respect to assignment costs somewhat transitive.
 
  A facet --- perhaps a weakness --- of this method is that it produces somewhat uniform
  assignment costs, and that it requires a connected graph to produce an \gls{mtp} instance
@@ -537,14 +556,20 @@ $$
  $i,j$, from disjoint components. The edge $(i,j)$ is then added to the edge set with cost
  \[c_{ij} = \sum_{k \in \delta(i)} c_{ik} / |\delta(i)|\mathnormal{.}\]
 
- The summarise, the output dataset features instances which have connected graphs with
- \textit{smooth} -- as opposed to erratic -- assignment cost functions. All vertices
- can be assigned to all other vertices without incurring infinite cost, and no vertex
+ To summarise, the output dataset features instances of the \gls{mtp}
+ on connected graphs with
+ \textit{smooth}
+ ---as opposed to erratic---
+ assignment cost functions.
+ All vertices
+ can be assigned to all other vertices without incurring infinite cost,
+ and no vertex
  can be assigned to another vertex at zero cost. 
 
- \paragraph{Truncation} However, even though we chose the ``easiest'' of the available datasets,
+ \paragraph{Truncation} However, even though we chose the ``easiest'' of the available
+ \gls{pcstp} datasets,
  our solver still struggle with our translated instances, and would require a timeout
- value too large time constraint wise.
+ value too large for our time constraints.
 
  Thus we have chosen to create smaller instances by truncating the translated \texttt{JMP}
  instances. The translated dataset mainly contains instances with either $100$ or $400$ vertices,
@@ -561,7 +586,34 @@ $$
 
  The end result from the above is two sets of instances, \texttt{JMP-60} and \texttt{JMP-80}, named
  after the original dataset and the amount of vertices they contain.
- 
+
+\paragraph{The Dataset}
+Table~\ref{tab:mtp:dataset} shows an overview of the truncated dataset which is the basis for our
+experiments. A similar table for the full instances can be seen in Table~\ref{tab:app:jmp}.
+
+\begin{table}[h!]
+  \centering
+  \begin{subtable}{0.45\linewidth}
+    \centering
+    \begin{tabular}[h!]{c|c|c}
+      \input{dataset-jmp60-table.tex}
+    \end{tabular}
+    \caption{JMP-60.}
+  \end{subtable}
+  \begin{subtable}{0.45\linewidth}
+    \centering
+  \begin{tabular}[h!]{c|c|c}
+    \input{dataset-jmp80-table.tex}
+  \end{tabular}
+  \caption{JMP-80.}
+  \end{subtable}
+  \caption{The \gls{mtp} dataset.}\label{tab:mtp:dataset}
+\end{table}
+
+It is clear that we didn't quite achieve what we wanted with this dataset. The instances are fairly
+sparse, and the JMP-80 instance are close to being trees. However, having not realised this before
+the benchmark suite had been run, we have decided to keep the data set.
+
  \subsection{Experiments}
 
  To perform our three experiments, we have developed a small rudimentary benchmarking suite. The solver
@@ -623,7 +675,7 @@ is shown by the $\mathbf{0\%}$ $GAP$ between the highest lower bound and best in
 The results are somewhat mixed, with the Gurobi heuristic proving to be faster in the majority
 of cases. In a couple of cases, particularly instances \texttt{K400.1} and \texttt{K400.5},
 our primal heuristic is twice as slow as the Gurobi heuristic. The picture of having the
-custom primial heuristic only sometimes being worthwhile mirrors results from
+custom primal heuristic only sometimes being worthwhile mirrors results from
 \citet{ljubic2005solving}, who experienced the same ambivalent results for their solver.
 
 While these results suggest that turning off the Python-based heuristic is the way to go
@@ -647,7 +699,7 @@ this step, we are missing out on a lot.
 
 In both cases, simply running the heuristic on every 25th node is not a very cunning
 way of using our resources, and there is no reason to believe that this achieves optimal
-performance. If the heuristic was reimplemented to be blazingly fast, it may be advisable to
+performance. If the heuristic was re-implemented to be blazingly fast, it may be advisable to
 simply run the full heuristic at every node of the branch and bound tree
 (which mirrors what we have seen in Section~\ref{sec:solving:exact}). However, it may also
 be a good idea to change behaviour based on the nature of the LP solution, either by
@@ -691,11 +743,11 @@ Having to potentially solve a max-flow problem for each vertex in the input grap
 of $O(n^2 \log n)$. This makes the separation procedure quite costly compared
 to our primal heuristic.
 Spending this much time in the Python interpreter may actually be enough to explain the performance
-disrepancy.
+discrepancy.
 
 Furthermore, enabling user cuts in Gurobi requires the disabling of the \texttt{PreCrush} setting
 which disallows Gurobi from reformulating constraints when presolving the model. This means
-that a user cut routine must not just justify itself in terms of time spent versus tigher bounds,
+that a user cut routine must not just justify itself in terms of time spent versus tighter bounds,
 but also with respect to a weakening of the presolving routine.
 
 In the end, these results show that disabling user cuts altogether in our model is definitely
@@ -722,7 +774,7 @@ Table~\ref{tab:jmp:strengthen} shows the effects of adding constraints~(\ref{for
 the model. For most of the instances there is very little difference between the two models
 of the problem in how long it takes to reach an optimal solution. Notably, \texttt{K100.8} is
 solved in $223$ seconds with the strengthened model yet times out on the basic model at $310$
-seconds. The only other stark runtime difference of this caliber is on instance \texttt{K400.4}
+seconds. The only other stark runtime difference of this calibre is on instance \texttt{K400.4}
 which took on average $13.6$ and $23.3$ seconds to solve with and without the extra constraints
 respectively.
 
@@ -744,11 +796,11 @@ against a newly generated dataset.
 Our new dataset, generated from a dataset for the \gls{pcstp}, comprises 22 instances both in
 full and truncated forms (with 100 to 400 and 60 to 80 vertices respectively). This dataset
 has been made available on
-Github\footnote{\url{https://github.com/wsprent/thesis-instances}}
+GitHub\footnote{\url{https://github.com/wsprent/thesis-instances}}
 for further use. We have solved all truncated instances to
 optimality, but leave the full instances to the reader.
 
-For our solver, we have attempted to translate proven succesful methods for the \gls{pcstp}
+For our solver, we have attempted to translate proven successful methods for the \gls{pcstp}
 into methods for
 the \gls{mtp}.
 In our experiments, we validated the usefulness of our primal heuristic callback and
@@ -757,13 +809,13 @@ We failed to show the same for our user cut callback, which significantly slowed
 optimiser.
 
 Based on these results, we are confident that it is possible to directly apply research on
-the \gls{pcstp} to the \gls{mtp}. While there are some cases where additonal work must be
+the \gls{pcstp} to the \gls{mtp}. While there are some cases where additional work must be
 done to translate an algorithm ---e.g. the primal heuristic for which we skipped a step---
 it seems that the problems are either generic enough or similar enough for information share.
 
 For further work, it would be interesting to implement some of the refinements to the solver
 mentioned above and see if the results of our experiments would change. Furthermore, we have
-only tested the solver on a generic dataset. It would be interesting to idenfify and describe
+only tested the solver on a generic dataset. It would be interesting to identify and describe
 real world instances of the \gls{mtp} and run the solver on these.
 
 
