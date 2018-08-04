@@ -575,11 +575,9 @@ vertices with respect to assignment costs somewhat transitive.
  instances. The translated dataset mainly contains instances with either $100$ or $400$ vertices,
  and we truncate these into instances containing $60$ and $80$ vertices respectively.
 
- We accomplish this by iteratively contracting randomly selected edges. To avoid generating a
- vastly more connected graph, we then remove adjacent edges from the resulting vertex until
- we have $|\delta(i)| \frac{n_{target}}{|V|}$ edges in its adjacency (where $i$ is the vertex
- and $n_{target}$ is the number of vertices in the truncated instance) or until we randomly select
- an edge which would disconnect the graph.
+ We accomplish this by iteratively contracting randomly selected edges. After contracting edges,
+ we then randomly remove edges from the graph until we have the same node / edge ratio as in the
+ full graph.
 
  This method is admittedly rather arbitrary, but it aims to accomplish a graph containing similar
  connectivity as well as introducing a level of randomness to ---hopefully--- avoid a too uniform graph.
@@ -629,16 +627,15 @@ the benchmark suite had been run, we have decided to keep the data set.
  \item No user cuts (\texttt{-{}-max-cuts 0 -{}-no-heuristics}).
  \item Maximum of one cut per node (\texttt{-{}-max-cuts 1 -{}-no-heuristics}).
  \item Maximum of 25 cuts per node (\texttt{-{}-max-cuts 25 -{}-no-heuristics}).
- \item Default settings.
- \item With constraint~(\ref{mtp:valid:deg}) (\texttt{-{}-strengthen -{}-no-heuristics}).
+ \item Default settings (\texttt{-{}-max-cuts 0}).
+ \item With constraint~(\ref{mtp:valid:deg}) (\texttt{-{}-max-cuts 0 -{}-strengthen -{}-no-heuristics}).
  \end{enumerate}
  Grouping benchmarks by instances was done to hopefully improve the chances of each run happening
  under the same circumstances while the precise ordering of the settings is arbitrary.
- 
- Default settings solves the input problem on the basic model (Formulation~\ref{form:mtp:cut})
- with a maximum of 25 user cuts, and performs the primal heuristics defined above at every
- 25th node.
 
+ We have chosen our ``default'' settings as close to default Gurobi as possible. Thus, when we test
+ a feature we have implemented, we do so isolation.
+ 
 \textit{System info}
 
 \paragraph{Heuristics}
