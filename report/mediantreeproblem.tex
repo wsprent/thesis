@@ -647,9 +647,10 @@ implementing a strong heuristic for the \gls{mtp} should be able to out perform 
 
 In the case of this particular formulation of the \gls{mtp},
 for example, the Gurobi optimiser does not have access to the
-many \glspl{gsec}, making it prone to produce infeasible solutions which waste time.
+many \glspl{gsec}, making it prone to produce infeasible solutions which must immediately
+be separated by the lazy constraint callback.
 
-However, our heuristic is rudimentary, adapted directly from a neighbouring problem,
+At the same time, our heuristic is adapted directly from a neighbouring problem,
 and implemented in an interpreted language. It may struggle to keep up.
 
 For our benchmarks, we have kept the default Gurobi setting of approximately running
@@ -658,7 +659,7 @@ every 25th node.
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}[h!]{|c|c|c|c|c|}\hline
+  \begin{tabular}[h!]{|c|c|c|c|}\hline
     \input{heuristics-table.tex}
   \end{tabular}
   \caption{Timing results for the primal heuristic benchmark. The
@@ -667,21 +668,24 @@ every 25th node.
 \end{table}
 
 In Table~\ref{tab:jmp:heuristics} we show the timings of running the heuristics experiment.
-In both cases, all instances were solved to optimality within the five minute time limit, which
-is shown by the $\mathbf{0\%}$ $GAP$ between the highest lower bound and best incumbent.
-The results are somewhat mixed, with the Gurobi heuristic proving to be faster in the majority
-of cases. In a couple of cases, particularly instances \texttt{K400.1} and \texttt{K400.5},
-our primal heuristic is twice as slow as the Gurobi heuristic. The picture of having the
-custom primal heuristic only sometimes being worthwhile mirrors results from
-\citet{ljubic2005solving}, who experienced the same ambivalent results for their solver.
+In both cases, all instances were solved to optimality within the five minute time limit.
+The results are split down the middle, with both configurations being the fastest
+in 11 out of 22 instances. Some instances see a very small discrepancy between the fastest
+and the slowest timing such as \texttt{K400.7} which has less than a seconds difference,
+while others see a more significant gap.
 
-While these results suggest that turning off the Python-based heuristic is the way to go
-in most cases,
+
+This mirrors the results from
+\citet{ljubic2005solving}. They report that their primal heuristic (which we have based
+ours on) turns out to improve runtimes in only some instances against the default heuristic
+in the CPLEX optimiser.
+
+While these results are somewhat ambivalent,
 they also suggest that perhaps by improving the heuristic we can achieve performance
 which eclipses the default performance.
 
 How we should achieve this, depends heavily on which way the heuristic is ``underperforming''.
- Is it producing solutions of too high value? Is it running too slowly?
+ Is it producing solutions of too high value or is it running too slowly?
 
  If speed is a problem, a good first option to improve performance,
  would be to rewrite the heuristic procedure
@@ -696,59 +700,68 @@ this step, we are missing out on a lot.
 
 In both cases, simply running the heuristic on every 25th node is not a very cunning
 way of using our resources, and there is no reason to believe that this achieves optimal
-performance. If the heuristic was re-implemented to be blazingly fast, it may be advisable to
+performance.
+If the heuristic was re-implemented to be blazingly fast, it may be advisable to
 simply run the full heuristic at every node of the branch and bound tree
 (which mirrors what we have seen in Section~\ref{sec:solving:exact}). However, it may also
 be a good idea to change behaviour based on the nature of the LP solution, either by
 running a different heuristic when the LP solution far from integral or \textit{only}
-running the heuristic when the solution is close to integral. 
+running a heuristic when the solution is close to integral.
 
 Either way, our results seem to confirm that reusing the heuristic from
 \citeauthor{ljubic2005solving} is not a faulty strategy, and that the \gls{pcstp}
-and \gls{mtp} similar enough for knowledge sharing.
+and \gls{mtp} similar enough for knowledge sharing in this case.
 
 \paragraph{User Cuts}
 A very different story is told by our user cuts experiment. Table~\ref{tab:jmp:maxcut}
 displays the results of our user cut experiment. The results are very clear, the performance
-of our user cut routine is atrocious compared to disabling it altogether. In most instances
-we see more than a $10 \times$ slowdown for the MC-25 configuration compared to the MC-0
-configuration, with the differential peaking for instance \texttt{K100.2} at around $30 \times$.
+of our user cut routine is atrocious compared to disabling it altogether. In all 22 instances
+the MC-25 option falls for the five minute timeout and fails to solve the instance to optimality.
+The same happens for the MC-1 option in two cases.
 
-These results also shown the only example of our solver not being able to solve an instance
-within the given time limit. Instance \texttt{K100.8} proves too difficult for the solver
-given the default \texttt{-{}-max-cuts 25} setting, causing it to terminate on average with
-a LP/incumbent gap of $6.52\%$.
+Moreover, we more often than not see more than a 2x slowdown from the MC-0 option to the
+MC-1 option. In one instance, we do see that the MC-1 option outperforms the MC-0.
+However, with
+timings around the two second mark this is probably not very significant, and could
+perhaps be explained by a hike in the presolve or similar.
+\medskip
 
-Such stark differences between configurations
-raise the question of whether or not we are talking about a performance
-related bug in the implementation of the user cut routine.
-While this may be the case, we will proceed as if it is not.
+In the end, there is a very stark difference between the performance
+ of the three configurations.
+This raises the question of whether or not we are talking about a performance
+related bug in the implementation of the user cut routine. This does not lead to
+interesting discussion, though, so we will proceed as if this is not the cause.
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}[h!]{|c|c|c|c|c|c|}\hline
+  \begin{tabular}[h!]{|c|c|c|c|c|}\hline
     \input{max-cut-table.tex}
   \end{tabular}
   \caption{Timing results for running the user cut experiments. The columns MC-0,
     MC-1, and MC-25 shown the timings for running the solver with no user cuts, max
     one user cut per node, and max 25 user cuts per node respectively.
-    \textbf{Bold} font indicates fastest time; \textit{Italic} font indicates
-    timeout; the percentage GAP is shown is the highest across the three configurations.}\label{tab:jmp:maxcut}
+    \textbf{Bold} font indicates fastest time. Instances which fell for the five minute
+  timeout have their LP gap displayed in place of time.}\label{tab:jmp:maxcut}
 \end{table}
 
-Having to potentially solve a max-flow problem for each vertex in the input graph incurs a runtime
+Another possible cause is that we be spending too much time in the slower Python
+interface. Having to potentially
+solve a max-flow problem for each vertex in the input graph incurs a runtime
 of $O(n^2 \log n)$. This makes the separation procedure quite costly compared
 to our primal heuristic.
-Spending this much time in the Python interpreter may actually be enough to explain the performance
-discrepancy.
+Spending this much time in the Python interpreter may actually be enough to explain
+even these performance
+discrepancies.
 
-Furthermore, enabling user cuts in Gurobi requires the disabling of the \texttt{PreCrush} setting
+Furthermore, enabling user cuts in Gurobi require disabling the \texttt{PreCrush} setting
 which disallows Gurobi from reformulating constraints when presolving the model. This means
-that a user cut routine must not just justify itself in terms of time spent versus tighter bounds,
+that a user cut routine must not just be able to justify
+itself in terms of the extra time spent for the tighter bounds,
 but also with respect to a weakening of the presolving routine.
 
 In the end, these results show that disabling user cuts altogether in our model is definitely
-the optimal option.
+the optimal option, and drastic improvements to the routine need to happen before this may
+change.
 
 \paragraph{Strengthening the Model}
 Our final experiment involves modifying the model itself instead of behaviour of the Gurobi solver.
@@ -757,7 +770,7 @@ of the feasible region.
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}[h!]{|c|c|c|c|c|}\hline
+  \begin{tabular}[h!]{|c|c|c|c|}\hline
     \input{strengthen-table.tex}
   \end{tabular}
   \caption{Timing results with and without constraint constraints~(\ref{form:mtp:str}).
