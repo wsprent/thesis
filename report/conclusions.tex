@@ -1,15 +1,16 @@
 % \makeatletter
 % \def\toclevel@chapter{-1}
 % \makeatother
-% \bookmarksetup{startatroot}
+
 \chapter{Conclusions}
-This chapter serves as a summary of the work we have presented in this thesis.
-Section~\ref{sec:con:fut} looks at some subjects which we think would be
-interesting to explore, but have not
-due to either the scoping of our thesis or
+This chapter serves as a summary of the work presented in this thesis.
+Section~\ref{sec:con:fut} looks at some subjects which would be
+interesting to explore, but have not been examined
+due to either the scoping of this thesis or
 time constraints.
 Section~\ref{sec:con:con} then concludes this thesis with a look back at what we
-have achieved (and not achieved) and it summarises the main results of our thesis.
+have achieved (and not achieved) and it summarises the main results of our work.
+
 \section{Future Work}\label{sec:con:fut}
 While we have done some work in this thesis, there is still plenty to do. In some ways,
 we have managed to pose more questions than we have answered. Below are some of the open
@@ -28,7 +29,7 @@ the ``weakest'' routines first before moving on to the stronger, more costly rou
 gives the best results.
 However, they do not present the benchmarks which have shown this.
 
-We think it would be interesting to dive deeper into the dynamics between graph reduction
+It would be interesting to dive deeper into the dynamics between graph reduction
 techniques. The goal would be to uncover which reduction tests
 enable each other the most. This may lead to discovering slightly more
 complex orderings of these routines with potentially lower runtimes.
@@ -111,21 +112,40 @@ In many ways, this contribution is larger than
 a new algorithm as it allows for the benchmarking of methods against realistic instances
 for all subsequent work on the problem.
 
-We suggest that it would be worthwhile goal in and of itself to look into
+We suggest that it would be a worthwhile goal in and of itself to look into
 producing more of these
 datasets, both for the \gls{mtp} and \gls{pcstp}.
 
 \section{Conclusion}\label{sec:con:con}
 In this thesis, we have surveyed the state of research on
-an NP-hard combinatorial graph optimisation problem in
+an NP hard combinatorial graph optimisation problem in
 the \acrlong{pcstp}. We have given a detailed overview of state-of-the-art
-methods used to solve this problem.
-With this knowledge in hand, we have then implemented a solver for the related
+methods used to solve this problem, and
+with this knowledge in hand, we have then implemented a solver for the related
 \acrlong{mtp}, a generalisation of the \gls{pcstp}.
+\medskip
+
+This has resulted in four main contributions:
+\begin{itemize}
+\item A survey of the \gls{pcstp}. This survey serves as a comprehensive introduction
+  and overview of research on the \gls{pcstp} and gives insight into the details of
+  methods used to solve the \gls{pcstp}. Furthermore, for methods we do not cover
+  in a detailed manner, it serves as an index for further reading.
+\item An introduction to the \acrlong{mtp}, a NP-hard optimisation problem along with
+  a problem definition in the vein of the family of ``prize-collecting'' problems.
+  Additionally, we have formulated the problem as an \gls{ilp} problem, using \glspl{gsec}.
+\item A new small dataset for the \gls{mtp} which can be used to compare results, as well
+  as tools to convert STP format data sets for the \gls{pcstp}. These tools can be used
+  \textit{as-is} or modified to generate different kinds of instances.
+\item A solver for the \gls{mtp}. This solver is able to solve the truncated version of
+  our dataset to optimality, but not the full sized version within reasonable time.
+\end{itemize}
+
+\bigskip
 
 We have learned that the \gls{pcstp}
-is a well-research problem, and stands out as the most mature field of
-research among related ``prize-collecting'' problems.
+is a well-researched problem, and stands out as the most mature field of
+research among the family of ``prize-collecting'' problems.
 We have seen that research on the \gls{pcstp} is heavily based on corresponding
 research on the \gls{stp}.
 
@@ -149,26 +169,16 @@ in the relatively slow Python 3 interface gives ambivalent results in our experi
 section. This suggests that a stronger implementation may eclipse the default heuristic
 altogether.
 
-% Main contributions
-In conclusion, we have made four main contributions,
-\begin{itemize}
-\item A survey on the \gls{pcstp}. This survey serves as a comprehensive introduction
-  and overview of research on the \gls{pcstp} and gives insight into the details of
-  methods used to solve the \gls{pcstp}. Furthermore, for methods we do not cover
-  in a detailed manner, it serves as an index for further reading.
-\item An introduction to the \acrlong{mtp}, a NP-hard optimisation problem along with
-  a problem definition in the vein of the family of ``prize-collecting'' problems.
-  Additionally, we have formulated the problem as an \gls{ilp} problem, using \glspl{gsec}.
-\item A new small dataset for the \gls{mtp} which can be used to compare results, as well
-  as tools to convert STP format data sets for the \gls{pcstp}. These tools can be used
-  \textit{as-is} or modified to generate different kinds of instances.
-\item A solver for the \gls{mtp}. This solver is able to solve the truncated version of
-  our dataset to optimality, but not the full sized version within reasonable time.
-\end{itemize}
+All in all, we have displayed the mature body of work done
+on the \acrlong{pcstp},
+and we have shown that it is viable to tie these results
+to the younger, related \acrlong{mtp}.
+This suggests that work performed on even
+very specific problems may be worth generalising.
 
-Through this, we have explored and learned about the subject of
-NP-hard graph optimisation problems from
-the perspective of the \acrlong{pcstp}.
+% Through this, we have learned in-depth about the \acrlong{pcstp}, seen how
+% it relates to similar optimisation problems, and succesfully translated
+% some of what we have learned to the newer \acrlong{mtp}.
 
 
 
