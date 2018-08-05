@@ -43,7 +43,7 @@ cost function, it may be that preprocessing routines could be a factor in solvin
 \gls{mtp}.
 
 We suspect that these routines, if they can be found,
-will be more niché and more instance-specific
+will be more niche and more instance-specific
 than the ones for the \gls{pcstp}, relying
 on specific graph formations. However, it may well be that there simply aren't strong enough
 invariants inherent in the \gls{mtp} to generate useful preprocessing routines.
@@ -123,7 +123,7 @@ methods used to solve this problem.
 With this knowledge in hand, we have then implemented a solver for the related
 \acrlong{mtp}, a generalisation of the \gls{pcstp}.
 
-We have learned that the gls{pcstp}
+We have learned that the \gls{pcstp}
 is a well-research problem, and stands out as the most mature field of
 research among related ``prize-collecting'' problems.
 We have seen that research on the \gls{pcstp} is heavily based on corresponding
@@ -131,7 +131,7 @@ research on the \gls{stp}.
 
 Furthermore, we have seen that some of the methods
 ---particularly within preprocessing---
-are very sepecific to the \gls{pcstp} as they lean heavily on
+are very specific to the \gls{pcstp} as they lean heavily on
 invariants inherent in the problem itself. Thus, while preprocessing routines
 are key results ---and widely used--- within the realm of the \gls{pcstp}
 they are not easily transferable to other problems, if transferable at all.
@@ -147,17 +147,17 @@ we have no reason to believe that this is due to the methods not being
 translatable. Particularly, we have seen that our primal heuristic implemented
 in the relatively slow Python 3 interface gives ambivalent results in our experimental
 section. This suggests that a stronger implementation may eclipse the default heuristic
-altoghether.
+altogether.
 
 % Main contributions
 In conclusion, we have made four main contributions,
 \begin{itemize}
 \item A survey on the \gls{pcstp}. This survey serves as a comprehensive introduction
   and overview of research on the \gls{pcstp} and gives insight into the details of
-  methods used to solve the \gls{pcstp}. Futhermore, for methods we do not cover
+  methods used to solve the \gls{pcstp}. Furthermore, for methods we do not cover
   in a detailed manner, it serves as an index for further reading.
 \item An introduction to the \acrlong{mtp}, a NP-hard optimisation problem along with
-  a problem defintion in the vein of the family of ``prize-collecting'' problems.
+  a problem definition in the vein of the family of ``prize-collecting'' problems.
   Additionally, we have formulated the problem as an \gls{ilp} problem, using \glspl{gsec}.
 \item A new small dataset for the \gls{mtp} which can be used to compare results, as well
   as tools to convert STP format data sets for the \gls{pcstp}. These tools can be used
