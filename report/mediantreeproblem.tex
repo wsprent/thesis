@@ -4,13 +4,13 @@ short summary of related problems, we now turn our eyes to the lattermost proble
 we have inspected: the \gls{mtp}.
 
 As we noted in Chapter~\ref{chap:related},
-the problem involving the finding of median trees
+the problem of finding median trees
 in graphs is not very well researched. To the best of our knowledge, no work has been put into solving
 the problem in the general case to optimality.
 Being that this problem has some striking similarities
 to the \gls{pcstp} ---foremost that both problems involve finding a connected
 subgraph which minimises the edge cost of the subgraph summed with
-penalties for every not-included vertex--- we suspect that refitting the
+penalties paid for every excluded vertex--- we suspect that refitting the
 methods used to solve the \gls{pcstp} to the \gls{mtp} may result in good performance.
 
 In this chapter, we will present a formal definition of the \acrlong{mtp} in Graphs
@@ -119,7 +119,7 @@ to this problem with total cost
       The edges of the facility are coloured in red and assignments are denoted with translucent red arrows.}\label{fig:mtp:01:opt}
   \end{figure}
 
-  Since there exists a relative balance between the cost of the edges in the graph and the assignment cost, $T$
+  Since there exists a relative balance between the cost of edges in the graph and the assignment costs, $T$
   only spans part of the graph. This raises a point. As assignment costs tend to infinity, the \gls{mtp} begins to look
   like the Minimum Spanning Tree problem.
   This is akin to the \gls{stp} with $N = V$ and the \gls{pcstp} with infinite prize
@@ -305,11 +305,11 @@ itself, which implies that vertex $v_k$ is part of the facility.
  each vertex in $G$ must assigned to some vertex which is part of the facility.
  Constraint
  (\ref{form:mtp:assignment}) ensures that every vertex in $G$ is assigned to exactly one
- vertex, and constraint (\ref{form:mtp:facility}) ensures that a vertex can only be assigned
- to if it is part of the facility. The latter could alternatively be modelled with a set
+ vertex, and constraint (\ref{form:mtp:facility}) ensures that a vertex can only be the target
+ of an assignment if it is part of the facility. The latter could alternatively be modelled with a set
  of \textit{Big M} constraints as
  \[\sum_{i \in V} y_{ik} \leq  M y_{kk}  \qquad \forall i \in V\]
- for some $M \gg |V|$. Which ensures that if $v_k$ is part of the facility then
+ for some $M \gg |V|$. This ensures that if $v_k$ is part of the facility then
  \textit{any number} of
  vertices (or $M$ vertices, to be precise) can be assigned to it, but if not
  then $0$ vertices can be assigned to it.
@@ -330,7 +330,7 @@ itself, which implies that vertex $v_k$ is part of the facility.
  
  However, the model does not disallow zero cost assignments between
  vertices, and as such we \textit{could} end with a solution where we have $y_{ii} = 0$ for some
- vertex $i$ even though $i$ is in fact spanned by the tree. There would then exists an equivalent,
+ vertex $i$ even though $i$ is in fact spanned by the tree. There would then exist an equivalent
  solution where vertex $i$'s assignment is switched to itself. Both of these solutions would translate
  to the same graph.
 
@@ -342,11 +342,12 @@ itself, which implies that vertex $v_k$ is part of the facility.
 \end{equation}
 This increases the size of the model by up to $|V|^2$ constraints, but
 decreases the amount of feasible solutions and potentially the amount of optimal solutions.
-\smallskip
+\medskip
 
-Similar to how \citet{ljubic2005solving} constrain the degree of nonterminals in
-Constraint~(\ref{form:exact:strength}) for their model of the \gls{pcsap},
-the same idea holds for the \gls{mtp} but in a slightly different manner.
+We can find another set of valid constraints by looking at how \citet{ljubic2005solving}
+constrain the degree of nonterminals in
+Constraint~(\ref{form:exact:strength}) in their model of the \gls{pcsap}.
+We can apply the same idea to the \gls{mtp}, but in a slightly different manner.
 
  Consider the set of vertices which cost nothing to assign and cannot be assigned to as \textit{Nonterminals},
 
@@ -368,13 +369,14 @@ the same idea holds for the \gls{mtp} but in a slightly different manner.
  The intuitive interpretation of (\ref{mtp:valid:deg}) is that if any edge adjacent to
  a nonterminal is selected, \textit{at least} two edges adjacent to the nonterminal must be selected.
 \section{Solver}\label{sec:mtp:solver}
-Based in part on results from the survey in Chapter~\ref{chap:solving}, we present here
+Based in part on results from our survey of the \gls{pcstp} in Chapter~\ref{chap:solving},
+we present here
 a solver for the \gls{mtp}. This section both goes over algorithmic and technical
 implementation details of the solver
 
 The \gls{mtp} solver makes use of the general purpose \gls{mip} solver
-Gurobi \citep{gurobi} (version 8.0.1) as a \gls{ilp} framework
-and its Python 3 interface applying user callbacks.
+Gurobi \citep{gurobi} (version 8.0.1) as an \gls{ilp} framework
+and its Python 3 interface for implementing and applying user callbacks.
 Using Python as a callback interface obviously comes at a performance cost.
 Had we chosen to make use of Gurobi's C or C++ interfaces,
 we would undoubtedly see better performance.
@@ -403,7 +405,7 @@ tool in solving hard instances, our solver does not include any preprocessing ro
 
 This is not a design choice but rather a limitation. The \gls{mtp} is
 more combinatorially
-complex than the \gls{pcstp} and this makes it the preprocessing routines defined for
+complex than the \gls{pcstp} and this makes the preprocessing routines defined for
 the \gls{pcstp} incompatible with the \gls{mtp}.
 For example, while removing an edge or a vertex in the \gls{pcstp}
 has very straightforward consequences in
@@ -423,7 +425,7 @@ Additionally, we \textit{may} apply \glspl{gsec} as
 give faster runtimes by producing tighter lower bounds.
 
 As we are going to be separating \glspl{gsec} anyway, we might as well generate cuts
-for the LP solution anyway. Hence, we include both lazy constraints and user cuts
+for the LP solution. Hence, we include both lazy constraints and user cuts
 in our solver through Gurobi's callback system.
 \subparagraph{Lazy Constraints}
 The job of the lazy constraint callback is to separate integer solutions
@@ -440,7 +442,8 @@ in $S$, we add all of the violated constraints
 to the model.
 \subparagraph{User Cuts}
 For user cuts, we have implemented a routine which is
-responsible for separating infeasible LP solutions with regards to \glspl{gsec}.
+responsible for separating violated \glspl{gsec} in the LP relaxation solution in every node of
+the branch and bound tree.
 This routine has been adapted from the max-flow/min-cut method presented by \citet{lucena2004strong}
  (see Section~\ref{sec:solving:lower}) for the \gls{pcstp}.
  This is also the method used for the \gls{pcstp} solvers presented by
@@ -457,7 +460,7 @@ with a \texttt{-{}-max-cuts} option. Additionally, this can be set
 to \texttt{0} to disable the user cut routine altogether.
 
 \paragraph{Primal Heuristics}
-The solver an optional custom primal heuristic adapted from the primal heuristics detailed
+The solver includes an optional custom primal heuristic adapted from the primal heuristics detailed
 for the \gls{pcstp} by \citet{ljubic2005solving}
 (see Sections~\ref{sec:solving:exact}~and,~\ref{sec:heuristics:lp}).
 
@@ -477,7 +480,7 @@ datasets to perform benchmarks on. Thus, we present in this section two things,
 \item The specifics of how we have generated a new dataset for the \gls{mtp} out of previously released
   datasets for the \gls{pcstp},
   as well as the details of the dataset, and
-\item The result of performing benchmarks testing the effectiveness of
+\item The result of performing benchmarks which measure the effectiveness of
   \begin{enumerate*}[label={\alph*)}, font=\bfseries]
   \item our primal heuristic,
   \item the user cut routine, and
@@ -499,8 +502,9 @@ followed by an inspection of the three experiments we have
 
  In getting to this point, our starting point is the \texttt{JMP} dataset presented by 
  \citet{Johnson:2000:PCS:338219.338637}. This was picked mainly for featuring the smallest
- and most easy to solve instances among the available \gls{pcstp}.
- And yet ---as seen below--- we have had to truncate the instances to make them solvable.
+ and most easy to solve instances among the available \gls{pcstp} datasets.
+ And yet ---as seen below--- we have had to truncate the instances to make them solvable
+ in reasonable amounts of time.
 
  The input instances are distributed in the \texttt{STP} format used by the \textit{SteinLib}
  library \citep{koch2001steinlib}, and since we can easily extend the \texttt{STP} format
