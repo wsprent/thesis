@@ -7,7 +7,7 @@ trade-off of \textit{paying} for connecting vertices to gain their \textit{prize
 In this chapter, we will look at this collection of similar problems,
 see how far research is on them,
 and discuss their similarities with the \gls{pcstp}
-both with respect to an intutive understanding of the problems,
+both with respect to an intuitive understanding of the problems,
 but also with respect to in which ways the problems are approached.
 
 By doing this, we aim to gain deeper insight into the structure of
@@ -31,7 +31,7 @@ for some $B \in \RR_+$.
 If we recollect the definition of the \gls{pcstp}
 and its variants (Section~\ref{sec:pcstp}) then
 we immediately see some similarities. The PCTSP involves optimising the
-\textit{Goemans-Williamson Minimization Problem} for the circuit $C$,
+\textit{Goemans-Williamson Minimisation Problem} for the circuit $C$,
 however with the extra
 constraint of collecting at least $B$ prize on the tour.
 This extra constraint draws comparisons
@@ -58,7 +58,7 @@ defined on a undirected graph (while the (Prize-Collecting)
 
 \paragraph{The Orienteering Problem}
 The Orienteering Problem (OP) is very much the circuit version of the \textit{Budget Problem}.
-Given a graph $G  = (V, E, c, p)$, the OP inolves finding a circuit, $C = (V_C, E_C)$,
+Given a graph $G  = (V, E, c, p)$, the OP involves finding a circuit, $C = (V_C, E_C)$,
 which maximises
 \[\sum_{v \in V_C}  p_v \quad \text{s.t.} \quad \sum_{ij \in E_C} c_{ij} \leq B\]
 for some $B \in \RR_+$.
@@ -185,7 +185,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
  family of prize-collecting problems. In the median problems, the fixed prize of a vertex is
  replaced by the variable ``prize'' represented by the shortest path to the facility sometimes weighted
  by a vertex prize.
- \subsection{The Median Ciruit/Tour Problem}
+ \subsection{The Median Circuit/Tour Problem}
  The problem of finding a circuit shaped facility in a graph has also been studied.
  \citet{labbe1999themedian} introduced the ``Median Cycle Problem'' which involves
  minimising the cost of a cycle and assignment cost in a mixed graph (undirected for
@@ -194,7 +194,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
  assignment cost minimisation is replaced with a constraint, and branch-and-cut algorithm
  were stated for them both.
 
- Additional research has been performed into both MCP varients
+ Additional research has been performed into both MCP variants
  in the form of new heuristics based on variable neighbourhood tabu search
  (similar to the methods used for the \gls{pcstp} by \citet{canuto2001local} --
  See Section \ref{sec:canuto-search}) by \citet{perez2003variable}, and both
@@ -230,7 +230,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
  which corresponds to the cost of a tour in the \gls{ptp}.
  \subsection{Median Trees}\label{sec:related:mtp}
  We then turn our focus to the problem of finding median \textit{trees} in graphs.
-  To the best of our knowledge, this problem has not recieved much attention.
+  To the best of our knowledge, this problem has not received much attention.
 
   \citet{minieka1985optimal} and \citet{george2003bi} consider the problem of finding
   median subtrees of a tree graph.
