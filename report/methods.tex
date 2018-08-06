@@ -1,15 +1,16 @@
 \chapter{Solving the Prize-Collecting Steiner Tree Problem}
 \label{chap:solving}
 
-In this chapter, we will present a survey of the methods used to solve the \gls{pcstp}. Due to the nature of solving
+In this chapter, we present a survey of the methods used to solve the \gls{pcstp}. Due to the nature of solving
 NP-hard combinatorial optimisation problems, this involves the mixing and matching of methods within larger frameworks.
- After a rundown of the history of solving the \gls{pcstp} in section \ref{sec:solving:history}, we will delve deeper into a subset of the methods used to solve the \gls{pcstp} to varying degrees:
+After a rundown of the history of solving the \gls{pcstp} in section \ref{sec:solving:history}, we
+delve deeper into a subset of the methods used to solve the \gls{pcstp} to varying degrees:
 \begin{itemize}
 \item Section~\ref{sec:solving:pre} presents preprocessing algorithms used to reduce instance sizes.
 \item Section~\ref{sec:solving:approx} presents approximation algorithms for the \gls{pcstp}.
 \item Section~\ref{sec:solving:heuristics} presents heuristics for finding good solutions to the \gls{pcstp}.
 \item Section~\ref{sec:solving:lower} presents methods used for generating strong lower bounds for the \gls{pcstp}.
-\item Section~\ref{sec:solving:exact} presents frameworks and combinations of the above used find exact solutions
+\item Section~\ref{sec:solving:exact} presents frameworks and combinations of the above used to find exact solutions
    to the \gls{pcstp}.
 \end{itemize}
 
@@ -21,7 +22,7 @@ proposed a 3-approximation algorithm based on the Christophides algorithm for th
 This was later improved to 2-approximation algorithm by
 \citet{goemans1997primal} using a primal-dual method,
 which was refined and implemented
-for faster runtimes and typically better
+for faster runtimes and, typically, better
 bounds by \citet{Johnson:2000:PCS:338219.338637}.
 
 \citet{canuto2001local} presented a primal heuristic based on multi-start
@@ -36,7 +37,8 @@ along with a max-flow based separation used to generate strong lower bounds thro
  implementation commonly known as the DHEA-solver.
  This was done by solving
  equivalent \gls{sap} instances through branch-and-cut.
- Furthermore, they presented a set of real-world problem instances for the \gls{pcstp} based on network layout in Berlin.
+ Furthermore, they presented a set of real-world problem instances for the \gls{pcstp} based on GIS data of the
+ city of Cologne as well as real-world infrastructure.
 
  A common trait in the work done by
  \citet{lucena2004strong}, \citet{Ljubic:2004:memetic}, and \citet{ljubic2005solving}
@@ -45,13 +47,14 @@ along with a max-flow based separation used to generate strong lower bounds thro
   While they directly applied reduction tests
   defined for the \gls{stp} mainly by \citet{duin1989edge,duin1989reduction},
   these tests were were natively stated for the \gls{pcstp}
-  by \citet{uchoa2006reduction} did so in \citeyear{uchoa2006reduction}.
-  \citeauthor{uchoa2006reduction} both proved the validity
-  for these reduction tests originally defined for the \gls{stp},
+  by \citet{uchoa2006reduction}.
+  They both proved the validity
+  of the reduction tests originally defined for the \gls{stp},
   but also introduced a new
   novel way of determining distances between nodes, resulting in
   even stronger reduction tests for the \gls{pcstp}.
 
+  \medskip
   The 11th DIMACS Implementation Challenge\citep{DIMACS}, this time on Steiner tree problems,
   brought not only a new set of instances for the \gls{pcstp}, but
   also a new wave of contributions.
@@ -63,7 +66,7 @@ along with a max-flow based separation used to generate strong lower bounds thro
   branch-and-bound framework generating lower bounds with a dual ascent method which was originally presented by \citet{wong1984dual} for the \gls{sap}, and
   generating incumbents with
   a shortest-path primal heuristics.
-  \citet{gamrath2017scip} presented SCIP Jack -- an exact solver for \gls{stp} variants based on the solver (of the \gls{stp}, by way of \gls{sap}) presented by
+  \citet{gamrath2017scip} presented SCIP Jack -- an exact solver for \gls{stp} variants based on the \gls{stp} solver presented by
   \citet{koch1998solving} and the \gls{mip} solver, SCIP \footnote{\url{http://scip.zib.de/}}\citep{GleixnerEtal2017OO}.
   Preprocessing routines were natively applied to \gls{pcstp} instances before transforming them into \gls{sap} instances.
   The \gls{sap} was formulated as an
@@ -72,10 +75,14 @@ along with a max-flow based separation used to generate strong lower bounds thro
   then employed together with a constraint separation procedure defined by \citet{koch1998solving}.
 
   Developments were also made in field of heuristics for the \gls{pcstp}. \citet{fu2014knowledge} presented a tabu search and a neighbourhood definition
-  using a new \textit{vertex swap} operation, while
-  \citet{akhmedov2016divide} presented a clustering heuristics for dividing \gls{pcstp} into sub problems.
+  using a new ``vertex swap'' operation, while
+  \citet{akhmedov2016divide} presented a clustering heuristic
+  for dividing \gls{pcstp} into sub problems.
   Additionally, they presented
   applications for the \gls{pcstp} within biology.
+
+  \bigskip
+  Following this historical summary of research on the \gls{pcstp}, we now take a look at specific methods used to solve the problem.
 
 \clearpage
 \input{preprocessing.tex}

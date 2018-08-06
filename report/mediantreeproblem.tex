@@ -13,7 +13,7 @@ subgraph which minimises the edge cost of the subgraph summed with
 penalties paid for every excluded vertex--- we suspect that refitting the
 methods used to solve the \gls{pcstp} to the \gls{mtp} may result in good performance.
 
-In this chapter, we will present a formal definition of the \acrlong{mtp} in Graphs
+In this chapter, we present a formal definition of the \acrlong{mtp} in Graphs
 followed by a new \gls{ilp} formulation for the problem.
 Then, we present a branch and cut algorithm for the \gls{mtp} which is inspired by the
 work done on the \gls{pcstp}. Finally, we implement this algorithm as a solver with which
@@ -260,7 +260,7 @@ As with the \gls{pcstp} formulation, when $x_{ij} = 1$,
 the edge between vertices $v_i$ and $v_j$ is part of the solution.
 Note that only
 one of the variables $x_{ij}$ or $x_{ji}$ are variables
-in model and we will use both indices interchangeably
+in the model and we use both indices interchangeably
 to refer to the same variable for the sake of readability.
 
 Similarly, $\bd y$ describes the assignment relation of a solution. When
@@ -392,7 +392,7 @@ problem instances in the solver as well as for its implementation of common
 graph algorithms.
 It is worth noting that NetworkX features algorithm implementations
 in native Python instead of the more efficient Python C modules. This, again, has some
-performance implications especially with regards to user callbacks (which we will
+performance implications especially with regards to user callbacks (which we
  touch on below).
 
 The source code of the solver as well as the benchmark suite
@@ -490,7 +490,7 @@ datasets to perform benchmarks on. Thus, we present in this section two things,
 In short, we are looking to test out our additions to what could be called a ``default'' Gurobi
 implementation of the \gls{mtp}.
 
-First we will give an overview of the dataset. This is then
+First, we give an overview of the dataset. This is then
 followed by an inspection of the three experiments we have
  performed.
  \subsection{Datasets}

@@ -7,7 +7,7 @@ There has been a number of heuristics defined for the \gls{pcstp}:
  \item \citet{Ljubic:2004:memetic} presented a heuristics with inspiration in genetic
    algorithms.
  \item \citet{ljubic2005solving} presented a LP relation based heuristic for their branch
-   and bound algorithm which we will detail below.
+   and bound algorithm which we detail below.
 \item \citet{fu2014knowledge} presented a tabu search heuristic.
  \item \citet{akhmedov2016divide} presented a divide and conquer algorithm based on clustering
     for applications within bioinformatics.
@@ -58,7 +58,7 @@ an overview of general heuristics methods can be applied to the \gls{pcstp}.
  \caption{The heuristics defined by \citet{canuto2001local}.}\label{alg:heuristics:canuto}
  \end{algorithm}
 
- In this section, we will
+ In this section, we
  describe further the characteristics of the local search, the
  path relinking, and the postprocessing used in the algorithm.
 \paragraph{Local Search with Perturbations}
@@ -75,7 +75,7 @@ given any initial subset as starting point. Additionally, they define the
 $k$'th order neighbourhood as,
 \[\mathcal{N}^k(S) = \Big\{MST(G[S']) : S' \subseteq V \Bigm| |S' \triangle S| = k \Big\}\mathnormal{.}\] 
 
-To reduce clutter we will denote the cost
+To reduce clutter we denote the cost
 of a given subset, $S \subseteq V$, of vertices as the cost
 of the MST of the graph induced by $S$, that is
 \[c(S) = c(MST(G[S]))\mathnormal{.}\]

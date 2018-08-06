@@ -1,6 +1,7 @@
  \section{Preprocessing}
  \label{sec:solving:pre}
-Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven successful in many cases both for instances of the \gls{stp}
+ Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven successful in many cases,
+ both for instances of the \gls{stp}
 \citep{koch1998solving}
 and instances of the \gls{pcstp}
 \citep{lucena2004strong,canuto2001local,ljubic2005solving, gamrath2017scip}. %TODO: MORE
@@ -20,24 +21,25 @@ up to 98\% of edges in some instances. In other words, making good use of prepro
 routines, has been shown to increase the size of solvable instances by up to 50 times in some
 cases.
 
-In this section, we will first give a full overview of
+In this section, we first give a full overview of
 existing preprocessing methods for the \gls{pcstp},
  including proofs of validity,
  and then, in the end of the section,
  summarise their usage in recent literature.
 
- In the following, we will denote any edge or vertex (or part of a graph) as
+ In the following, we denote any edge or vertex (or part of a graph) as
  \textit{redundant} if there exists an optimal solution
-  which does not contain it, and we say that a 
-  transformation of a problem instance is \textit{valid} when produces an
-  equivalent problem, that is a problem which has the same optimal
-  value and in which solutions map back to the original problem.
-
+ which does not contain it.
+  Additionally, we say that a 
+  transformation of a problem instance is \textit{valid} when it produces an
+  equivalent problem where all optimal solutions map back to optimal solutions
+  in the original problem.
+  
   Thus, making a series of valid transformation of the input graph may actually
-  hide optimal solutions, but will leave \textit{at least} one optimal solution
+  hide optimal solutions, but will leave at least one optimal solution
   which will map directly to an optimal solution in the untouched input graph.
  \subsection{Local Reduction Tests}\label{sec:pre:local}
- The first type of reductions we will look at, we denote as \textit{local} reduction tests.
+ The first type of reductions we look at, we denote as \textit{local} reduction tests.
  These are tests which at most require knowledge
  of the neighbourhood of a couple of vertexes in the graph
  and static global information
