@@ -36,7 +36,7 @@ along with a max-flow based separation used to generate strong lower bounds thro
  \citet{ljubic2005solving} proposed the first algorithm for solving the \gls{pcstp} to provable optimality, along with an
  implementation commonly known as the DHEA-solver.
  This was done by solving
- equivalent \gls{sap} instances through branch-and-cut.
+ equivalent \gls{sap} instances through branch and cut.
  Furthermore, they presented a set of real-world problem instances for the \gls{pcstp} based on GIS data of the
  city of Cologne as well as real-world infrastructure.
 
@@ -63,14 +63,14 @@ along with a max-flow based separation used to generate strong lower bounds thro
   was revisited by \citet{leitner2016dual} and \citet{gamrath2017scip}.
   \citet{leitner2016dual} transformed instances into the Asymmetric \gls{pcstp} (A\gls{pcstp})
   and employed a
-  branch-and-bound framework generating lower bounds with a dual ascent method which was originally presented by \citet{wong1984dual} for the \gls{sap}, and
+  branch and bound framework generating lower bounds with a dual ascent method which was originally presented by \citet{wong1984dual} for the \gls{sap}, and
   generating incumbents with
   a shortest-path primal heuristics.
   \citet{gamrath2017scip} presented SCIP Jack -- an exact solver for \gls{stp} variants based on the \gls{stp} solver presented by
   \citet{koch1998solving} and the \gls{mip} solver, SCIP \footnote{\url{http://scip.zib.de/}}\citep{GleixnerEtal2017OO}.
   Preprocessing routines were natively applied to \gls{pcstp} instances before transforming them into \gls{sap} instances.
   The \gls{sap} was formulated as an
-  \gls{ilp} in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch-and-bound
+  \gls{ilp} in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch and bound
   procedures of the SCIP optimization suite were
   then employed together with a constraint separation procedure defined by \citet{koch1998solving}.
 

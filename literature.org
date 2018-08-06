@@ -41,7 +41,7 @@ $$x_{ij}, y_i \in \{0,1\} \qquad \forall (i,j) \in A_{SA}; \forall i \in V_{SA}$
      (Polynomial time; Goldberg)
 - Tested on OR-Library and GIS-DATA
 
-* A dual-ascent-based branch-and-bound framework for the prize-collecting Steiner tree and related problems :psct:sap:algorithm:exact:
+* A dual-ascent-based branch and bound framework for the prize-collecting Steiner tree and related problems :psct:sap:algorithm:exact:
 :PROPERTIES:
 :bibtex: cite:leitner2016dual
 :END:
@@ -100,7 +100,7 @@ Contains some definitions for Steiner cuts, clutters.
 :END:
 ** Short Summary
 Gamrath et. al. have designed and implemented an SAP solver using the [[http://scip.zib.de/][SCIP]] framework which includes transformations from various STP variants
--- herein the PCSTP. They are based on the MIP solver SCIP using Branch-and-Bound, and complement it with separation procedures, heuristics,
+-- herein the PCSTP. They are based on the MIP solver SCIP using branch and bound, and complement it with separation procedures, heuristics,
  reductions etc. The SAP "plugin" is base on an older solver, Jack-III.
 
 The bulk of the article touches upon (a) Dual Ascent, Improvement Heuristics, Reduction-Based Pruning, and a new Recombination Heuristics;

@@ -18,7 +18,7 @@ arborescence in a directed graph, which we call the \gls{pcsap}.
 It is the first example of a procedure designed for
 finding provably optimal solutions for the \gls{pcstp}.
 
-The resulting \gls{sap} is then solved by branch-and-cut using a separation procedure
+The resulting \gls{sap} is then solved by branch and cut using a separation procedure
 similar to the one defined by \citet{lucena2004strong}
 (Section~\ref{sec:lower:gsec}) and a new primal heuristics for
 finding good incumbents at every node.
@@ -271,7 +271,7 @@ as the \gls{ilp} in Formulation (\ref{form:exact:cut}).
  \citet{ljubic2005solving} report improved running times for adding them as it avoids
  having to implicitly separate them in the separation procedure.
  
-\paragraph{Branch \& Cut}
+\paragraph{Branch and Cut}
 
 For finding lower bounds, the LP relaxation of (\ref{form:exact:cut}) is solved at each node.
 Constraints of type (\ref{form:exact:pcsap:conn}) are separated through solving the max flow (min cut)
@@ -295,7 +295,7 @@ The rest of the branch and bound procedure is handled by an underlying \gls{mip}
 \subsection{SCIP-Jack Solver}
 \label{sec:exact:scipj}
 The SCIP-Jack solver is a set of plugins for the SCIP general purpose optimisation suite capable
-of generating exact solutions to a variety of \gls{stp} variants in graphs \cite{gamrath2017scip}.
+of generating exact solutions to a variety of \gls{stp} variants in graphs \citep{gamrath2017scip}.
 
 As with the DHEA solver (Section~\ref{sec:exact:dhea}), SCIP-Jack solves the \gls{pcstp} by first applying
 reduction tests (See section \ref{sec:pre:summary-usage} for details) to the input graph before transforming problem
@@ -467,7 +467,7 @@ directly to selecting the corresponding edge in $G$.
   which is the same as the corresponding solution in the optimal graph.
 
  \paragraph{ILP Formulation}
- \cite{gamrath2017scip} define the \gls{ilp} formulation of the constrained \gls{sap} in Formulation~(\ref{form:sap:flow})
+ \citet{gamrath2017scip} define the \gls{ilp} formulation of the constrained \gls{sap} in Formulation~(\ref{form:sap:flow})
  named \textit{flow-balance directed cut formulation}. Constraint (\ref{form:exact:sap:cut}) ensures that there exists a
   path from the root to any terminal by ensuring that any
  cut in the graph which does not contain all terminals must have outgoing arcs. Constraint (\ref{form:exact:sap:cut})

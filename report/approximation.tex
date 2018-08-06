@@ -1,12 +1,14 @@
 \clearpage
 \section{Approximation Algorithms}\label{sec:solving:approx}
-An approximation algorithm was the first contribution to research on the \gls{pcstp}. As a by-product of
-defining an approximation algorithm for the \gls{ptp}, \citet{Bienstock1993} produced in \citeyear{Bienstock1993} a 3-approximation
+An approximation algorithm was the first contribution to research on the \gls{pcstp}.
+In \citeyear{Bienstock1993}, as a by-product of
+defining an approximation algorithm for the \gls{ptp},
+\citet{Bienstock1993} presented a 3-approximation
 algorithm for the \gls{pcstp} based on solving a number of LP relaxations.
 
 However, the biggest result within approximation algorithms for the \gls{pcstp},
-must be the Goemans-Williamson Algorithm. Stated in \citeyear{goemans1995general}
-by \citet*{goemans1995general}, and later modified by \cite{Johnson:2000:PCS:338219.338637}.
+must be the Goemans-Williamson Algorithm. It was stated in \citeyear{goemans1995general}
+by \citet*{goemans1995general}, and later modified by \citet{Johnson:2000:PCS:338219.338637}.
 
 In \citeyear{archer2011improved}, \citet{archer2011improved} presented a $(2- \epsilon)$-approximation algorithm
 based on the GW Algorithm, and in \citeyear{hegde2014fast}, \citet{hegde2014fast}
@@ -14,10 +16,11 @@ presented a variant of the GW Algorithm with
 improved runtime.
 
 In this section, we present the original GW Algorithm as it gives the clearest view of the principles behind
-this ``family'' of approximation algorithms.
+this family of approximation algorithms.
 \subsection{The Goemans-Williamson Algorithm}\label{sec:solving:approx:gw}
 \citet*{goemans1995general} presented a primal-dual 2-approximation algorithm for the rooted variant of the
 \gls{pcstp}, based on an algorithm for solving the general \textit{constrained forest problem}.
+Before looking at the algorithm itself, we must first make a few definitions.
 
 \paragraph{Definitions}
 \citeauthor{goemans1995general} stated the \gls{ilp} model (GW-ILP) in Formulation~\ref{form:approx:gw} for the rooted \gls{pcstp}.
@@ -55,25 +58,19 @@ this ``family'' of approximation algorithms.
        & & \sum_{S: e \in \delta(S)} y_S \leq c_e \qquad&& \forall e \in E \label{form:gw:pe}\\
        &&& \sum_{S \subseteq X} y_S \leq \sum_{v \in X} p_v  && \forall X \subset V; r \not\in X \label{form:gw:pv} \\
        &&& y_S \geq 0  && \forall S \subset V; r \not\in S
-     \end{alignat}\label{form:approx:gw:dual}
+     \end{alignat}
    \end{subequations}
-   \caption{(GW-D): Dual of the LP relaxation of (GW-ILP) from Formulation~\ref{form:approx:gw}.}
+   \caption{(GW-D): Dual of the LP relaxation of (GW-ILP) from Formulation~\ref{form:approx:gw}.}\label{form:approx:gw:dual}
  \end{formulation}
  
- The dual to the LP relaxation of GW-IP is the linear program in \ref{form:approx:gw:dual}. We make note of the
- \textit{packing} constraints (\ref{form:gw:pe}) and (\ref{form:gw:pv}), and note that by \textit{complementary slackness}
- \citep{chvatal1983linear}
- of the primal LP, we have for optimal primal solutions to the LP, $(x^*, z^*)$,
- \[x^*_e > 0 \Rightarrow \sum_{S: e \in \delta(S)} y_S = c_e\]
- and
- \[z^*_X > 0 \Rightarrow \sum_{S \subseteq X} y_S = \sum_{v \in X} p_v\mathnormal{.}\]
- 
+ The dual to the LP relaxation of GW-IP is the linear program in Formulation~(\ref{form:approx:gw:dual}). We denote the constraints
+ (\ref{form:gw:pe}) and (\ref{form:gw:pv}) as \textit{packing} constraints.
  
  \paragraph{The Algorithm} The GW Algorithm consists of a growing phase and a pruning phase. The growing phase
  builds a feasible solution $T$ by maintaining a set of active and inactive \textit{components} which
  initially are singleton sets which are active if they do not contain the root vertex. The dual objective value is then
   increased by simultaneously increasing
-  the dual variable values for all active components until one of the following happen:
+  the dual variable values for all active components until one of the following happens:
  \begin{enumerate}[label=\alph*)]
  \item A packing constraint (\ref{form:gw:pe}) becomes binding for some edge $e = (i,j) \in E$. Then $e$ is added
    to $T$, and the components connected by $e$ are merged into a new component with combined cost.
@@ -149,7 +146,7 @@ this ``family'' of approximation algorithms.
  \begin{align*}
 \sum_{S: (i,j) \in \delta(S)} y_S &= d(i) + \left( \frac{c_{ij} - d(i) - d(j)}{2} \right) + d(j) +
                                     \left( \frac{c_{ij} - d(i) - d(j)}{2} \right) \\
-                              &= d(i) - d(i) + d(j) - d(j) + c_{ij}
+                              &= d(i) - d(i) + d(j) - d(j) + c_{ij} \\
                                     &= c_{ij}\mathnormal{.}
  \end{align*}
 
@@ -174,7 +171,7 @@ this ``family'' of approximation algorithms.
  \overset{\text{(II)}}{\leq} (2 - \frac{1}{n-1}) \sum_{S \subset V} y_S \overset{\text{(III)}}{\leq} (2 - \frac{1}{n-1}) Z^*_{\text{GW-IP}}\mathnormal{.}$$
  The reader is encouraged to read \citet{goemans1997primal} for the full proof, but it roughly goes as follows:
  \begin{itemize}
- \item (I) holds from primal complimentary slackness. An edge is only added to $T$ if its corresponding packing constraint is binding.
+ \item (I) holds from the following. An edge is only added to $T$ if its corresponding packing constraint is binding.
    Additionally, for a vertex to not be spanned by $T$, it must have been deactivated at some point during the
     algorithm (and thus the corresponding packing constraint must have
     been binding).
@@ -195,8 +192,9 @@ this ``family'' of approximation algorithms.
  \paragraph{Strong Pruning} The Strong Pruning procedure
  (as shown in Algorithm \ref{alg:approx:gwsp})
  is a simple recursive procedure which walks the tree in post-order while calculating the net-worths
- of all subtrees. If --- along the way --- a subtree is encountered which is connected by an
-  edge which has higher cost than the net-worth of the subtree, then the subtree is discarded.
+ of all subtrees. If --- along the way --- a subtree which is connected by an
+ edge which has higher cost than the net-worth of the subtree is encountered,
+ then the subtree is discarded.
  \begin{algorithm}[h!]
    \begin{algorithmic}[1]
      \Input{Feasible solution to (GW-IP), $T$ rooted in vertex $r$ to $G = (V, E, c, p)$} 
@@ -229,7 +227,7 @@ as the algorithm is dominated by its $O(n^2 \log n)$ growing phase.
 
 However, they do report
 improvements in objective value. On 12 instances based on street maps,
-the vanilla GW Algorithm produced objective values which are in the range of $2-9\%$
+the original GW Algorithm produced objective values which are in the range of $2-9\%$
 worse than those produced by the GW Algorithm modified with Strong Pruning. On randomly
 generated instances, this is reported to be up to $20\%$.
 
@@ -249,7 +247,7 @@ Computationally, however, they report a $1.5-2.0$ slowdown for a unrooted GW Alg
 report that running the rooted GW Algorithm repeatedly with randomly selected roots give slightly
 better objective value (less than $1\%$ difference) than the unrooted variant, although at a starkly
 higher cost.
-\paragraph{Prize Perturbation} The third thing investigated by \citet{Johnson:2000:PCS:338219.338637} was
+\paragraph{Prize Perturbation} The third thing investigated by \citet{Johnson:2000:PCS:338219.338637} is
 the effect of perturbing vertex prizes by some constant $\alpha$, that is setting
 \[p_v \gets \alpha p_v\]
 for all $v \in V$. This ``tricks'' the GW Algorithm into over/undervaluing the importance of gathering prizes,
