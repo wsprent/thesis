@@ -5,10 +5,10 @@ is part of a family of problems all of which somehow deal with a
 trade-off of \textit{paying} for connecting vertices to gain their \textit{prize}.
 
 In this chapter, we look at this collection of similar problems,
-see how far research is on them,
+the state of their research,
 and discuss their similarities with the \gls{pcstp}
 both with respect to an intuitive understanding of the problems,
-but also with respect to in which ways the problems are approached.
+but also with respect to how the problems are approached.
 
 By doing this, we aim to gain deeper insight into the structure of
 this collection of problems.
@@ -28,8 +28,8 @@ such that
 \[\sum_{v_i \in V_C} p_i \geq B\]
 for some $B \in \RR_+$.
 
-If we recollect the definition of the \gls{pcstp}
-and its variants (Section~\ref{sec:pcstp}) then
+If we recollect our definition of the \gls{pcstp}
+and its variants in Section~\ref{sec:pcstp},
 we immediately see some similarities. The PCTSP involves optimising the
 \textit{Goemans-Williamson Minimisation Problem} for the circuit $C$,
 however with the extra
@@ -38,23 +38,24 @@ This extra constraint draws comparisons
 to the \textit{Quota Problem}.
 
 As the PCTSP is a natural member of the family of Vehicle Routing Problems, it is also sometimes
-stated with a \textit{depot} ---or root--
-vertex \citep{feillet2005traveling} -- that is a vertex which
+stated with a \textit{depot}, or root,
+vertex \citep{feillet2005traveling} -- e.g. a vertex which
 must be part of the solution circuit, $C$. This corresponds to the \textit{Rooted}
 \gls{pcstp}.
 
 Intuitively, these kinds of problems seek to solve concrete problems with respect to transport routes.
-Where the \gls{tsp} seeks to find the optimal ``route'' to visit all vertices in
+Where the \gls{tsp} seeks to find the optimal tour which visits all vertices in
 a graph, the \gls{pctsp} (and its variants) look to answer additionally
 which vertices are even worth visiting.
 This is an \textit{exact} reflection of how the \gls{pcstp} is related
 to the \gls{stp}.
 
 By being routing problems, the \gls{pctsp} variants are more often than not
-defined on (sometimes complete) directed graphs in
+defined on (sometimes complete) directed graphs.
+This is in
 contrast to the \gls{pcstp} which is exclusively
-defined on a undirected graph (while the (Prize-Collecting)
-\gls{sap} serves as the directed variant).
+defined on an undirected graph while the (Prize-Collecting)
+\gls{sap} serves its the directed variant.
 
 \paragraph{The Orienteering Problem}
 The Orienteering Problem (OP) is very much the circuit version of the \textit{Budget Problem}.
@@ -88,11 +89,11 @@ making it the true ``cousin'' of the \gls{pcstp}.
  
  There has, however, been some research into approximation algorithms for the \gls{ptp}.
  In fact, an interesting symptom of exactly how related these two families of
- prize collecting problems are
+ prize collecting problems are,
  is how the GW Algorithm (see Section~\ref{sec:solving:approx:gw})
  is used by \citeauthor{goemans1995general} to generate a 2-approximation algorithm for the \gls{ptp}
- on graphs which satisfying the triangle inequality
- -- much in the same way that
+ on graphs which satisfy the triangle inequality.
+ This is similar to how
  a Minimum Spanning Tree can be used to generate a 2-approximation algorithm
  for the \gls{tsp}\citep{goemans1995general}.
 
@@ -128,13 +129,15 @@ making it the true ``cousin'' of the \gls{pcstp}.
  Constraints (\ref{form:pctsp:prize}) and (\ref{form:pctsp:conn}) correspond directly to constraints
  (\ref{form:exact:pcsap:prize}) and (\ref{form:exact:pcsap:conn}) respectively in (CUT-IP).
  The latter set of constraints, the so-called connectivity constraints, ensure that every feasible solution
- is a single connected subgraph containing the root by enforcing the existence of at least a single edge crossing
- every cut which separates the root from some selected vertex. Combined with the
+ is a single connected subgraph containing the root.
+ This is done by enforcing that every cut which separates the root from some selected vertex
+ must be bridged by at least one edge.
+ Combined with the
  additional constraint (\ref{form:pctsp:deg}), these ensure that any feasible solution is a single circuit.
 
  The similarities of the two formulations reflect the similarities of the two problems, with the main difference being
  the shape of the solution (circuit / arborescence).
- As a result there are also similarities in how these prize-collecting problems can be solved
+ As a result there are also similarities in how these prize-collecting problems can be solved.
  The method of solving a max-flow problem on a support graph
  to separate connectivity constraints or \glspl{gsec} can
  be directly applied to \gls{pctsp} variants, and with the GW Algorithm being
@@ -143,7 +146,7 @@ making it the true ``cousin'' of the \gls{pcstp}.
  one problem to another.
 
  The main uniqueness of working with Steiner trees versus
- circuits in this case seems to be the possibilities of applying
+ circuits, in this case, seems to be the possibilities of applying
  preprocessing routines to the input graphs, which does not come up
  when discussing prize-collecting tours.
 
@@ -151,11 +154,11 @@ making it the true ``cousin'' of the \gls{pcstp}.
  \label{sec:related:median}
  A type of problems which are closely related to the
  ``prize-collecting'' problems such as the \gls{pcstp}, are the so-called
- ``median'' problems.
- These problems involve finding optimal location of a ``facility''
+ \textit{median} problems.
+ These problems involve finding an optimal location of a \textit{facility}
  with regards to the sum
  of distances from all vertices to the facility by some measure of
- \textit{distance}.
+ distance.
 
  For example, first introduced in \citeyear{hakimi1964optimum}
  by \citet{hakimi1964optimum} is a problem known as
@@ -183,14 +186,14 @@ making it the true ``cousin'' of the \gls{pcstp}.
  in $c$ and the assignment costs. 
  This is analogous to the trade off between the cost of a subgraph and the cost of missed prize in the
  family of prize-collecting problems. In the median problems, the fixed prize of a vertex is
- replaced by the variable ``prize'' represented by the shortest path to the facility sometimes weighted
+ replaced by the variable \textit{prize} represented by the shortest path to the facility sometimes weighted
  by a vertex prize.
  \subsection{The Median Circuit/Tour Problem}
  The problem of finding a circuit shaped facility in a graph has also been studied.
  \citet{labbe1999themedian} introduced the ``Median Cycle Problem'' which involves
  minimising the cost of a cycle and assignment cost in a mixed graph (undirected for
  the facility and directed for assignment) given a root vertex. Alongside this problem
- -- which they denote (MCP1) -- they also introduced a budget version (MCP2) where the
+ -- which they denote (MCP1) -- they also introduce a budget version (MCP2) where the
  assignment cost minimisation is replaced with a constraint, and branch and cut algorithm
  were stated for them both.
 
@@ -201,8 +204,8 @@ making it the true ``cousin'' of the \gls{pcstp}.
  greedy and evolutionary heuristics were proposed by \citet{renaud2004efficient}.
  
  \citet{current1994median} introduced a similar problem named the ``Median Tour Problem''
- which is defined on a directed graph which has two edge cost functions and vertex prizes
- and involves optimising a bicriterion objective function
+ which is defined on a directed graph which has two edge cost functions and vertex prizes.
+ This involves optimising a bicriterion objective function
  (facility cost and prize-weighted assignment cost)
  when defining a cycle facility which spans a minimum number of vertices.
 
