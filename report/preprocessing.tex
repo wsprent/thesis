@@ -47,12 +47,12 @@ existing preprocessing methods for the \gls{pcstp},
  presented in this section are generally of low computational cost,
  allowing for testing a full graph in linear time.
 
- Note that the first tests presented (NTD1, NTD2, TD1, TD2) are known collectively
+ Note that the first four test we present (i.e. NTD1, NTD2, TD1, TD2) are known collectively
  in recent literature as \textit{Degree Tests}, for example by \citet{rehfeldt2016reduction}.
 \paragraph{Non-Terminals of Degree 1 (NTD1)}\label{sec:red:test:deg1}
 Let $G = (V, E, c, p)$ be a \gls{pcstp} instance and let $v \in V$ be any non-terminal of degree 1, then
 clearly
---- since edges have positive weights ---
+---since edges have positive weights---
 $v$ can not be part of an optimal solution.
 Thus, $v$ is redundant, and
  all vertices in the set
@@ -877,12 +877,13 @@ do present the graph sizes of their benchmark cases before and after applying pr
  which applies in order:
 \begin{enumerate}
 \item degree one tests: NTD1+TD1+UDV,
-\item degree two tests: NTD2+TD2.
+\item degree two tests: NTD2+TD2,
 \item shortest path relaxation of the special distance test (here called the least cost test),
 \item shortest path relaxation of NTDk for $k = 3,\ldots,8$, and
 \item the minimum adjacency test.
 \end{enumerate}
-until a fix point is reached. They present both numbers on graph reduction and preprocessing
+These are repeated until a fix point is reached.
+They present both numbers on graph reduction and preprocessing
 time. Across all problem instances, they report on average
 a 45\% reduction in graph size.
 
@@ -890,11 +891,11 @@ a 45\% reduction in graph size.
 report reduction in graph sizes for their test cases as well as preprocessing time and
 total computation time with/without preprocessing.
 
-\citet{rehfeldt2016reduction} present an depth study of preprocessing routines for the
+\citet{rehfeldt2016reduction} present an in depth study of preprocessing routines for the
 \gls{pcstp}. They report an on average reduction of vertex and edge counts by $91.5\%$ and
 $88.8\%$ respectively for their ``strongest'' reduction package across DIMACs instances.
 \begin{example}
-Finally, we'll give an example of the power of
+Finally, we give an example of the power of
 these preprocessing methods. Figure~\ref{fig:pre:ex} shows how just
 the local tests defined in Section~\ref{sec:pre:local} are enough
 to solve the ---admittedly simplistic--- instance of the \gls{pcstp}
