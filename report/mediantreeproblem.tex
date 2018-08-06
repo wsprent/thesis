@@ -9,7 +9,7 @@ in graphs is not very well researched. To the best of our knowledge, no work has
 the problem in the general case to optimality.
 Being that this problem has some striking similarities
 to the \gls{pcstp} ---foremost that both problems involve finding a connected
-subgraph which minimises the edge cost of the subgraph summed with
+subgraph, which minimises the edge cost of the subgraph summed with
 penalties paid for every excluded vertex--- we suspect that refitting the
 methods used to solve the \gls{pcstp} to the \gls{mtp} may result in good performance.
 
@@ -798,7 +798,7 @@ would be possible to determine whether certain characteristics in an instance ma
 more desirable.
 
 \section{Conclusion}
-In this chapter we have taken a look at the \acrlong{mtp}. We have defined the problem as
+In this chapter, we have taken a look at the \acrlong{mtp}. We have defined the problem as
 a graph optimisation problem on an undirected graph and then reformulated it as an \gls{ilp}
 problem. As our main contribution, however, we have detailed and implemented a solver for the
 problem based on the Gurobi optimisation suite on which we have performed a set of experiments
@@ -815,8 +815,7 @@ For our solver, we have attempted to translate proven successful methods for the
 into methods for
 the \gls{mtp}.
 In our experiments, we validated the usefulness of our primal heuristic callback and
-a strengthened model to the point where they did not
----at least---
+a strengthened model to the point where they at least did not
 decrease performance.
 We failed to show the same for our user cut callback, which significantly slowed down the
 optimiser.
