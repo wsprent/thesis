@@ -13,7 +13,7 @@ by \citet{ljubic2005solving}
 (more concisely described by \citet{ljubic2006algorithmic}) finds exact solutions to the \gls{pcstp}
 by first applying
 reduction tests to the input graph (See Section~\ref{sec:solving:pre}) and
-then transforming the resulting problem into related problem of finding a minimum
+then transforming the resulting problem into the related problem of finding a minimum
 arborescence in a directed graph, which we call the \gls{pcsap}.
 It is the first example of a procedure designed for
 finding provably optimal solutions for the \gls{pcstp}.
@@ -23,7 +23,7 @@ similar to the one defined by \citet{lucena2004strong}
 (Section~\ref{sec:lower:gsec}) and a new primal heuristics for
 finding good incumbents at every node.
 
-The solver has as a dependency on of the \gls{mip} solvers CPLEX or LEDA.
+The solver has as a dependency one of the \gls{mip} solvers CPLEX or LEDA.
  \paragraph{Reducing the \gls{pcstp} to \gls{pcsap}}
  Citing stronger LP relaxations, \citet{ljubic2005solving} reduces an input \gls{pcstp} instance
  into a related problem in a directed graph which essentially is a constrained version
@@ -126,10 +126,11 @@ However, to ensure that $T$ is indeed a feasible solution to the original proble
 cannot simply find the connected subgraph in $G_A$ which minimises
 \[c(SA) = \sum_{a \in A_{SA}} c'_{a} + \sum_{v \in N} p_v\mathnormal{.}\]
 Firstly, since all the arcs from the root have negative costs they are trivially part of any minimal arborescence.
-As a result, whenever $G$ has more than one terminal, this may result in a disconnected -- hence infeasible --
+As a result, whenever $G$ has more than one terminal, this may result in a disconnected
+---hence infeasible---
 solution in the original graph.
 Furthermore, by representing vertex prizes within the cost of arcs,
- $G_A$  may contain additional arcs with negative costs. This may result in an
+ $G_A$  may contain arcs with negative costs. This may result in an
 optimal subgraph which is \textit{not} an arborescence as it may contain cycles.
 
 \citet{ljubic2005solving} solve these two issues by adding extra constraints to the problem. Firstly, the
@@ -137,15 +138,15 @@ out-degree of the root vector is limited to a single arc, that is $\delta^+(r) =
 we can interpret the selection of an arc in the adjacency of $r$ as an ``initial'' selection,
  of a terminal, or a root,
 in the original problem. Enforcing that any solution to the transformed problem must be an arborescence
- is done by constraining the in-degree of any ``selected'' in a feasible solution terminal to one.
+ is done by constraining the in-degree of any selected terminal of a feasible solution terminal to one.
 
  Single arc solutions in $G_A$ will then correspond 1-to-1 with singleton solutions in $G$.
  Connected
  solutions in $G_A$ containing the arc $(r,v)$ will then correspond to a tree in $G$ ``rooted'' in $v$.
  It is worth noting that for such a solution, the arc $(r, v)$ can be replaced with any other arc
- $(r, u), u \in N \cap V_{SA}$ where;
+ $(r, u), u \in N \cap V_{SA}$;
  hence there exists a many-to-one
- relationship between solutions in $G_A$ and solutions in $G$, that is one of each choice of $(r, v)$.
+ relationship between solutions in $G_A$ and solutions in $G$, one for each choice of $(r, v)$.
  To ensure that there exists a one-to-one relationship between solutions in $G_{SA}$ and $G$, only the selected 
  terminal
  with the lowest index in a given solution can be connected to the root.
@@ -231,8 +232,9 @@ as the \gls{ilp} in Formulation (\ref{form:exact:cut}).
    \caption{(CUT-IP) CUT-based formulation of the constrained \gls{pcsap}.}
  \end{formulation}
 
- As usual, the ILP formulation has two decision vectors, $x$ and $y$, where the former denotes arcs
- in the solution arborescence and the latter which vertices are in the arborescence. Constraints-wise,
+ As usual, the \gls{ilp} formulation has two decision vectors, $\bd x$ and $\bd y$, where the former denotes
+ which arcs have been selected and the latter which vertices have been selected.
+ Constraints-wise,
  we have
  constraint (\ref{form:exact:pcsap:root}), which ensures that exactly one arc begins in the artificial
  root in any feasible arborescence. Constraint (\ref{form:exact:pcsap:prize}) ensures
@@ -245,11 +247,11 @@ as the \gls{ilp} in Formulation (\ref{form:exact:cut}).
 
  It is worth noting that for a given subset $S \subseteq V$, adding constraints of type
  (\ref{form:exact:pcsap:prize}) for each $v \in S$ to a corresponding connectivity constraint
-  gives us generalised subtour elimination constraints:
+  gives us the \glspl{gsec},
  \begin{align*}
    -x(\delta^-(S)) &\leq -y_k \\
-   \sum_{i \in S} \sum_{ji \in A} x_{ji} - x (\delta^-(S)) &\leq \sum_{v \in S} - y_k \\
-   \sum_{i \in S} \sum_{j \in S} x_{ij} &\leq \sum_{v \in S} - y_k \mathnormal{.}
+   \sum_{i \in S} \sum_{ji \in A} x_{ji} - x (\delta^-(S)) &\leq \sum_{v \in S} y_v - y_k \\
+   \sum_{i \in S} \sum_{j \in S} x_{ij} &\leq \sum_{v \in S \setminus \{k\}} y_v \mathnormal{.}
  \end{align*}
 
  Adding only constraints (\ref{form:exact:pcsap:root})-(\ref{form:exact:pcsap:conn})
@@ -267,7 +269,7 @@ as the \gls{ilp} in Formulation (\ref{form:exact:cut}).
  constraint (\ref{form:exact:orientation}). While this constraint is captured implicitly
  in the previous constraints and adding them increases the size of the formulation,
  \citet{ljubic2005solving} report improved running times for adding them as it avoids
- having to implicitly separate the in the separation procedure.
+ having to implicitly separate them in the separation procedure.
  
 \paragraph{Branch \& Cut}
 
@@ -280,8 +282,8 @@ Violated constraints are iteratively found by increasing the
 capacity of all edges crossing a min cut to $1$ and rerunning the max flow procedure.
 
 \subparagraph{Primal Heuristics}
-At each node of the branch and bound tree, the primal heuristics described in Section~\ref{sec:heuristics:lp}
-which based on the solution to the LP relaxation at that node
+At each node of the branch and bound tree, the primal heuristic described in Section~(\ref{sec:heuristics:lp}),
+which is based on the solution to the LP relaxation at that node
 is used to generate good incumbents.
 
 The heuristics is used with the minor modification that the alternative cost function $c'$ has
@@ -303,7 +305,7 @@ The main difference here is in that the DHEA solver works with a prize-collectin
 
 \paragraph{Reduction to \gls{sap}}
 As with the DHEA solver, SCIP-Jack internally works on the \gls{sap} instead of the solving native
-versions of the \gls{stp} variants. Different from the DHEA solver, SCIP-Jack, however, does not
+versions of the \gls{stp} variants. Differently from the DHEA solver, SCIP-Jack, however, does not
 transform the \gls{pcstp} into a prize-collecting \gls{sap}. This means that the reduction is slightly
 different, as the prize-collecting aspect of the \gls{pcstp} has to be described in an alternative
 way in the \gls{sap}.
@@ -411,7 +413,7 @@ Figure~\ref{fig:scip:pcstptosap} shows this transformation. Intuitively, we see 
 picking an arc which goes from the root to a vertex in $v' \in N_A$
 corresponds to not picking the terminal $v$ in the original graph. Selecting an arc from the root
 to some vertex $v \in N$ (and the arc $(v, v')$) then corresponds to selecting $v$
-in the original graph.. Selecting any arcs between two vertices which are found in $G$ corresponds
+in the original graph. Selecting any arcs between two vertices which are found in $G$ corresponds
 directly to selecting the corresponding edge in $G$.
 
 \begin{figure}[t]
@@ -475,7 +477,8 @@ directly to selecting the corresponding edge in $G$.
  if its starting point is pointed to by a selected arc.
 
  Finally, as with the DHEA solver constraint (\ref{form:sap:root})
- ensures that exact one ``free'' arc from the root can be selected, and (\ref{form:sap:bijection}) creates a bijection
+ ensures that exactly one ``free'' arc from the root to an original terminal
+ can be selected, and (\ref{form:sap:bijection}) creates a bijection
   between solutions in the \gls{sap} and \gls{pcstp}.
  \begin{formulation}[h!]
    \begin{subequations}
@@ -512,20 +515,21 @@ directly to selecting the corresponding edge in $G$.
  \end{formulation}
 
  Given a solution to the an instance of the constrained \gls{sap} as defined here, a solution to the \gls{pcstp} can then
- be obtained by taking an edge for all arcs in the solution for which both endpoints are vertices
+ be obtained by taking the single original terminal pointed to by the root along with
+ an edge for all arcs in the solution for which both endpoints exist
  in the original graph. The tree induced by this set of edges then is the corresponding solution in the original
  \gls{pcstp} instance.
  
   \paragraph{Branch \& Bound}
   While node selection is left to the underlying \gls{mip} solver, SCIP-Jack branches on vertices in the following way. For each node in the
-  b\&b tree with optimal solution $x^*$ to the LP relaxation, the nonterminal, $v \in V_A \setminus N_A$, which minimises
+  branch and bound tree with optimal solution $x^*$ to the LP relaxation, the nonterminal, $v \in V_A \setminus N_A$, which minimises
   \[v_b = \argmin_{v \in V_A \setminus N_A} \left| \sum_{u \in \delta^-(v)} x^*_{uv} - 0.5 \right|\]
-  is added to the set of terminals in one child of the b\&b node and excluded completely in the other.
-  \cite{gamrath2017scip} claim that this gives stronger performance than
+  is added to the set of terminals in one child of the branch and bound node and excluded completely in the other.
+  \citet{gamrath2017scip} claim that this gives stronger performance than
   to branching on single arcs.
 
   Furthermore, SCIP-Jack contains an array of heuristics for the \gls{sap} which are not well described
-  by the author's and we will not delve further into.
+  by the authors and we will not delve further into them for this reason.
 
 
 %%% Local Variables:
