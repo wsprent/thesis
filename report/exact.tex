@@ -520,7 +520,7 @@ directly to selecting the corresponding edge in $G$.
  in the original graph. The tree induced by this set of edges then is the corresponding solution in the original
  \gls{pcstp} instance.
  
-  \paragraph{Branch \& Bound}
+  \paragraph{Branch and Bound}
   While node selection is left to the underlying \gls{mip} solver, SCIP-Jack branches on vertices in the following way. For each node in the
   branch and bound tree with optimal solution $x^*$ to the LP relaxation, the nonterminal, $v \in V_A \setminus N_A$, which minimises
   \[v_b = \argmin_{v \in V_A \setminus N_A} \left| \sum_{u \in \delta^-(v)} x^*_{uv} - 0.5 \right|\]

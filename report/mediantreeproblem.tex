@@ -660,6 +660,7 @@ and implemented in an interpreted language. It may struggle to keep up.
 For our benchmarks, we have kept the default Gurobi setting of approximately running
 the default heuristic $5\%$ of the time when enabled. Our heuristic instead runs on
 every 25th node.
+\biggap
 
 \begin{table}[h!]
   \centering
@@ -683,8 +684,9 @@ This mirrors the results from
 \citet{ljubic2005solving}. They report that their primal heuristic (which we have based
 ours on) turns out to improve runtimes in only some instances against the default heuristic
 in the CPLEX optimiser.
+\biggap
 
-While these results are somewhat ambivalent,
+While our results are somewhat ambivalent,
 they also suggest that perhaps by improving the heuristic we can achieve performance
 which eclipses the default performance.
 
@@ -748,7 +750,7 @@ interesting discussion, though, so we will proceed as if this is not the cause.
   timeout ($*$) have their LP gap displayed in place of time.}\label{tab:jmp:maxcut}
 \end{table}
 
-Another possible cause is that we be spending too much time in the slower Python
+Another possible cause is that we are spending too much time in the slower Python
 interface. Having to potentially
 solve a max-flow problem for each vertex in the input graph incurs a runtime
 of $O(n^2 \log n)$. This makes the separation procedure quite costly compared
@@ -757,7 +759,7 @@ Spending this much time in the Python interpreter may actually be enough to expl
 even these performance
 discrepancies.
 
-Furthermore, enabling user cuts in Gurobi require disabling the \texttt{PreCrush} setting
+Furthermore, enabling user cuts in Gurobi requires disabling the \texttt{PreCrush} setting
 which disallows Gurobi from reformulating constraints when presolving the model. This means
 that a user cut routine must not just be able to justify
 itself in terms of the extra time spent for the tighter bounds,
