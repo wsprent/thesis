@@ -6,9 +6,9 @@ NP-hard combinatorial optimisation problems, this involves the mixing and matchi
  After a rundown of the history of solving the \gls{pcstp} in section \ref{sec:solving:history}, we will delve deeper into a subset of the methods used to solve the \gls{pcstp} to varying degrees:
 \begin{itemize}
 \item Section~\ref{sec:solving:pre} presents preprocessing algorithms used to reduce instance sizes.
-\item Section~\ref{sec:solving:approx} presents approximations for solving the \gls{pcstp}.
-\item Section~\ref{sec:solving:heuristics} presents heuristics for solving the \gls{pcstp}.
-\item Section~\ref{sec:solving:lower} presents methods used for generating lower bounds.
+\item Section~\ref{sec:solving:approx} presents approximation algorithms for the \gls{pcstp}.
+\item Section~\ref{sec:solving:heuristics} presents heuristics for finding good solutions to the \gls{pcstp}.
+\item Section~\ref{sec:solving:lower} presents methods used for generating strong lower bounds for the \gls{pcstp}.
 \item Section~\ref{sec:solving:exact} presents frameworks and combinations of the above used find exact solutions
    to the \gls{pcstp}.
 \end{itemize}
@@ -17,7 +17,7 @@ NP-hard combinatorial optimisation problems, this involves the mixing and matchi
 \label{sec:solving:history}
 
 Solutions to the \gls{pcstp} were first explored by \citet{Bienstock1993} who
-proposed a 3-approximation algorithm based on Christophides algorithm for the TSP.
+proposed a 3-approximation algorithm based on the Christophides algorithm for the \gls{tsp}.
 This was later improved to 2-approximation algorithm by
 \citet{goemans1997primal} using a primal-dual method,
 which was refined and implemented
@@ -25,34 +25,34 @@ for faster runtimes and typically better
 bounds by \citet{Johnson:2000:PCS:338219.338637}.
 
 \citet{canuto2001local} presented a primal heuristic based on multi-start
-local search with pertubations and path relinking.
+local search with perturbations and path relinking.
 
-An \gls{ilp} formulation based on the \gls{gsec} formulation of the Travelling Salesman Problem was
-stated by \citet{lucena2004strong}, who presented an algorithm for solving the LP relaxation of the \gls{gsec} formulation using
-a separation procedure as a method for generating a strong lower bound for the \gls{pcstp}. Similarly, \citet{Ljubic:2004:memetic}
-presented a memetic algorithm using tournament selection and mutation. They additionally presented an \gls{ilp} formulation of the Steiner
- Aborescence Problem, based on cuts, the LP-relaxation of which was solved on a subgraph extracted from the memetic algorithm to
- improve the solutions as a postprocessing step.
+ In \citeyear{lucena2004strong}, \citet{lucena2004strong} stated an \gls{ilp} formulation of the \gls{pcstp} using \glspl{gsec},
+along with a max-flow based separation used to generate strong lower bounds through cutting planes, and
+\citet{Ljubic:2004:memetic}
+ presented a memetic algorithm using tournament selection and mutation.
 
- \citet{ljubic2005solving} proposed the first full framework for solving the \gls{pcstp} to optimality.
+ \citet{ljubic2005solving} proposed the first algorithm for solving the \gls{pcstp} to provable optimality, along with an
+ implementation commonly known as the DHEA-solver.
  This was done by solving
- equivalent \gls{sap} instances through branch-and-cut. Solving the LP-relaxation of a cut-formulation of the \gls{sap} with a
- a separation procedure was used to generate lower bounds.
-  Furthermore, they presented a set of real-world problem instances for the \gls{pcstp} based on network layout in Berlin.
+ equivalent \gls{sap} instances through branch-and-cut.
+ Furthermore, they presented a set of real-world problem instances for the \gls{pcstp} based on network layout in Berlin.
 
-  \citet{lucena2004strong}, \citet{Ljubic:2004:memetic}, and \citet{ljubic2005solving} all applied preprocessing routines
-  -- known as reduction tests -- to their input graphs to reduce the size of instances.
-  These were originally gathered for
-  the Steiner Tree Problem by \citet{duin1989edge,duin1989reduction},
-  but no reduction tests had been stated and proven for the \gls{pcstp}
-  until \citeauthor{uchoa2006reduction} did so in \citeyear{uchoa2006reduction}.
-  \citeauthor{uchoa2006reduction} revisited
-  reduction tests originally defined for the \gls{stp},
+ A common trait in the work done by
+ \citet{lucena2004strong}, \citet{Ljubic:2004:memetic}, and \citet{ljubic2005solving}
+ is the application of preprocessing routines
+  ---known as reduction tests--- to their input graphs to reduce the size of instances.
+  While they directly applied reduction tests
+  defined for the \gls{stp} mainly by \citet{duin1989edge,duin1989reduction},
+  these tests were were natively stated for the \gls{pcstp}
+  by \citet{uchoa2006reduction} did so in \citeyear{uchoa2006reduction}.
+  \citeauthor{uchoa2006reduction} both proved the validity
+  for these reduction tests originally defined for the \gls{stp},
   but also introduced a new
-  novel way of determining distances between nodes,
-  allowing for stronger reduction tests.
+  novel way of determining distances between nodes, resulting in
+  even stronger reduction tests for the \gls{pcstp}.
 
-  The 11th DIMACS challenge on Steiner tree problems\footnote{\url{http://dimacs11.zib.de/}}
+  The 11th DIMACS Implementation Challenge\citep{DIMACS}, this time on Steiner tree problems,
   brought not only a new set of instances for the \gls{pcstp}, but
   also a new wave of contributions.
 
@@ -64,20 +64,18 @@ presented a memetic algorithm using tournament selection and mutation. They addi
   generating incumbents with
   a shortest-path primal heuristics.
   \citet{gamrath2017scip} presented SCIP Jack -- an exact solver for \gls{stp} variants based on the solver (of the \gls{stp}, by way of \gls{sap}) presented by
-  \citet{koch1998solving} and the \gls{mip} solver, SCIP \footnote{\url{http://scip.zib.de/}}.
+  \citet{koch1998solving} and the \gls{mip} solver, SCIP \footnote{\url{http://scip.zib.de/}}\citep{GleixnerEtal2017OO}.
   Preprocessing routines were natively applied to \gls{pcstp} instances before transforming them into \gls{sap} instances.
   The \gls{sap} was formulated as an
   \gls{ilp} in a so-called \textit{Flow-Balanced Directed Cut Formulation}. The general branch-and-bound
   procedures of the SCIP optimization suite were
-  then employed together with a contraint separation procedure defined in \citet{koch1998solving}.
+  then employed together with a constraint separation procedure defined in \citet{koch1998solving}.
 
   Developments were also made in field of heuristics for the \gls{pcstp}. \citet{fu2014knowledge} presented a tabu search and a neighbourhood definition
-  using a new \textit{vertex swap} operation.
-  \citet{akhmedov2016divide} presented a clustering heuristics for dividing \gls{pcstp} into subproblems,
-  and additionally a
-  reimplementation of the solver by \citet{ljubic2005solving} which was used to solve problems defined by the subgraphs. Additionally, they presented
+  using a new \textit{vertex swap} operation, while
+  \citet{akhmedov2016divide} presented a clustering heuristics for dividing \gls{pcstp} into sub problems.
+  Additionally, they presented
   applications for the \gls{pcstp} within biology.
-  \citet{biazzo2012performance} explored the performance of the cavity method on the \gls{pcstp}.
 
 \clearpage
 \input{preprocessing.tex}
@@ -103,7 +101,7 @@ used widely by authors whenever experimental results are presented. It seems tha
 any serious attempt at solving large instances of the \gls{pcstp} \textit{must} involve a
 preprocessing routine containing some of the reduction tests presented above.
 
-A reoccuring tendency has been that research on the \gls{pcstp} leans on
+A reoccurring tendency has been that research on the \gls{pcstp} leans on
 previous results for the \gls{stp}. This is both the case for preprocessing
 where \citet{uchoa2006reduction} converts reduction tests from the \gls{stp}
 to the \gls{pcstp}, and in the area of exact solvers where both solvers
@@ -112,7 +110,7 @@ guided by results on the \gls{stp} by \citet{chopra1994steiner}.
 
 The two full solvers described in research, the DHEA and SCIP-Jack solvers, have show no
 remarkable differences. Both similar preprocessing routines, directed versions of the problem,
-similar \gls{ilp} models, the same seperation routine, etc. This may indicated that research
+similar \gls{ilp} models, the same separation routine, etc. This may indicated that research
 in the area has reached some maturity.
 
 % Notes from the exact section:

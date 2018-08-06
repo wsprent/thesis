@@ -1,6 +1,6 @@
  \section{Preprocessing}
  \label{sec:solving:pre}
-Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven succesful in many cases both for instances of the \gls{stp}
+Applying preprocessing routines to heavily reduce input graphs is a common technique which has been proven successful in many cases both for instances of the \gls{stp}
 \citep{koch1998solving}
 and instances of the \gls{pcstp}
 \citep{lucena2004strong,canuto2001local,ljubic2005solving, gamrath2017scip}. %TODO: MORE
@@ -14,17 +14,17 @@ The way in which this is done is mainly differentiated by:
 \item in which order, and
 \item when to recursively apply routines and how many times.
 \end{enumerate}
-Preprocessing routines can be very effective. For example, the preprocesing routine
+Preprocessing routines can be very effective. For example, the preprocessing routine
 presented by \citet{koch1998solving} for the \gls{stp} removes
 up to 98\% of edges in some instances. In other words, making good use of preprocessing
-routines, have been shown to increase the size of solvable instances by upto 50 times in some
+routines, has been shown to increase the size of solvable instances by up to 50 times in some
 cases.
 
 In this section, we will first give a full overview of
 existing preprocessing methods for the \gls{pcstp},
  including proofs of validity,
  and then, in the end of the section,
- summarize their usage in recent literature.
+ summarise their usage in recent literature.
 
  In the following, we will denote any edge or vertex (or part of a graph) as
  \textit{redundant} if there exists an optimal solution
@@ -48,7 +48,7 @@ existing preprocessing methods for the \gls{pcstp},
  Note that the first tests presented (NTD1, NTD2, TD1, TD2) are known collectively
  in recent literature as \textit{Degree Tests}, for example in \citet{rehfeldt2016reduction}.
 \paragraph{Non-Terminals of Degree 1 (NTD1)}\label{sec:red:test:deg1}
-Let $G = (V, E, c, p)$ be a PCST instance and let $v \in V$ be any non-terminal of degree 1, then
+Let $G = (V, E, c, p)$ be a \gls{pcstp} instance and let $v \in V$ be any non-terminal of degree 1, then
 clearly
 --- since edges have positive weights ---
 $v$ can not be part of an optimal solution.
@@ -175,7 +175,7 @@ This test is another example of a reduction test for the \gls{stp} which can by 
    $p_u < c_{uv}$ then $(u,v)$ is redundant.
  \end{theorem}
 
- Applying this definition of TD1 in conjection with the UDV test (defined in Section~\ref{sec:pre:udv})
+ Applying this definition of TD1 in conjunction with the UDV test (defined in Section~\ref{sec:pre:udv})
  allows for the potential removal of terminals of degree one (see Figure~\ref{fig:red:test:deg1}), giving the
   test defined by \citet{uchoa2006reduction} and \citet{rehfeldt2016reduction}.
 
@@ -880,12 +880,12 @@ do present the graph sizes of their benchmark cases before and after applying pr
 \item shortest path relaxation of NTDk for $k = 3,\ldots,8$, and
 \item the minimum adjacency test.
 \end{enumerate}
-until a fixpoint is reached. They present both numbers on graph reduction and preprocessing
+until a fix point is reached. They present both numbers on graph reduction and preprocessing
 time. Across all problem instances, they report on average
 a 45\% reduction in graph size.
 
-\citet{akhmedov2016divide} applies the four degree tests until a fixpoint is reached. They
-report reduction in graph sizes for their test cases as well as pre-processing time and
+\citet{akhmedov2016divide} applies the four degree tests until a fix point is reached. They
+report reduction in graph sizes for their test cases as well as preprocessing time and
 total computation time with/without preprocessing.
 
 \citet{rehfeldt2016reduction} present an depth study of preprocessing routines for the
