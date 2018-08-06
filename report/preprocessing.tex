@@ -29,11 +29,11 @@ existing preprocessing methods for the \gls{pcstp},
  In the following, we will denote any edge or vertex (or part of a graph) as
  \textit{redundant} if there exists an optimal solution
   which does not contain it, and we say that a 
-  transformation to a problem instance is \textit{valid} when produces an
+  transformation of a problem instance is \textit{valid} when produces an
   equivalent problem, that is a problem which has the same optimal
   value and in which solutions map back to the original problem.
 
-  Thus, making a series of valid transformation to the input graph may actually
+  Thus, making a series of valid transformation of the input graph may actually
   hide optimal solutions, but will leave \textit{at least} one optimal solution
   which will map directly to an optimal solution in the untouched input graph.
  \subsection{Local Reduction Tests}\label{sec:pre:local}
@@ -46,7 +46,7 @@ existing preprocessing methods for the \gls{pcstp},
  allowing for testing a full graph in linear time.
 
  Note that the first tests presented (NTD1, NTD2, TD1, TD2) are known collectively
- in recent literature as \textit{Degree Tests}, for example in \citet{rehfeldt2016reduction}.
+ in recent literature as \textit{Degree Tests}, for example by \citet{rehfeldt2016reduction}.
 \paragraph{Non-Terminals of Degree 1 (NTD1)}\label{sec:red:test:deg1}
 Let $G = (V, E, c, p)$ be a \gls{pcstp} instance and let $v \in V$ be any non-terminal of degree 1, then
 clearly
