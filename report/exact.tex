@@ -14,7 +14,7 @@ by \citet{ljubic2005solving}
 by first applying
 reduction tests to the input graph (See Section~\ref{sec:solving:pre}) and
 then transforming the resulting problem into related problem of finding a minimum
-aborescence in a directed graph, which we call the \gls{pcsap}.
+arborescence in a directed graph, which we call the \gls{pcsap}.
 It is the first example of a procedure designed for
 finding provably optimal solutions for the \gls{pcstp}.
 
@@ -129,14 +129,14 @@ Firstly, since all the arcs from the root have negative costs they are trivially
 As a result, whenever $G$ has more than one terminal, this may result in a disconnected -- hence infeasible --
 solution in the original graph.
 Furthermore, by representing vertex prizes within the cost of arcs,
- $G_A$  may contain addtional arcs with negative costs. This may result in an
-optimal subgraph which is \textit{not} an aborescence as it may contain cycles.
+ $G_A$  may contain additional arcs with negative costs. This may result in an
+optimal subgraph which is \textit{not} an arborescence as it may contain cycles.
 
 \citet{ljubic2005solving} solve these two issues by adding extra constraints to the problem. Firstly, the
 out-degree of the root vector is limited to a single arc, that is $\delta^+(r) = 1$. With this,
-we can intepret the selection of an arc in the adjacency of $r$ as an ``initial'' selection,
+we can interpret the selection of an arc in the adjacency of $r$ as an ``initial'' selection,
  of a terminal, or a root,
-in the original problem. Enforcing that any solution to the transformed problem must be an aborescence
+in the original problem. Enforcing that any solution to the transformed problem must be an arborescence
  is done by constraining the in-degree of any ``selected'' in a feasible solution terminal to one.
 
  Single arc solutions in $G_A$ will then correspond 1-to-1 with singleton solutions in $G$.
@@ -198,8 +198,8 @@ in the original problem. Enforcing that any solution to the transformed problem 
    but is infeasible due to $d > a$.
   \paragraph{\gls{ilp} Formulation}
 
-Finding such a minimum ``prize-collecting'' aborescence is formalised by \citet{ljubic2005solving}
-as the \gls{ilp} in Fomulation (\ref{form:exact:cut}). 
+Finding such a minimum ``prize-collecting'' arborescence is formalised by \citet{ljubic2005solving}
+as the \gls{ilp} in Formulation (\ref{form:exact:cut}). 
  \begin{formulation}[h!]
    \begin{subequations}
      \begin{alignat}{3} 
@@ -235,12 +235,12 @@ as the \gls{ilp} in Fomulation (\ref{form:exact:cut}).
  in the solution arborescence and the latter which vertices are in the arborescence. Constraints-wise,
  we have
  constraint (\ref{form:exact:pcsap:root}), which ensures that exactly one arc begins in the artificial
- root in any feasible aborescence. Constraint (\ref{form:exact:pcsap:prize}) ensures
+ root in any feasible arborescence. Constraint (\ref{form:exact:pcsap:prize}) ensures
  that a vertex can be selected iff it has an incoming arc.
  Constraints (\ref{form:exact:pcsap:conn}), called \textit{connectivity constraints},
- ensures the connectivity of feasible aborescences by requiring that
+ ensures the connectivity of feasible arborescences by requiring that
  each vertex subset containing a selected vertex must have an incoming arc.
- Together, these constraints ensure that any feasible solution is an aborescence rooted
+ Together, these constraints ensure that any feasible solution is an arborescence rooted
  in $r$ with $\delta^+(r) = 1$.
 
  It is worth noting that for a given subset $S \subseteq V$, adding constraints of type
@@ -263,7 +263,7 @@ as the \gls{ilp} in Fomulation (\ref{form:exact:cut}).
  Additionally, \citet{ljubic2005solving} observe that each nonterminal in an optimal solution
  \textit{must not} be a leaf in the arborescence. Hence, they add constraint
  (\ref{form:exact:strength}) to strengthen the formulation. And finally, they
- also capture the fact that there cannot be anti-parallel arcs in a feasible aborescence in
+ also capture the fact that there cannot be anti-parallel arcs in a feasible arborescence in
  constraint (\ref{form:exact:orientation}). While this constraint is captured implicitly
  in the previous constraints and adding them increases the size of the formulation,
  \citet{ljubic2005solving} report improved running times for adding them as it avoids
@@ -287,7 +287,7 @@ is used to generate good incumbents.
 The heuristics is used with the minor modification that the alternative cost function $c'$ has
 costs
 \[c'_{ij} = 1 - \max\{x_{ij}, x_{ji} \}\]
-to accomodate the \gls{pcsap} being on a directed graph.
+to accommodate the \gls{pcsap} being on a directed graph.
 
 The rest of the branch and bound procedure is handled by an underlying \gls{mip} solver (CPLEX or LEDA).
 \subsection{SCIP-Jack Solver}
@@ -318,7 +318,7 @@ which are the terminal set for our \gls{sap}.
 The original set of vertices $V$ is combined with this set and an
 artificial root vector to define the vertex-set in the directed graph
 \[V_A = V \cup \{r\} \cup N_A\mathnormal{.}\]
-We then add antiparallel arcs for each edge in $E$ as well as arcs from the artifical root vertex, $r$,
+We then add antiparallel arcs for each edge in $E$ as well as arcs from the artificial root vertex, $r$,
 to each original terminal and auxiliary terminal and arcs from the original terminals to the auxiliary
 terminals,
 \begin{align*}
@@ -407,7 +407,7 @@ have no cost and the same goes for arcs from the original terminals to the auxil
   \label{fig:scip:pcstptosap}
 \end{figure}
 
-Figure~\ref{fig:scip:pcstptosap} shows this transfomation. Intuitively, we see that
+Figure~\ref{fig:scip:pcstptosap} shows this transformation. Intuitively, we see that
 picking an arc which goes from the root to a vertex in $v' \in N_A$
 corresponds to not picking the terminal $v$ in the original graph. Selecting an arc from the root
 to some vertex $v \in N$ (and the arc $(v, v')$) then corresponds to selecting $v$
@@ -524,7 +524,7 @@ directly to selecting the corresponding edge in $G$.
   \cite{gamrath2017scip} claim that this gives stronger performance than
   to branching on single arcs.
 
-  Futhermore, SCIP-Jack contains an array of heuristics for the \gls{sap} which are not well described
+  Furthermore, SCIP-Jack contains an array of heuristics for the \gls{sap} which are not well described
   by the author's and we will not delve further into.
 
 
