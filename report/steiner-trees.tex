@@ -12,9 +12,7 @@ Given an undirected graph
 \[G = (V, E, c)\]
  where $c: E \to \RR^+$ defines edge weights, and additionally a set of terminals $N \subseteq V$ then
 a Steiner Tree is a tree, $T = (V_T, E_T, c) \subseteq G$, which spans $N$ with minimal cost. We denote vertices which must be part of a feasible solution,
-that is $v \in N$, as \textit{terminals}, vertices which are not terminals as \textit{non-terminals},
-and vertices which are not required to be part of a solution but are so anyway, that is
-$v \in E_T \cap (V \setminus N)$, as \textit{Steiner vertices}.
+that is $v \in N$, as \textit{terminals}, while vertices which are not required to be spanned by a feasible solution (but may) as \textit{nonterminals}.
 
 Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \emptyset$ and $(V \setminus S) \neq \emptyset$ then we
  call $S$ a \textit{Steiner cut}.
@@ -46,7 +44,7 @@ Furthermore, let $S \subset V$ define a cut in $G$. If we have $S \cap N \neq \e
 \label{fig:stp:01}
 \end{figure}
 
-Figure~(\ref{fig:stp:01}) shows an instance of the \gls{stp} with three terminals and four Steiner vertices. Since vertices
+Figure~(\ref{fig:stp:01}) shows an instance of the \gls{stp} with three terminals and four nonterminals. Since vertices
 A, D, and G are terminals, they must be spanned by any feasible solution. Figure~(\ref{fig:stp:01:feasible}) shows
 a feasible solution (which we here denote as a set of edges)
 \[E_T = \{(a,b), (b,d), (d,g)\}\]
@@ -158,8 +156,7 @@ a non-empty terminal set $N \subseteq V$, a root terminal $r \in N$, and arc-wei
 then a Steiner Aborescence, $T \subseteq A$, is an aborescence
 in $G$, rooted in $r$, which spans $N$ and has minimal cost.
 
-As with the \gls{stp}, we denote vertices in $N$ as \textit{terminals}, and any non-terminals spanned by a Steiner Aborescence as
- \textit{Steiner vertices}.
+As with the \gls{stp}, we denote vertices in $N$ as \textit{terminals} and the rest as \textit{nonterminals}.
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.7 cm]
   %Nodes
@@ -225,9 +222,9 @@ with cost $c(T) = 13.5$. It is worth noting that since all arcs must point away 
 \label{fig:sap:01:opt}
 \end{figure}
 
-The \gls{sap} is relevant to our theis mainly due to a tendency of reformulating the
+The \gls{sap} is relevant to our thesis mainly due to a tendency of reformulating the
 undirected \gls{stp} into the \gls{sap} \citep{koch1998solving}, as well as reformulating
-the \gls{pcstp} into variants of the\gls{sap}
+the \gls{pcstp} into variants of the \gls{sap}
 \citep{gamrath2017scip, Ljubic:2004:memetic, leitner2016dual, ljubic2005solving}
 before stating them as integer programs. This is due to results which show that LP relaxations of
  directed \gls{stp} variants behave better than undirected variants \citep{chopra1994steiner}.
@@ -301,22 +298,23 @@ The \gls{pcstp} cannot directly be reduced to the \gls{sap}, as the dynamic of l
 terminals cannot be described natively. However, slightly modifying the rules of the problem
 allows for this translation.
 
-How to do this, is explored more deeply in Section~\ref{sec:solving:exact}.
+How to do this, is explored in Section~\ref{sec:solving:exact}.
 \section{Prize-Collecting Steiner Tree Problem}
 \label{sec:pcstp}
 Given an undirected graph
 \[G = (V, E, c, p)\]
 where $c: E \to \RR^+$ defines edge weights,
-and $p: V \to \RR_0^+$ defines vertex \textit{prizes}, then the solution to the
+and $p: V \to \RR^+$ defines vertex \textit{prizes}, then the solution to the
 \textit{\gls{pcstp}} is a tree
 \[T = (V_T, E_T, c, p) \subseteq G\]
 which minimizes
-\[c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v\]
-which is also known as the {\textit{Goemans-Williamson Minimization Problem}}. This involves minimising
+\[c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v \textnormal{.} \]
+This formulation of the \gls{pcstp} is also known as the {\textit{Goemans-Williamson Minimization Problem}} and
+is in practise the canonocial formulation of the problem. It involves minimising
  the total cost of edges in $T$ while trying to minimise the amount of uncollected prize, or perhaps paid penalties.
 
 In the context of the \gls{pcstp}, We denote vertices with nonzero prize as \textit{terminals}, giving the terminal set
-\[N = \{v \mid p_v > 0\} \subseteq V\mathnormal{.}\]
+\[N = \{v \in V \mid p_v > 0\}\mathnormal{.}\]
 
 \begin{figure}[h]\centering
 \begin{tikzpicture}[auto, node distance=1.5 cm]
@@ -381,7 +379,7 @@ tree in $G'_{STP}$. In other words, we can describe the search space of the \gls
 \label{fig:pcstp:01:opt}
 \end{figure}
 
-Unsurprisingly, the \gls{pcstp} is an NP-hard problem. It is a generalisation of the \gls{stp}. Any instance of
+Unsurprisingly, the \gls{pcstp} is an NP-hard problem as it is a generalisation of the \gls{stp}. Any instance of
 the \gls{stp} with graph $G = (V, E, c)$ and terminal set $N$ can be reduced to an instance of the \gls{pcstp}
 with graph $G' = (V, E, c, p)$ where
 $$p_v =
@@ -393,7 +391,7 @@ Any optimal solution to $G'$ is then a Steiner tree in $G$ and vice versa.
 
 \subsection{Variants}
 
- The \gls{pcstp} can stated differently as the {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637}.
+ The \gls{pcstp} can be stated differently as the so-called {\textit{Net Worth Maximization Problem}} \citep{Johnson:2000:PCS:338219.338637}.
   This involves maximising the function,
 \[NW(T) = \sum_{v \in V_T} p_v - \sum_{(i,j) \in E_T} c_{ij}\]
 or in other words, maximising the profit of $T$.
@@ -416,9 +414,9 @@ and finally since the total prize in $G$ is independent of $T$, it must also min
 
 \paragraph{Budget and Quota Problems}
 
-Other close related problems can be generated by removing either edge costs or prize collection from the
+Other closely related problems can be generated by removing either edge costs or prize collection from the
 objective function and instead representing them as constraints. This gives two new optimisation problems
-which we call the \textit{Quota} and \textit{Budget} problems \citep{Johnson:2000:PCS:338219.338637}.
+which are called the \textit{Quota} and \textit{Budget} problems \citep{Johnson:2000:PCS:338219.338637}.
 
 In the case of the former, we are looking to minimize the total edge cost of the solution tree, $T$, while
 collecting \textit{at least} some quota, $P \in \RR$, of prize, that is we wish to minimise,
@@ -438,13 +436,13 @@ must span all terminals, and an optimal solution to the \gls{stp} is an optimal 
 Similarly, the Budget problem involves collecting as much prize as possible without allowing the
  total edge cost of $T$ to increase beyond some budget, $B \in \RR$, this is we wish to maximise,
  \[\sum_{v \in V_T} p_v \quad \text{s.t.} \: \sum_{e \in E_T} c_e \leq B\mathnormal{.}\]
- The budget problem is similar in spirit to the well-known Knapsack problem. In fact we can
- reduce instances of the Knapsack problem to instances of the budget problem, which shows that
+ The Budget problem is similar in spirit to the well-known Knapsack problem. In fact we can
+ reduce instances of the Knapsack problem to instances of the Budget problem, which shows that
   the latter is also NP-hard.
 
  Given a set of items $I = 1,...,n$, their weights $w_1,...,w_n$, their values $v_1,...,v_n$, and
  a weight budget $B$, we
- can construct an instance of the budget problem by creating a vertex for each item with weight
+ can construct an instance of the Budget problem by creating a vertex for each item with weight
  $v_i \leq B$ with prize $p_i = v_i$ and connecting them all to an auxiliary vertex, $0$, with
  edges which have cost $c_{0i} = w_i$. Figure~\ref{fig:pcstp:budget:knapsack} shows this for
   a small instance of the Knapsack problem with four items.

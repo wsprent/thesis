@@ -41,7 +41,7 @@ survey the research done
 on the \gls{pcstp}, and attempt to fill out any holes found with methods defined for the older
 \gls{pctsp}. This was considered with the assumption that the older problem had
 been more covered.
-However, it turned out that the \gls{pcstp} had been \textit{far} more covered
+However, it turned out that the \gls{pcstp} had been far more covered
 by research with multiple exact algorithms
 \citep{ljubic2005solving, leitner2016dual, gamrath2017scip},
 approximation algorithms \citep{Bienstock1993,goemans1995general,Johnson:2000:PCS:338219.338637},
@@ -56,11 +56,14 @@ However, there is another interesting problem to explore: \textit{the \gls{mtp}}
 The \gls{mtp} is a generalisation of the \gls{pcstp}
 which involves finding the subgraph which minimises total edge cost summed with an
 \textit{assignment cost} for assigning each vertex in the input graph to a vertex in
-the subgraph.
+the subgraph. Hence, while the \gls{pctsp} is similar to the \gls{pcstp} by sharing
+its objective functon, the \gls{mtp} instead shares solution shape with the \gls{pcstp}.
 
-The \gls{mtp} has only recieved much attention for the special case where the input graph is
-a tree, giving us plenty of space to work in. Based on the evaluation that the tour constraint
-puts the \gls{pctsp} at a further distance from the \gls{pcstp}, we make the \gls{mtp}
+Additionally, the \gls{mtp} has yet to receive much attention
+besides the special case where the input graph is
+a tree, giving us plenty of space to work in. All in all, based on the evaluation
+that the tour constraint of \gls{pctsp}
+puts it at a further distance to the \gls{pcstp}, we make the \gls{mtp}
 the secondary target of this thesis.
 \section{Aim and Scope}
 As we touch upon two slightly disjoint subjects, this thesis is split
@@ -71,9 +74,9 @@ In the first part, we perform a
 survey of the \acrlong{pctsp} where we report, detail, and bring intution to the most interesting
 and/or effective methods for solving the \gls{pcstp}.
 Our goal is not for this to be a comprehensive retelling
-of all research done on the \gls{pcstp}, but to give a comprehensive \textit{overview} of
+of all research done on the \gls{pcstp}, but to give a comprehensive overview of
 the kind of methods which are used to solve the \gls{pcstp}.
-For example, we will not fully detail \textit{all}
+For example, we will not fully detail all
 heuristics or approximation algorithms for the \gls{pcstp},
 but select those that we find most interesting or important.
 
@@ -94,7 +97,7 @@ both with regards to the nature of the problems themselves and state of
 research.
 
 Furthermore, we wish to examine how translatable results made for the \gls{pcstp} are for similar problems.
-In other words, we ask the question,
+In other words, we ask the question:
 ``Can research on one combinatorial optimisation problem be applied directly, or at least
 serve as a good starting point for solutions to another such problem?''
 
