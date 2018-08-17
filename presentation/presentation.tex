@@ -1,0 +1,146 @@
+\documentclass[rgb,dvipsnames]{beamer}
+\usepackage[english]{babel}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{adjustbox}
+
+\usepackage{amsmath}
+
+\usepackage[linewidth=1pt]{mdframed}
+
+% Graphics
+\usepackage{graphicx}
+
+% Font
+\usepackage{paratype}
+\setbeamerfont{frametitle}{family=\bf}
+\usefonttheme[onlymath]{serif}
+
+\newcommand{\nn}{\mathcal{N}}
+\newcommand{\uu}{\mathcal{U}}
+\newcommand{\bb}{\mathcal{B}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\rd}[1]{\mathrm{#1}}
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\BB}{\mathbb{B}}      % for Booleans
+\newcommand{\PP}{\mathbb{P}}      % for Prob
+\newcommand{\EE}{\mathbb{E}}      % for Expectation
+\newcommand{\II}{\mathbbm{1}}      % for Indicator fun
+\newcommand{\NN}{\mathbb{N}}      % for Prob
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+
+
+% Beamer theme settings
+\usetheme{Copenhagen}
+\usecolortheme{seagull}
+\setbeamertemplate{itemize item}{\raisebox{0.8mm}{\rule{1.2mm}{1.2mm}}}
+\usenavigationsymbolstemplate{} % no navigation buttons
+
+\mode<presentation>
+{ \usetheme{boxes} }
+
+\title{Master's Thesis Defense}
+\subtitle{The Prize-Collecting Steiner Tree Problem
+  \\and Related Problems}
+\author{William Jack Lysgaard Sprent}
+\date{31st August 2018}
+\institute{DIKU}
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{What's on the menu?}
+\tableofcontents[pausesections]
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Overview}{What happened in the last six months?}
+  \begin{itemize}
+  \item I read a stack of research papers about the PCSTP.
+    \begin{itemize}
+    \item \pause \textit{Problem: articles are often too short
+        and it's difficult to get an overview.}
+      \pause
+    \item \textit{Solution: write a survey.}
+    \end{itemize}
+  \item I looked 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivation}
+  \begin{itemize}
+    \pause
+  \item NP-Hard problems are worth solving.
+    \pause
+  \item 
+  \end{itemize}
+\end{frame}
+\section{The Prize-Collecting Steiner Tree Problem}
+\begin{frame}{Problem Definition}
+ Given an undirected graph
+\[G = (V, E, c, p)\]
+where $c: E \to \RR^+$ defines edge weights,
+and $p: V \to \RR^+$ defines vertex \textit{prizes}, then the solution to the
+\textit{PCSTP} is a tree
+\[T = (V_T, E_T, c, p) \subseteq G\]
+which minimizes
+\[c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v \textnormal{.} \]
+\end{frame}
+
+\begin{frame}{Applications}
+ ??  
+\end{frame}
+
+\begin{frame}{Solution Traits}
+  
+\end{frame}
+
+\section{Other Ways of Collecting Prize}
+\begin{frame}{Prize-Collecting Tours}
+  haha
+\end{frame}
+
+\begin{frame}{Median Subgraphs}
+  haha
+\end{frame}
+
+\section{The Median Tree Problem}
+\begin{frame}{Problem Definition}
+  Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
+and $d : V \times V  \to \RR^+$ be an \textit{assignment cost} function where we have
+\[d_{ii} = 0 \mathnormal{.}\]
+Then the \textit{Median Tree Problem}
+is defined as finding a \textit{connected subgraph} $T = (V_T, E_T)$ of $G$
+where $V_T \subseteq V$ and
+$E_T \subseteq E$ which minimises the cost function,
+\[c(T) = \sum_{ij \in E_T} c_{ij} + \sum_{i \in V} \min_{j \in V_T} d_{ij}\mathnormal{.}\]
+
+\end{frame}
+
+\begin{frame}{Why?}
+  haha
+\end{frame}
+
+\begin{frame}{The Solver}
+  
+\end{frame}
+\begin{frame}{Results}
+  
+\end{frame}
+\section{Summary}
+\begin{frame}{What did I manage to do?}
+  haha
+\end{frame}
+\begin{frame}{Further Work}
+  haha
+\end{frame}
+\begin{frame}{Conclusion}
+  haha
+\end{frame}
+
+\end{document}
