@@ -32,6 +32,27 @@
 \newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
 \newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows,fit, positioning, shapes,
+  calc, fadings, decorations.pathmorphing, hobby}
+
+\tikzset{font=\tiny}
+\tikzset{terminal/.style={circle, draw=black, fill=black, text=white}}
+\tikzset{steiner/.style={circle, draw=black, fill=white}}
+\tikzset{selected/.style={draw=red, ultra thick}}
+\tikzset{assignment/.style={draw=red, thin, opacity=0.6}}
+\tikzset{root/.style={draw=cyan, ultra thick}}
+\tikzset{subgraph/.style={font=\large, text=gray}}
+\tikzset{snake it/.style={-stealth,
+    decoration={snake, 
+      amplitude = .2mm,
+    segment length = 2mm,
+    post length=0.9mm},decorate}}
+\tikzset{snake node/.style={above=1mm,
+    midway,
+    text width=3cm,
+    sloped,
+    align=center}}
 
 
 % Beamer theme settings
@@ -121,25 +142,80 @@ and $p: V \to \RR^+$ defines vertex \textit{prizes}, then the solution to the
 \textit{PCSTP} is a tree
 \[T = (V_T, E_T, c, p) \subseteq G\]
 which minimizes
-\[c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v \textnormal{.} \]
+\[c(T) = \min_T \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v \textnormal{.} \]
 \end{frame}
 
+\begin{frame}{The Prize-Collecting Steiner Tree Problem}{Example}
+  \centering
+  \begin{tikzpicture}[auto, node distance=1.5 cm]
+  %Nodes
+  \node[terminal, label={12}] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal, label={10}] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal, label={3}] (g) [above right=0.75 and 1.3 of c] {g};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge node[below]{4} (b);
+    \draw (b) edge node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{The Prize-Collecting Steiner Tree Problem}{Example}
+  \centering
+  \begin{tikzpicture}[auto, node distance=1.5 cm]
+  %Nodes
+  \node[terminal, label={12}] (a) {a};
+  \node[steiner] (b) [right=of a] {b};
+  \node[steiner] (c) [right=of b] {c};
+  \node[terminal, label={10}] (d) [above =of c] {d};
+  \node[steiner] (e) [left=of d] {e};
+  \node[steiner] (f) [left=of e] {f};
+  \node[terminal, label={3}] (g) [above right=0.75 and 1.3 of c] {g};
+  % Edges
+  \begin{scope}[every edge/.style={draw=black, thick}]
+    \draw (a) edge[selected] node[below]{4} (b);
+    \draw (b) edge[selected] node[near start]{5} (d);
+    \draw (b) edge node[below]{8} (c);
+    \draw (c) edge node{3} (d);
+    \draw (c) edge node{2} (g);
+    \draw (c) edge node[near start]{5} (e);
+    \draw (d) edge node{6} (e);
+    \draw (d) edge node{10} (g);
+    \draw (e) edge node{1} (f);
+  \end{scope}
+\end{tikzpicture}
+
+\end{frame}
 \begin{frame}{The Survey}{Quick Summary}
-  I looked at:
+
+  \begin{block}{Contents of the Survey:}
   \begin{enumerate}
   \item The history of solving the PCSTP.
+  \item Preprocessing routines.
   \item Two heuristic algorithms. LP-based and search based.
   \item An approximation algorithm: the GW Algorithm.
   \item How to separate GSECs.
   \item The DHEA and SCIP-Jack solvers.
   \end{enumerate}
+\end{block}
 \end{frame}
 
-\begin{frame}{The Survey}{Main Points - What have we learned?}
-  The PCSTP is well covered.
-
-  \begin{block}{Points}
-  \begin{enumerate}
+\begin{frame}{The Survey}{Main Points}
+  \begin{block}{What have we learned?}
+    \pause
+    \begin{enumerate}
+    \item The PCSTP is well covered all things considered. \pause
   \item Preprocessing is \textit{very} good for the PCSTP. \pause
   \item Directed formulations of the problem are preferable for
     branch and bound. \pause
@@ -149,12 +225,16 @@ which minimizes
 
 \end{frame}
 
-\begin{frame}{The Survey}{Main Points - Curiosities}
+\begin{frame}{The Survey}{Main Points}
+  \begin{block}{Curiosities}
   \begin{itemize}
   \item Not a lot of focus on applications.
   \item Linear progress?
   \item Somewhat general methods besides preprocessing.
   \end{itemize}
+\end{block}
+\pause
+\textit{On to other problems.}
 \end{frame}
 
 \section{Other Ways of Collecting Prize}
@@ -167,12 +247,14 @@ which minimizes
     \end{enumerate}
   \end{block}
   \pause
-  Some notes:
+  \begin{block}{Some Notes:}
   \begin{itemize}
   \item Main point of the Balas paper in 88.
   \item Shares approximation algorithms.
   \item Apart from the OP, not well covered.
   \end{itemize}
+\end{block}
+
 \end{frame}
 
 \begin{frame}{Median Subgraphs}
