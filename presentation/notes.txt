@@ -1,0 +1,79 @@
+What do i want to talk about?
+
+Intro
+==============
+
+Timeline - How did things go down?
+
+Motivation:
+- A lot has been written about the PCSTP, but there are two problems:
+- 1. Articles are short and shallow. Many of the reoccurring methods are only
+     proven four citations deep.
+- 2. It is difficult to get an overview of what _exactly_ has been done. Problems are
+     restated, methods reused. (example: dhea solver).
+
+PCSTP
+==============
+
+What it is?
+
+What did we look at?
+
+What are the main points?
+- Preprocessing is a big deal.
+- Heuristics are aplenty.
+- Directed graph versions of the PCSTP are preferable.
+
+Curiosities:
+- 
+
+Other Problems
+=============
+
+Prize-Collecting Tours
+-------------
+
+Median Problems
+-------------
+
+
+MTP
+=============
+
+Motivation:
+
+- Some of the methods seen for the PCSTP are not particularly problem specific.
+- Can we make use of them in some other way.
+- /Reading all day makes William a sad fellow/
+
+
+
+
+
+Important lessons about the PCSTP:
+
+
+Reflections
+=============
+
+The Survey
+-------------
+Shouldn't have approached each major topic in the same way:
+- Heuristics need a more shallow approach.
+- The GW algorithm is diffcult, but important. There should be more handholding.
+
+Overall:
+- Spend more time with a wider perspective.
+- Focus more on application.
+
+The Solver / The Median Tree Problem
+-------------
+- Using the Python interface was fun, but was a crutch later on.
+- Spend more time on preprocessing.
+- ...
+- Decide on a "product" earlier.
+- Focus more on application. OR is most fun when solving real problems?
+
+Creating a solver is a good exercise, but without applications, is it still useful?
+
+

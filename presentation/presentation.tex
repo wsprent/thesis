@@ -51,37 +51,69 @@
 \institute{DIKU}
 \begin{document}
 
+\AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+ }
+ 
 \frame{\titlepage}
 
-\begin{frame}{What's on the menu?}
-\tableofcontents[pausesections]
+\begin{frame}{The fun we are having today:}
+\tableofcontents
 \end{frame}
 
 \section{Introduction}
 
 \begin{frame}{Overview}{What happened in the last six months?}
+  \pause
   \begin{itemize}
-  \item I read a stack of research papers about the PCSTP.
-    \begin{itemize}
-    \item \pause \textit{Problem: articles are often too short
-        and it's difficult to get an overview.}
-      \pause
-    \item \textit{Solution: write a survey.}
-    \end{itemize}
-  \item I looked 
+  \item I read a stack of research papers about the PCSTP. \pause
+  \item I read a smaller stack of research papers about related problems. \pause
+  \item \textit{I was indecisive.} \pause
+  \item I worked on a solver for the Median Tree Problem.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Motivation}
+\begin{frame}{Motivation}{Why the PCSTP?}
   \begin{itemize}
+  \item It's a hard problem. Hard problems are worth solving.
+  \item It relates to the Steiner Tree Problem, and shares some of
+    its characteristica.
     \pause
-  \item NP-Hard problems are worth solving.
-    \pause
-  \item 
+  \item Finally: \textit{It is an interesting problem.}
   \end{itemize}
 \end{frame}
+
+\begin{frame}{Motivation}{The Survey}
+  What makes a survey necessary?
+  \pause
+  \begin{itemize}
+  \item A lot is written about the PCSTP, but it is unstructured and disjoint.
+  \item Some of these papers touch on very complex subjects
+    and are sometimes short and unintuitive.
+  \item The PCSTP is a good ``case study'' for an ILP problem.
+  \end{itemize}
+  \pause
+  \textbf{ --- There is a lot to learn.}
+  
+\end{frame}
+
+\begin{frame}{Motivation}{Why the Median Tree Problem?}
+  \pause
+  \textit{We'll get back to that later.}
+\end{frame}
 \section{The Prize-Collecting Steiner Tree Problem}
-\begin{frame}{Problem Definition}
+\begin{frame}{The Prize-Collecting Steiner Tree Problem}{Short History}
+  \begin{itemize}
+  \item Defined by Egon Balas in 1988 as a side effect.
+  \item Subject to steady focus in the late 90's and early 00's.
+  \item One of the subjects of the 11th DIMACs Implementation Challenge in 2014.
+  \end{itemize}
+\end{frame}
+\begin{frame}{The Prize-Collecting Steiner Tree Problem}{Problem Definition}
  Given an undirected graph
 \[G = (V, E, c, p)\]
 where $c: E \to \RR^+$ defines edge weights,
@@ -92,25 +124,91 @@ which minimizes
 \[c(T) = \min_T GW(T) = \sum_{(i,j) \in E_T} c_{ij} + \sum_{v\in (V \setminus V_T)} p_v \textnormal{.} \]
 \end{frame}
 
-\begin{frame}{Applications}
- ??  
+\begin{frame}{The Survey}{Quick Summary}
+  I looked at:
+  \begin{enumerate}
+  \item The history of solving the PCSTP.
+  \item Two heuristic algorithms. LP-based and search based.
+  \item An approximation algorithm: the GW Algorithm.
+  \item How to separate GSECs.
+  \item The DHEA and SCIP-Jack solvers.
+  \end{enumerate}
 \end{frame}
 
-\begin{frame}{Solution Traits}
-  
+\begin{frame}{The Survey}{Main Points - What have we learned?}
+  The PCSTP is well covered.
+
+  \begin{block}{Points}
+  \begin{enumerate}
+  \item Preprocessing is \textit{very} good for the PCSTP. \pause
+  \item Directed formulations of the problem are preferable for
+    branch and bound. \pause
+  \item Heuristics are aplenty.
+  \end{enumerate}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{The Survey}{Main Points - Curiosities}
+  \begin{itemize}
+  \item Not a lot of focus on applications.
+  \item Linear progress?
+  \item Somewhat general methods besides preprocessing.
+  \end{itemize}
 \end{frame}
 
 \section{Other Ways of Collecting Prize}
 \begin{frame}{Prize-Collecting Tours}
-  haha
+  \begin{block}{Three main variants:}
+    \begin{enumerate}
+    \item The Prize-Collecting Travelling Salesman Problem
+    \item The Orienteering Problem
+    \item The Profitable Tour Problem
+    \end{enumerate}
+  \end{block}
+  \pause
+  Some notes:
+  \begin{itemize}
+  \item Main point of the Balas paper in 88.
+  \item Shares approximation algorithms.
+  \item Apart from the OP, not well covered.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Median Subgraphs}
-  haha
+  \begin{itemize}
+  \item Assignment Problem.
+  \item Different shapes of facility.
+  \item Median Trees.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Summary}
+  \begin{itemize}
+  \item Two axis' of similarity: structure and prize function.
+  \item PCSTP is the most well researched problem in the family.
+  \end{itemize}
+  \pause
+  \textbf{What now?}
 \end{frame}
 
 \section{The Median Tree Problem}
-\begin{frame}{Problem Definition}
+\begin{frame}{Motivation}{Options}
+  \begin{itemize}
+  \item Stay with the PCSTP.
+  \item Look at the Profitable Tour Problem.
+  \item Look at the Median Tree Problem.
+  \end{itemize}
+\end{frame}
+\begin{frame}{Motivation}{Median Trees over Prize-Collecting Tours}
+  \begin{itemize}
+  \item A feasible solution to the PCSTP is a feasible solution to the MTP.
+  \item Collect Prize vs. Assignment: similar --- although not the exact same --- trade offs.
+  \end{itemize}
+  \pause
+ \textit{And a splash of subjectivity.}
+\end{frame}
+\begin{frame}{Median Tree Problem}{Problem Definition}
   Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
 and $d : V \times V  \to \RR^+$ be an \textit{assignment cost} function where we have
 \[d_{ii} = 0 \mathnormal{.}\]
@@ -119,28 +217,82 @@ is defined as finding a \textit{connected subgraph} $T = (V_T, E_T)$ of $G$
 where $V_T \subseteq V$ and
 $E_T \subseteq E$ which minimises the cost function,
 \[c(T) = \sum_{ij \in E_T} c_{ij} + \sum_{i \in V} \min_{j \in V_T} d_{ij}\mathnormal{.}\]
-
 \end{frame}
 
-\begin{frame}{Why?}
-  haha
-\end{frame}
+\begin{frame}{Median Tree Problem}{ILP Formulation}
+  \begin{subequations}
+    \small
+     \begin{alignat}{3}
+       &\underset{\bd x, \bd y}{\text{minimize}}
+       & & \sum_{ij \in E} c_{ij} x_{ij} +  \sum_{i, j \in V} d_{ij}y_{ij}  & \\
+       & \text{subject to}\quad
+       & & \sum_{ij \in E} x_{ij} = \sum_{i \in V} y_{ii} - 1 &&  \label{form:mtp:tree}\\
+       &&& x(E(S)) \leq \sum_{i \in S \setminus \{s\}} y_{ii}
+       && \forall S \subseteq V, s \in S \label{form:mtp:gsec} \\
+       &&& \sum_{j \in V} y_{kj} = 1 && \forall k \in V \label{form:mtp:assignment}\\
+       &&& y_{ik} \leq  y_{kk}
+       && \forall i, k \in V \label{form:mtp:facility}\\
+       &&& y_{kk} \leq \sum_{i \in \delta(k)} x_{ik}
+       && \forall k \in V \label{form:mtp:legal} \\
+       &&& \bd x \in \BB^{|E|} && \\
+       &&& \bd y \in \BB^{|V \times V|}
+     \end{alignat}
+   \end{subequations}
+ \end{frame}
+    \normalsize
+ \begin{frame}{Median Tree Problem}{Valid Inequalities}
+\pause
+\textit{Forced self-assignment:}
+\[
+ y_{ii} \geq x_{ji} \qquad \forall i \in V,  \forall j \in \delta(i)\mathnormal{.}
+\]
+\pause
+\textit{Degree of Nonterminals:}
+\[
+   \sum_{j \in \delta(i)}x_{ij} \geq 2 x_{ik} \qquad \forall i \in N, \: \forall k \in \delta(i)
+\]
 
+
+ \end{frame}
 \begin{frame}{The Solver}
+  \begin{itemize}
+  \item Based on the Gurobi MIP solver. \pause
+  \item Callbacks written in Python 3. \pause
+  \item Applies methods from the PCSTP survey: \pause
+    \begin{itemize}
+    \item Primal heuristic from the DHEA solver.
+    \item User cuts based on GSEC separation from an
+      article by Lucena and Resende for the PCSTP.
+    \end{itemize}
+  \end{itemize}
   
 \end{frame}
 \begin{frame}{Results}
   
 \end{frame}
-\section{Summary}
+\section{Summary / Reflections}
 \begin{frame}{What did I manage to do?}
   haha
 \end{frame}
-\begin{frame}{Further Work}
-  haha
+
+\begin{frame}{Improvements}{The Survey}
+  
 \end{frame}
-\begin{frame}{Conclusion}
+
+\begin{frame}{Improvements}{The Solver}
+  
+\end{frame}
+
+\begin{frame}{Further Work}{Solve a real problem}
   haha
 \end{frame}
 
+
+\begin{frame}{Lessons Learned}
+  
+\end{frame}
+
+\begin{frame}{Postface}
+  \large\textbf{Questions?}
+\end{frame}
 \end{document}
