@@ -57,7 +57,7 @@
 
 % Beamer theme settings
 \usetheme{Copenhagen}
-\usecolortheme{seagull}
+\usecolortheme{seahorse}
 \setbeamertemplate{itemize item}{\raisebox{0.8mm}{\rule{1.2mm}{1.2mm}}}
 \usenavigationsymbolstemplate{} % no navigation buttons
 
@@ -69,7 +69,7 @@
   \\and Related Problems}
 \author{William Jack Lysgaard Sprent}
 \date{31st August 2018}
-\institute{DIKU}
+\institute{DIKU \\ University of Copenhagen}
 \begin{document}
 
 \AtBeginSection[]
@@ -88,51 +88,63 @@
 
 \section{Introduction}
 
-\begin{frame}{Overview}{What happened in the last six months?}
+\begin{frame}{Introduction}{Overview}
+  \begin{block}{What I spent six months doing?}
   \pause
   \begin{itemize}
   \item I read a stack of research papers about the PCSTP. \pause
-  \item I read a smaller stack of research papers about related problems. \pause
+  \item I read a smaller stack of research papers about problems related to the PCSTP. \pause
   \item \textit{I was indecisive.} \pause
   \item I worked on a solver for the Median Tree Problem.
   \end{itemize}
+\end{block}
+
 \end{frame}
 
-\begin{frame}{Motivation}{Why the PCSTP?}
+\begin{frame}{Introduction}{Motivation}
+  \begin{block}{Why the PCSTP?}
   \begin{itemize}
-  \item It's a hard problem. Hard problems are worth solving.
+  \item It is an NP-hard problem. Hard problems are worth solving.
+  \item It is typically solved using ILP.
   \item It relates to the Steiner Tree Problem, and shares some of
     its characteristica.
     \pause
-  \item Finally: \textit{It is an interesting problem.}
+  \item Finally: \textit{I think it is an interesting problem.}
   \end{itemize}
+\end{block}
+
 \end{frame}
 
-\begin{frame}{Motivation}{The Survey}
-  What makes a survey necessary?
+\begin{frame}{Introduction}{Motivation}
+  \begin{block}{What makes a survey necessary?}
   \pause
-  \begin{itemize}
+  \begin{itemize}[<+->]
   \item A lot is written about the PCSTP, but it is unstructured and disjoint.
   \item Some of these papers touch on very complex subjects
     and are sometimes short and unintuitive.
-  \item The PCSTP is a good ``case study'' for an ILP problem.
+  \item The PCSTP is a good ``case study'' for an Graph Optimisation and ILP problem.
   \end{itemize}
   \pause
   \textbf{ --- There is a lot to learn.}
-  
+\end{block}
 \end{frame}
 
-\begin{frame}{Motivation}{Why the Median Tree Problem?}
+\begin{frame}{Introduction}{Motivation}
+  \begin{block}{Why the Median Tree Problem?}
   \pause
   \textit{We'll get back to that later.}
+\end{block}
+
 \end{frame}
 \section{The Prize-Collecting Steiner Tree Problem}
-\begin{frame}{The Prize-Collecting Steiner Tree Problem}{Short History}
-  \begin{itemize}
+\begin{frame}{The Prize-Collecting Steiner Tree Problem}{Preface}
+  \begin{block}{Short (Meta) History}
+  \begin{itemize}[<+->]
   \item Defined by Egon Balas in 1988 as a side effect.
   \item Subject to steady focus in the late 90's and early 00's.
   \item One of the subjects of the 11th DIMACs Implementation Challenge in 2014.
   \end{itemize}
+  \end{block}
 \end{frame}
 \begin{frame}{The Prize-Collecting Steiner Tree Problem}{Problem Definition}
  Given an undirected graph
@@ -197,9 +209,12 @@ which minimizes
 \end{tikzpicture}
 
 \end{frame}
+
+\section{The Survey}
+
 \begin{frame}{The Survey}{Quick Summary}
 
-  \begin{block}{Contents of the Survey:}
+  \begin{block}{Contents of the PCSTP Survey:}
   \begin{enumerate}
   \item The history of solving the PCSTP.
   \item Preprocessing routines.
@@ -237,8 +252,7 @@ which minimizes
 \textit{On to other problems.}
 \end{frame}
 
-\section{Other Ways of Collecting Prize}
-\begin{frame}{Prize-Collecting Tours}
+\begin{frame}{The Survey}{Prize-Collecting Tours}
   \begin{block}{Three main variants:}
     \begin{enumerate}
     \item The Prize-Collecting Travelling Salesman Problem
@@ -257,7 +271,7 @@ which minimizes
 
 \end{frame}
 
-\begin{frame}{Median Subgraphs}
+\begin{frame}{The Survey}{Median Subgraphs}
   \begin{itemize}
   \item Assignment Problem.
   \item Different shapes of facility.
@@ -267,7 +281,7 @@ which minimizes
 
 \begin{frame}{Summary}
   \begin{itemize}
-  \item Two axis' of similarity: structure and prize function.
+  \item Two axes of similarity: structure and prize function.
   \item PCSTP is the most well researched problem in the family.
   \end{itemize}
   \pause
@@ -275,12 +289,15 @@ which minimizes
 \end{frame}
 
 \section{The Median Tree Problem}
-\begin{frame}{Motivation}{Options}
-  \begin{itemize}
+\begin{frame}{The Median Tree Problem}{Motivation}
+  \textit{I wanted to do some practical work.} \pause
+  \begin{block}{Options}
+  \begin{itemize}[<+->]
   \item Stay with the PCSTP.
   \item Look at the Profitable Tour Problem.
   \item Look at the Median Tree Problem.
   \end{itemize}
+  \end{block}
 \end{frame}
 \begin{frame}{Motivation}{Median Trees over Prize-Collecting Tours}
   \begin{itemize}
@@ -410,7 +427,7 @@ $E_T \subseteq E$ which minimises the cost function,
 
 
  \end{frame}
-\begin{frame}{The Solver}
+\begin{frame}{Median Tree Problem}{The Solver}
   \begin{itemize}
   \item Based on the Gurobi MIP solver. \pause
   \item Callbacks written in Python 3. \pause
@@ -423,28 +440,45 @@ $E_T \subseteq E$ which minimises the cost function,
   \end{itemize}
   
 \end{frame}
-\begin{frame}{Results}
+\begin{frame}{Median Tree Problem}{Computational Experience}
+  \begin{block}{Results}
+    \pause
+    \begin{itemize}[<+->]
+    \item Primal Heuristics: Ambivalent performance
+    \item Valid Inequalities: Ambivalent performance
+    \item User Cuts: \textit{Terrible} performance
+    \end{itemize}
+  \end{block}
+  \pause
+  \textit{Why?}
+\end{frame}
+\section{Reflections}
+\begin{frame}{Reflections}{Summary}
+  \begin{block}{What did I manage to do?}
+    \begin{itemize}
+    \item 
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reflections}{Improvements}
   
 \end{frame}
-\section{Summary / Reflections}
-\begin{frame}{What did I manage to do?}
+
+\begin{frame}{Reflections}{Improvements}
+  
+\end{frame}
+
+\begin{frame}{Reflections}{Futher Work}
   haha
 \end{frame}
 
-\begin{frame}{Improvements}{The Survey}
+
+\begin{frame}{Reflections}{Lessions Learned}
   
 \end{frame}
 
-\begin{frame}{Improvements}{The Solver}
-  
-\end{frame}
-
-\begin{frame}{Further Work}{Solve a real problem}
-  haha
-\end{frame}
-
-
-\begin{frame}{Lessons Learned}
+\begin{frame}{Reflections}{Lessions Learned}
   
 \end{frame}
 
