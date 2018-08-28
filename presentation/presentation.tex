@@ -89,31 +89,51 @@
 \section{Introduction}
 
 \begin{frame}{Introduction}{Overview}
+  \begin{block}{Initial Problem Statement}
+    \textit{Apply results from research on the more covered Prize-Collecting Traveling Salesman
+    Problem to the lesser covered Prize-Collecting Steiner Tree problem.}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Introduction}{Overview}
   \begin{block}{What I spent six months doing?}
   \pause
   \begin{itemize}
-  \item I read a stack of research papers about the PCSTP. \pause
+  \item I read a stack of research papers about the PCSTP.
   \item I read a smaller stack of research papers about problems related to the PCSTP. \pause
   \item \textit{I was indecisive.} \pause
   \item I worked on a solver for the Median Tree Problem.
   \end{itemize}
 \end{block}
-
 \end{frame}
 
-\begin{frame}{Introduction}{Motivation}
-  \begin{block}{Why the PCSTP?}
-  \begin{itemize}
-  \item It is an NP-hard problem. Hard problems are worth solving.
-  \item It is typically solved using ILP.
-  \item It relates to the Steiner Tree Problem, and shares some of
-    its characteristica.
-    \pause
-  \item Finally: \textit{I think it is an interesting problem.}
-  \end{itemize}
-\end{block}
-
+\begin{frame}{Introduction}{Overview}
+  \begin{block}{Revised Problem Statement}
+    \textit{Apply results from research on the more covered Prize-Collecting Steiner Tree
+    Problem to the lesser covered Median Tree Problem.}
+   \end{block}
+   \begin{block}{Goals}
+     \begin{enumerate}
+     \item Survey research on the PCSTP
+     \item Identify methods worth \textit{porting}
+     \item Implement these methods in a solver for the MTP
+     \end{enumerate}
+   \end{block}
 \end{frame}
+
+% \begin{frame}{Introduction}{Motivation}
+%   \begin{block}{Why the PCSTP?}
+%   \begin{itemize}
+%   \item It is an NP-hard problem. Hard problems are worth solving.
+%   \item It is typically solved using ILP.
+%   \item It relates to the Steiner Tree Problem, and shares some of
+%     its characteristica.
+%     \pause
+%   \item Finally: \textit{I think it is an interesting problem.}
+%   \end{itemize}
+% \end{block}
+
+% \end{frame}
 
 \begin{frame}{Introduction}{Motivation}
   \begin{block}{What makes a survey necessary?}
@@ -241,14 +261,13 @@ which minimizes
 \end{frame}
 
 \begin{frame}{The Survey}{Main Points}
-  \begin{block}{Curiosities}
+  \begin{block}{Curiosities} \pause
   \begin{itemize}
-  \item Not a lot of focus on applications.
-  \item Linear progress?
-  \item Somewhat general methods besides preprocessing.
+  \item Not a lot of focus on applications
+  \item Linear progress turns to lateral progress
+  \item Somewhat general methods besides preprocessing
   \end{itemize}
 \end{block}
-\pause
 \textit{On to other problems.}
 \end{frame}
 
@@ -263,50 +282,57 @@ which minimizes
   \pause
   \begin{block}{Some Notes:}
   \begin{itemize}
-  \item Main point of the Balas paper in 88.
-  \item Shares approximation algorithms.
-  \item Apart from the OP, not well covered.
+  \item Main point of the Balas paper in 88
+  \item Shares approximation algorithms
+  \item Apart from the OP, not well covered
   \end{itemize}
 \end{block}
 
 \end{frame}
 
 \begin{frame}{The Survey}{Median Subgraphs}
-  \begin{itemize}
-  \item Assignment Problem.
-  \item Different shapes of facility.
-  \item Median Trees.
+  \begin{block}{Notes}
+    \begin{itemize}
+    \item Assignment Problem
+    \item Different shapes of facility
+    \item Median Trees are only research on shaped graphs
   \end{itemize}
+\end{block}
 \end{frame}
 
-\begin{frame}{Summary}
+\begin{frame}{The Survey}{Related Problems}
+  \begin{block}{Summary}
   \begin{itemize}
-  \item Two axes of similarity: structure and prize function.
-  \item PCSTP is the most well researched problem in the family.
+  \item Two axes of similarity: structure of solution and type of prize function
+  \item PCSTP is the most well researched problem in the family
   \end{itemize}
-  \pause
-  \textbf{What now?}
+\end{block}\pause
+  \textbf{On to the Median Tree Problem}
 \end{frame}
 
 \section{The Median Tree Problem}
-\begin{frame}{The Median Tree Problem}{Motivation}
-  \textit{I wanted to do some practical work.} \pause
+\begin{frame}{Median Tree Problem}{Motivation}
+  \textit{Question: How do I best make use of the survey?} \pause
   \begin{block}{Options}
   \begin{itemize}[<+->]
-  \item Stay with the PCSTP.
-  \item Look at the Profitable Tour Problem.
-  \item Look at the Median Tree Problem.
+  \item Stay with the PCSTP
+  \item Look at the Profitable Tour Problem
+  \item Look at the Median Tree Problem
   \end{itemize}
   \end{block}
 \end{frame}
-\begin{frame}{Motivation}{Median Trees over Prize-Collecting Tours}
-  \begin{itemize}
-  \item A feasible solution to the PCSTP is a feasible solution to the MTP.
-  \item Collect Prize vs. Assignment: similar --- although not the exact same --- trade offs.
-  \end{itemize}
-  \pause
- \textit{And a splash of subjectivity.}
+
+\begin{frame}{Median Tree Problem}{Motivation}
+  \begin{block}{Median Trees instead of Prize-Collecting Tours}
+    \begin{itemize}
+    \item A feasible solution to the PCSTP is a feasible solution to the MTP
+    \item Collect Prize vs. Assignment: similar --- although not the exact same --- trade offs
+    \end{itemize}
+    \pause
+    \textit{And, of course, a splash of subjectivity.}
+  \end{block}
 \end{frame}
+
 \begin{frame}{Median Tree Problem}{Problem Definition}
   Let $G = (V, E, c, d)$ be an undirected graph. Denote $c : E \to \RR^+$ as an \textit{edge cost} function
 and $d : V \times V  \to \RR^+$ be an \textit{assignment cost} function where we have
@@ -424,14 +450,14 @@ $E_T \subseteq E$ which minimises the cost function,
 \[
    \sum_{j \in \delta(i)}x_{ij} \geq 2 x_{ik} \qquad \forall i \in N, \: \forall k \in \delta(i)
 \]
-
-
  \end{frame}
-\begin{frame}{Median Tree Problem}{The Solver}
-  \begin{itemize}
-  \item Based on the Gurobi MIP solver. \pause
-  \item Callbacks written in Python 3. \pause
-  \item Applies methods from the PCSTP survey: \pause
+
+ \begin{frame}{Median Tree Problem}{The Solver}
+ \begin{block}{Specifications}
+   \begin{itemize}
+   \item Based on the Gurobi MIP solver. \pause
+   \item Callbacks written in Python 3. \pause
+   \item Applies methods from the PCSTP survey: \pause
     \begin{itemize}
     \item Primal heuristic from the DHEA solver.
     \item User cuts based on GSEC separation from an
@@ -439,7 +465,10 @@ $E_T \subseteq E$ which minimises the cost function,
     \end{itemize}
   \end{itemize}
   
+\end{block}
+
 \end{frame}
+
 \begin{frame}{Median Tree Problem}{Computational Experience}
   \begin{block}{Results}
     \pause
@@ -452,37 +481,79 @@ $E_T \subseteq E$ which minimises the cost function,
   \pause
   \textit{Why?}
 \end{frame}
+
 \section{Reflections}
 \begin{frame}{Reflections}{Summary}
   \begin{block}{What did I manage to do?}
     \begin{itemize}
-    \item 
+    \item Survey of the PCSTP
+    \item ILP formulation for the MTP
+    \item Dataset for the MTP
+    \item Solver for the MTP
     \end{itemize}
   \end{block}
 \end{frame}
 
 \begin{frame}{Reflections}{Improvements}
-  
+  \begin{block}{Survey criticism}
+    \begin{itemize}[<+->]
+    \item I approach approximation algorithms, exact algorithms, and heuristics the same way
+    \item I spend too much time with a ``zoomed in'' perspective
+    \item More figures outside the preprocessing section
+    \item Too little focus on application -- may be a feature of the body of research
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}{Reflections}{Improvements}
-  
-\end{frame}
-
-\begin{frame}{Reflections}{Futher Work}
-  haha
+  \begin{block}{Solver section criticism}
+    \begin{itemize}[<+->]
+    \item Python is fun and fast for me, but slow for the PC
+    \item Something is deeply wrong with the GSEC seperation routine
+    \item I should have measured performance in other ways than end to end execution time
+    \item The dataset is a bit uninteresting
+    \end{itemize}
+  \end{block}\pause
+  \textbf{Overall: slight lack of a red thread}
 \end{frame}
 
 
 \begin{frame}{Reflections}{Lessions Learned}
-  
+  \begin{block}{Thoughts about the subject field}
+    \begin{itemize}[<+->]
+    \item There is a limit on how much research on an arbitrary problem is interesting
+      without real world motivation
+    \item Same with laterally defining new problems
+    \item There could be a greater focus on generalising
+      results as widely as possible
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}{Reflections}{Lessions Learned}
-  
+  \begin{block}{Personal lessions}
+    \begin{itemize}[<+->]
+    \item Learn to plan ``exploratoratively''
+    \item Have a product in sight much earlier
+    \item Working without application is demotivating 
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reflections}{Further Work}
+  \begin{block}{Make the solver as good as it can be}
+    \textit{Perform a more thorough investigation of the shortcomings in the MTP
+    solver, and use these results to reimplement the solver.}
+  \end{block}
+
+  \begin{block}{Apply}
+    \textit{Operationalise the research done on the PCSTP (or MTP) for a real-world
+    problem field, and apply it to a specific scenario.}
+  \end{block}
 \end{frame}
 
 \begin{frame}{Postface}
+  \pause
   \large\textbf{Questions?}
 \end{frame}
 \end{document}
