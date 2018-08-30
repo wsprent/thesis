@@ -160,9 +160,9 @@
 \begin{frame}{The Prize-Collecting Steiner Tree Problem}{Preface}
   \begin{block}{Short (Meta) History}
   \begin{itemize}[<+->]
-  \item Defined by Egon Balas in 1988 as a side effect.
-  \item Subject to steady focus in the late 90's and early 00's.
-  \item One of the subjects of the 11th DIMACs Implementation Challenge in 2014.
+  \item Defined by Daniel Bienstock in 1993 as a side note
+  \item Subject to steady focus in the late 90's and early 00's
+  \item One of the subjects of the 11th DIMACs Implementation Challenge in 2014
   \end{itemize}
   \end{block}
 \end{frame}
@@ -283,7 +283,6 @@ which minimizes
   \pause
   \begin{block}{Some Notes:}
   \begin{itemize}
-  \item Main point of the Balas paper in 88
   \item Shares approximation algorithms
   \item Apart from the OP, not well covered
   \end{itemize}
@@ -304,8 +303,9 @@ which minimizes
 \begin{frame}{The Survey}{Related Problems}
   \begin{block}{Summary}
   \begin{itemize}
-  \item Two axes of similarity: structure of solution and type of prize function
-  \item PCSTP is the most well researched problem in the family
+  \item MTP and PTP are the ``adjacent-most'' problems to the PCSTP
+  \item Neither the MTP or PTP are well researched
+  \item In fact, PCSTP is the most well researched problem in the whole family
   \end{itemize}
 \end{block}
 \end{frame}
@@ -459,9 +459,9 @@ $E_T \subseteq E$ which minimises the cost function,
    \item Callbacks written in Python 3. \pause
    \item Applies methods from the PCSTP survey: \pause
     \begin{itemize}
-    \item Primal heuristic from the DHEA solver.
+    \item Primal heuristic from the DHEA solver
     \item User cuts based on GSEC separation from an
-      article by Lucena and Resende for the PCSTP.
+      article by Lucena and Resende for the PCSTP
     \end{itemize}
   \end{itemize}
   
@@ -498,8 +498,8 @@ $E_T \subseteq E$ which minimises the cost function,
   \begin{block}{Survey criticism}
     \begin{itemize}[<+->]
     \item I approach approximation algorithms, exact algorithms, and heuristics the same way
-    \item I spend too much time with a ``zoomed in'' perspective
     \item More figures outside the preprocessing section
+    \item Sometimes there's a lapse in ``intuition'' (see the equation on p. 42)
     \item Too little focus on application -- may be a feature of the body of research
     \end{itemize}
   \end{block}
@@ -513,8 +513,7 @@ $E_T \subseteq E$ which minimises the cost function,
     \item I should have measured performance in other ways than end to end execution time
     \item The dataset is a bit uninteresting
     \end{itemize}
-  \end{block}\pause
-  \textbf{Overall: slight lack of a red thread}
+  \end{block}
 \end{frame}
 
 
